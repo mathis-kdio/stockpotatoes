@@ -4,11 +4,11 @@ if (isset($_SESSION['Sess_nom'])) {
 ; } else { header("Location: ../index.php");}?>
 <?php require_once('../Connections/conn_intranet.php'); ?>
 <?php
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsEleve = "SELECT * FROM stock_eleve";
-$RsEleve = mysql_query($query_RsEleve, $conn_intranet) or die(mysql_error());
-$row_RsEleve = mysql_fetch_assoc($RsEleve);
-$totalRows_RsEleve = mysql_num_rows($RsEleve);
+$RsEleve = mysqli_query($conn_intranet,$query_RsEleve) or die(mysqli_error());
+$row_RsEleve = mysqli_fetch_assoc($RsEleve);
+$totalRows_RsEleve = mysqli_num_rows($RsEleve);
 ?>
 <html>
 <head>
@@ -115,6 +115,6 @@ table &eacute;l&egrave;ve </title>
 </body>
 </html>
 <?php
-mysql_free_result($RsEleve);
+mysqli_free_result($RsEleve);
 ?>
 

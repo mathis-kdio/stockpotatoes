@@ -1,4 +1,9 @@
-<?php session_start();
+<?php 
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+session_start();
 if (isset($_SESSION['Sess_nom'])) { 
 	if ($_SESSION['Sess_nom']=='Enseignant') { $_SESSION['Sess_nom']='Upload';}
 	if ($_SESSION['Sess_nom']<>'Upload') { header("Location: login_upload.php");}
@@ -23,21 +28,21 @@ $colname_RsChoixQuiz = "1";
 if (isset($_POST['ID_quiz'])) {
   $colname_RsChoixQuiz = (get_magic_quotes_gpc()) ? $_POST['ID_quiz'] : addslashes($_POST['ID_quiz']);
 }
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, database_conn_intranet);
 $query_RsChoixQuiz = sprintf("SELECT * FROM stock_quiz WHERE ID_quiz = %s", $colname_RsChoixQuiz);
-$RsChoixQuiz = mysql_query($query_RsChoixQuiz, $conn_intranet) or die(mysql_error());
-$row_RsChoixQuiz = mysql_fetch_assoc($RsChoixQuiz);
-$totalRows_RsChoixQuiz = mysql_num_rows($RsChoixQuiz);
+$RsChoixQuiz = mysqli_query($conn_intranet, query_RsChoixQuiz) or die(mysqli_error());
+$row_RsChoixQuiz = mysqli_fetch_assoc($RsChoixQuiz);
+$totalRows_RsChoixQuiz = mysqli_num_rows($RsChoixQuiz);
 
 $colname_RsChoixMatiere = "1";
 if (isset($_POST['matiere_ID'])) {
   $colname_RsChoixMatiere = (get_magic_quotes_gpc()) ? $_POST['matiere_ID'] : addslashes($_POST['matiere_ID']);
 }
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, database_conn_intranet);
 $query_RsChoixMatiere = sprintf("SELECT * FROM stock_matiere WHERE ID_mat = %s", $colname_RsChoixMatiere);
-$RsChoixMatiere = mysql_query($query_RsChoixMatiere, $conn_intranet) or die(mysql_error());
-$row_RsChoixMatiere = mysql_fetch_assoc($RsChoixMatiere);
-$totalRows_RsChoixMatiere = mysql_num_rows($RsChoixMatiere);
+$RsChoixMatiere = mysqli_query($conn_intranet, query_RsChoixMatiere) or die(mysqli_error());
+$row_RsChoixMatiere = mysqli_fetch_assoc($RsChoixMatiere);
+$totalRows_RsChoixMatiere = mysqli_num_rows($RsChoixMatiere);
 
 
 
@@ -159,6 +164,6 @@ $oFCKeditor->Create() ;
 	</body>
 </html>
 <?php
-mysql_free_result($RsChoixMatiere);
-mysql_free_result($RsChoixQuiz);
+mysqli_free_result($RsChoixMatiere);
+mysqli_free_result($RsChoixQuiz);
 ?>

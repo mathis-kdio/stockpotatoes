@@ -1,4 +1,9 @@
-<?php session_start();
+<?php
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+ session_start();
 if (isset($_SESSION['Sess_nom'])) { 
 	if ($_SESSION['Sess_nom']<>'Upload') { header("Location: login_upload.php");}
 ; } else { header("Location: ../index.php");}?>
@@ -17,13 +22,13 @@ $colname_RsChoixQuiz = "1";
 if (isset($_POST['ID_quiz'])) {
   $colname_RsChoixQuiz = (get_magic_quotes_gpc()) ? $_POST['ID_quiz'] : addslashes($_POST['ID_quiz']);
 }
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsChoixQuiz = sprintf("SELECT * FROM stock_quiz WHERE ID_quiz = %s", $colname_RsChoixQuiz);
 //$query_limit_RsChoixQuiz = sprintf("%s LIMIT %d, %d", $query_RsChoixQuiz, $startRow_RsChoixQuiz, $maxRows_RsChoixQuiz);
-//$RsChoixQuiz = mysql_query($query_limit_RsChoixQuiz, $conn_intranet) or die(mysql_error());
-$RsChoixQuiz = mysql_query($query_RsChoixQuiz, $conn_intranet) or die(mysql_error());
+//$RsChoixQuiz = mysqli_query($conn_intranet, $query_limit_RsChoixQuiz) or die(mysqli_error());
+$RsChoixQuiz = mysqli_query($conn_intranet, $query_RsChoixQuiz) or die(mysqli_error());
 
-$row_RsChoixQuiz = mysql_fetch_assoc($RsChoixQuiz);
+$row_RsChoixQuiz = mysqli_fetch_assoc($RsChoixQuiz);
 
 
 
@@ -31,21 +36,21 @@ $colname_RsChoixMatiere = "1";
 if (isset($_POST['matiere_ID'])) {
   $colname_RsChoixMatiere = (get_magic_quotes_gpc()) ? $_POST['matiere_ID'] : addslashes($_POST['matiere_ID']);
 }
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsChoixMatiere = sprintf("SELECT * FROM stock_matiere WHERE ID_mat = %s", $colname_RsChoixMatiere);
-$RsChoixMatiere = mysql_query($query_RsChoixMatiere, $conn_intranet) or die(mysql_error());
-$row_RsChoixMatiere = mysql_fetch_assoc($RsChoixMatiere);
-$totalRows_RsChoixMatiere = mysql_num_rows($RsChoixMatiere);
+$RsChoixMatiere = mysqli_query($conn_intranet, $query_RsChoixMatiere) or die(mysqli_error());
+$row_RsChoixMatiere = mysqli_fetch_assoc($RsChoixMatiere);
+$totalRows_RsChoixMatiere = mysqli_num_rows($RsChoixMatiere);
 
 $choixquiz_RsChoixQuiz = "0";
 if (isset($_POST['ID_quiz'])) {
   $choixquiz_RsChoixQuiz = (get_magic_quotes_gpc()) ? $_POST['ID_quiz'] : addslashes($_POST['ID_quiz']);
 }
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsChoixQuiz = sprintf("SELECT stock_quiz.ID_quiz, stock_quiz.titre, stock_quiz.fichier, stock_quiz.matiere_ID, stock_quiz.niveau_ID, stock_quiz.auteur FROM stock_quiz WHERE stock_quiz.ID_quiz=%s", $choixquiz_RsChoixQuiz);
-$RsChoixQuiz = mysql_query($query_RsChoixQuiz, $conn_intranet) or die(mysql_error());
-$row_RsChoixQuiz = mysql_fetch_assoc($RsChoixQuiz);
-$totalRows_RsChoixQuiz = mysql_num_rows($RsChoixQuiz);
+$RsChoixQuiz = mysqli_query($conn_intranet, $query_RsChoixQuiz) or die(mysqli_error());
+$row_RsChoixQuiz = mysqli_fetch_assoc($RsChoixQuiz);
+$totalRows_RsChoixQuiz = mysqli_num_rows($RsChoixQuiz);
 
 $nom_matiere=sans_accent($row_RsChoixMatiere['nom_mat']);
 $rep= $nom_matiere.'/q'.$_POST['ID_quiz'].'/';
@@ -280,7 +285,7 @@ print $Upload-> Field[6].'<br>';
 </body>
 </html>
 <?php
-mysql_free_result($RsChoixQuiz);
+mysqli_free_result($RsChoixQuiz);
 
-mysql_free_result($RsChoixMatiere);
+mysqli_free_result($RsChoixMatiere);
 ?>

@@ -30,14 +30,15 @@ if ($_SESSION['Sess_nom']<>'VISITEUR') {
 $quiz_ID=$_SESSION['Sess_ID_quiz'];	
 $eleve_ID=$_SESSION['Sess_ID_eleve'];
 $nom_classe=$_SESSION['Sess_classe'];
+$identifiant=$_SESSION['Sess_identifiant'];
 
 $fait='O';
 
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_rsActivite = sprintf("SELECT * FROM stock_activite WHERE eleve_ID = '%s' AND quiz_ID='%s'", $colname_rsActivite,$colname2_rsActivite);
-$rsActivite = mysql_query($query_rsActivite, $conn_intranet) or die(mysql_error());
-$row_rsActivite = mysql_fetch_assoc($rsActivite);
-$totalRows_rsActivite = mysql_num_rows($rsActivite);
+$rsActivite = mysqli_query($conn_intranet, $query_rsActivite) or die(mysqli_error($conn_intranet));
+$row_rsActivite = mysqli_fetch_assoc($rsActivite);
+$totalRows_rsActivite = mysqli_num_rows($rsActivite);
 
 if ($totalRows_rsActivite<>'0') 
 {
@@ -45,17 +46,17 @@ $sql = sprintf("UPDATE stock_activite SET score='%s', debut='%s', fin='%s' WHERE
 }
 	else
 {
-$sql = sprintf("INSERT INTO stock_activite ( `ID_activite` , `eleve_ID` , `nom_classe` , `quiz_ID` , `score` , `debut` , `fin` , `fait` ) VALUES('','%s','%s','%s','%s','%s','%s','%s')",$eleve_ID,$nom_classe,$quiz_ID,$note,$debut,$fin,$fait); 
+$sql = sprintf("INSERT INTO stock_activite ( `ID_activite` , `eleve_ID` , `identifiant` , `nom_classe` , `quiz_ID` , `score` , `debut` , `fin` , `fait` ) VALUES('','%s','%s','%s','%s','%s','%s','%s','%s')",$eleve_ID,$identifiant,$nom_classe,$quiz_ID,$note,$debut,$fin,$fait); 
 }
-mysql_query($sql) or die('Erreur SQL !'.$sql.mysql_error()); 
-mysql_close();  
+mysqli_query($conn_intranet, $sql) or die('Erreur SQL !'.$sql.mysqli_error()); 
+mysqli_close($conn_intranet);  
 }
 ?>
 <?php
 if ($_SESSION['Sess_nom']<>'VISITEUR') {
 
 echo '<script type="text/javascript" language="javascript">';
-echo ' opener.location.href ="../accueil_eleve.php?matiere_ID='.$_SESSION['matiere_ID'].'&niveau_ID='.$_SESSION['niveau_ID'].'&theme_ID='. $_SESSION['theme_ID'].'"';
+echo ' opener.location.href ="../accueil_eleve.php?matiere_ID='.$_SESSION['matiere_ID'].'&ID_niveau='.$_SESSION['niveau_ID'].'&theme_ID='. $_SESSION['theme_ID'].'"';
 echo '</script>';
 
 }
@@ -76,24 +77,18 @@ echo '</script>';
 
 <script language="JavaScript" type="text/JavaScript">
 
-function ferme_popup() {
-  // Ferme le pop-up automatiquement
-  NewName=window.close();
+
+window.onload=function(){
+    window.setTimeout(function(){
+        window.close()
+    }, 10);
 }
 
-function deconnecter() {
-  opener.location.href = "../index.php";
-  // Ferme le pop-up automatiquement
-  ferme_popup();
-}
 </script>
 
-<title>Enregistrement des notes</title><BODY >
-<p><img src="../patate.jpg" width="324" height="39" align="top"> </p>
-<p>
+<title>Enregistrement des notes</title><body>
 
-
-   <?
+   <?php
 
 if ($_SESSION['Sess_nom']<>'VISITEUR')
 {
@@ -111,7 +106,6 @@ echo '<strong>'.$_SESSION['Sess_nom'].'</strong><BR><BR> ';
 echo "Note : ".$note." /20  ";
 }
 ?>
-
 <hr>
 <table width="100%" border="0" cellspacing="10" cellpadding="0">
   <tr> 
@@ -127,6 +121,6 @@ echo "Note : ".$note." /20  ";
 </html>
 <?php
 if ($_SESSION['Sess_nom']<>'VISITEUR') {
-mysql_free_result($rsActivite);
+mysqli_free_result($rsActivite);
 }
 ?>

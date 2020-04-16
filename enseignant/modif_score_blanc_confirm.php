@@ -1,4 +1,9 @@
-<?php session_start(); 
+<?php 
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+session_start(); 
 if (isset($_SESSION['Sess_nom'])) { 
 	if ($_SESSION['Sess_nom']<>'Enseignant') { header("Location: login_enseignant.php");}
 ; } else { header("Location: ../index.php");}?>
@@ -38,9 +43,9 @@ $deleteSQL = sprintf("DELETE FROM stock_activite WHERE stock_activite.nom_classe
                        GetSQLValueString($_POST['classe'], "text"),
 					   GetSQLValueString($_POST['ID_quiz'], "int"));
 
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 
-$Result1 = mysql_query($deleteSQL, $conn_intranet) or die(mysql_error());
+$Result1 = mysqli_query($conn_intranet, $deleteSQL) or die(mysqli_error());
 }
 
 ?>

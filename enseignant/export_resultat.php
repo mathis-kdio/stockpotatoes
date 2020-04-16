@@ -1,4 +1,9 @@
-<?php session_start(); 
+l<?php 
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+session_start(); 
 if (isset($_SESSION['Sess_nom'])) { 
 	if ($_SESSION['Sess_nom']<>'Enseignant') { header("Location: login_enseignant.php");}
 ; } else { header("Location: ../index.php");}?>
@@ -12,11 +17,11 @@ $varchoixclasse_RsActiviteClasse = "0";
 if (isset($_POST['classe'])) {
   $varchoixclasse_RsActiviteClasse = (get_magic_quotes_gpc()) ? $_POST['classe'] : addslashes($_POST['classe']);
 }
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsActiviteClasse = sprintf("SELECT * FROM stock_activite, stock_eleve WHERE stock_activite.quiz_ID=%s AND stock_activite.nom_classe='%s'  AND stock_activite.eleve_ID=stock_eleve.ID_eleve ORDER BY stock_eleve.nom, stock_eleve.prenom ", $varquiz_RsActiviteClasse,$varchoixclasse_RsActiviteClasse);
-$RsActiviteClasse = mysql_query($query_RsActiviteClasse, $conn_intranet) or die(mysql_error());
-$row_RsActiviteClasse = mysql_fetch_assoc($RsActiviteClasse);
-$totalRows_RsActiviteClasse = mysql_num_rows($RsActiviteClasse);
+$RsActiviteClasse = mysqli_query($conn_intranet, $query_RsActiviteClasse) or die(mysqli_error());
+$row_RsActiviteClasse = mysqli_fetch_assoc($RsActiviteClasse);
+$totalRows_RsActiviteClasse = mysqli_num_rows($RsActiviteClasse);
 
 
 
@@ -30,13 +35,11 @@ $totalRows_RsActiviteClasse = mysql_num_rows($RsActiviteClasse);
   $chaine=('Nom;Prenom;Note sur 20;Date'."\n");
 
 fputs($fp, $chaine);
-  $somme=0;
   do { 
   $chaine_valeur = $row_RsActiviteClasse['nom'].';'.$row_RsActiviteClasse['prenom'].';'.$row_RsActiviteClasse['score'].';'.$row_RsActiviteClasse['debut']."\n"; 
   
   fputs($fp, $chaine_valeur);
-  $somme=$somme+$row_RsActiviteClasse['score'];
-  } while ($row_RsActiviteClasse = mysql_fetch_assoc($RsActiviteClasse)); 
+  } while ($row_RsActiviteClasse = mysqli_fetch_assoc($RsActiviteClasse)); 
   
  fclose($fp);
 ?>
@@ -57,7 +60,7 @@ fputs($fp, $chaine);
 <p align="center"><a href="../upload/upload_menu.php">Envoyer un exercice ou un document sur le serveur</a></p>
 <p align="right">&nbsp;</p>
 <?php }
-mysql_free_result($RsActiviteClasse);
+mysqli_free_result($RsActiviteClasse);
 ?>
 </body>
 </html>  

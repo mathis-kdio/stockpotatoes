@@ -1,5 +1,8 @@
 <?php require_once('Connections/conn_intranet.php'); ?>
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 $colpass_rsLogin = "1";
 $valider="";
 
@@ -12,40 +15,41 @@ $colpass_rsLogin = "1";
 if (isset($_POST['pass'])) {
   $colpass_rsLogin = (get_magic_quotes_gpc()) ? $_POST['pass'] : addslashes($_POST['pass']);
 }
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_rsLogin = sprintf("SELECT stock_eleve.ID_eleve, stock_eleve.nom, stock_eleve.prenom, stock_eleve.classe, stock_eleve.pass FROM stock_eleve WHERE stock_eleve.ID_eleve='%s' AND stock_eleve.pass='%s'", $collog_rsLogin,$colpass_rsLogin);
-$rsLogin = mysql_query($query_rsLogin, $conn_intranet) or die(mysql_error());
-$row_rsLogin = mysql_fetch_assoc($rsLogin);
-$totalRows_rsLogin = mysql_num_rows($rsLogin);
+$rsLogin = mysqli_query($conn_intranet, $query_rsLogin) or die(mysqli_error());
+$row_rsLogin = mysqli_fetch_assoc($rsLogin);
+$totalRows_rsLogin = mysqli_num_rows($rsLogin);
 
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_rsClasse = "SELECT DISTINCT classe FROM stock_eleve  ";
-$rsClasse = mysql_query($query_rsClasse, $conn_intranet) or die(mysql_error());
-$row_rsClasse = mysql_fetch_assoc($rsClasse);
-$totalRows_rsClasse = mysql_num_rows($rsClasse);
+$rsClasse = mysqli_query($conn_intranet, $query_rsClasse) or die(mysqli_error());
+$row_rsClasse = mysqli_fetch_assoc($rsClasse);
+$totalRows_rsClasse = mysqli_num_rows($rsClasse);
 
 $choix_classe_rsLogin2 = "1";
 if (isset($_POST['classe'])) {
   $choix_classe_rsLogin2 = (get_magic_quotes_gpc()) ? $_POST['classe'] : addslashes($_POST['classe']);
 }
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_rsLogin2 = sprintf("SELECT stock_eleve.ID_eleve, stock_eleve.nom, stock_eleve.prenom FROM stock_eleve WHERE stock_eleve.classe='%s'", $choix_classe_rsLogin2);
-$rsLogin2 = mysql_query($query_rsLogin2, $conn_intranet) or die(mysql_error());
-$row_rsLogin2 = mysql_fetch_assoc($rsLogin2);
-$totalRows_rsLogin2 = mysql_num_rows($rsLogin2);
+$rsLogin2 = mysqli_query($conn_intranet, $query_rsLogin2) or die(mysqli_error());
+$row_rsLogin2 = mysqli_fetch_assoc($rsLogin2);
+$totalRows_rsLogin2 = mysqli_num_rows($rsLogin2);
 
 
 if ((isset($_POST['valider'])) && ($_POST['valider']=="ok"))
 {
 if ($totalRows_rsLogin=='1')
 	{
-	session_start();
-	$_SESSION['Sess_ID_eleve'] = $row_rsLogin['ID_eleve'];
-    $_SESSION['Sess_nom'] = $row_rsLogin['nom'];
-	$_SESSION['Sess_prenom'] = $row_rsLogin['prenom'];
-	$_SESSION['Sess_classe'] = $row_rsLogin['classe'];
-	
-    header("Location: accueil_eleve.php");
+		session_start();
+		$_SESSION['Sess_ID_eleve'] = $row_rsLogin['ID_eleve'];
+		$_SESSION['Sess_identifiant'] = $row_rsLogin['identifiant'];
+		$_SESSION['Sess_nom'] = $row_rsLogin['nom'];
+		$_SESSION['Sess_prenom'] = $row_rsLogin['prenom'];
+		$_SESSION['Sess_classe'] = $row_rsLogin['classe'];
+		$_SESSION['Sess_niveau'] = $row_rsLogin['niveau'];	
+		header('Location: accueil_eleve.php?matiere_ID=3&ID_niveau='.$_SESSION['Sess_niveau'].'&Submit=Valider');
 	}
 }
 else
@@ -82,11 +86,11 @@ do {
 ?>
             <option value="<?php echo $row_rsClasse['classe']?>"<?php if (isset($_POST['classe'])) { if (!(strcmp($row_rsClasse['classe'], $_POST['classe']))) {echo "SELECTED";}} ?>><?php echo $row_rsClasse['classe']?></option>
             <?php
-} while ($row_rsClasse = mysql_fetch_assoc($rsClasse));
-  $rows = mysql_num_rows($rsClasse);
+} while ($row_rsClasse = mysqli_fetch_assoc($rsClasse));
+  $rows = mysqli_num_rows($rsClasse);
   if($rows > 0) {
-      mysql_data_seek($rsClasse, 0);
-	  $row_rsClasse = mysql_fetch_assoc($rsClasse);
+      mysqli_data_seek($rsClasse, 0);
+	  $row_rsClasse = mysqli_fetch_assoc($rsClasse);
   }
 ?>
           </select> <input type="submit" name="Submit2" value="Validez"> </td>
@@ -105,11 +109,11 @@ do {
 ?>
           <option value="<?php echo $row_rsLogin2['ID_eleve']?>"><?php echo $row_rsLogin2['nom']." ".$row_rsLogin2['prenom']?></option>
           <?php
-} while ($row_rsLogin2 = mysql_fetch_assoc($rsLogin2));
-  $rows = mysql_num_rows($rsLogin2);
+} while ($row_rsLogin2 = mysqli_fetch_assoc($rsLogin2));
+  $rows = mysqli_num_rows($rsLogin2);
   if($rows > 0) {
-      mysql_data_seek($rsLogin2, 0);
-	  $row_rsLogin2 = mysql_fetch_assoc($rsLogin2);
+      mysqli_data_seek($rsLogin2, 0);
+	  $row_rsLogin2 = mysqli_fetch_assoc($rsLogin2);
   }
 ?>
         </select> </td>
@@ -127,8 +131,8 @@ do {
 </body>
 </html>
 <?php
-mysql_free_result($rsLogin);
-mysql_free_result($rsClasse);
-mysql_free_result($rsLogin2);
+mysqli_free_result($rsLogin);
+mysqli_free_result($rsClasse);
+mysqli_free_result($rsLogin2);
 ?>
 

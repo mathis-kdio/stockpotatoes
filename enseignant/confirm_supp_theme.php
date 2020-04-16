@@ -1,4 +1,9 @@
-<?php session_start(); 
+<?php
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+session_start(); 
 if (isset($_SESSION['Sess_nom'])) { 
 	if ($_SESSION['Sess_nom']<>'Enseignant') { header("Location: login_enseignant.php");}
 ; } else { header("Location: ../index.php");}?>
@@ -32,13 +37,13 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 if ((isset($_POST['ID_theme'])) && ($_POST['ID_theme'] != "")) {
   $deleteSQL = sprintf("DELETE FROM stock_theme WHERE ID_theme=%s",
                        GetSQLValueString($_POST['ID_theme'], "int"));
-  mysql_select_db($database_conn_intranet, $conn_intranet);
-  $Result1 = mysql_query($deleteSQL, $conn_intranet) or die(mysql_error());
+  mysqli_select_db($conn_intranet, $database_conn_intranet);
+  $Result1 = mysqli_query($conn_intranet, $deleteSQL, ) or die(mysqli_error());
 
   $updateSQL = sprintf("UPDATE stock_quiz SET theme_ID= 0 WHERE theme_ID=%s",
                        GetSQLValueString($_POST['ID_theme'], "int"));
-  mysql_select_db($database_conn_intranet, $conn_intranet);
-  $Result2 = mysql_query($updateSQL, $conn_intranet) or die(mysql_error());
+  mysqli_select_db($conn_intranet, $database_conn_intranet);
+  $Result2 = mysqli_query($conn_intranet, $updateSQL, ) or die(mysqli_error());
 
 
 

@@ -34,16 +34,41 @@ if (isset($_SERVER['QUERY_STRING'])) {
   $editFormAction .= "?" . $_SERVER['QUERY_STRING'];
 }
 
+//GENERATION DE L'IDENTIFIANT QUI DOIT ETRE UNIQUE
+if (isset($_POST['prenom']) && isset($_POST['nom'])) 
+{
+	mysqli_select_db($conn_intranet, $database_conn_intranet);
+	$query_IdentifiantEleve = "SELECT * FROM stock_eleve ORDER BY identifiant";
+	$IdentifiantEleve = mysqli_query($conn_intranet, $query_IdentifiantEleve) or die(mysqli_error());
+	$row_IdentifiantEleve = mysqli_fetch_assoc($IdentifiantEleve);
+	$totalRows_IdentifiantEleve = mysqli_num_rows($IdentifiantEleve);
+	$identifiant = strtolower($_POST['nom'] . $_POST['prenom'] );
+
+	$idtmp = $identifiant;
+	$i = 0;
+	do
+	{
+		if ($row_IdentifiantEleve['identifiant'] == $idtmp) 
+		{
+			$idtmp = $identifiant;
+			$i++;
+			$idtmp = strtolower($idtmp . $i);
+		}
+
+	}while ($row_IdentifiantEleve = mysqli_fetch_assoc($IdentifiantEleve));
+}
+
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-  $insertSQL = sprintf("INSERT INTO stock_eleve (ID_eleve, nom, prenom, classe, pass) VALUES (%s, %s, %s, %s, %s)",
-                       GetSQLValueString($_POST['ID_eleve'], "int"),
+  $insertSQL = sprintf("INSERT INTO stock_eleve (ID_eleve, identifiant, nom, prenom, classe, pass, niveau) VALUES ('', %s, %s, %s, %s, %s, %s)",
+                       GetSQLValueString($idtmp, "text"),
                        GetSQLValueString($_POST['nom'], "text"),
                        GetSQLValueString($_POST['prenom'], "text"),
                        GetSQLValueString($_POST['classe'], "text"),
-                       GetSQLValueString($_POST['pass'], "text"));
+                       GetSQLValueString($_POST['pass'], "text"),
+                       GetSQLValueString($_POST['niveau'], "text"));
 
-  mysql_select_db($database_conn_intranet, $conn_intranet);
-  $Result1 = mysql_query($insertSQL, $conn_intranet) or die(mysql_error());
+  mysqli_select_db($conn_intranet, $database_conn_intranet);
+  $Result1 = mysqli_query($conn_intranet, $insertSQL) or die(mysqli_error());
 
   $insertGoTo = "gestion_eleve.php";
   if (isset($_SERVER['QUERY_STRING'])) {
@@ -54,27 +79,30 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form3")) {
-  $insertSQL = sprintf("INSERT INTO stock_eleve (ID_eleve, nom, prenom, classe, pass) VALUES (%s, %s, %s, %s, %s)",
-                       GetSQLValueString($_POST['ID_eleve'], "int"),
-                       GetSQLValueString($_POST['nom'], "text"),
-                       GetSQLValueString($_POST['prenom'], "text"),
-                       GetSQLValueString($_POST['classe'], "text"),
-                       GetSQLValueString($_POST['pass'], "text"));
-
-  mysql_select_db($database_conn_intranet, $conn_intranet);
-  $Result1 = mysql_query($insertSQL, $conn_intranet) or die(mysql_error());
-}
-
-if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form5")) {
-  $updateSQL = sprintf("UPDATE stock_eleve SET nom=%s, prenom=%s, classe=%s, pass=%s WHERE ID_eleve=%s",
+  $insertSQL = sprintf("INSERT INTO stock_eleve (ID_eleve, identifiant, nom, prenom, classe, pass, niveau) VALUES ('', %s, %s, %s, %s, %s, %s)",
+                       GetSQLValueString($idtmp, "text"),
                        GetSQLValueString($_POST['nom'], "text"),
                        GetSQLValueString($_POST['prenom'], "text"),
                        GetSQLValueString($_POST['classe'], "text"),
                        GetSQLValueString($_POST['pass'], "text"),
-                       GetSQLValueString($_POST['ID_eleve'], "int"));
+                       GetSQLValueString($_POST['niveau'], "text"));
 
-  mysql_select_db($database_conn_intranet, $conn_intranet);
-  $Result1 = mysql_query($updateSQL, $conn_intranet) or die(mysql_error());
+  mysqli_select_db($conn_intranet, $database_conn_intranet);
+  $Result1 = mysqli_query($conn_intranet, $insertSQL) or die(mysqli_error());
+}
+
+if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form5")) {
+  $updateSQL = sprintf("UPDATE stock_eleve SET nom=%s, prenom=%s, classe=%s, pass=%s, niveau=%s WHERE ID_eleve=%s",
+                       GetSQLValueString($_POST['nom'], "text"),
+                       GetSQLValueString($_POST['prenom'], "text"),
+                       GetSQLValueString($_POST['classe'], "text"),
+                       GetSQLValueString($_POST['pass'], "text"),
+                       GetSQLValueString($_POST['ID_eleve'], "int"),
+                       GetSQLValueString($_POST['niveau'], "text"));
+
+
+  mysqli_select_db($conn_intranet, $database_conn_intranet);
+  $Result1 = mysqli_query($conn_intranet, $updateSQL) or die(mysqli_error());
 
   $updateGoTo = "gestion_eleve.php";
   if (isset($_SERVER['QUERY_STRING'])) {
@@ -88,8 +116,8 @@ if ((isset($_GET['numsupeleve'])) && ($_GET['numsupeleve'] != "")) {
   $deleteSQL = sprintf("DELETE FROM stock_eleve WHERE ID_eleve=%s",
                        GetSQLValueString($_GET['numsupeleve'], "int"));
 
-  mysql_select_db($database_conn_intranet, $conn_intranet);
-  $Result1 = mysql_query($deleteSQL, $conn_intranet) or die(mysql_error());
+  mysqli_select_db($conn_intranet, $database_conn_intranet);
+  $Result1 = mysqli_query($conn_intranet, $deleteSQL) or die(mysqli_error());
 
   $deleteGoTo = "confirm_supp_eleve.php";
   if (isset($_SERVER['QUERY_STRING'])) {
@@ -99,57 +127,57 @@ if ((isset($_GET['numsupeleve'])) && ($_GET['numsupeleve'] != "")) {
   header(sprintf("Location: %s", $deleteGoTo));
 }
 
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsEleve = "SELECT * FROM stock_eleve";
-$RsEleve = mysql_query($query_RsEleve, $conn_intranet) or die(mysql_error());
-$row_RsEleve = mysql_fetch_assoc($RsEleve);
-$totalRows_RsEleve = mysql_num_rows($RsEleve);
+$RsEleve = mysqli_query($conn_intranet, $query_RsEleve) or die(mysqli_error());
+$row_RsEleve = mysqli_fetch_assoc($RsEleve);
+$totalRows_RsEleve = mysqli_num_rows($RsEleve);
 
-mysql_select_db($database_conn_intranet, $conn_intranet);
-$query_rsClasse = "SELECT DISTINCT classe FROM stock_eleve  ";
-$rsClasse = mysql_query($query_rsClasse, $conn_intranet) or die(mysql_error());
-$row_rsClasse = mysql_fetch_assoc($rsClasse);
-$totalRows_rsClasse = mysql_num_rows($rsClasse);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
+$query_rsClasse = "SELECT DISTINCT classe FROM stock_eleve ORDER BY classe DESC";
+$rsClasse = mysqli_query($conn_intranet, $query_rsClasse) or die(mysqli_error());
+$row_rsClasse = mysqli_fetch_assoc($rsClasse);
+$totalRows_rsClasse = mysqli_num_rows($rsClasse);
 
 $choixclasse_RsChoixClasse = "0";
 if (isset($_POST['classe'])) {
   $choixclasse_RsChoixClasse = (get_magic_quotes_gpc()) ? $_POST['classe'] : addslashes($_POST['classe']);
 }
-mysql_select_db($database_conn_intranet, $conn_intranet);
-$query_RsChoixClasse = sprintf("SELECT * FROM stock_eleve WHERE stock_eleve.classe='%s'", $choixclasse_RsChoixClasse);
-$RsChoixClasse = mysql_query($query_RsChoixClasse, $conn_intranet) or die(mysql_error());
-$row_RsChoixClasse = mysql_fetch_assoc($RsChoixClasse);
-$totalRows_RsChoixClasse = mysql_num_rows($RsChoixClasse);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
+$query_RsChoixClasse = sprintf("SELECT * FROM stock_eleve WHERE stock_eleve.classe='%s' ORDER BY nom", $choixclasse_RsChoixClasse);
+$RsChoixClasse = mysqli_query($conn_intranet, $query_RsChoixClasse) or die(mysqli_error());
+$row_RsChoixClasse = mysqli_fetch_assoc($RsChoixClasse);
+$totalRows_RsChoixClasse = mysqli_num_rows($RsChoixClasse);
 
 $nomclasse_RsAjout = "0";
 if (isset($_POST['classe'])) {
   $nomclasse_RsAjout = (get_magic_quotes_gpc()) ? $_POST['classe'] : addslashes($_POST['classe']);
 }
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsAjout = sprintf("SELECT * FROM stock_eleve WHERE stock_eleve.classe='%s'", $nomclasse_RsAjout);
-$RsAjout = mysql_query($query_RsAjout, $conn_intranet) or die(mysql_error());
-$row_RsAjout = mysql_fetch_assoc($RsAjout);
-$totalRows_RsAjout = mysql_num_rows($RsAjout);
+$RsAjout = mysqli_query($conn_intranet, $query_RsAjout) or die(mysqli_error());
+$row_RsAjout = mysqli_fetch_assoc($RsAjout);
+$totalRows_RsAjout = mysqli_num_rows($RsAjout);
 
 $nomclasse_Rschoixeleve = "0";
 if (isset($_POST['classe'])) {
   $nomclasse_Rschoixeleve = (get_magic_quotes_gpc()) ? $_POST['classe'] : addslashes($_POST['classe']);
 }
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_Rschoixeleve = sprintf("SELECT * FROM stock_eleve WHERE stock_eleve.classe='%s'", $nomclasse_Rschoixeleve);
-$Rschoixeleve = mysql_query($query_Rschoixeleve, $conn_intranet) or die(mysql_error());
-$row_Rschoixeleve = mysql_fetch_assoc($Rschoixeleve);
-$totalRows_Rschoixeleve = mysql_num_rows($Rschoixeleve);
+$Rschoixeleve = mysqli_query($conn_intranet, $query_Rschoixeleve) or die(mysqli_error());
+$row_Rschoixeleve = mysqli_fetch_assoc($Rschoixeleve);
+$totalRows_Rschoixeleve = mysqli_num_rows($Rschoixeleve);
 
 $numeleve_RsModifEleve = "0";
 if (isset($_POST['numeleve'])) {
   $numeleve_RsModifEleve = (get_magic_quotes_gpc()) ? $_POST['numeleve'] : addslashes($_POST['numeleve']);
 }
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsModifEleve = sprintf("SELECT * FROM stock_eleve WHERE stock_eleve.ID_eleve=%s", $numeleve_RsModifEleve);
-$RsModifEleve = mysql_query($query_RsModifEleve, $conn_intranet) or die(mysql_error());
-$row_RsModifEleve = mysql_fetch_assoc($RsModifEleve);
-$totalRows_RsModifEleve = mysql_num_rows($RsModifEleve);
+$RsModifEleve = mysqli_query($conn_intranet, $query_RsModifEleve) or die(mysqli_error());
+$row_RsModifEleve = mysqli_fetch_assoc($RsModifEleve);
+$totalRows_RsModifEleve = mysqli_num_rows($RsModifEleve);
 ?>
 <html>
 <head>
@@ -168,7 +196,7 @@ function MM_goToURL() { //v3.0
 <body>
 <p><a href="../index.php"><img src="../patate.gif" width="63" height="42" border="0"></a> 
   <img src="../patate.jpg" width="324" height="39" align="top"> </p>
-<p><strong><a href="../index.php">Accueil Stockpotatoes</a> - </strong><strong><a href="accueil_admin.php">Espace Administrateu</a>r</strong><strong> 
+<p><strong><a href="../index.php">Accueil Stockpotatoes</a> - </strong><strong><a href="accueil_admin.php">Espace Administrateur</a></strong><strong> 
   - Gestion des &eacute;l&egrave;ves</strong></p>
 <p>&nbsp;</p>
 <table border="0" cellspacing="10" cellpadding="0">
@@ -181,11 +209,11 @@ do {
 ?>
           <option value="<?php echo $row_rsClasse['classe']?>"<?php if (isset($_POST['classe'])) { if (!(strcmp($row_rsClasse['classe'], $_POST['classe']))) {echo "SELECTED";}} ?>><?php echo $row_rsClasse['classe']?></option>
           <?php
-} while ($row_rsClasse = mysql_fetch_assoc($rsClasse));
-  $rows = mysql_num_rows($rsClasse);
+} while ($row_rsClasse = mysqli_fetch_assoc($rsClasse));
+  $rows = mysqli_num_rows($rsClasse);
   if($rows > 0) {
-      mysql_data_seek($rsClasse, 0);
-	  $row_rsClasse = mysql_fetch_assoc($rsClasse);
+      mysqli_data_seek($rsClasse, 0);
+	  $row_rsClasse = mysqli_fetch_assoc($rsClasse);
   }
 ?>
         </select>
@@ -195,20 +223,24 @@ do {
       <table border="1">
         <tr> 
           <td>ID_eleve</td>
+          <td>identifiant</td>
           <td>nom</td>
           <td>prenom</td>
           <td>classe</td>
           <td>pass</td>
+          <td>Niveau</td>
         </tr>
         <?php do { ?>
         <tr> 
           <td><?php echo $row_RsChoixClasse['ID_eleve']; ?></td>
+          <td><?php echo $row_RsChoixClasse['identifiant']; ?></td>
           <td><?php echo $row_RsChoixClasse['nom']; ?></td>
           <td><?php echo $row_RsChoixClasse['prenom']; ?></td>
           <td><?php echo $row_RsChoixClasse['classe']; ?></td>
           <td><?php echo $row_RsChoixClasse['pass']; ?></td>
+          <td><?php echo $row_RsChoixClasse['niveau']; ?></td>
         </tr>
-        <?php } while ($row_RsChoixClasse = mysql_fetch_assoc($RsChoixClasse)); ?>
+        <?php } while ($row_RsChoixClasse = mysqli_fetch_assoc($RsChoixClasse)); ?>
     </table></td>
   </tr>
   <tr> 
@@ -236,11 +268,11 @@ do {
 ?>
                 <option value="<?php echo $row_rsClasse['classe']?>"><?php echo $row_rsClasse['classe']?></option>
                 <?php
-} while ($row_rsClasse = mysql_fetch_assoc($rsClasse));
-  $rows = mysql_num_rows($rsClasse);
+} while ($row_rsClasse = mysqli_fetch_assoc($rsClasse));
+  $rows = mysqli_num_rows($rsClasse);
   if($rows > 0) {
-      mysql_data_seek($rsClasse, 0);
-	  $row_rsClasse = mysql_fetch_assoc($rsClasse);
+      mysqli_data_seek($rsClasse, 0);
+	  $row_rsClasse = mysqli_fetch_assoc($rsClasse);
   }
 ?>
               </select></td>
@@ -248,6 +280,10 @@ do {
           <tr valign="baseline"> 
             <td nowrap align="right">Mot de passe:</td>
             <td><input type="text" name="pass" value="" size="32"></td>
+          </tr>
+          <tr valign="baseline"> 
+            <td nowrap align="right">Niveau:</td>
+            <td><input type="text" name="niveau" value="" size="32"></td>
           </tr>
           <tr valign="baseline"> 
             <td nowrap align="right">&nbsp;</td>
@@ -280,6 +316,10 @@ do {
             <td><input type="text" name="pass" value="" size="32"></td>
           </tr>
           <tr valign="baseline"> 
+            <td nowrap align="right">Niveau:</td>
+            <td><input type="text" name="niveau" value="" size="32"></td>
+          </tr>
+          <tr valign="baseline"> 
             <td nowrap align="right">&nbsp;</td>
             <td><input type="submit" value="Ajouter cet &eacute;l&egrave;ve"></td>
           </tr>
@@ -298,11 +338,11 @@ do {
 ?>
             <option value="<?php echo $row_rsClasse['classe']?>"<?php if (!(strcmp($row_rsClasse['classe'], $_POST['classe']))) {echo "SELECTED";} ?>><?php echo $row_rsClasse['classe']?></option>
             <?php
-} while ($row_rsClasse = mysql_fetch_assoc($rsClasse));
-  $rows = mysql_num_rows($rsClasse);
+} while ($row_rsClasse = mysqli_fetch_assoc($rsClasse));
+  $rows = mysqli_num_rows($rsClasse);
   if($rows > 0) {
-      mysql_data_seek($rsClasse, 0);
-	  $row_rsClasse = mysql_fetch_assoc($rsClasse);
+      mysqli_data_seek($rsClasse, 0);
+	  $row_rsClasse = mysqli_fetch_assoc($rsClasse);
   }
 ?>
           </select>
@@ -314,13 +354,13 @@ do {
           <?php
 do {  
 ?>
-          <option value="<?php echo $row_Rschoixeleve['ID_eleve']?>"<?php if (!(strcmp($row_Rschoixeleve['ID_eleve'], $_POST['numeleve']))) {echo "SELECTED";} ?>><?php echo $row_Rschoixeleve['nom']?></option>
+          <option value="<?php echo $row_Rschoixeleve['ID_eleve']?>"<?php if (!(strcmp($row_Rschoixeleve['ID_eleve'], $_POST['numeleve']))) {echo "SELECTED";} ?>><?php echo $row_Rschoixeleve['ID_eleve'].' '.$row_Rschoixeleve['nom'].' '.$row_Rschoixeleve['prenom']?></option>
           <?php
-} while ($row_Rschoixeleve = mysql_fetch_assoc($Rschoixeleve));
-  $rows = mysql_num_rows($Rschoixeleve);
+} while ($row_Rschoixeleve = mysqli_fetch_assoc($Rschoixeleve));
+  $rows = mysqli_num_rows($Rschoixeleve);
   if($rows > 0) {
-      mysql_data_seek($Rschoixeleve, 0);
-	  $row_Rschoixeleve = mysql_fetch_assoc($Rschoixeleve);
+      mysqli_data_seek($Rschoixeleve, 0);
+	  $row_Rschoixeleve = mysqli_fetch_assoc($Rschoixeleve);
   }
 ?>
         </select>
@@ -338,11 +378,11 @@ do {
 ?>
           <option value="<?php echo $row_rsClasse['classe']?>"<?php if (!(strcmp($row_rsClasse['classe'], $_POST['classe']))) {echo "SELECTED";} ?>><?php echo $row_rsClasse['classe']?></option>
           <?php
-} while ($row_rsClasse = mysql_fetch_assoc($rsClasse));
-  $rows = mysql_num_rows($rsClasse);
+} while ($row_rsClasse = mysqli_fetch_assoc($rsClasse));
+  $rows = mysqli_num_rows($rsClasse);
   if($rows > 0) {
-      mysql_data_seek($rsClasse, 0);
-	  $row_rsClasse = mysql_fetch_assoc($rsClasse);
+      mysqli_data_seek($rsClasse, 0);
+	  $row_rsClasse = mysqli_fetch_assoc($rsClasse);
   }
 ?>
         </select>
@@ -354,13 +394,13 @@ do {
           <?php
 do {  
 ?>
-          <option value="<?php echo $row_Rschoixeleve['ID_eleve']?>"<?php if (!(strcmp($row_Rschoixeleve['ID_eleve'], $_POST['numeleve']))) {echo "SELECTED";} ?>><?php echo $row_Rschoixeleve['nom']?></option>
+          <option value="<?php echo $row_Rschoixeleve['ID_eleve']?>"<?php if (!(strcmp($row_Rschoixeleve['ID_eleve'], $_POST['numeleve']))) {echo "SELECTED";} ?>><?php echo $row_Rschoixeleve['ID_eleve'].' '.$row_Rschoixeleve['nom'].' '.$row_Rschoixeleve['prenom']?></option>
           <?php
-} while ($row_Rschoixeleve = mysql_fetch_assoc($Rschoixeleve));
-  $rows = mysql_num_rows($Rschoixeleve);
+} while ($row_Rschoixeleve = mysqli_fetch_assoc($Rschoixeleve));
+  $rows = mysqli_num_rows($Rschoixeleve);
   if($rows > 0) {
-      mysql_data_seek($Rschoixeleve, 0);
-	  $row_Rschoixeleve = mysql_fetch_assoc($Rschoixeleve);
+      mysqli_data_seek($Rschoixeleve, 0);
+	  $row_Rschoixeleve = mysqli_fetch_assoc($Rschoixeleve);
   }
 ?>
         </select>
@@ -387,6 +427,10 @@ do {
             <td><input type="text" name="pass" value="<?php echo $row_RsModifEleve['pass']; ?>" size="32"></td>
           </tr>
           <tr valign="baseline"> 
+            <td nowrap align="right">Niveau:</td>
+            <td><input type="text" name="niveau" value="<?php echo $row_RsModifEleve['niveau']; ?>" size="32"></td>
+          </tr>
+          <tr valign="baseline"> 
             <td nowrap align="right">&nbsp;</td>
             <td><input type="submit" value="Mettre à jour l'enregistrement"></td>
           </tr>
@@ -408,16 +452,16 @@ do {
 </body>
 </html>
 <?php
-mysql_free_result($RsEleve);
+mysqli_free_result($RsEleve);
 
-mysql_free_result($rsClasse);
+mysqli_free_result($rsClasse);
 
-mysql_free_result($RsChoixClasse);
+mysqli_free_result($RsChoixClasse);
 
-mysql_free_result($RsAjout);
+mysqli_free_result($RsAjout);
 
-mysql_free_result($Rschoixeleve);
+mysqli_free_result($Rschoixeleve);
 
-mysql_free_result($RsModifEleve);
+mysqli_free_result($RsModifEleve);
 ?>
 

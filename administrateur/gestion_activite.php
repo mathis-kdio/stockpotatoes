@@ -1,20 +1,25 @@
-<?php session_start();
+<?php 
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+session_start();
 if (isset($_SESSION['Sess_nom'])) { 
 	if ($_SESSION['Sess_nom']<>'Administrateur') { header("Location: login_administrateur.php");}
 ; } else { header("Location: ../index.php");}?>
 <?php require_once('../Connections/conn_intranet.php'); ?>
 <?php
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsSupTotalActivite = "SELECT * FROM stock_activite";
-$RsSupTotalActivite = mysql_query($query_RsSupTotalActivite, $conn_intranet) or die(mysql_error());
-$row_RsSupTotalActivite = mysql_fetch_assoc($RsSupTotalActivite);
-$totalRows_RsSupTotalActivite = mysql_num_rows($RsSupTotalActivite);
+$RsSupTotalActivite = mysqli_query($conn_intranet, $query_RsSupTotalActivite) or die(mysqli_error());
+$row_RsSupTotalActivite = mysqli_fetch_assoc($RsSupTotalActivite);
+$totalRows_RsSupTotalActivite = mysqli_num_rows($RsSupTotalActivite);
 
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_rsClasse = "SELECT DISTINCT classe FROM stock_eleve  ";
-$rsClasse = mysql_query($query_rsClasse, $conn_intranet) or die(mysql_error());
-$row_rsClasse = mysql_fetch_assoc($rsClasse);
-$totalRows_rsClasse = mysql_num_rows($rsClasse);
+$rsClasse = mysqli_query($conn_intranet, $query_rsClasse) or die(mysqli_error());
+$row_rsClasse = mysqli_fetch_assoc($rsClasse);
+$totalRows_rsClasse = mysqli_num_rows($rsClasse);
 ?>
 <html>
 <head>
@@ -57,11 +62,11 @@ do {
 ?>
               <option value="<?php echo $row_rsClasse['classe']?>"><?php echo $row_rsClasse['classe']?></option>
               <?php
-} while ($row_rsClasse = mysql_fetch_assoc($rsClasse));
-  $rows = mysql_num_rows($rsClasse);
+} while ($row_rsClasse = mysqli_fetch_assoc($rsClasse));
+  $rows = mysqli_num_rows($rsClasse);
   if($rows > 0) {
-      mysql_data_seek($rsClasse, 0);
-	  $row_rsClasse = mysql_fetch_assoc($rsClasse);
+      mysqli_data_seek($rsClasse, 0);
+	  $row_rsClasse = mysqli_fetch_assoc($rsClasse);
   }
 ?>
             </select>
@@ -99,8 +104,8 @@ do {
 </body>
 </html>
 <?php
-mysql_free_result($RsSupTotalActivite);
+mysqli_free_result($RsSupTotalActivite);
 
-mysql_free_result($rsClasse);
+mysqli_free_result($rsClasse);
 ?>
 

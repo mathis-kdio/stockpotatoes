@@ -8,7 +8,7 @@ if (isset($_SESSION['Sess_nom'])) {
 
 function sans_accent($chaine) 
 { 
-   $accent  ="¿¡¬√ƒ≈∆«»… ÀÃÕŒœ–—“”‘’÷ÿŸ⁄€‹›ﬁﬂ‡·‚„‰ÂÊÁËÈÍÎÏÌÓÔÒÚÛÙıˆ¯˘˙˚˝˝˛ˇ"; 
+   $accent  ="√Ä√Å√Ç√É√Ñ√Ö√Ü√á√à√â√ä√ã√å√ç√é√è√ê√ë√í√ì√î√ï√ñ√ò√ô√ö√õ√ú√ù√û√ü√†√°√¢√£√§√•√¶√ß√®√©√™√´√¨√≠√Æ√Ø√∞√±√≤√≥√¥√µ√∂√∏√π√∫√ª√Ω√Ω√æ√ø"; 
    $noaccent="aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyyby"; 
    return strtr(trim($chaine),$accent,$noaccent); 
 } 
@@ -45,17 +45,17 @@ if (isset($_SERVER['QUERY_STRING'])) {
 
 
 
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_rs_matiere = "SELECT * FROM stock_matiere ORDER BY stock_matiere.nom_mat";
-$rs_matiere = mysql_query($query_rs_matiere, $conn_intranet) or die(mysql_error());
-$row_rs_matiere = mysql_fetch_assoc($rs_matiere);
-$totalRows_rs_matiere = mysql_num_rows($rs_matiere);
+$rs_matiere = mysqli_query($conn_intranet, $query_rs_matiere) or die(mysqli_error());
+$row_rs_matiere = mysqli_fetch_assoc($rs_matiere);
+$totalRows_rs_matiere = mysqli_num_rows($rs_matiere);
 
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_rs_niveau = "SELECT * FROM stock_niveau";
-$rs_niveau = mysql_query($query_rs_niveau, $conn_intranet) or die(mysql_error());
-$row_rs_niveau = mysql_fetch_assoc($rs_niveau);
-$totalRows_rs_niveau = mysql_num_rows($rs_niveau);
+$rs_niveau = mysqli_query($conn_intranet, $query_rs_niveau) or die(mysqli_error());
+$row_rs_niveau = mysqli_fetch_assoc($rs_niveau);
+$totalRows_rs_niveau = mysqli_num_rows($rs_niveau);
 	
 	
 $choixmat_RsTheme = "0";
@@ -66,21 +66,27 @@ $choixniv_RsTheme = "0";
 if (isset($_POST['niveau_ID'])) {
   $choixniv_RsTheme = (get_magic_quotes_gpc()) ? $_POST['niveau_ID'] : addslashes($_POST['niveau_ID']);
 }
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsTheme = sprintf("SELECT * FROM stock_theme WHERE stock_theme.mat_ID=%s AND stock_theme.niv_ID=%s ORDER BY stock_theme.theme", $choixmat_RsTheme,$choixniv_RsTheme);
-$RsTheme = mysql_query($query_RsTheme, $conn_intranet) or die(mysql_error());
-$row_RsTheme = mysql_fetch_assoc($RsTheme);
-$totalRows_RsTheme = mysql_num_rows($RsTheme);
+$RsTheme = mysqli_query($conn_intranet, $query_RsTheme) or die(mysqli_error());
+$row_RsTheme = mysqli_fetch_assoc($RsTheme);
+$totalRows_RsTheme = mysqli_num_rows($RsTheme);
+
+mysqli_select_db($conn_intranet, $database_conn_intranet);
+$query_RsCategorie= sprintf("SELECT * FROM stock_categorie ORDER BY stock_categorie.ID_categorie");
+$RsCategorie = mysqli_query($conn_intranet, $query_RsCategorie) or die(mysql_error());
+$row_RsCategorie = mysqli_fetch_assoc($RsCategorie);
+$totalRows_RsCategorie = mysqli_num_rows($RsCategorie);
 
 $selection_RsChoixMatiere = "0";
 if (isset($_POST['matiere_ID'])) {
   $selection_RsChoixMatiere = (get_magic_quotes_gpc()) ? $_POST['matiere_ID'] : addslashes($_POST['matiere_ID']);
 }
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsChoixMatiere = sprintf("SELECT * FROM stock_matiere WHERE stock_matiere.ID_mat=%s", $selection_RsChoixMatiere);
-$RsChoixMatiere = mysql_query($query_RsChoixMatiere, $conn_intranet) or die(mysql_error());
-$row_RsChoixMatiere = mysql_fetch_assoc($RsChoixMatiere);
-$totalRows_RsChoixMatiere = mysql_num_rows($RsChoixMatiere);
+$RsChoixMatiere = mysqli_query($conn_intranet, $query_RsChoixMatiere) or die(mysqli_error());
+$row_RsChoixMatiere = mysqli_fetch_assoc($RsChoixMatiere);
+$totalRows_RsChoixMatiere = mysqli_num_rows($RsChoixMatiere);
 
 
 
@@ -88,7 +94,7 @@ $totalRows_RsChoixMatiere = mysql_num_rows($RsChoixMatiere);
 
 if (!Empty($_POST['submit2'])) {
 if ($_POST['titre']=='') {
- print '<strong><center><font size=5 color="#FF0000">Il faut donner un titre ‡ votre document </font> </center></strong>';
+ print '<strong><center><font size=5 color="#FF0000">Il faut donner un titre √† votre document </font> </center></strong>';
     echo '<BR><hr>';
 } else {
 
@@ -102,18 +108,19 @@ if ($_POST['titre']=='') {
   if ((isset($_POST['evaluation_seul'])) && ($_POST['evaluation_seul']=='O')){$avec_score='O';}
   
   $query_RsMax = "SELECT MAX(pos_doc) AS resultat FROM stock_quiz ";
-  $RsMax = mysql_query($query_RsMax, $conn_intranet) or die(mysql_error());
-  $row_RsMax = mysql_fetch_assoc($RsMax);
+  $RsMax = mysqli_query($conn_intranet, $query_RsMax) or die(mysqli_error());
+  $row_RsMax = mysqli_fetch_assoc($RsMax);
   $position=$row_RsMax['resultat']+1;
   
   $type_doc = 2;
-  $insertSQL = sprintf("INSERT INTO stock_quiz (titre, fichier, matiere_ID, niveau_ID,theme_ID, auteur, en_ligne, avec_score, evaluation_seul, cat_doc, type_doc, pos_doc) VALUES (%s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s, %s)",
+  $insertSQL = sprintf("INSERT INTO stock_quiz (titre, fichier, matiere_ID, niveau_ID, theme_ID, categorie_ID, auteur, en_ligne, avec_score, evaluation_seul, cat_doc, type_doc, pos_doc) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
                        
                        GetSQLValueString($_POST['titre'], "text"),
                        GetSQLValueString($_FILES['fichier']['name'], "text"),
 					   GetSQLValueString($_POST['matiere_ID'], "text"),
                        GetSQLValueString($_POST['niveau_ID'], "text"),
 					   GetSQLValueString($_POST['theme_ID'], "int"),
+					   GetSQLValueString($_POST['categorie_ID'], "int"),
                        GetSQLValueString($_POST['auteur'], "text"),
                        GetSQLValueString($en_ligne, "text"),
                        GetSQLValueString($avec_score, "text"),
@@ -122,24 +129,24 @@ if ($_POST['titre']=='') {
 					   GetSQLValueString($type_doc, "int"),
 					   GetSQLValueString($position, "int"));
 
-  mysql_select_db($database_conn_intranet, $conn_intranet);
-  $Result1 = mysql_query($insertSQL, $conn_intranet) or die(mysql_error());
-  mysql_free_result($RsMax);
+  mysqli_select_db($conn_intranet, $database_conn_intranet);
+  $Result1 = mysqli_query($conn_intranet, $insertSQL) or die(mysqli_error());
+  mysqli_free_result($RsMax);
 }
 //fin enregistrement ds la table
 
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsMaxId_quiz = "SELECT MAX( Id_quiz )  FROM stock_quiz";
-$RsMaxId_quiz = mysql_query($query_RsMaxId_quiz, $conn_intranet) or die(mysql_error());
-$row_RsMaxId_quiz = mysql_fetch_assoc($RsMaxId_quiz);
-$totalRows_RsMaxId_quiz = mysql_num_rows($RsMaxId_quiz);
+$RsMaxId_quiz = mysqli_query($conn_intranet, $query_RsMaxId_quiz) or die(mysqli_error());
+$row_RsMaxId_quiz = mysqli_fetch_assoc($RsMaxId_quiz);
+$totalRows_RsMaxId_quiz = mysqli_num_rows($RsMaxId_quiz);
 
 $total=$row_RsMaxId_quiz['MAX( Id_quiz )'];
-mysql_free_result($RsMaxId_quiz);
+mysqli_free_result($RsMaxId_quiz);
 $nom_matiere=sans_accent($row_RsChoixMatiere['nom_mat']);
 $repertoire='../Exercices/'.$nom_matiere.'/q'.$total;
 
-if (is_dir($repertoire)) {echo "<center> Le dossier ".$repertoire." existait dÈj‡ </center><BR> "; } else { mkdir($repertoire,0777);}
+if (is_dir($repertoire)) {echo "<center> Le dossier ".$repertoire." existait d√©j√† </center><BR> "; } else { mkdir($repertoire,0777);}
 if ($_FILES['fichier']['tmp_name']<>'') {
     $dossier_destination = $repertoire; 
     $dossier_temporaire = $_FILES['fichier']['tmp_name'];
@@ -147,30 +154,30 @@ if ($_FILES['fichier']['tmp_name']<>'') {
 	$nom_fichier = $_FILES['fichier']['name'];
 	$erreur= $_FILES['fichier']['error'];
 	if ($erreur == 2 ) {
-		exit ("Le fichier dÈpasse la taille de 100 Mo.");
+		exit ("Le fichier d√©passe la taille de 100 Mo.");
 		$deleteSQL = sprintf("DELETE FROM stock_quiz WHERE ID_quiz=%s",
                        GetSQLValueString($total, "int"));
-		mysql_select_db($database_conn_cahier_de_texte, $conn_cahier_de_texte);
-  		$Result1 = mysql_query($deleteSQL, $conn_cahier_de_texte) or die(mysql_error());
+		mysqli_select_db($conn_intranet, $database_conn_cahier_de_texte, $conn_cahier_de_texte);
+  		$Result1 = mysqli_query($conn_intranet, $deleteSQL, $conn_cahier_de_texte) or die(mysqli_error());
 	}
 	if ($erreur == 3 ) {
-		exit ("Le fichier travail a ÈtÈ partiellement transfÈrÈ. Envoyez-le ‡ nouveau.");
+		exit ("Le fichier travail a √©t√© partiellement transf√©r√©. Envoyez-le √† nouveau.");
 		$deleteSQL = sprintf("DELETE FROM stock_quiz WHERE ID_quiz=%s",
                        GetSQLValueString($total, "int"));
-		mysql_select_db($database_conn_cahier_de_texte, $conn_cahier_de_texte);
-  		$Result1 = mysql_query($deleteSQL, $conn_cahier_de_texte) or die(mysql_error());
+		mysqli_select_db($conn_intranet, $database_conn_cahier_de_texte, $conn_cahier_de_texte);
+  		$Result1 = mysqli_query($conn_intranet, $deleteSQL, $conn_cahier_de_texte) or die(mysqli_error());
 	}
 	if( !move_uploaded_file($dossier_temporaire, $dossier_destination.'/'.$nom_fichier) )
     {
         exit("Impossible de copier le fichier ");
 		$deleteSQL = sprintf("DELETE FROM stock_quiz WHERE ID_quiz=%s",
                        GetSQLValueString($total, "int"));
-		mysql_select_db($database_conn_cahier_de_texte, $conn_cahier_de_texte);
-  		$Result1 = mysql_query($deleteSQL, $conn_cahier_de_texte) or die(mysql_error());
+		mysqli_select_db($conn_intranet, $database_conn_cahier_de_texte, $conn_cahier_de_texte);
+  		$Result1 = mysqli_query($conn_intranet, $deleteSQL, $conn_cahier_de_texte) or die(mysqli_error());
 
 		
     }else {
-	    print '<strong><center><font size=5 color="#FF0000">Le fichier '.$_FILES['fichier']['name']. ' a ÈtÈ envoyÈ sur le serveur </font> </center></strong><BR><center><font size=2 color="#FF0000">dans le dossier '.$dossier_destination .'</font></center><hr>';
+	    print '<strong><center><font size=5 color="#FF0000">Le fichier '.$_FILES['fichier']['name']. ' a √©t√© envoy√© sur le serveur </font> </center></strong><BR><center><font size=2 color="#FF0000">dans le dossier '.$dossier_destination .'</font></center><hr>';
 
 	}
 
@@ -188,7 +195,8 @@ if ($_FILES['fichier']['tmp_name']<>'') {
 <html>
 <head>
 <title>Mettre un exercice Hotpotatoes en ligne </title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html">
 <link href="../style_jaune.css" rel="stylesheet" type="text/css">
 <script language="JavaScript" type="text/JavaScript">
 <!--
@@ -223,11 +231,11 @@ do {
 ?>
             <option value="<?php echo $row_rs_matiere['ID_mat']?>"<?php if (isset($_POST['matiere_ID'])) { if (!(strcmp($row_rs_matiere['ID_mat'], $_POST['matiere_ID']))) {echo "SELECTED";} } ?>><?php echo $row_rs_matiere['nom_mat']?></option>
             <?php
-} while ($row_rs_matiere = mysql_fetch_assoc($rs_matiere));
-  $rows = mysql_num_rows($rs_matiere);
+} while ($row_rs_matiere = mysqli_fetch_assoc($rs_matiere));
+  $rows = mysqli_num_rows($rs_matiere);
   if($rows > 0) {
-      mysql_data_seek($rs_matiere, 0);
-	  $row_rs_matiere = mysql_fetch_assoc($rs_matiere);
+      mysqli_data_seek($rs_matiere, 0);
+	  $row_rs_matiere = mysqli_fetch_assoc($rs_matiere);
   }
 ?>
           </select>
@@ -239,11 +247,11 @@ do {
 ?>
             <option value="<?php echo $row_rs_niveau['ID_niveau']?>"<?php if (isset($_POST['niveau_ID'])) { if (!(strcmp($row_rs_niveau['ID_niveau'], $_POST['niveau_ID']))) {echo "SELECTED";} } ?>><?php echo $row_rs_niveau['nom_niveau']?></option>
             <?php
-} while ($row_rs_niveau = mysql_fetch_assoc($rs_niveau));
-  $rows = mysql_num_rows($rs_niveau);
+} while ($row_rs_niveau = mysqli_fetch_assoc($rs_niveau));
+  $rows = mysqli_num_rows($rs_niveau);
   if($rows > 0) {
-      mysql_data_seek($rs_niveau, 0);
-	  $row_rs_niveau = mysql_fetch_assoc($rs_niveau);
+      mysqli_data_seek($rs_niveau, 0);
+	  $row_rs_niveau = mysqli_fetch_assoc($rs_niveau);
   }
 ?>
           </select>
@@ -262,25 +270,45 @@ do {
       <td nowrap align="right">Ce fichier est relatif &agrave; l'&eacute;tude 
         du th&egrave;me </td>
       <td> <select name="theme_ID" id="select">
-          <option value="value">Selectionnez un thËme</option>
+          <option value="value">Selectionnez un th√®me</option>
           <?php
-do {  
-?>
-          <option value="<?php echo $row_RsTheme['ID_theme']?>"><?php echo $row_RsTheme['theme']?></option>
-          <?php
-} while ($row_RsTheme = mysql_fetch_assoc($RsTheme));
-  $rows = mysql_num_rows($RsTheme);
-  if($rows > 0) {
-      mysql_data_seek($RsTheme, 0);
-	  $row_RsTheme = mysql_fetch_assoc($RsTheme);
-  }
-?>
+			do {  
+			?>
+			          <option value="<?php echo $row_RsTheme['ID_theme']?>"><?php echo $row_RsTheme['theme']?></option>
+			          <?php
+			} while ($row_RsTheme = mysqli_fetch_assoc($RsTheme));
+			  $rows = mysqli_num_rows($RsTheme);
+			  if($rows > 0) {
+			      mysqli_data_seek($RsTheme, 0);
+				  $row_RsTheme = mysqli_fetch_assoc($RsTheme);
+			  }
+			?>
         </select> 
       &nbsp;&nbsp;&nbsp;<a href="../enseignant/gestion_theme.php"> Ajouter un nouveau 
         th&egrave;me</a></td>
     </tr>
-    
-          <tr> 
+    <tr valign="baseline"> 
+      	<td nowrap align="right">Dans quelle cat√©gorie doit se trouver ce fichier?</td>
+      	<td> 
+	      	<select name="categorie_ID" id="select">
+	          	<option value="value">Selectionnez une cat√©gorie</option>
+	          	<?php
+				do {  
+				?>
+				 	<option value="<?php echo $row_RsCategorie['ID_categorie']?>"><?php echo $row_RsCategorie['nom_categorie']?></option>
+				    <?php
+				} while ($row_RsCategorie = mysqli_fetch_assoc($RsCategorie));
+				$rows = mysqli_num_rows($RsCategorie);
+				if($rows > 0) 
+				{
+				    mysqli_data_seek($RsCategorie, 0);
+					$row_RsCategorie = mysqli_fetch_assoc($RsCategorie);
+				}
+				?>
+	        </select> 
+		</td>
+    </tr>
+    <tr> 
     <tr valign="baseline"> 
       <td nowrap align="right">Titre de l'exercice<font color="#990000"> <strong>(Obligatoire)</strong></font>:</td>
       <td><input type="text" name="titre" value="" size="50"></td>
@@ -372,12 +400,12 @@ do {
 <?php
 
 
-mysql_free_result($rs_matiere);
+mysqli_free_result($rs_matiere);
 
-mysql_free_result($rs_niveau);
+mysqli_free_result($rs_niveau);
 
-mysql_free_result($RsTheme);
+mysqli_free_result($RsTheme);
 
-mysql_free_result($RsChoixMatiere);
+mysqli_free_result($RsChoixMatiere);
 ?>
 

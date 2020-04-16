@@ -38,19 +38,19 @@ $colname_RsChoixNiveau = "0";
 if (isset($_POST['ID_niveau'])) {
   $colname_RsChoixNiveau = (get_magic_quotes_gpc()) ? $_POST['ID_niveau'] : addslashes($_POST['ID_niveau']);
 }
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsChoixNiveau = sprintf("SELECT * FROM stock_niveau WHERE ID_niveau = %s", $colname_RsChoixNiveau);
-$RsChoixNiveau = mysql_query($query_RsChoixNiveau, $conn_intranet) or die(mysql_error());
-$row_RsChoixNiveau = mysql_fetch_assoc($RsChoixNiveau);
+$RsChoixNiveau = mysqli_query($conn_intranet, $query_RsChoixNiveau) or die(mysqli_error());
+$row_RsChoixNiveau = mysqli_fetch_assoc($RsChoixNiveau);
 
 $temp=$row_RsChoixNiveau['pos_niv'];
 $updateSQL = sprintf("UPDATE stock_niveau SET pos_niv=%s  WHERE ID_niveau=%s",
                        GetSQLValueString($_POST['pos_suivant'], "int"),
 					   GetSQLValueString($_POST['ID_niveau'], "int"));
 
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 
-$Result1 = mysql_query($updateSQL, $conn_intranet) or die(mysql_error());
+$Result1 = mysqli_query($conn_intranet, $updateSQL) or die(mysqli_error());
 
 
 
@@ -58,17 +58,17 @@ $colname_RsChoixNiveau2 = "0";
 if (isset($_POST['ID_suivant'])) {
   $colname_RsChoixNiveau2 = (get_magic_quotes_gpc()) ? $_POST['ID_suivant'] : addslashes($_POST['ID_suivant']);
 }  
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsChoixNiveau2 = sprintf("SELECT * FROM stock_niveau WHERE ID_niveau = %s", $colname_RsChoixNiveau2);
-$RsChoixNiveau2 = mysql_query($query_RsChoixNiveau2, $conn_intranet) or die(mysql_error());
-$row_RsChoixNiveau2 = mysql_fetch_assoc($RsChoixNiveau2);
+$RsChoixNiveau2 = mysqli_query($conn_intranet, $query_RsChoixNiveau2) or die(mysqli_error());
+$row_RsChoixNiveau2 = mysqli_fetch_assoc($RsChoixNiveau2);
 
 $updateSQL2 = sprintf("UPDATE stock_niveau SET pos_niv=%s  WHERE ID_niveau=%s",
                        GetSQLValueString($temp, "int"),
 					   GetSQLValueString($_POST['ID_suivant'], "int"));
 
-mysql_select_db($database_conn_intranet, $conn_intranet);
-$Result2 = mysql_query($updateSQL2, $conn_intranet) or die(mysql_error());
+mysqli_select_db($conn_intranet, $database_conn_intranet);
+$Result2 = mysqli_query($conn_intranet, $updateSQL2) or die(mysqli_error());
   
   
 
@@ -77,8 +77,8 @@ $Result2 = mysql_query($updateSQL2, $conn_intranet) or die(mysql_error());
   header(sprintf("Location: %s", $updateGoTo));
 
 
-mysql_free_result($RsChoixNiveau);
-mysql_free_result($RsChoixNiveau2);
+mysqli_free_result($RsChoixNiveau);
+mysqli_free_result($RsChoixNiveau2);
 
 
 

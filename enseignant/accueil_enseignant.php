@@ -63,7 +63,8 @@ if (isset($_SESSION['Sess_nom'])) {
   <tr valign="top"> 
     <td width="50%" bgcolor="#cccc99" class="retrait20"> <p><strong><a href="liste_quiz_recent.php">Liste 
     des derniers exercices publi&eacute;s</a></strong></p></td>
-    <td width="50%" bgcolor="#cccc99" class="retrait20"> <p>&nbsp;</p></td>
+    <td width="50%" bgcolor="#cccc99" class="retrait20"> <p><strong><a href="liste_resultat_theme_pourcent_classe.php">R&eacute;sultats 
+    en % par th&egrave;me pour une classe</a></strong></p></td>
   </tr>
   <tr valign="top"> 
     <td width="50%" bgcolor="#cccc99" class="retrait20"> <p><strong><a href="liste_quiz_publie.php">Liste 

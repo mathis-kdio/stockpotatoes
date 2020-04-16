@@ -35,18 +35,18 @@ $colname_RsChoixQuiz = "0";
 if (isset($_POST['ID_quiz'])) {
   $colname_RsChoixQuiz = (get_magic_quotes_gpc()) ? $_POST['ID_quiz'] : addslashes($_POST['ID_quiz']);
 }
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsChoixQuiz = sprintf("SELECT * FROM stock_quiz WHERE ID_quiz = %s", $colname_RsChoixQuiz);
-$RsChoixQuiz = mysql_query($query_RsChoixQuiz, $conn_intranet) or die(mysql_error());
-$row_RsChoixQuiz = mysql_fetch_assoc($RsChoixQuiz);
+$RsChoixQuiz = mysqli_query($conn_intranet, $query_RsChoixQuiz) or die(mysqli_error());
+$row_RsChoixQuiz = mysqli_fetch_assoc($RsChoixQuiz);
 
 $temp=$row_RsChoixQuiz['pos_doc'];
 $updateSQL = sprintf("UPDATE stock_quiz SET pos_doc=%s  WHERE ID_quiz=%s",
                        GetSQLValueString($_POST['pos_precedent'], "int"),
 					   GetSQLValueString($_POST['ID_quiz'], "int"));
 
-mysql_select_db($database_conn_intranet, $conn_intranet);
-$Result1 = mysql_query($updateSQL, $conn_intranet) or die(mysql_error());
+mysqli_select_db($conn_intranet, $database_conn_intranet);
+$Result1 = mysqli_query($conn_intranet, $updateSQL) or die(mysqli_error());
 
 
 
@@ -54,17 +54,17 @@ $colname_RsChoixQuiz2 = "0";
 if (isset($_POST['ID_precedent'])) {
   $colname_RsChoixQuiz2 = (get_magic_quotes_gpc()) ? $_POST['ID_precedent'] : addslashes($_POST['ID_precedent']);
 }  
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsChoixQuiz2 = sprintf("SELECT * FROM stock_quiz WHERE ID_quiz = %s", $colname_RsChoixQuiz2);
-$RsChoixQuiz2 = mysql_query($query_RsChoixQuiz2, $conn_intranet) or die(mysql_error());
-$row_RsChoixQuiz2 = mysql_fetch_assoc($RsChoixQuiz2);
+$RsChoixQuiz2 = mysqli_query($conn_intranet, $query_RsChoixQuiz2) or die(mysqli_error());
+$row_RsChoixQuiz2 = mysqli_fetch_assoc($RsChoixQuiz2);
 
 $updateSQL2 = sprintf("UPDATE stock_quiz SET pos_doc=%s  WHERE ID_quiz=%s",
                        GetSQLValueString($temp, "int"),
 					   GetSQLValueString($_POST['ID_precedent'], "int"));
 
-mysql_select_db($database_conn_intranet, $conn_intranet);
-$Result2 = mysql_query($updateSQL2, $conn_intranet) or die(mysql_error());
+mysqli_select_db($conn_intranet, $database_conn_intranet);
+$Result2 = mysqli_query($conn_intranet, $updateSQL2) or die(mysqli_error());
   
   
 
@@ -73,8 +73,8 @@ $Result2 = mysql_query($updateSQL2, $conn_intranet) or die(mysql_error());
   header(sprintf("Location: %s", $updateGoTo));
 
 
-mysql_free_result($RsChoixQuiz);
-mysql_free_result($RsChoixQuiz2);
+mysqli_free_result($RsChoixQuiz);
+mysqli_free_result($RsChoixQuiz2);
 
 
 

@@ -42,11 +42,11 @@ $varmat_RsMatSupp = "0";
 if (isset($_POST['matiere_supp_ID'])) {
   $varmat_RsMatSupp = (get_magic_quotes_gpc()) ? $_POST['matiere_supp_ID'] : addslashes($_POST['matiere_supp_ID']);
 }
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsMatSupp = sprintf("SELECT * FROM stock_matiere WHERE stock_matiere.ID_mat=%s", $varmat_RsMatSupp);
-$RsMatSupp = mysql_query($query_RsMatSupp, $conn_intranet) or die(mysql_error());
-$row_RsMatSupp = mysql_fetch_assoc($RsMatSupp);
-$totalRows_RsMatSupp = mysql_num_rows($RsMatSupp);
+$RsMatSupp = mysqli_query($conn_intranet, $query_RsMatSupp) or die(mysqli_error());
+$row_RsMatSupp = mysqli_fetch_assoc($RsMatSupp);
+$totalRows_RsMatSupp = mysqli_num_rows($RsMatSupp);
 
   if (isset($_POST['Suppression'])) {
 
@@ -72,8 +72,8 @@ $repertoire='../Exercices/'.$nom_matiere;
 
 effacer($repertoire);
 
-  mysql_select_db($database_conn_intranet, $conn_intranet);
-  $Result1 = mysql_query($deleteSQL, $conn_intranet) or die(mysql_error());
+  mysqli_select_db($conn_intranet, $database_conn_intranet);
+  $Result1 = mysqli_query($conn_intranet, $deleteSQL) or die(mysqli_error());
 
   $deleteGoTo = "confirm_supp_mat.php";
   if (isset($_SERVER['QUERY_STRING'])) {
@@ -83,7 +83,7 @@ effacer($repertoire);
   header(sprintf("Location: %s", $deleteGoTo));
 }
 
-mysql_free_result($RsMatSupp);
+mysqli_free_result($RsMatSupp);
 
 ?>
 <Html>

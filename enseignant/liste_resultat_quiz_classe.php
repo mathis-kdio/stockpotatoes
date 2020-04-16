@@ -1,4 +1,9 @@
-<?php session_start(); 
+<?php 
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+session_start(); 
 if (isset($_SESSION['Sess_nom'])) { 
 	if ($_SESSION['Sess_nom']<>'Enseignant') { header("Location: login_enseignant.php");}
 ; } else { header("Location: ../index.php");}?>
@@ -6,23 +11,23 @@ if (isset($_SESSION['Sess_nom'])) {
 <?php require_once('../Connections/conn_intranet.php'); ?> 
 <?php
 
-mysql_select_db($database_conn_intranet, $conn_intranet);
-$query_rsClasse = "SELECT DISTINCT classe FROM stock_eleve ";
-$rsClasse = mysql_query($query_rsClasse, $conn_intranet) or die(mysql_error());
-$row_rsClasse = mysql_fetch_assoc($rsClasse);
-$totalRows_rsClasse = mysql_num_rows($rsClasse);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
+$query_rsClasse = "SELECT DISTINCT classe FROM stock_eleve ORDER BY classe DESC";
+$rsClasse = mysqli_query($conn_intranet, $query_rsClasse) or die(mysqli_error());
+$row_rsClasse = mysqli_fetch_assoc($rsClasse);
+$totalRows_rsClasse = mysqli_num_rows($rsClasse);
 
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsMatiere = "SELECT * FROM stock_matiere ORDER BY stock_matiere.nom_mat";
-$RsMatiere = mysql_query($query_RsMatiere, $conn_intranet) or die(mysql_error());
-$row_RsMatiere = mysql_fetch_assoc($RsMatiere);
-$totalRows_RsMatiere = mysql_num_rows($RsMatiere);
+$RsMatiere = mysqli_query($conn_intranet, $query_RsMatiere) or die(mysqli_error());
+$row_RsMatiere = mysqli_fetch_assoc($RsMatiere);
+$totalRows_RsMatiere = mysqli_num_rows($RsMatiere);
 
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsNiveau = "SELECT * FROM stock_niveau";
-$RsNiveau = mysql_query($query_RsNiveau, $conn_intranet) or die(mysql_error());
-$row_RsNiveau = mysql_fetch_assoc($RsNiveau);
-$totalRows_RsNiveau = mysql_num_rows($RsNiveau);
+$RsNiveau = mysqli_query($conn_intranet, $query_RsNiveau) or die(mysqli_error());
+$row_RsNiveau = mysqli_fetch_assoc($RsNiveau);
+$totalRows_RsNiveau = mysqli_num_rows($RsNiveau);
 
 $colname1_Rsquiz = "0";
 if (isset($_POST['ID_mat'])) {
@@ -32,11 +37,11 @@ $colname2_Rsquiz = "0";
 if (isset($_POST['ID_niveau'])) {
   $colname2_Rsquiz = (get_magic_quotes_gpc()) ? $_POST['ID_niveau'] : addslashes($_POST['ID_niveau']);
 }
-mysql_select_db($database_conn_intranet, $conn_intranet);
-$query_Rsquiz = sprintf("SELECT * FROM stock_quiz WHERE stock_quiz.matiere_ID=%s AND stock_quiz.niveau_ID=%s", $colname1_Rsquiz,$colname2_Rsquiz);
-$Rsquiz = mysql_query($query_Rsquiz, $conn_intranet) or die(mysql_error());
-$row_Rsquiz = mysql_fetch_assoc($Rsquiz);
-$totalRows_Rsquiz = mysql_num_rows($Rsquiz);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
+$query_Rsquiz = sprintf("SELECT * FROM stock_quiz WHERE stock_quiz.matiere_ID=%s AND stock_quiz.niveau_ID=%s ORDER BY titre ASC", $colname1_Rsquiz,$colname2_Rsquiz);
+$Rsquiz = mysqli_query($conn_intranet, $query_Rsquiz) or die(mysqli_error());
+$row_Rsquiz = mysqli_fetch_assoc($Rsquiz);
+$totalRows_Rsquiz = mysqli_num_rows($Rsquiz);
 
 $varquiz_RsActiviteClasse = "0";
 if (isset($_POST['ID_quiz'])) {
@@ -46,11 +51,13 @@ $varchoixclasse_RsActiviteClasse = "0";
 if (isset($_POST['classe'])) {
   $varchoixclasse_RsActiviteClasse = (get_magic_quotes_gpc()) ? $_POST['classe'] : addslashes($_POST['classe']);
 }
-mysql_select_db($database_conn_intranet, $conn_intranet);
-$query_RsActiviteClasse = sprintf("SELECT * FROM stock_activite,stock_eleve WHERE stock_activite.quiz_ID=%s AND stock_activite.nom_classe='%s'  AND stock_activite.eleve_ID=stock_eleve.ID_eleve ORDER BY stock_eleve.nom, stock_eleve.prenom ", $varquiz_RsActiviteClasse,$varchoixclasse_RsActiviteClasse);
-$RsActiviteClasse = mysql_query($query_RsActiviteClasse, $conn_intranet) or die(mysql_error());
-$row_RsActiviteClasse = mysql_fetch_assoc($RsActiviteClasse);
-$totalRows_RsActiviteClasse = mysql_num_rows($RsActiviteClasse);
+
+mysqli_select_db($conn_intranet, $database_conn_intranet);
+$query_RsActiviteClasse = sprintf("SELECT * FROM stock_activite,stock_eleve WHERE stock_activite.quiz_ID='%s' AND stock_activite.nom_classe='%s' AND stock_activite.eleve_ID=stock_eleve.ID_eleve ORDER BY stock_eleve.nom, stock_eleve.prenom ", $varquiz_RsActiviteClasse,$varchoixclasse_RsActiviteClasse);
+$RsActiviteClasse = mysqli_query($conn_intranet, $query_RsActiviteClasse) or die(mysqli_error());
+$row_RsActiviteClasse = mysqli_fetch_assoc($RsActiviteClasse);
+$totalRows_RsActiviteClasse = mysqli_num_rows($RsActiviteClasse);
+//echo $query_RsActiviteClasse;
 ?>
 <html>
 <head>
@@ -76,16 +83,12 @@ MM_reloadPage(true);
 </script>
 </head>
 <body>
-<p align="right" class="title"> <font face="Arial, Helvetica, sans-serif">R&eacute;sultats 
-  d'un exercice Hotpotatoes </font></p>
-<div id="Layer1" style="position:absolute; width:281px; height:115px; z-index:1; left: 497px; top: 74px;"> 
-  <ul>
-    <li><a href="../index.php" align="center">Accueil Stockpotatoes</a></li>
-    <li><a href="../enseignant/accueil_enseignant.php">Espace Enseignant</a></li>
-    <li><a href="../administrateur/login_administrateur.php">Espace Administrateur</a></li>
-    <li><a href="../upload/upload_menu.php" align="center">Envoyer un exercice sur 
-      le serveur</a></li>
-  </ul>
+<p align="right" class="title"> <font face="Arial, Helvetica, sans-serif">R&eacute;sultats d'un exercice Hotpotatoes </font></p>
+<div align="right">
+	<a href="../index.php" align="center"><strong>Accueil Stockpotatoes</strong></a> -
+	<a href="../enseignant/accueil_enseignant.php"><strong>Espace Enseignant</strong></a> -
+	<a href="../administrateur/login_administrateur.php"><strong>Espace Administrateur</strong></a> - 
+	<a href="../upload/upload_menu.php" align="center"><strong>Envoyer un exercice sur le serveur</strong></a>
 </div>
 <table width="46%" border="0" cellspacing="0" cellpadding="0">
   <tr> 
@@ -96,18 +99,19 @@ MM_reloadPage(true);
             <tr> 
               <td width="17%"> <div align="left"> </div></td>
               <td width="60%"> <select name="classe" id="select10">
-                  <option value="classe" <?php if (isset($_POST['classe'])) { if (!(strcmp("classe", $_POST['classe']))) {echo "SELECTED";}} ?>>Sélectionner 
-                  votre classe</option>
+                  <option value="classe" 
+				  <?php if (isset($_POST['classe'])) { if (!(strcmp("classe", $_POST['classe']))) {echo "SELECTED";}} ?>>SÃ©lectionner votre classe
+				  </option>
                   <?php
 do {  
 ?>
                   <option value="<?php echo $row_rsClasse['classe']?>"<?php if (isset($_POST['classe'])) { if (!(strcmp($row_rsClasse['classe'], $_POST['classe']))) {echo "SELECTED";} }?>><?php echo $row_rsClasse['classe']?></option>
                   <?php
-} while ($row_rsClasse = mysql_fetch_assoc($rsClasse));
-  $rows = mysql_num_rows($rsClasse);
+} while ($row_rsClasse = mysqli_fetch_assoc($rsClasse));
+  $rows = mysqli_num_rows($rsClasse);
   if($rows > 0) {
-      mysql_data_seek($rsClasse, 0);
-	  $row_rsClasse = mysql_fetch_assoc($rsClasse);
+      mysqli_data_seek($rsClasse, 0);
+	  $row_rsClasse = mysqli_fetch_assoc($rsClasse);
   }
 ?>
                 </select> </td>
@@ -118,7 +122,8 @@ do {
             </tr>
           </table>
         </div>
-      </form></td>
+      </form>
+	  </td>
   </tr>
   <?php  if (isset($_POST['classe'])) {?>
   <tr> 
@@ -129,37 +134,39 @@ do {
             <tr> 
               <td width="36%"><div align="left"> 
                   <select name="ID_mat" id="select11">
-                    <option value="ID_mat" <?php if (isset($_POST['ID_mat'])) { if (!(strcmp("ID_mat", $_POST['ID_mat']))) {echo "SELECTED";} }?>>Sélectionnez 
-                    la matière</option>
+                    <option value="ID_mat"
+						<?php if (isset($_POST['ID_mat'])) { if (!(strcmp("ID_mat", $_POST['ID_mat']))) {echo "SELECTED";} }?>>SÃ©lectionnez la matiÃ¨re
+					</option>
                     <?php
 do {  
 ?>
 
 <option value="<?php echo $row_RsMatiere['ID_mat']?>"<?php if (isset($_POST['ID_mat'])) { if (!(strcmp($row_RsMatiere['ID_mat'], $_POST['ID_mat']))) {echo "SELECTED";}} ?>><?php echo $row_RsMatiere['nom_mat']?></option>
                     <?php
-} while ($row_RsMatiere = mysql_fetch_assoc($RsMatiere));
-  $rows = mysql_num_rows($RsMatiere);
+} while ($row_RsMatiere = mysqli_fetch_assoc($RsMatiere));
+  $rows = mysqli_num_rows($RsMatiere);
   if($rows > 0) {
-      mysql_data_seek($RsMatiere, 0);
-	  $row_RsMatiere = mysql_fetch_assoc($RsMatiere);
+      mysqli_data_seek($RsMatiere, 0);
+	  $row_RsMatiere = mysqli_fetch_assoc($RsMatiere);
   }
 ?>
-                  </select>
+                </select>
                 </div></td>
               <td width="14%"><div align="left"> 
                   <select name="ID_niveau" id="select7">
-                    <option value="ID_niveau" <?php if (isset($_POST['ID_niveau'])) { if (!(strcmp("ID_niveau", $_POST['ID_niveau']))) {echo "SELECTED";} }?>>Selectionnez 
-                    le niveau</option>
+                    <option value="ID_niveau"
+						<?php if (isset($_POST['ID_niveau'])) { if (!(strcmp("ID_niveau", $_POST['ID_niveau']))) {echo "SELECTED";}}?>>Selectionnez le niveau
+					</option>
                     <?php
 do {  
 ?>
                     <option value="<?php echo $row_RsNiveau['ID_niveau']?>"<?php if (isset($_POST['ID_niveau'])) {  if (!(strcmp($row_RsNiveau['ID_niveau'], $_POST['ID_niveau']))) {echo "SELECTED";}} ?>><?php echo $row_RsNiveau['nom_niveau']?></option>
                     <?php
-} while ($row_RsNiveau = mysql_fetch_assoc($RsNiveau));
-  $rows = mysql_num_rows($RsNiveau);
+} while ($row_RsNiveau = mysqli_fetch_assoc($RsNiveau));
+  $rows = mysqli_num_rows($RsNiveau);
   if($rows > 0) {
-      mysql_data_seek($RsNiveau, 0);
-	  $row_RsNiveau = mysql_fetch_assoc($RsNiveau);
+      mysqli_data_seek($RsNiveau, 0);
+	  $row_RsNiveau = mysqli_fetch_assoc($RsNiveau);
   }
 ?>
                   </select>
@@ -173,7 +180,7 @@ do {
         </div>
       </form></td>
   </tr>
-  <?php  if (isset($_POST['ID_mat'])) { ?>
+	<?php  if (isset($_POST['ID_mat'])) { ?>
   <tr> 
     <td></td>
     <td><form name="form1" style="margin:0px;display:inline;padding:0px" method="post" action="liste_resultat_quiz_classe.php">
@@ -186,19 +193,18 @@ do {
                   <input name="classe" type="hidden" id="classe5" value="<?php echo $_POST['classe']?>">
                 </div></td>
               <td width="60%"> <div align="left"> 
-                  <select name="ID_quiz" id="select8">
-                    <option value="ID_quiz" <?php if (isset($_POST['ID_quiz'])) {  if (!(strcmp("ID_quiz", $_POST['ID_quiz']))) {echo "SELECTED";} }?>>Sélectionnez 
-                    votre exercice</option>
+				<select name="ID_quiz" id="select8">
+                    <option value="ID_quiz" <?php if (isset($_POST['ID_quiz'])) {  if (!(strcmp("ID_quiz", $_POST['ID_quiz']))) {echo "SELECTED";} }?>>SÃ©lectionnez votre exercice</option>
                     <?php
 do {  
 ?>
                     <option value="<?php echo $row_Rsquiz['ID_quiz']?>"<?php if (isset($_POST['ID_quiz'])) { if (!(strcmp($row_Rsquiz['ID_quiz'], $_POST['ID_quiz']))) {echo "SELECTED";}} ?>><?php echo $row_Rsquiz['titre']?></option>
                     <?php
-} while ($row_Rsquiz = mysql_fetch_assoc($Rsquiz));
-  $rows = mysql_num_rows($Rsquiz);
+} while ($row_Rsquiz = mysqli_fetch_assoc($Rsquiz));
+  $rows = mysqli_num_rows($Rsquiz);
   if($rows > 0) {
-      mysql_data_seek($Rsquiz, 0);
-	  $row_Rsquiz = mysql_fetch_assoc($Rsquiz);
+      mysqli_data_seek($Rsquiz, 0);
+	  $row_Rsquiz = mysqli_fetch_assoc($Rsquiz);
   }
 ?>
                   </select>
@@ -213,21 +219,40 @@ do {
       </form></td>
   </tr>
 </table>
+
+<?php
+// recuperation du nom du quiz
+$choix_th_Rs_quiz_choisi = "0";
+if (isset($_POST['ID_quiz'])) {
+  $choix_th_Rs_quiz_choisi = (get_magic_quotes_gpc()) ? $_POST['ID_quiz'] : addslashes($_POST['ID_quiz']);
+}
+mysqli_select_db($conn_intranet, $database_conn_intranet);
+$query_Rs_quiz_choisi = sprintf("SELECT stock_quiz.titre, stock_quiz.ID_quiz FROM stock_quiz WHERE stock_quiz.ID_quiz = %s", $choix_th_Rs_quiz_choisi);
+$Rs_quiz_choisi = mysqli_query($conn_intranet, $query_Rs_quiz_choisi) or die(mysqli_error());
+$row_Rs_quiz_choisi = mysqli_fetch_assoc($Rs_quiz_choisi);
+$totalRows_Rs_quiz_choisi = mysqli_num_rows($Rs_quiz_choisi);
+
+?>
+
 <p>&nbsp;</p>
 <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#CCCC99">
   <tr valign="top"> 
-    <td width="29%"><div align="center"><strong><a href="accueil_enseignant.php">Espace 
-        Enseignant</a> </strong></div></td>
+    <td width="29%"><div align="center"><strong>
+        <font size="4"><?php echo $row_Rs_quiz_choisi['titre']?></font></strong></div></td>
+
     <td width="51%"> <form style="margin:0px" name="form3" method="post" action="export_resultat.php">
         <div align="right"> 
           <input name="ID_quiz" type="hidden" id="ID_quiz" value="<?php echo $_POST['ID_quiz']?>">
           <input name="classe" type="hidden" id="classe" value="<?php echo $_POST['classe']?>">
           <input type="submit" name="Submit4" value="Exporter au format Excel">
         </div>
-      </form></td>
-    <td width="20%"><div align="right"><strong> </strong><strong> </strong> <strong> 
-        <input name="Submit5" type="submit" onClick="MM_callJS('javascript:window.print();')" value="Imprimer">
-        </strong></div></td>
+      </form>
+	</td>
+    <td width="20%">
+		<div align="right">
+			<strong><input name="Submit5" type="submit" onClick="MM_callJS('javascript:window.print();')" value="Imprimer"></strong>
+		</div>
+	</td>
   </tr>
 </table>
 <p><strong></strong></p>
@@ -238,9 +263,7 @@ do {
     <td bgcolor="#CCCC99"> <div align="center"><strong>Note sur 20</strong></div></td>
     <td bgcolor="#CCCC99"> <div align="center"><strong>Date</strong></div></td>
   </tr>
-  <?php 
-
-
+<?php 
   //$fichier_log = 'resultats.csv';
   //$fp = fopen($fichier_log,"a");
   //$chaine=('Nom;Prenom;Note sur 20;Date'."\n");
@@ -260,7 +283,7 @@ do {
   
   //fputs($fp, $chaine_valeur);
   $somme=$somme+$row_RsActiviteClasse['score'];
-  } while ($row_RsActiviteClasse = mysql_fetch_assoc($RsActiviteClasse)); 
+  } while ($row_RsActiviteClasse = mysqli_fetch_assoc($RsActiviteClasse)); 
   
  //fclose($fp);
 
@@ -271,7 +294,7 @@ do {
       <?php if (isset($_POST['ID_quiz']))  { 
 
   if ($totalRows_RsActiviteClasse<>0) {
-  echo $totalRows_RsActiviteClasse.' élèves';
+  echo $totalRows_RsActiviteClasse.' Ã©lÃ¨ves';
 ?></strong></div>
     </td>
     <td class="retrait20"><div align="right"><strong>Moy <?php echo round(($somme/$totalRows_RsActiviteClasse),1); ?></strong></div></td>
@@ -283,7 +306,7 @@ do {
  }
   else 
   {
-echo ' <BR><BR><strong><center>Pas encore de résultats pour cet exercice dans cette classe </center></strong>';
+echo ' <BR><BR><strong><center>Pas encore de rÃ©sultats pour cet exercice dans cette classe </center></strong>';
 }
   ?>
   </strong></p>
@@ -299,14 +322,14 @@ echo ' <BR><BR><strong><center>Pas encore de résultats pour cet exercice dans ce
 </body>
 </html>
 <?php
-mysql_free_result($rsClasse);
+mysqli_free_result($rsClasse);
 
-mysql_free_result($RsMatiere);
+mysqli_free_result($RsMatiere);
 
-mysql_free_result($RsNiveau);
+mysqli_free_result($RsNiveau);
 
-mysql_free_result($Rsquiz);
+mysqli_free_result($Rsquiz);
 
-mysql_free_result($RsActiviteClasse);
+mysqli_free_result($RsActiviteClasse);
 ?>
 

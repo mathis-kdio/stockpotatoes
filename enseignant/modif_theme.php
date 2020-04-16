@@ -1,4 +1,6 @@
 <?php session_start(); 
+
+
 if (isset($_SESSION['Sess_nom'])) { 
 	if ($_SESSION['Sess_nom']<>'Enseignant') { header("Location: login_enseignant.php");}
 ; } else { header("Location: ../index.php");}?>
@@ -39,8 +41,8 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString($_POST['theme'], "text"),
                        GetSQLValueString($_POST['ID_theme'], "int"));
 
-  mysql_select_db($database_conn_intranet, $conn_intranet);
-  $Result1 = mysql_query($updateSQL, $conn_intranet) or die(mysql_error());
+  mysqli_select_db($conn_intranet, $database_conn_intranet);
+  $Result1 = mysqli_query($conn_intranet, $updateSQL) or die(mysqli_error());
 
   $updateGoTo = "gestion_theme.php";
   if (isset($_SERVER['QUERY_STRING'])) {
@@ -54,11 +56,11 @@ $choixtheme_RsChoixTheme = "0";
 if (isset($_POST['ID_theme'])) {
   $choixtheme_RsChoixTheme = (get_magic_quotes_gpc()) ? $_POST['ID_theme'] : addslashes($_POST['ID_theme']);
 }
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsChoixTheme = sprintf("SELECT * FROM stock_theme WHERE stock_theme.ID_theme=%s", $choixtheme_RsChoixTheme);
-$RsChoixTheme = mysql_query($query_RsChoixTheme, $conn_intranet) or die(mysql_error());
-$row_RsChoixTheme = mysql_fetch_assoc($RsChoixTheme);
-$totalRows_RsChoixTheme = mysql_num_rows($RsChoixTheme);
+$RsChoixTheme = mysqli_query($conn_intranet, $query_RsChoixTheme) or die(mysqli_error());
+$row_RsChoixTheme = mysqli_fetch_assoc($RsChoixTheme);
+$totalRows_RsChoixTheme = mysqli_num_rows($RsChoixTheme);
 ?>
 <html>
 <head>
@@ -110,6 +112,6 @@ $totalRows_RsChoixTheme = mysql_num_rows($RsChoixTheme);
 </body>
 </html>
 <?php
-mysql_free_result($RsChoixTheme);
+mysqli_free_result($RsChoixTheme);
 ?>
 

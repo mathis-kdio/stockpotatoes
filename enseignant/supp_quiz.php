@@ -1,4 +1,9 @@
-<?php session_start(); 
+<?php 
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+session_start(); 
 if (isset($_SESSION['Sess_nom'])) { 
 	if ($_SESSION['Sess_nom']<>'Enseignant') { header("Location: login_enseignant.php");}
 ; } else { header("Location: ../index.php");}?>
@@ -51,11 +56,11 @@ if ((isset($_POST['ID_quiz'])) && ($_POST['ID_quiz'] != "")) {
 $deleteSQL = sprintf("DELETE FROM stock_quiz WHERE ID_quiz=%s",
                        GetSQLValueString($_POST['ID_quiz'], "int"));
 
-  mysql_select_db($database_conn_intranet, $conn_intranet);
+  mysqli_select_db($conn_intranet, $database_conn_intranet);
   
  if (isset($_POST['confirm'])) 
  {
- $Result1 = mysql_query($deleteSQL, $conn_intranet) or die(mysql_error());
+ $Result1 = mysqli_query($conn_intranet, $deleteSQL) or die(mysqli_error());
  }
 
 
@@ -63,11 +68,11 @@ $choixquiz_RsQuiz = "0";
 if (isset($_POST['ID_quiz'])) {
   $choixquiz_RsQuiz = (get_magic_quotes_gpc()) ? $_POST['ID_quiz'] : addslashes($_POST['ID_quiz']);
 }
-mysql_select_db($database_conn_intranet, $conn_intranet);
-$query_RsQuiz = sprintf("SELECT * FROM stock_quiz WHERE stock_quiz.ID_quiz=%s", $choixquiz_RsQuiz);
-$RsQuiz = mysql_query($query_RsQuiz, $conn_intranet) or die(mysql_error());
-$row_RsQuiz = mysql_fetch_assoc($RsQuiz);
-$totalRows_RsQuiz = mysql_num_rows($RsQuiz);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
+$query_RsQuiz = sprintf("SELECT * FROM stock_quiz WHERE stock_quiz.ID_quiz=%s ", $choixquiz_RsQuiz);
+$RsQuiz = mysqli_query($conn_intranet, $query_RsQuiz) or die(mysqli_error($conn_intranet));
+$row_RsQuiz = mysqli_fetch_assoc($RsQuiz);
+$totalRows_RsQuiz = mysqli_num_rows($RsQuiz);
 
 $repertoire='../Exercices/'.$_POST['nom_mat'].'/q'.$_POST['ID_quiz'];
 
@@ -126,4 +131,4 @@ header(sprintf("Location: %s", $deleteGoTo));
 </body>
 </html>
 
-<?php mysql_free_result($RsQuiz); ?>
+<?php mysqli_free_result($RsQuiz); ?>

@@ -54,6 +54,6 @@ MM_reloadPage(true);
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<div align="right"><span class="Style1">Ver 2.9 - 20/10/06 - Pierre Lemaitre - Saint-L&ocirc; (France) </span></div>
+<div align="right"><span class="Style1">Ver 3 Alpha 1 - 04/04/2020</span></div>
 </body>
 </html>

@@ -1,4 +1,9 @@
-<?php session_start(); 
+<?php 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+
+session_start(); 
 if (isset($_SESSION['Sess_nom'])) { 
 	if ($_SESSION['Sess_nom']<>'Enseignant') { header("Location: login_enseignant.php");}
 ; } else { header("Location: ../index.php");}?>
@@ -13,17 +18,17 @@ if (isset($_GET['pageNum_rsListeSelectMatiereNiveau'])) {
 }
 $startRow_rsListeSelectMatiereNiveau = $pageNum_rsListeSelectMatiereNiveau * $maxRows_rsListeSelectMatiereNiveau;
 
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_rsListeSelectMatiereNiveau = "SELECT * FROM stock_quiz,stock_matiere,stock_niveau WHERE stock_quiz.matiere_ID=stock_matiere.ID_mat  AND stock_quiz.niveau_ID=stock_niveau.ID_niveau ORDER BY stock_quiz.ID_quiz  DESC";
 $query_limit_rsListeSelectMatiereNiveau = sprintf("%s LIMIT %d, %d", $query_rsListeSelectMatiereNiveau, $startRow_rsListeSelectMatiereNiveau, $maxRows_rsListeSelectMatiereNiveau);
-$rsListeSelectMatiereNiveau = mysql_query($query_limit_rsListeSelectMatiereNiveau, $conn_intranet) or die(mysql_error());
-$row_rsListeSelectMatiereNiveau = mysql_fetch_assoc($rsListeSelectMatiereNiveau);
+$rsListeSelectMatiereNiveau = mysqli_query($conn_intranet, $query_limit_rsListeSelectMatiereNiveau) or die(mysqli_error());
+$row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau);
 
 if (isset($_GET['totalRows_rsListeSelectMatiereNiveau'])) {
   $totalRows_rsListeSelectMatiereNiveau = $_GET['totalRows_rsListeSelectMatiereNiveau'];
 } else {
-  $all_rsListeSelectMatiereNiveau = mysql_query($query_rsListeSelectMatiereNiveau);
-  $totalRows_rsListeSelectMatiereNiveau = mysql_num_rows($all_rsListeSelectMatiereNiveau);
+  $all_rsListeSelectMatiereNiveau = mysqli_query($conn_intranet, $query_rsListeSelectMatiereNiveau);
+  $totalRows_rsListeSelectMatiereNiveau = mysqli_num_rows($all_rsListeSelectMatiereNiveau);
 }
 $totalPages_rsListeSelectMatiereNiveau = ceil($totalRows_rsListeSelectMatiereNiveau/$maxRows_rsListeSelectMatiereNiveau)-1;
 
@@ -73,7 +78,7 @@ function sans_accent($chaine)
     <td><div align="center"><?php echo $row_rsListeSelectMatiereNiveau['en_ligne']; ?></div></td>
     <td><div align="center"><?php echo $row_rsListeSelectMatiereNiveau['avec_score']; ?></div></td>
   </tr>
-  <?php } while ($row_rsListeSelectMatiereNiveau = mysql_fetch_assoc($rsListeSelectMatiereNiveau)); ?>
+  <?php } while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau)); ?>
 </table>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
@@ -84,7 +89,7 @@ function sans_accent($chaine)
   sur le serveur</a></p>
 </html>
 <?php
-mysql_free_result($rsListeSelectMatiereNiveau);
+mysqli_free_result($rsListeSelectMatiereNiveau);
 ?>
 
 </body>

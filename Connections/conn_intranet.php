@@ -1,8 +1,9 @@
-<?PHP
- $hostname_conn_intranet = "localhost";
- $database_conn_intranet = "stockpotatoes";
- $username_conn_intranet = "root";
+<?php
+ $hostname_conn_intranet = "";
+ $database_conn_intranet = "";
+ $username_conn_intranet = "";
  $password_conn_intranet = "";
- $conn_intranet = mysql_pconnect($hostname_conn_intranet, $username_conn_intranet, $password_conn_intranet) or die(mysql_error());
+ $conn_intranet = mysqli_connect($hostname_conn_intranet, $username_conn_intranet, $password_conn_intranet) or die(mysql_error());
+ \mysqli_set_charset($conn_intranet, 'utf8mb4');
 
 ?>

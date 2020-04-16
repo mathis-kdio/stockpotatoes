@@ -33,24 +33,23 @@ if (isset($_SERVER['QUERY_STRING'])) {
 
 if ($_POST['pass1']==$_POST['pass'])
 {
-if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form2"))
+  if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form2"))
+  {
+    $updateSQL = sprintf("UPDATE stock_eleve SET pass=%s WHERE ID_eleve=%s",
+                         GetSQLValueString($_POST['pass'], "text"),
+                         GetSQLValueString($_SESSION['Sess_ID_eleve'], "int"));
 
+    mysqli_select_db($conn_intranet, $database_conn_intranet);
+   $Result1 = mysqli_query($conn_intranet, $updateSQL) or die(mysqli_error());
 
-{
-  $updateSQL = sprintf("UPDATE stock_eleve SET pass=%s WHERE ID_eleve=%s",
-                       GetSQLValueString($_POST['pass'], "text"),
-                       GetSQLValueString($_SESSION['Sess_ID_eleve'], "int"));
-
- mysql_select_db($database_conn_intranet, $conn_intranet);
- $Result1 = mysql_query($updateSQL, $conn_intranet) or die(mysql_error());
-
-  $updateGoTo = "accueil_eleve.php";
-  if (isset($_SERVER['QUERY_STRING'])) {
-    $updateGoTo .= (strpos($updateGoTo, '?')) ? "&" : "?";
-    $updateGoTo .= $_SERVER['QUERY_STRING'];
+    $updateGoTo = "accueil_eleve.php";
+    if (isset($_SERVER['QUERY_STRING'])) 
+    {
+      $updateGoTo .= (strpos($updateGoTo, '?')) ? "&" : "?";
+      $updateGoTo .= $_SERVER['QUERY_STRING'];
+    }
+  header(sprintf("Location: %s", $updateGoTo));
   }
-header(sprintf("Location: %s", $updateGoTo));
-}
 }
 else
 {
@@ -67,10 +66,8 @@ echo '<B> Erreur - Vous devez confirmer en retapant EXACTEMENT à l\'identique vo
 <body>
 <table width="100%" border="0" cellspacing="10" cellpadding="0">
   <tr> 
-    <td width="58%"><p><a href="index.php"><img src="patate.gif" width="53" height="40" border="0"></a> 
-        <img src="patate.jpg" width="324" height="39" align="top"> </p>
-      <p><strong><a href="index.php">Espace El&egrave;ve</a> - Changement de mon 
-        mot de passe</strong> </p>
+    <td width="58%">
+      <p><strong><a href="accueil_eleve.php">Espace Elève</a> - Changement de mot de passe</strong> </p>
       <p>&nbsp; </p></td>
     <td width="42%"><p align="right" class="subtitle"><strong><?php echo $_SESSION['Sess_nom'].'   '.$_SESSION['Sess_prenom'].'   '.$_SESSION['Sess_classe']?></strong></p>
       <p align="right">&nbsp;</p></td>

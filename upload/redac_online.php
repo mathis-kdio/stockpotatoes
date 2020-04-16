@@ -1,4 +1,9 @@
-<?php session_start();
+<?php 
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+session_start();
 if (isset($_SESSION['Sess_nom'])) { 
 	if ($_SESSION['Sess_nom']=='Enseignant') { $_SESSION['Sess_nom']='Upload';}
 	if ($_SESSION['Sess_nom']<>'Upload') { header("Location: login_upload.php");}

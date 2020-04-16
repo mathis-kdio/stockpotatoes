@@ -1,0 +1,648 @@
+
+<html>
+<head>
+<title>Stockpotatoes - Le distributeur de patates</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="style_jaune.css" rel="stylesheet" type="text/css">
+<script language="JavaScript" type="text/JavaScript">
+<!--
+function MM_reloadPage(init) {  //reloads the window if Nav4 resized
+  if (init==true) with (navigator) {if ((appName=="Netscape")&&(parseInt(appVersion)==4)) {
+    document.MM_pgW=innerWidth; document.MM_pgH=innerHeight; onresize=MM_reloadPage; }}
+  else if (innerWidth!=document.MM_pgW || innerHeight!=document.MM_pgH) location.reload();
+}
+MM_reloadPage(true);
+//-->
+</script>
+</head>
+<body>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr valign="top"> 
+    <td width="29%"><p><strong> </strong><img src="patate.gif" width="253" height="227"></p>
+    </td>
+    <td width="71%"> 
+      <p align="center"><img src="patate.jpg" width="324" height="39" align="top"></p>
+      <p align="center" class="title"><font face="Arial, Helvetica, sans-serif">Le 
+        distributeur de patates chaudes</font></p>
+      <ul>
+        <li class="big">Pr&eacute;sentation du produit</li>
+        <li>Cahier des charges - Licence</li>
+        <li>Tester en ligne sur un serveur demo</li>
+        <li>Les diff&eacute;rents mots de passe</li>
+        <li>Installation - Mise &agrave; jour</li>
+        <li>Import du fichier &eacute;l&egrave;ve</li>
+        <li>Configurer le logiciel Hotpotatoes </li>
+        <li>Utilisation comme serveur de fichiers diff&eacute;rents de Hotpotatoes</li>
+        <li>Questions fr&eacute;quentes<br>
+        </li>
+      </ul>
+      <p align="right"><strong>Pierre Lemaitre - <br>
+        pierre.lemaitre@etab.ac-caen.fr</strong></p></td>
+  </tr>
+</table>
+<div align="center"></div>
+<hr align="center">
+
+<p>&nbsp;</p>
+<p class="title"><strong>Stockpotatoes en quelques mots....</strong> </p>
+<ul>
+  <li>L'enseignant pr&eacute;pare son exercice Hotpotatoes et le publie lui-m&ecirc;me 
+    sur le serveur sans connaissances informatiques particuli&egrave;res. </li>
+  <li>L'&eacute;l&egrave;ve ouvre la page d'accueil du serveur, s'identifie, choisit 
+    son exercice, le r&eacute;alise...</li>
+  <li>L'enseignant visualise les notes obtenues par les &eacute;l&egrave;ves aux 
+    exercices qu'il a publi&eacute;.</li>
+</ul>
+<p>&nbsp;</p>
+<p class="title"><strong>Cahier des charges</strong></p>
+<blockquote> 
+  <blockquote> 
+    <p>&nbsp;</p>
+  </blockquote>
+  <p>Que se passe-t-il quand pas moins de 400 exercices Hotpotatoes doivent &ecirc;tre-mis 
+    &agrave; disposition des &eacute;l&egrave;ves en intranet ou sur internet 
+    ? Ben, l'administrateur (b&eacute;n&eacute;vole ;))- Ah ! c'est vous ? ) s'enfuit 
+    en courant ! Donc essayons de faire en sorte que chaque enseignant soit responsable 
+    de la mise en ligne ! Et si en prime, le score de chaque &eacute;l&egrave;ve 
+    peut &ecirc;tre enregistr&eacute;, c'est d&eacute;j&agrave; le bonheur....</p>
+  <p><strong>5 niveaux d'utilisation :</strong></p>
+  <ul>
+    <li>Administrateur</li>
+    <li>Enseignant</li>
+    <li>El&egrave;ve en mode &eacute;valuation avec score</li>
+    <li>El&egrave;ve ou enseignant en mode visiteur</li>
+    <li>Envoi d'exercices sur le serveur 
+      <p>&nbsp;</p>
+    </li>
+  </ul>
+</blockquote>
+<form name="form2" method="post" action="">
+  <blockquote> 
+    <blockquote> 
+      <p><strong>El&egrave;ve en mode &eacute;valuation avec score</strong> </p>
+    </blockquote>
+  </blockquote>
+</form>
+<ul>
+  <ul>
+    <li>L'&eacute;l&eacute;ve s'identifie en s&eacute;lectionnant sa classe, son 
+      nom et tape son mot de passe</li>
+    <li>Il choisit un niveau ( ex Primaire, Coll&egrave;ge, Lyc&eacute;e ...) 
+      et une mati&egrave;re (Anglais) et un th&ecirc;me d'&eacute;tude (Verbes 
+      irr&eacute;guliers)</li>
+    <li>Il s&eacute;lectionne alors un des exercices propos&eacute; &agrave; la 
+      publication, et autoris&eacute; &agrave; &eacute;valuation par l'enseignant, 
+      puis le r&eacute;alise ...</li>
+    <li> Son score est enregistr&eacute; ainsi que date et heure du test.</li>
+  </ul>
+</ul>
+<blockquote> 
+  <p>&nbsp;</p>
+</blockquote>
+<form name="form3" method="post" action="">
+  <blockquote> 
+    <blockquote> 
+      <p> <strong>El&egrave;ve ou enseignant en mode visiteur </strong></p>
+    </blockquote>
+  </blockquote>
+</form>
+<ul>
+  <ul>
+    <li>Mode entrainement - M&eacute;me fonctionalit&eacute; que ci-dessus sans 
+      enregistrement du score</li>
+    <li>Si vous &ecirc;tes h&eacute;berg&eacute; sur le Net, votre coll&egrave;gue 
+      d'un autre &eacute;tablissement peut venir travailler sur vos exercices 
+      avec ses &eacute;l&egrave;ves via ce mode pour peu que vous lui communiquiez 
+      l'adresse de votre site.</li>
+  </ul>
+</ul>
+<blockquote> 
+  <p>&nbsp;</p>
+</blockquote>
+<form name="form4" method="post" action="">
+  <blockquote> 
+    <blockquote> 
+      <p> <strong>Enseignant </strong></p>
+    </blockquote>
+  </blockquote>
+</form>
+<ul>
+  <ul>
+    <li>L'enseignant pr&eacute;pare ses exercices - Il s'identifie via un mot 
+      de passe.</li>
+    <li>Il &quot;monte&quot; ses fichiers sur le serveur et compl&eacute;te la 
+      fiche renseignement de l'exercice</li>
+    <li>Il peut le laisser en attente et ainsi diff&eacute;rer sa publication 
+      ou autoriser sa publication (par d&eacute;faut) </li>
+    <li>Il peut le param&eacute;trer dans le mode &eacute;valuation (enregistrement 
+      du score) ou mode visiteur (entrainement)</li>
+    <li>Il peut g&eacute;rer ult&eacute;rieurement ces param&egrave;tres</li>
+    <li>L'enseignant liste les derni&egrave;res activit&eacute;s des &eacute;l&egrave;ves</li>
+    <li>Il visualise les scores r&eacute;alis&eacute;s pour un exercice dans une 
+      classe donn&eacute;e et imprime (notes sur 20)</li>
+    <li>Il peut exporter ces r&eacute;sultats au format Excel</li>
+    <li>Il g&egrave;re &eacute;ventuellement la remise &agrave; blanc des notes</li>
+    <li>Il g&egrave;re ajout, modification et suppression des exercices.</li>
+    <li>Il g&egrave;re pour sa mati&egrave;re les th&ecirc;mes d'&eacute;tude 
+      ( En Anglais &gt; Verbe irr&eacute;guliers - For Since Ago etc..). La cr&eacute;ation 
+      des mati&egrave;res rel&egrave;ve de l'administrateur.</li>
+    <li>L'enseignant n'est pas identifi&eacute; de fa&ccedil;on nominative, volontairement 
+      ! Cela entraine concertation entre enseignants d'une m&ecirc;me mati&egrave;re 
+      sur la gestion des exercices propos&eacute;s aux &eacute;l&egrave;ves. On 
+      mutualise entre coll&egrave;gues ! </li>
+    <li>Un nom d'auteur figure cependant sur la fiche d'identification de l'exercice 
+    </li>
+  </ul>
+</ul>
+<blockquote> 
+  <p>&nbsp;</p>
+  <ul>
+    <li>Une des applications les plus int&eacute;ressante est l'&eacute;laboration 
+      des exercices par les &eacute;l&egrave;ves. Nous avons tous &eacute;t&eacute; 
+      confront&eacute; dans la panique de fin de cours au probl&egrave;me du ramassage 
+      de ces travaux d'&eacute;l&egrave;ves et de leur mise en ligne. Sous autorisation, 
+      les &eacute;l&egrave;ves peuvent ici monter les exercices qu'ils ont r&eacute;alis&eacute;s 
+      sur le serveur.</li>
+  </ul>
+  <p>&nbsp;</p>
+</blockquote>
+<form name="form1" method="post" action="">
+  <blockquote> 
+    <blockquote> 
+      <p> <strong>Administrateur </strong></p>
+    </blockquote>
+  </blockquote>
+</form>
+<blockquote> 
+  <p>&nbsp;</p>
+  <ul>
+    <li>Ces sripts sont &eacute;crits en PHP et n&eacute;cessitent une version 
+      PHP 4.3 minimum - Installation d'EasyPHP 1.7 pr&eacute;alable...</li>
+    <li>Les donn&eacute;es sont enregistr&eacute;s dans une base de donn&eacute;e 
+      MySql.</li>
+    <li>L'administateur cr&eacute;e et g&egrave;re les mati&egrave;res et les 
+      niveaux ( ex Primaire, Coll&egrave;ge, Lyc&eacute;e ...)</li>
+    <li>Il ins&egrave;re en d&eacute;but d'ann&eacute;e les noms, pr&eacute;noms, 
+      classe des &eacute;l&egrave;ves depuis un fichier 'txt' et g&egrave;re les 
+      modifications</li>
+    <li>Contrainte : Dans le fichier de configuration de Hotpotatoes, indiquer 
+      en lieu et place de l'adresse courrier l'expression &quot;../../traitement.php&quot;.</li>
+    <li>Les exercices propos&eacute;s sont rang&eacute;s s&eacute;par&eacute;ment 
+      dans des dossiers &quot;mati&egrave;re&quot; avec leurs pi&egrave;ces jointes 
+      respectives sur le disque dur serveur. </li>
+    <li>La gestion peut &eacute;videmment &ecirc;tre control&eacute;e avec PhpMyAdamin 
+    </li>
+  </ul>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+</blockquote>
+<form name="form1" method="post" action="">
+  <blockquote> 
+    <blockquote> 
+      <p> <strong>Licence</strong></p>
+    </blockquote>
+  </blockquote>
+</form>
+<blockquote> 
+  <blockquote> 
+    <p>Stockpotatoe est en licence libre. Stockpotatoes est gratuit pour une utilisation non commerciale. Vous &ecirc;tes 
+      libre de copier, distribuer et utiliser ce logiciel selon les conditions 
+      suivantes : </p>
+    <ul>
+      <li> Vous devez conserver les notices de droits d'auteur.</li>
+      <li> Vous ne pouvez modifier, transformer ou produire un logiciel &agrave; 
+        partir de ces fichiers.</li>
+      <li> Pour toute distribution ou r&eacute;utilisation, vous devez clairement 
+        afficher les termes de la licence de ce logiciel.</li>
+      <li> La modification des fichiers est autoris&eacute;e si vous faites parvenir 
+        vos modifications aux auteurs.</li>
+    </ul>
+    <p>&nbsp;</p>
+    <ul>
+      <li>Note d'information de Half-Baked Software :</li>
+    </ul>
+    <blockquote>
+      <p>Stock Potatoes is produced by Pierre Lemaitre. Hot Potatoes is produced 
+        by Half-Baked Software. Pierre Lemaitre and Half-Baked Software have no 
+        affiliation or formal relationship. The terms of use for Hot Potatoes 
+        require that if a person creates Hot Potatoes pages and access to those 
+        pages is restricted in any way, then that person must buy a Hot Potatoes 
+        commercial licence.</p>
+    </blockquote>
+    <p>&nbsp;</p>
+  </blockquote>
+</blockquote>
+<p align="left">&nbsp;</p>
+<p align="left" class="title">Tester en ligne</p>
+<blockquote>
+  <p>Une demo est accessible &agrave; l'adresse :</p>
+  <p align="center"><a href="http://www.etab.ac-caen.fr/bsauveur/hotpot_demo/"><font size="3"><strong>http://www.etab.ac-caen.fr/bsauveur/stockpotatoes2/</strong></font></a></p>
+  <p>&nbsp;</p>
+</blockquote>
+<p>&nbsp;</p>
+<p class="title">Quels sont les diff&eacute;rents mots de passe ?<a name="passe"></a></p>
+<ul>
+  <li>Mot de passe Enseignant <strong> : tuteur</strong></li>
+  <li>Mot de passe Administrateur <strong>: maitre</strong></li>
+  <li>Mot de passe pour envoyer ses exercices : <strong>hotpot</strong></li>
+  <li>Mot de passe par d&eacute;faut pour les &eacute;l&egrave;ves : <strong>eleve</strong> 
+    (sans accents) (mais<strong> bs</strong> dans le cas de la d&eacute;mo en 
+    ligne)</li>
+</ul>
+<blockquote> 
+  <p>Sur la page d'accueil de l'&eacute;l&egrave;ve, vous trouverez un lien <strong>Modifier 
+    mon mot de passe</strong> permettant &agrave; chaque &eacute;l&egrave;ve de 
+    modifier son mot de passe. Vous trouverez dans l'Espace Enseignant, un lien 
+    vous permettant de lister tous les mots de passe d'une classe.</p>
+  <p>&nbsp;</p>
+</blockquote>
+<p class="title"> Installation de Stockpotatoes</p>
+<table width="70%" border="1" cellpadding="0" cellspacing="0">
+  <tr valign="top" bgcolor="#CCCC99" class="retrait20"> 
+    <td width="329"> 
+      <blockquote> 
+        <p><strong>Installation</strong></p>
+      </blockquote></td>
+    <td width="419"> 
+      <blockquote> 
+        <p><strong>Conseils aux d&eacute;butants</strong></p>
+      </blockquote></td>
+  </tr>
+  <tr valign="top" class="retrait20"> 
+    <td> 
+      <blockquote> 
+        <p align="left">Il vous faut un serveur type Apache Php/Mysql</p>
+        <p align="left">Attention, l'upload de fichiers n&eacute;cessite une version 
+          de Php r&eacute;cente. <strong>(minimum PHP 4.3) </strong><br>
+        </p>
+        <p align="left"> <strong>Je vous conseille d'utiliser la derni&egrave;re 
+          version d' EasyPhp Version 1.8</strong></p>
+        <p align="center">&nbsp;</p>
+      </blockquote></td>
+    <td> 
+      <blockquote> 
+        <p>Vous pouvez par exemple installer le Kit EasyPhp 1.8 qui vous fournira 
+          le n&eacute;cessaire (Serveur Apache / MySql )</p>
+        <p><a href="http://prdownloads.sourceforge.net/quickeasyphp/easyphp1-7_setup.exe?use_default=belnet">(t&eacute;l&eacute;charger 
+          ici)</a> ou voir sur <a href="http://www.easyphp.org/">http://www.easyphp.org/</a> 
+        </p>
+        <p>R&eacute;alisez une installation par d&eacute;faut.</p>
+        <p>Le code de Stockpotatoes a &eacute;t&eacute; revu pour assurer la pleine compatibilit&eacute; avec PHP5 et l'affichage des notices.</p>
+        <p>Si des notices apparaissent au cours de l'utilisation de Stockpotatoes (Message d'erreur &quot;Undefined .....&quot;) , vous pourrez d&eacute;sactiver l'affichage de ces notices en changeant un param&egrave;tre du fichier php.ini situ&eacute; dans le dossier Conf-files de EasyPhp 1.8 
+        .</p>
+        <p> L'instruction &agrave; modifier est</p>
+        <p>error_reporting = E_ALL &amp; ~E_NOTICE</p>
+        <p>(au lieu de error_reporting = E_ALL)</p>
+        <p>&nbsp;</p>
+      </blockquote></td>
+  </tr>
+  <tr valign="top" class="retrait20"> 
+    <td> 
+      <blockquote> 
+        <p>T&eacute;l&eacute;charger l'archive puis d&eacute;compresser sur votre 
+          serveur local ou distant.</p>
+        <p><a href="http://www.etab.ac-caen.fr/bsauveur/stockpotatoes/stockpotatoes.zip">http://www.etab.ac-caen.fr/bsauveur/stockpotatoes/stockpotatoes.zip</a></p>
+        <p class="title"><strong>Mise &agrave; jour de Stockpotatoes</strong></p>
+        <p>Recopier les fichiers de l'archive<strong> sauf les dossiers Connections 
+          et Exercices </strong>. Il vous faut en effet conserver votre propre 
+          dossier Exercices qui contient les exercices d&eacute;j&agrave; en ligne, 
+          et le dossier Connections qui contient les param&egrave;tres de votre 
+          connection et vos mots de passe enseignants, administrateur...</p>
+        <p>&nbsp;</p>
+      </blockquote></td>
+    <td> <blockquote> 
+        <p>Je vous invite &agrave; placer le dossier stockpotatoes &agrave; la 
+          racine de votre serveur.</p>
+        <p>Si vous venez d'installer EasyPhp, vous copiez ce dossier Stockpotatoes 
+          (et pas seulement le contenu) &agrave; la racine de votre serveur, c'est 
+          &agrave; dire dans le dossier portant le nom &quot;www&quot; de EasyPhp.</p>
+        <p>&nbsp;</p>
+      </blockquote></td>
+  </tr>
+  <tr valign="top" class="retrait20"> 
+    <td width="50%"> 
+      <blockquote> 
+        <p>&nbsp;</p>
+        <p>Taper l'adresse d'installation dans votre navigateur</p>
+        <p><strong>http://nom_serveur/stockpotatoes/install/</strong></p>
+        <p>et suivez les consignes.</p>
+        <p>La premi&egrave;re &eacute;tape sera la plus d&eacute;licate pour une 
+          installation chez un h&eacute;bergeur en raison des droits en &eacute;criture 
+          (voir-ci-contre) </p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p><img src="install/droits_ecriture.gif" width="365" height="417"></p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p align="left"></p>
+        <p class="title"><font face="Arial, Helvetica, sans-serif">SI VOTRE HEBERGEUR 
+          EST FREE</font></p>
+        <p align="left">Vous devez bien &eacute;videmment avoir activ&eacute; 
+          votre base MySql pour cet h&eacute;bergeur avant toute installation. 
+          (Voir sur le site de Free &gt; Espace perso)</p>
+        <p align="left">Vous devrez imp&eacute;rativement cr&eacute;er un dossier 
+          vide nomm&eacute; <strong>sessions (en minuscules) &agrave; la racine 
+          de votre site Free </strong>(et non pas dans votre dossier stockpotatoes).</p>
+        <p align="left"><strong>Attention, derni&egrave;re minute :</strong></p>
+        <p align="left">La suppression du dernier fichier upload&eacute; pose 
+          un probleme grave pour cet h&eacute;bergeur, celui-ci ayant d&eacute;sactiv&eacute; 
+          la suppression de r&eacute;pertoire (commande php rmdir ).</p>
+        <p align="left">&nbsp;</p>
+      </blockquote></td>
+    <td width="50%"> 
+      <blockquote> 
+        <p>&nbsp;</p>
+        <p>Bien &eacute;videmment, pensez ...&agrave; d&eacute;marrer votre serveur 
+          ;)</p>
+        <p>Si vous avez fait une d&eacute;compression sur votre propre ordinateur, 
+          l'adresse d'installation peut s'&eacute;crire </p>
+        <p><strong><font size="3">http://localhost/stockpotatoes/install/</font></strong></p>
+        <p>En intranet, apr&egrave;s installation de EasyPhp, vous pouvez laisser 
+          les param&egrave;tres indiqu&eacute;s dans l'&eacute;tape 1 (utilisateur 
+          root et pas de mot de passe)</p>
+        <p>&nbsp;</p>
+        <div align="center">
+<p align="center" class="title"><font face="Arial, Helvetica, sans-serif">DROITS 
+            EN ECRITURE</font></p>
+          <p align="left"><strong>L'installation tentera de donner les droits 
+            en &eacute;criture sur les 4&eacute;l&eacute;ments suivants :</strong></p>
+        </div>
+        <ul>
+          <li> 
+            <div align="left">Le dossier<strong> Exercices </strong>(voir ci-dessous)</div>
+          </li>
+          <li> 
+            <div align="left">Le dossier <strong>Connections</strong></div>
+          </li>
+          <li>Le fichier <strong>Connections/</strong><strong>/gestion_pass.inc.php</strong> 
+            (mots de passe)</li>
+          <li> 
+            <div align="left">Le fichier <strong>Connections/ conn_intranet.php</strong> 
+              (param&egrave;tres de connection)</div>
+          </li>
+        </ul>
+        <p><strong>Cette op&eacute;ration n'est pas toujours possible pour certains 
+          h&eacute;bergeurs. A v&eacute;rifier donc... (chmod 777)</strong></p>
+        <div align="center"> 
+          <p align="left">Vos exercices seront rang&eacute;s ult&eacute;rieurement 
+            et automatiquement dans le dossier Exercices selon l'arborescence 
+            ci-dessous</p>
+          <p>&nbsp;</p>
+          <p><img src="presentation/arbo.gif" width="136" height="126"></p>
+          <p>&nbsp;</p>
+          <p align="left">Il est imp&eacute;ratif de poss&eacute;der <strong>les 
+            droits en &eacute;criture</strong> sur ce dossier <strong>Exercices</strong>.</p>
+          </div>
+      </blockquote></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p class="title"><strong>Constituer la table des &eacute;l&egrave;ves &agrave; 
+  partir d'un fichier texte avec PhpMyAdmin</strong></p>
+<p align="right">&nbsp;</p>
+<blockquote> 
+  <blockquote> 
+    <p>Cette op&eacute;ration g&eacute;n&eacute;ralement effectu&eacute;e en d&eacute;but 
+      d'ann&eacute;e, n&eacute;cessite la pr&eacute;paration d'un fichier texte 
+      ayant la structure suivante :</p>
+  </blockquote>
+</blockquote>
+<table width="32%" border="1" align="center" cellpadding="0" cellspacing="0" bgcolor="#CCCC99">
+  <tr> 
+    <td class="retrait20"> <p align="left"><strong><font size="3">Jospin</font><font size="3">;Lionel;Cp<br>
+        Chirac;Jacques;Cm2</font></strong></p></td>
+  </tr>
+</table>
+<blockquote> 
+  <blockquote> 
+    <p>Chaque champ est d&eacute;limit&eacute; par un pont virgule. Un autre s&eacute;parateur 
+      est possible (tabulation)dans le cas ou vous utiliserez PhpMyadmin. Les 
+      champs peuvent &ecirc;tre entour&eacute;s par des guillemets.</p>
+    <ul>
+      <li><strong>Champ 1</strong> : Nom</li>
+      <li><strong>Champ 2</strong> : Pr&eacute;nom</li>
+      <li><strong>Champ 3 </strong>: Classe</li>
+    </ul>
+    <p>Ne pas faire de retour &agrave; la ligne &agrave; la fin du dernier enregistrement 
+      sinon il y aurait cr&eacute;ation d'un enregistrement suppl&eacute;mentaire 
+      vide. </p>
+    <p align="center"><img src="administrateur/eleve_txt.gif" width="299" height="184"></p>
+    <p align="center">&nbsp;</p>
+    <p align="center"><strong>Le fichier &eacute;tant pr&eacute;par&eacute;, nous 
+      allons r&eacute;aliser l'import avec PhpMyadmin</strong></p>
+    <p align="center">&nbsp;</p>
+    <p align="center" class="title"><font face="Arial, Helvetica, sans-serif">R&eacute;aliser 
+      l'import avec PhpMyAdmin</font></p>
+    <p>Le lien <a href="http://localhost/mysql/"><strong>Acc&egrave;s en intranet 
+      &agrave; la base via PhpMyAdmin</strong></a> de l'Espace Administrateur 
+      ne fonctionne qu'en intranet. Il permet de lancer PhpMyAdmin pour un serveur 
+      install&eacute; par defaut tel EasyPhp.</p>
+    <p>Il pointe vers http://localhost/mysql/</p>
+    <p>Si vous utilisez Free, vous devez aller &agrave; l'adresse <a href="http://sql.free.fr">http://sql.free.fr</a> 
+      puis saisir votre login et mot de passe.</p>
+    <p> <font color="#990000"><strong>Attention !</strong></font></p>
+    <p><font color="#990033"><strong>PhpMyAdmin doit rester un outil de contr&ocirc;le 
+      en cas de probl&egrave;mes. Supprimer des enregistrements peut cr&eacute;er 
+      des incoh&eacute;rences entre les tables et les fichiers du dossier Exercices. 
+      </strong></font></p>
+    <p>&nbsp;</p>
+    <p align="left">Cliquer &agrave; gauche sur la table &eacute;l&egrave;ve puis 
+      au bas de la nouvelle page affich&eacute;e, cliquer sur :</p>
+    <p align="left"><font color="#993333"><strong>&quot;Ins&eacute;rer des donn&eacute;es 
+      provenant d'un fichier texte dans la table&quot;</strong></font></p>
+    <p align="left"><strong><img src="install/phpmyadmin1.gif" width="581" height="571"></strong></p>
+    <p align="left"><strong>Compl&eacute;ter en s&eacute;lectionnant votre fichier 
+      via <font color="#993333">Parcourir </font></strong></p>
+    <p align="left">Dans le champ Nom des colonnes, pr&eacute;cisez l'expression 
+      ci-dessous ( <strong>TRES IMPORTANT</strong> ) de fa&ccedil;on injecter 
+      correctement vos informations dans les bonnes colonnes de la table.</p>
+    <p align="center"><em><font color="#993333" size="3"><strong>nom,prenom,classe </strong></font></em></p>
+    <p align="center"><em><font color="#000000">(Attention, il s'agit ici de virgules 
+      dans cette expression )</font></em></p>
+    <p align="left"><strong>S&eacute;lectionner<font color="#993333"> Data</font> 
+      et non Data Local. (Dans le cas de Free, choisir Data Local) </strong>Tester 
+      les deux en cas de probl&egrave;me.</p>
+    <p align="left"><strong> Enfin Ex&eacute;cuter</strong></p>
+    <p align="left"><img src="install/phpmyadmin2.gif" width="530" height="525"></p>
+          <p>&nbsp;</p>
+    <p>Remarque : Le mot de passe par d&eacute;faut sera &quot;eleve&quot; (sans 
+      accent) et pourra etre modifi&eacute; par l'&eacute;l&egrave;ve lors de 
+      son premier acc&eacute;s au logiciel.</p>
+    <p>Vous pouvez introduire dans votre fichier texte, le mot de passe. Le fichier 
+      aurait alors cette structure :</p>
+    <table width="32%" border="1" align="center" cellpadding="0" cellspacing="0" bgcolor="#CCCC99">
+      <tr> 
+        <td class="retrait20"> <p align="left"><strong><font size="3">Jospin</font><font size="3">;Lionel;Cp;<font color="#993333">D8H6</font><br>
+            Chirac;Jacques;Cm2;<font color="#993333">E95X</font></font></strong></p></td>
+      </tr>
+    </table>
+    <p>Dans ce cas de figure, il vous faudra pr&eacute;ciser comme nom de colonne 
+      :</p>
+    <p align="center"><em><font color="#993333"><strong><font color="#000000" size="3">nom,prenom,classe</font><font size="3">,pass</font></strong></font></em></p>
+    <p>&nbsp;</p>
+    <p>&nbsp; </p>
+  </blockquote>
+</blockquote>
+<p class="title"> Comment configurer Hotpotatoes pour vos prochains exercices 
+  ?<a name="config1"></a> </p>
+<blockquote> 
+  <p>&nbsp;</p>
+  <p>Dans chaque module de hotpotatoes, cliquer sur <strong>Option</strong>, puis 
+    <strong>Configurer le r&eacute;sultat ( Hotpotatoes 5) </strong>ou<strong> 
+    Configurer Aspect page Web (Hotpotatoes 6)</strong></p>
+  <p>Cliquer sur l'onglet bouton (&eacute;cran ci-dessous) et d&eacute;cochez 
+    les &eacute;ventuels boutons de navigation</p>
+  <p><img src="presentation/config1.gif" width="628" height="550"> </p>
+  <p>&nbsp;</p>
+  <p>Cliquer ensuite sur l'onglet <strong>Courriel</strong> (Hotpotatoes Version 
+    6)<strong> </strong>ou<strong> CGI</strong> (Hotpotatoes Version 5) - Ecran 
+    ci-dessous</p>
+  <p>Cocher Envoyer les r&eacute;sultats puis dans le premier champ Adresse du 
+    Script, taper :</p>
+  <table width="16%" border="1" align="left" cellpadding="0" cellspacing="0">
+    <tr> 
+      <td bgcolor="#CCCC99"><div align="left"><font size="5">../../traitement.php</font></div></td>
+    </tr>
+  </table>
+  <p>&nbsp;</p>
+  <p>Respecter rigoureusement la syntaxe (minuscules, points, sans espaces)</p>
+  <p align="center">&nbsp;</p>
+  <p><img src="presentation/config2.gif" width="628" height="550"> </p>
+  <p>&nbsp;</p>
+  <p>Cliquer enfin sur <strong>Enregistrer</strong> puis <strong>OK</strong></p>
+  <p>Rappel : cette op&eacute;ration est &agrave; faire une seule fois pour chaque 
+    module de votre Hotpotatoes sur lequel vous composez vos exercices.</p>
+  <p>&nbsp;</p>
+</blockquote>
+<p class="title">Utilisation comme serveur de fichiers diff&eacute;rents de Hotpotatoes</p>
+<blockquote> 
+  <p>Le logiciel peut &ecirc;tre utilis&eacute; comme serveur de fichier ou portail. 
+    Il n'est &eacute;videmment pas aussi puissant que certains CMS parfaitement 
+    d&eacute;di&eacute;s. Je l'utilise avec des enseignants d&eacute;butants en 
+    informatique ou avec des &eacute;l&egrave;ves d&eacute;sirant mettre en ligne 
+    des plans de cours, des expos&eacute;s, de modeste fichiers Word ou OpenOffice 
+    li&eacute;s &agrave; une s&eacute;quence de cours.</p>
+  <p>&nbsp;</p>
+</blockquote>
+<p class="title">Questions fr&eacute;quentes</p>
+<blockquote> 
+  <p>&nbsp; </p>
+  <p class="subtitle">S&eacute;curit&eacute;</p>
+  <p>A la fin de l'installation, vous pouvez prot&eacute;ger - ou supprimer -<font size="2"> 
+    le dossier install afin d'&eacute;viter un acte malveillant</font> tel la 
+    r&eacute;installation du logiciel et par voie de cons&eacute;quence, le vidage 
+    de la base stockpotatoes. Enfin, n'oublions pas que ce fichier documentation 
+    contient les mots de passe par d&eacute;faut.</p>
+  <p>&nbsp;</p>
+  <p class="subtitle">Comment modifier des exercices r&eacute;alis&eacute;s par 
+    le pass&eacute; ?</p>
+  <p>Il vous faut reprendre les fichiers sources (extension jbc par exemple) dans 
+    Hotpotatoes, modifier les &eacute;crans ci-dessus et recr&eacute;er la page 
+    Web. Fastidieux, me direz vous ? Un joli copier coller de l'expression &quot;<font size="2">../../traitement.php&quot; 
+    et le tour est jou&eacute; ;). N'est ce pas l'occasion de v&eacute;rifier 
+    certaines questions ? Enfin vous b&eacute;n&eacute;ficierez des am&eacute;liorations 
+    de la version 6. </font></p>
+  <p>&nbsp; </p>
+  <p class="subtitle"> Comment envoyer un fichier exercice sur le serveur ?</p>
+  <p>Mes exercices sont maintenant au format page Web. Depuis la page d'accueil 
+    de Stockpotatoes, je clique sur<strong> Envoyer un exercice ou un document 
+    sur le serveur. </strong>Je tape le mot de passe<strong> hotpot </strong>puis 
+    effectue les consignes demand&eacute;es sur la page.Je pense &agrave; cocher 
+    <strong>Publier en ligne</strong> (pour un usage imm&eacute;diat) et<strong> 
+    Avec enregistrement de la note</strong> si je d&eacute;sire une note de l'&eacute;l&egrave;ve.</p>
+  <p>&nbsp;</p>
+  <p class="subtitle"> Comment envoyer les images int&eacute;gr&eacute;es dans 
+    un exercice ?</p>
+  <p>Vous avez d&eacute;j&agrave; envoy&eacute; la page Web ( fichier d'extension 
+    htm ou html ). Pour envoyer les fichiers joints (images, vid&eacute;os, sons, 
+    vous trouverez un lien en haut et &agrave; droite de la page <strong> Mettre 
+    un exercice en ligne</strong> intitul&eacute; <strong>Ajouter des fichiers 
+    (images, son, vid&eacute;o li&eacute;s &agrave; un exercice)</strong> . Suivez 
+    les consignes.</p>
+</blockquote>
+<p>&nbsp;</p>
+<blockquote> 
+  <p class="subtitle"><font face="Verdana, Arial, Helvetica, sans-serif">Je souhaiterais 
+    remplacer les mati&egrave;res par des Capacit&eacute;s </font></p>
+  <p>Il vous suffit simplement de les cr&eacute;er en lieu et place des th&egrave;mes 
+    d'&eacute;tude. </p>
+  <p>Pour information, la cr&eacute;ation d'une mati&egrave;re entraine la cr&eacute;ation 
+    d'un r&eacute;pertoire sur le disque dans lequel seront rang&eacute;s les 
+    exercices. Les niveaux sont un simple filtre sur une mati&egrave;re.</p>
+</blockquote>
+<p>&nbsp;</p>
+<blockquote> 
+  <p class="subtitle"><font face="Verdana, Arial, Helvetica, sans-serif">Comment 
+    faire pour abandonner un exercice en cours</font></p>
+  <p>Si l'&eacute;l&egrave;ve va jusqu'au bout apres avoir r&eacute;pondu correctement 
+    &agrave; ses questions, une fen&ecirc;tre s'ouvre avcec son score et deux 
+    boutons <strong>Faire un autre exercice</strong> ou <strong>Se d&eacute;connecter</strong>. 
+    Si l'&eacute;l&egrave;ve d&eacute;sire abandonner en cours de route, il faut 
+    utiliser la touche pr&eacute;cedent puis Actualiser. Peu &eacute;l&eacute;gant 
+    mais difficile de faire autrement, ceci &eacute;tant li&eacute; au d&eacute;veloppement 
+    PHP</p>
+  <p>Cependant la solution la plus esth&eacute;tique est la suivante mais n&eacute;cessite 
+    de changer un param&egrave;tre de votre Hotpotatoes :</p>
+  <p>Dans <font color="#990000">Hotpotatoes <strong>Option</strong></font> - <strong><font color="#990000">Configurer 
+    le r&eacute;sultat</font></strong><font color="#990000"><font color="#333333"> 
+    (version 5 )ou</font><strong> Configurer l'aspect de la page Web</strong></font>(version 
+    6) puis onglet<font color="#990000"> <strong>Boutons</strong></font></p>
+  <p>Cocher le Bouton Index et mettre par exemple &quot;Abandon - Autre exercice&quot; 
+    et mettre dans le champ URL correspondant</p>
+  <p><br>
+    <strong><font color="#000000" size="5">../../../accueil_eleve.php</font></strong></p>
+  <p><img src="presentation/config_bouton.gif" width="607" height="463"><br>
+  </p>
+  <p>Un exemple est pr&eacute;sent sur le site Demo en ligne &gt; prendre - <strong>Histoire 
+    - Coll&egrave;ge - L'union europ&eacute;enne</strong><br>
+  </p>
+  <p>&nbsp; </p>
+</blockquote>
+<p class="subtitle"><font face="Verdana, Arial, Helvetica, sans-serif">Les questions 
+  de l'exercice Hotpotatoes ne s'affichent pas</font></p>
+<p class="subtitle"><font face="Verdana, Arial, Helvetica, sans-serif">Seules 
+  les consignes s'affichent.</font></p>
+<blockquote> 
+  <p>Vous avez probablement repris un ancien exercice dans la derni&egrave;re 
+    version Hotpotatoes 6. Un ancien qcm fait avec la version 5 <strong> ET POSSEDANT 
+    un texte d'accompagnement</strong> (consigne), pose probl&egrave;me.</p>
+  <p>Vous devez reprendre ces vieux Qcm existant, avec votre Hotpotatoes version 
+    5</p>
+  <p>NB : Dans le cas de la cr&eacute;ation d'un nouvel exercice, vous pouvez 
+    prendre la version 5 ou la 6. Attention cependant, un navigateur trop ancien 
+    peut poser probl&egrave;me &agrave; l'affichage d'un exercice construit avec 
+    les subtilit&eacute;s du langage HTML de la version 6 de Hotpotatoes.<br>
+    NB : Vous pouvez faire cohabiter les 2 versions sur son ordinateur.</p>
+  <p>&nbsp;</p>
+</blockquote>
+<p class="subtitle"><font face="Verdana, Arial, Helvetica, sans-serif">A quoi 
+  sert l'invite javascript au lancement de l'exercice hotpotatoes ou l'&eacute;l&egrave;ve 
+  doit taper son nom</font></p>
+<blockquote> 
+  <p>A rien ! De toute f&agrave;&ccedil;on il a d&eacute;j&agrave; identifi&eacute; 
+    en d&eacute;but de session. Il peut taper ici n'importe quoi, (mais il doit 
+    obligatoirement taper quelque chose) puis cliquer sur OK. Etrange me direz 
+    vous ? Cette fen&ecirc;tre est propre au fonctionnement de Hotpotatoes. J'aurais 
+    pu l'&eacute;liminer, mais cela aurait n&eacute;cessit&eacute; trop de comp&eacute;tences 
+    informatiques pour les enseignants d&eacute;butants. Alors, laissons cette 
+    petite fen&ecirc;tre.</p>
+</blockquote>
+<p>&nbsp;</p>
+<p class="subtitle">Comment fonctionne l'envoi de fichier dans Stockpotatoes ?</p>
+<blockquote>
+  <p>D&egrave;s que vous envoyez un exercice ou document, les op&eacute;rations 
+    suivantes sont r&eacute;alis&eacute;es :</p>
+  <p>1) Analyse du nombre de documents d&eacute;j&agrave; envoy&eacute;s ( Valeur 
+    max de ID_quiz dans la table stock_quiz) soit par exemple 18.</p>
+  <p>2) Cr&eacute;ation d'un dossier Q19 .... (18 + 1) dans le dossier Mati&egrave;re 
+    s&eacute;lectionn&eacute;.</p>
+  <p>3) Envoi du fichier dans Q19.</p>
+  <p>4) Ecriture des infos dans relative &agrave; ce fichier dans l'enregistrement 
+    19 de la table stock_quiz.</p>
+</blockquote>
+<p>&nbsp;</p>
+</body>
+</html>

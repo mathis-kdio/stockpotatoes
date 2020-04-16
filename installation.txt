@@ -1,0 +1,21 @@
+Installation de stockpotatoes
+************************************
+
+Dans votre navigateur, taper :
+
+http://nom_de_votre_serveur/nom_de_votre_dossier_stockpotatoes/install/
+
+
+Les grands débutants utilisant EasyPhp pour la première fois auront pensé à démarrer le Serveur Web préalablement en faisant un clic droit sur l'icone en bas à droite de l'éran (un "e noir" près de lhorloge)
+Si le point rouge clignote le serveur est démarré.
+
+
+
+
+
+Autre application de l'auteur
+************************************
+
+Un cahier de texte en ligne
+http://www.etab.ac-caen.fr/bsauveur/cahier_de_texte/documentation.php
+

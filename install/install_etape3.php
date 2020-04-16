@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 $serveur		= $_POST['serveur'] ;
 $login			= $_POST['login'] ;
@@ -16,13 +18,13 @@ chmod($fichier2,0777);
 function EcrireFichier($serveur,$base,$login, $password ) {
 	
 		$fp = @fopen("../Connections/conn_intranet.php", "w")
-			or die ("<b>Le fichier Connections/conn_intranet.php n'a pas pu être ouvert. Vérifiez que vous possédez les droits en écriture sur ce fichier. </b>");
+			or die ("<b>Le fichier Connections/conn_intranet.php n'a pas pu ï¿½tre ouvert. Vï¿½rifiez que vous possï¿½dez les droits en ï¿½criture sur ce fichier. </b>");
 		$data = "<?php\n";
 		$data.= " \$hostname_conn_intranet = \"".$serveur."\";\n";
         $data.= " \$database_conn_intranet = \"". $base."\";\n";
 		$data.= " \$username_conn_intranet = \"".$login."\";\n";
 		$data.= " \$password_conn_intranet = \"".$password."\";\n";
-		$data.= " \$conn_intranet = mysqli_connect(\$hostname_conn_intranet, \$username_conn_intranet, \$password_conn_intranet) or die(mysql_error());\n";
+		$data.= " \$conn_intranet = mysqli_connect(\$hostname_conn_intranet, \$username_conn_intranet, \$password_conn_intranet) or die(mysqli_error());\n";
 		$data.= " mysqli_set_charset(\$conn_intranet, 'utf8mb4');\n";	
 		$data.= "\n";
 		$data.= "?>";
@@ -30,7 +32,7 @@ function EcrireFichier($serveur,$base,$login, $password ) {
 		@fclose($fp) or die ("<b>Erreur > Fermeture du fichier </b>");
 
 		$fp2 = @fopen("../Connections/gestion_pass.inc.php", "w")
-			or die ("<b>Le fichier Connections/gestion_pass.inc.php n'a pas pu être ouvert. Vérifiez que vous possédez les droits en écriture sur ce fichier. </b>");
+			or die ("<b>Le fichier Connections/gestion_pass.inc.php n'a pas pu ï¿½tre ouvert. Vï¿½rifiez que vous possï¿½dez les droits en ï¿½criture sur ce fichier. </b>");
 		$data = "<?php\n";
 		$data.= " \$pass_profs = \"tuteur\";\n";
         $data.= " \$pass_admin = \"maitre\";\n";

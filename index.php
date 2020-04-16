@@ -39,7 +39,7 @@ unset($_SESSION['nom_mat']);
         </ul>
       </div>
       <div class="text-center">
-        <h4>Ver 3.0 ALPHA 2 - 05/04/2020</h4>
+        <h4>Ver 3.0 ALPHA 3 - 14/04/2020</h4>
       </div>
     </section>
   </body>

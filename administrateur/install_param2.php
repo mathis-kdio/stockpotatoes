@@ -14,7 +14,7 @@ $base			= $_POST['base'] ;
 function EcrireFichier($serveur,$base,$login, $password ) {
 
 		$fp = @fopen("../Connections/conn_intranet.php", "w")
-			or die ("<b>Le fichier Connections/conn_intranet.php n'a pas pu être ouvert. Vérifiez que vous possédez les droits en écriture sur ce fichier. </b>");
+			or die ("<b>Le fichier Connections/conn_intranet.php n'a pas pu ï¿½tre ouvert. Vï¿½rifiez que vous possï¿½dez les droits en ï¿½criture sur ce fichier. </b>");
 	
 		
 		$data = "<?PHP\n";
@@ -22,7 +22,7 @@ function EcrireFichier($serveur,$base,$login, $password ) {
         $data.= " \$database_conn_intranet = \"". $base."\";\n";
 		$data.= " \$username_conn_intranet = \"".$login."\";\n";
 		$data.= " \$password_conn_intranet = \"".$password."\";\n";
-		$data.= " \$conn_intranet = mysql_pconnect(\$hostname_conn_intranet, \$username_conn_intranet, \$password_conn_intranet) or die(mysql_error());\n";
+		$data.= " \$conn_intranet = mysqli_pconnect(\$hostname_conn_intranet, \$username_conn_intranet, \$password_conn_intranet) or die(mysqli_error());\n";
 		$data.= "\n";
 		$data.= "?>";
 		$desc = @fwrite($fp, $data) or die ("<b>Erreur > Ecriture du fichier de configuration ! </b>");

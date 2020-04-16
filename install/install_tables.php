@@ -2,10 +2,10 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 require_once('../Connections/conn_intranet.php'); 
-mysqli_select_db($conn_intranet, $database_conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet) or die(mysqli_error($conn_intranet));
 $query = "
 CREATE TABLE `stock_activite` (
-  `ID_activite` smallint(5) unsigned NULL auto_increment,
+  `ID_activite` smallint(5) unsigned NOT NULL auto_increment,
   `eleve_ID` smallint(6) NOT NULL default '0',
   `identifiant` varchar(250) NOT NULL default '',
   `nom_classe` varchar(50) NOT NULL default '',
@@ -16,7 +16,7 @@ CREATE TABLE `stock_activite` (
   `fait` enum('N','O') NOT NULL default 'N',
   PRIMARY KEY  (`ID_activite`)
 ) ENGINE=INNODB AUTO_INCREMENT=0 ;";
-$result = mysqli_query($conn_intranet, $query);
+$result = mysqli_query($conn_intranet, $query) or die(mysqli_error($conn_intranet));
 $query = "
 CREATE TABLE `stock_categorie` (
   `ID_categorie` smallint(5) NOT NULL auto_increment,
@@ -37,27 +37,27 @@ CREATE TABLE `stock_eleve` (
   PRIMARY KEY  (`ID_eleve`),
   UNIQUE (`identifiant`)
 ) ENGINE=INNODB AUTO_INCREMENT=0 ;";
-$result = mysqli_query($conn_intranet, $query);
+$result = mysqli_query($conn_intranet, $query) or die(mysqli_error($conn_intranet));
 $query = "
 CREATE TABLE `stock_matiere` (
-  `ID_mat` tinyint(4) NULL auto_increment,
+  `ID_mat` tinyint(4) NOT NULL auto_increment,
   `nom_mat` varchar(50) NOT NULL default '',
   `theme` varchar(255) default NULL,
   PRIMARY KEY  (`ID_mat`)
 ) ENGINE=INNODB AUTO_INCREMENT=0 ;";
-$result = mysqli_query($conn_intranet, $query);
+$result = mysqli_query($conn_intranet, $query) or die(mysqli_error($conn_intranet));
 $query = "
 CREATE TABLE `stock_niveau` (
-  `ID_niveau` tinyint(4) NULL auto_increment,
+  `ID_niveau` tinyint(4) NOT NULL auto_increment,
   `nom_niveau` varchar(255) NOT NULL default '',
   `pos_niv` smallint(5) unsigned NULL default '1', 
 
   PRIMARY KEY  (`ID_niveau`)
 ) ENGINE=INNODB AUTO_INCREMENT=0 ;";
-$result = mysqli_query($conn_intranet, $query);
+$result = mysqli_query($conn_intranet, $query) or die(mysqli_error($conn_intranet));
 $query = "
 CREATE TABLE `stock_quiz` (
-  `ID_quiz` smallint(5) unsigned NULL auto_increment,
+  `ID_quiz` smallint(5) unsigned NOT NULL auto_increment,
   `titre` varchar(255) NOT NULL default 'Sans titre',
   `fichier` varchar(255) NOT NULL default '',
   `matiere_ID` tinyint(4) NOT NULL default '0',
@@ -74,10 +74,10 @@ CREATE TABLE `stock_quiz` (
 
   PRIMARY KEY  (`ID_quiz`)
 ) ENGINE=INNODB AUTO_INCREMENT=0 ;";
-$result = mysqli_query($conn_intranet, $query);
+$result = mysqli_query($conn_intranet, $query) or die(mysqli_error($conn_intranet));
 $query = "
 CREATE TABLE `stock_theme` (
-  `ID_theme` smallint(5) unsigned NULL auto_increment,
+  `ID_theme` smallint(5) unsigned NOT NULL auto_increment,
   `theme` varchar(255) NOT NULL default '',
   `mat_ID` tinyint(4) NOT NULL default '0',
   `niv_ID` tinyint(4) NOT NULL default '0',
@@ -87,7 +87,7 @@ CREATE TABLE `stock_theme` (
 
   PRIMARY KEY  (`ID_theme`)
 ) ENGINE=INNODB AUTO_INCREMENT=0;";
-$result = mysqli_query($conn_intranet, $query);
+$result = mysqli_query($conn_intranet, $query) or die(mysqli_error($conn_intranet));
 
 ?> 
 

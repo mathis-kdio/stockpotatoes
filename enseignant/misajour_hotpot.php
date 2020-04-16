@@ -95,7 +95,7 @@ $totalRows_RsTheme = mysqli_num_rows($RsTheme);
 
 mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsCategorie= sprintf("SELECT * FROM stock_categorie ORDER BY stock_categorie.ID_categorie");
-$RsCategorie = mysqli_query($conn_intranet, $query_RsCategorie) or die(mysql_error());
+$RsCategorie = mysqli_query($conn_intranet, $query_RsCategorie) or die(mysqli_error());
 $row_RsCategorie = mysqli_fetch_assoc($RsCategorie);
 $totalRows_RsCategorie = mysqli_num_rows($RsCategorie);
 
@@ -142,10 +142,10 @@ var sel;
  var nom=new Array();
     var valeur=new Array();
     
-    // On enlève le ?
+    // On enlï¿½ve le ?
     param = window.location.search.slice(1,window.location.search.length);
 
-    // On s&pare le paramètres....
+    // On s&pare le paramï¿½tres....
     // first[0] est de la forme param=valeur
 
     first = param.split("&");
@@ -210,7 +210,7 @@ window.location = page;
             <td><div align="right"><strong>Th&egrave;me d'&eacute;tude</strong></div></td>
             <td class="retrait20"> 
 				<select name="ID_theme" id="ID_theme"> 
-					<option value="0" <?php if (!(strcmp($row_RsTheme['ID_theme'], $_GET['theme_ID']))) {echo "SELECTED";} ?>>Aucun thème (Divers)</option>
+					<option value="0" <?php if (!(strcmp($row_RsTheme['ID_theme'], $_GET['theme_ID']))) {echo "SELECTED";} ?>>Aucun thï¿½me (Divers)</option>
 	                <?php     
 					do { ?>
 	                	<option value="<?php echo $row_RsTheme['ID_theme']?>"<?php if (!(strcmp($row_RsTheme['ID_theme'], $_GET['theme_ID']))) {echo "SELECTED";} ?>><?php echo $row_RsTheme['theme']?></option>

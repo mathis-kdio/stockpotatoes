@@ -1,0 +1,2 @@
+Le dossier UserFiles et ses sous dossiers doivent posséder les droits en écriture.
+Apres installation, vous pouvez supprimer le fichier image patate.jpg qui est dans UserFiles/Image pour la démo.

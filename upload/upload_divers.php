@@ -50,15 +50,15 @@ if (isset($_SERVER['QUERY_STRING'])) {
 
 
 
-mysqli_select_db($conn_intranet)$database_conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_rs_matiere = "SELECT * FROM stock_matiere ORDER BY stock_matiere.nom_mat";
-$rs_matiere = mysqli_query($conn_intranet), $query_rs_matiere) or die(mysqli_error());
+$rs_matiere = mysqli_query($conn_intranet, $query_rs_matiere) or die(mysqli_error());
 $row_rs_matiere = mysqli_fetch_assoc($rs_matiere);
 $totalRows_rs_matiere = mysqli_num_rows($rs_matiere);
 
-mysqli_select_db($conn_intranet)$database_conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_rs_niveau = "SELECT * FROM stock_niveau";
-$rs_niveau = mysqli_query($conn_intranet), $query_rs_niveau) or die(mysqli_error());
+$rs_niveau = mysqli_query($conn_intranet, $query_rs_niveau) or die(mysqli_error());
 $row_rs_niveau = mysqli_fetch_assoc($rs_niveau);
 $totalRows_rs_niveau = mysqli_num_rows($rs_niveau);
 	
@@ -71,9 +71,9 @@ $choixniv_RsTheme = "0";
 if (isset($_POST['niveau_ID'])) {
   $choixniv_RsTheme = (get_magic_quotes_gpc()) ? $_POST['niveau_ID'] : addslashes($_POST['niveau_ID']);
 }
-mysqli_select_db($conn_intranet)$database_conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsTheme = sprintf("SELECT * FROM stock_theme WHERE stock_theme.mat_ID=%s AND stock_theme.niv_ID=%s ORDER BY stock_theme.theme", $choixmat_RsTheme,$choixniv_RsTheme);
-$RsTheme = mysqli_query($conn_intranet), $query_RsTheme) or die(mysqli_error());
+$RsTheme = mysqli_query($conn_intranet, $query_RsTheme) or die(mysqli_error());
 $row_RsTheme = mysqli_fetch_assoc($RsTheme);
 $totalRows_RsTheme = mysqli_num_rows($RsTheme);
 
@@ -81,9 +81,9 @@ $selection_RsChoixMatiere = "0";
 if (isset($_POST['matiere_ID'])) {
   $selection_RsChoixMatiere = (get_magic_quotes_gpc()) ? $_POST['matiere_ID'] : addslashes($_POST['matiere_ID']);
 }
-mysqli_select_db($conn_intranet)$database_conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsChoixMatiere = sprintf("SELECT * FROM stock_matiere WHERE stock_matiere.ID_mat=%s", $selection_RsChoixMatiere);
-$RsChoixMatiere = mysqli_query($conn_intranet), $query_RsChoixMatiere) or die(mysqli_error());
+$RsChoixMatiere = mysqli_query($conn_intranet, $query_RsChoixMatiere) or die(mysqli_error());
 $row_RsChoixMatiere = mysqli_fetch_assoc($RsChoixMatiere);
 $totalRows_RsChoixMatiere = mysqli_num_rows($RsChoixMatiere);
 
@@ -110,7 +110,7 @@ if ($_POST['titre']=='') {
   
  
   $query_RsMax = "SELECT MAX(pos_doc) AS resultat FROM stock_quiz ";
-  $RsMax = mysqli_query($conn_intranet), $query_RsMax) or die(mysqli_error());
+  $RsMax = mysqli_query($conn_intranet, $query_RsMax) or die(mysqli_error());
   $row_RsMax = mysqli_fetch_assoc($RsMax);
   $position=$row_RsMax['resultat']+1;
 
@@ -130,15 +130,15 @@ if ($_POST['titre']=='') {
 					   GetSQLValueString($position, "int")
 					   );
 
-  mysqli_select_db($conn_intranet)$database_conn_intranet);
-  $Result1 = mysqli_query($conn_intranet), $insertSQL) or die(mysqli_error());
+  mysqli_select_db($conn_intranet, $database_conn_intranet);
+  $Result1 = mysqli_query($conn_intranet, $insertSQL) or die(mysqli_error());
   mysqli_free_result($RsMax);
 }
 //fin enregistrement ds la table
 
-mysqli_select_db($conn_intranet)$database_conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsMaxId_quiz = "SELECT MAX( Id_quiz )  FROM stock_quiz";
-$RsMaxId_quiz = mysqli_query($conn_intranet), $query_RsMaxId_quiz) or die(mysqli_error());
+$RsMaxId_quiz = mysqli_query($conn_intranet, $query_RsMaxId_quiz) or die(mysqli_error());
 $row_RsMaxId_quiz = mysqli_fetch_assoc($RsMaxId_quiz);
 $totalRows_RsMaxId_quiz = mysqli_num_rows($RsMaxId_quiz);
 
@@ -158,23 +158,23 @@ if ($_FILES['fichier']['tmp_name']<>'') {
 		exit ("Le fichier dépasse la taille de 100 Mo.");
 		$deleteSQL = sprintf("DELETE FROM stock_quiz WHERE ID_quiz=%s",
                        GetSQLValueString($total, "int"));
-		mysqli_select_db($conn_intranet)$database_conn_cahier_de_texte, $conn_cahier_de_texte);
-  		$Result1 = mysqli_query($conn_intranet), $deleteSQL, $conn_cahier_de_texte) or die(mysqli_error());
+		mysqli_select_db($conn_cahier_de_texte, $database_conn_cahier_de_texte);
+  		$Result1 = mysqli_query($conn_cahier_de_texte, $deleteSQL) or die(mysqli_error());
 	}
 	if ($erreur == 3 ) {
 		exit ("Le fichier travail a été partiellement transféré. Envoyez-le à nouveau.");
 		$deleteSQL = sprintf("DELETE FROM stock_quiz WHERE ID_quiz=%s",
                        GetSQLValueString($total, "int"));
-		mysqli_select_db($conn_intranet)$database_conn_cahier_de_texte, $conn_cahier_de_texte);
-  		$Result1 = mysqli_query($conn_intranet), $deleteSQL, $conn_cahier_de_texte) or die(mysqli_error());
+		mysqli_select_db($conn_cahier_de_texte, $database_conn_cahier_de_texte);
+  		$Result1 = mysqli_query($conn_cahier_de_texte, $deleteSQL) or die(mysqli_error());
 	}
 	if( !move_uploaded_file($dossier_temporaire, $dossier_destination.'/'.$nom_fichier) )
     {
         exit("Impossible de copier le fichier ");
 		$deleteSQL = sprintf("DELETE FROM stock_quiz WHERE ID_quiz=%s",
                        GetSQLValueString($total, "int"));
-		mysqli_select_db($conn_intranet)$database_conn_cahier_de_texte, $conn_cahier_de_texte);
-  		$Result1 = mysqli_query($conn_intranet), $deleteSQL, $conn_cahier_de_texte) or die(mysqli_error());
+		mysqli_select_db($conn_cahier_de_texte, $database_conn_cahier_de_texte);
+  		$Result1 = mysqli_query($conn_cahier_de_texte, $deleteSQL) or die(mysqli_error());
 
 		
     }else {
@@ -218,33 +218,33 @@ if ($_FILES['fichier']['tmp_name']<>'') {
       <td width="35%"><div align="right"> 
           <select name="matiere_ID" id="select2">
             <?php
-do {  
-?>
-            <option value="<?php echo $row_rs_matiere['ID_mat']?>"<?php if (isset($_POST['matiere_ID'])) { if (!(strcmp($row_rs_matiere['ID_mat'], $_POST['matiere_ID']))) {echo "SELECTED";} }  ?>><?php echo $row_rs_matiere['nom_mat']?></option>
-            <?php
-} while ($row_rs_matiere = mysqli_fetch_assoc($rs_matiere));
-  $rows = mysqli_num_rows($rs_matiere);
-  if($rows > 0) {
-      mysqli_data_seek($rs_matiere, 0);
-	  $row_rs_matiere = mysqli_fetch_assoc($rs_matiere);
-  }
-?>
+			do {  
+			?>
+			    <option value="<?php echo $row_rs_matiere['ID_mat']?>"<?php if (isset($_POST['matiere_ID'])) { if (!(strcmp($row_rs_matiere['ID_mat'], $_POST['matiere_ID']))) {echo "SELECTED";} }  ?>><?php echo $row_rs_matiere['nom_mat']?></option>
+			            <?php
+			} while ($row_rs_matiere = mysqli_fetch_assoc($rs_matiere));
+			  $rows = mysqli_num_rows($rs_matiere);
+			  if($rows > 0) {
+			      mysqli_data_seek($rs_matiere, 0);
+				  $row_rs_matiere = mysqli_fetch_assoc($rs_matiere);
+			  }
+			?>
           </select>
         </div></td>
       <td width="21%"><div align="center"> 
           <select name="niveau_ID" id="niveau_ID">
             <?php
-do {  
-?>
-            <option value="<?php echo $row_rs_niveau['ID_niveau']?>"<?php if (isset($_POST['niveau_ID'])) { if (!(strcmp($row_rs_niveau['ID_niveau'], $_POST['niveau_ID']))) {echo "SELECTED";} } ?>><?php echo $row_rs_niveau['nom_niveau']?></option>
-            <?php
-} while ($row_rs_niveau = mysqli_fetch_assoc($rs_niveau));
-  $rows = mysqli_num_rows($rs_niveau);
-  if($rows > 0) {
-      mysqli_data_seek($rs_niveau, 0);
-	  $row_rs_niveau = mysqli_fetch_assoc($rs_niveau);
-  }
-?>
+				do {  
+				?>
+				    <option value="<?php echo $row_rs_niveau['ID_niveau']?>"<?php if (isset($_POST['niveau_ID'])) { if (!(strcmp($row_rs_niveau['ID_niveau'], $_POST['niveau_ID']))) {echo "SELECTED";} } ?>><?php echo $row_rs_niveau['nom_niveau']?></option>
+				            <?php
+				} while ($row_rs_niveau = mysqli_fetch_assoc($rs_niveau));
+				  $rows = mysqli_num_rows($rs_niveau);
+				  if($rows > 0) {
+				      mysqli_data_seek($rs_niveau, 0);
+					  $row_rs_niveau = mysqli_fetch_assoc($rs_niveau);
+				  }
+				?>
           </select>
         </div></td>
       <td width="44%"> <input type="submit" name="Submit" value="S&eacute;lectionner"></td>
@@ -261,17 +261,17 @@ do {
       <td> <select name="theme_ID" id="select">
           <option value="value">Selectionnez un thème</option>
           <?php
-do {  
-?>
-          <option value="<?php echo $row_RsTheme['ID_theme']?>"><?php echo $row_RsTheme['theme']?></option>
-          <?php
-} while ($row_RsTheme = mysqli_fetch_assoc($RsTheme));
-  $rows = mysqli_num_rows($RsTheme);
-  if($rows > 0) {
-      mysqli_data_seek($RsTheme, 0);
-	  $row_RsTheme = mysqli_fetch_assoc($RsTheme);
-  }
-?>
+			do {  
+			?>
+			          <option value="<?php echo $row_RsTheme['ID_theme']?>"><?php echo $row_RsTheme['theme']?></option>
+			          <?php
+			} while ($row_RsTheme = mysqli_fetch_assoc($RsTheme));
+			  $rows = mysqli_num_rows($RsTheme);
+			  if($rows > 0) {
+			      mysqli_data_seek($RsTheme, 0);
+				  $row_RsTheme = mysqli_fetch_assoc($RsTheme);
+			  }
+			?>
         </select> 
       &nbsp;&nbsp;&nbsp;<a href="../enseignant/gestion_theme.php"> Ajouter un nouveau 
         th&egrave;me</a></td>

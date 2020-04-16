@@ -53,7 +53,7 @@ if ($_POST['pass1']==$_POST['pass'])
 }
 else
 {
-echo '<B> Erreur - Vous devez confirmer en retapant EXACTEMENT à l\'identique votre nouveau mot de passe. </B>';
+echo '<B> Erreur - Vous devez confirmer en retapant EXACTEMENT Ã  l\'identique votre nouveau mot de passe. </B>';
 }
 ?>
 
@@ -67,7 +67,7 @@ echo '<B> Erreur - Vous devez confirmer en retapant EXACTEMENT à l\'identique vo
 <table width="100%" border="0" cellspacing="10" cellpadding="0">
   <tr> 
     <td width="58%">
-      <p><strong><a href="accueil_eleve.php">Espace Elève</a> - Changement de mot de passe</strong> </p>
+      <p><strong><a href="accueil_eleve.php">Espace ElÃ¨ve</a> - Changement de mot de passe</strong> </p>
       <p>&nbsp; </p></td>
     <td width="42%"><p align="right" class="subtitle"><strong><?php echo $_SESSION['Sess_nom'].'   '.$_SESSION['Sess_prenom'].'   '.$_SESSION['Sess_classe']?></strong></p>
       <p align="right">&nbsp;</p></td>

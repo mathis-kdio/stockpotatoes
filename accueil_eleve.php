@@ -1,23 +1,24 @@
 <?php session_start();
 require_once('Connections/conn_intranet.php'); 
-
-mysqli_select_db($database_conn_intranet, $conn_intranet);
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_rs_matiere = "SELECT * FROM stock_matiere ORDER BY stock_matiere.nom_mat";
-$rs_matiere = mysqli_query($query_rs_matiere, $conn_intranet) or die(mysqli_error());
+$rs_matiere = mysqli_query($conn_intranet, $query_rs_matiere) or die(mysqli_error());
 $row_rs_matiere = mysqli_fetch_assoc($rs_matiere);
 $totalRows_rs_matiere = mysqli_num_rows($rs_matiere);
 
-mysqli_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_rs_niveau = "SELECT * FROM stock_niveau ORDER BY stock_niveau.ID_niveau";
-$rs_niveau = mysqli_query($query_rs_niveau, $conn_intranet) or die(mysqli_error());
+$rs_niveau = mysqli_query($conn_intranet, $query_rs_niveau) or die(mysqli_error());
 $row_rs_niveau = mysqli_fetch_assoc($rs_niveau);
 $totalRows_rs_niveau = mysqli_num_rows($rs_niveau);
 
-mysqli_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 
 $query_rsListequiz = "SELECT * FROM stock_quiz WHERE stock_quiz.avec_score='O' ORDER BY stock_quiz.titre";
 
-$rsListequiz = mysqli_query($query_rsListequiz, $conn_intranet) or die(mysqli_error());
+$rsListequiz = mysqli_query($conn_intranet, $query_rsListequiz) or die(mysqli_error());
 $row_rsListequiz = mysqli_fetch_assoc($rsListequiz);
 $totalRows_rsListequiz = mysqli_num_rows($rsListequiz);
 
@@ -33,9 +34,9 @@ $choixtheme_rsListeSelectMatiereNiveau = "0";
 if (isset($_GET['theme_ID'])) {
   $choixtheme_rsListeSelectMatiereNiveau = (get_magic_quotes_gpc()) ? $_GET['theme_ID'] : addslashes($_GET['theme_ID']);
 }
-mysqli_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_rsListeSelectMatiereNiveau = sprintf("SELECT * FROM stock_quiz WHERE stock_quiz.matiere_ID=%s  AND stock_quiz.niveau_ID=%s  AND stock_quiz.theme_ID=%s AND stock_quiz.avec_score='O' ORDER BY stock_quiz.titre", $choixmat_rsListeSelectMatiereNiveau,$choixniv_rsListeSelectMatiereNiveau,$choixtheme_rsListeSelectMatiereNiveau);
-$rsListeSelectMatiereNiveau = mysqli_query($query_rsListeSelectMatiereNiveau, $conn_intranet) or die(mysqli_error());
+$rsListeSelectMatiereNiveau = mysqli_query($conn_intranet, $query_rsListeSelectMatiereNiveau) or die(mysqli_error());
 $row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau);
 $totalRows_rsListeSelectMatiereNiveau = mysqli_num_rows($rsListeSelectMatiereNiveau);
 
@@ -43,9 +44,9 @@ $colname_rsChoix = "1";
 if (isset($_GET['matiere_ID'])) {
   $colname_rsChoix = (get_magic_quotes_gpc()) ? $_GET['matiere_ID'] : addslashes($_GET['matiere_ID']);
 }
-mysqli_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_rsChoix = sprintf("SELECT * FROM stock_matiere WHERE ID_mat =%s", $colname_rsChoix);
-$rsChoix = mysqli_query($query_rsChoix, $conn_intranet) or die(mysqli_error());
+$rsChoix = mysqli_query($conn_intranet, $query_rsChoix) or die(mysqli_error());
 $row_rsChoix = mysqli_fetch_assoc($rsChoix);
 $totalRows_rsChoix = mysqli_num_rows($rsChoix);
 
@@ -53,9 +54,9 @@ $colname_rsChoix2 = "1";
 if (isset($_GET['niveau_ID'])) {
   $colname_rsChoix2 = (get_magic_quotes_gpc()) ? $_GET['niveau_ID'] : addslashes($_GET['niveau_ID']);
 }
-mysqli_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_rsChoix2 = sprintf("SELECT * FROM stock_niveau WHERE ID_niveau = %s", $colname_rsChoix2);
-$rsChoix2 = mysqli_query($query_rsChoix2, $conn_intranet) or die(mysqli_error());
+$rsChoix2 = mysqli_query($conn_intranet, $query_rsChoix2) or die(mysqli_error());
 $row_rsChoix2 = mysqli_fetch_assoc($rsChoix2);
 $totalRows_rsChoix2 = mysqli_num_rows($rsChoix2);
 
@@ -67,9 +68,9 @@ $choixmat_RsListeTheme = "0";
 if (isset($_GET['matiere_ID'])) {
   $choixmat_RsListeTheme = (get_magic_quotes_gpc()) ? $_GET['matiere_ID'] : addslashes($_GET['matiere_ID']);
 }
-mysqli_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsListeTheme = sprintf("SELECT * FROM stock_theme WHERE stock_theme.mat_ID=%s AND stock_theme.niv_ID=%s ORDER BY stock_theme.pos_theme", $choixmat_RsListeTheme,$choixniv_RsListeTheme);
-$RsListeTheme = mysqli_query($query_RsListeTheme, $conn_intranet) or die(mysqli_error());
+$RsListeTheme = mysqli_query($conn_intranet, $query_RsListeTheme) or die(mysqli_error());
 $row_RsListeTheme = mysqli_fetch_assoc($RsListeTheme);
 $totalRows_RsListeTheme = mysqli_num_rows($RsListeTheme);
 
@@ -77,9 +78,9 @@ $selectheme_RsChoixTheme = "0";
 if (isset($_GET['theme_ID'])) {
   $selectheme_RsChoixTheme = (get_magic_quotes_gpc()) ? $_GET['theme_ID'] : addslashes($_GET['theme_ID']);
 }
-mysqli_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsChoixTheme = sprintf("SELECT stock_theme.theme FROM stock_theme WHERE stock_theme.ID_theme=%s", $selectheme_RsChoixTheme);
-$RsChoixTheme = mysqli_query($query_RsChoixTheme, $conn_intranet) or die(mysqli_error());
+$RsChoixTheme = mysqli_query($conn_intranet, $query_RsChoixTheme) or die(mysqli_error());
 $row_RsChoixTheme = mysqli_fetch_assoc($RsChoixTheme);
 $totalRows_RsChoixTheme = mysqli_num_rows($RsChoixTheme);
 
@@ -93,7 +94,7 @@ $totalRows_RsChoixTheme = mysqli_num_rows($RsChoixTheme);
 <script language="JavaScript" type="text/javascript">
 <!--
 function hello() {
-alert(" Cet exercice était à évaluation unique. Vous n'aviez le droit qu'à un seul essai. Vous ne pouvez donc pas le refaire. Pour plus d'informations, contactez votre enseignant. ");
+alert(" Cet exercice Ã©tait Ã  Ã©valuation unique. Vous n'aviez le droit qu'Ã  un seul essai. Vous ne pouvez donc pas le refaire. Pour plus d'informations, contactez votre enseignant. ");
 }
 //-->
 </script>
@@ -307,9 +308,9 @@ $choixnom_RsExosFait = "0";
 if (isset($_SESSION['Sess_ID_eleve'])) {
   $choixnom_RsExosFait = (get_magic_quotes_gpc()) ? $_SESSION['Sess_ID_eleve'] : addslashes($_SESSION['Sess_ID_eleve']);
 }
-mysqli_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsExosFait = sprintf("SELECT * FROM stock_activite WHERE stock_activite.eleve_ID=%s AND stock_activite.quiz_ID=%s", $choixnom_RsExosFait,$choixquiz_RsExosFait);
-$RsExosFait = mysqli_query($query_RsExosFait, $conn_intranet) or die(mysqli_error());
+$RsExosFait = mysqli_query($conn_intranet, $query_RsExosFait) or die(mysqli_error());
 $row_RsExosFait = mysqli_fetch_assoc($RsExosFait);
 $totalRows_RsExosFait = mysqli_num_rows($RsExosFait);
 $unique='N';

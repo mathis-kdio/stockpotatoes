@@ -19,13 +19,13 @@ function sans_accent($chaine)
    $noaccent="aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyyby"; 
    return strtr(trim($chaine),$accent,$noaccent); 
 } 
-mysqli_select_db($conn_intranet, $database_conn_intranet)
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_rs_matiere = "SELECT * FROM stock_matiere";
 $rs_matiere = mysqli_query($conn_intranet, $query_rs_matiere) or die(mysqli_error());
 $row_rs_matiere = mysqli_fetch_assoc($rs_matiere);
 $totalRows_rs_matiere = mysqli_num_rows($rs_matiere);
 
-mysqli_select_db($conn_intranet, $database_conn_intranet)
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_rs_niveau = "SELECT * FROM stock_niveau";
 $rs_niveau = mysqli_query($conn_intranet, $query_rs_niveau) or die(mysqli_error());
 $row_rs_niveau = mysqli_fetch_assoc($rs_niveau);
@@ -39,7 +39,7 @@ $choix_niv_rsListeSelectMatiereNiveau = "0";
 if (isset($_POST['niveau_ID'])) {
   $choix_niv_rsListeSelectMatiereNiveau = (get_magic_quotes_gpc()) ? $_POST['niveau_ID'] : addslashes($_POST['niveau_ID']);
 }
-mysqli_select_db($conn_intranet, $database_conn_intranet)
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_rsListeSelectMatiereNiveau = sprintf("SELECT * FROM stock_quiz WHERE stock_quiz.matiere_ID=%s  AND stock_quiz.niveau_ID=%s AND stock_quiz.avec_score='O' AND stock_quiz.en_ligne <>'O' ORDER BY stock_quiz.matiere_ID, stock_quiz.niveau_ID", $choix_mat_rsListeSelectMatiereNiveau,$choix_niv_rsListeSelectMatiereNiveau);
 $rsListeSelectMatiereNiveau = mysqli_query($conn_intranet, $query_rsListeSelectMatiereNiveau) or die(mysqli_error());
 $row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau);
@@ -49,7 +49,7 @@ $colname_rsChoix = "1";
 if (isset($_POST['matiere_ID'])) {
   $colname_rsChoix = (get_magic_quotes_gpc()) ? $_POST['matiere_ID'] : addslashes($_POST['matiere_ID']);
 }
-mysqli_select_db($conn_intranet, $database_conn_intranet)
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_rsChoix = sprintf("SELECT * FROM stock_matiere WHERE ID_mat =%s", $colname_rsChoix);
 $rsChoix = mysqli_query($conn_intranet, $query_rsChoix) or die(mysqli_error());
 $row_rsChoix = mysqli_fetch_assoc($rsChoix);
@@ -59,7 +59,7 @@ $colname_rsChoix2 = "1";
 if (isset($_POST['niveau_ID'])) {
   $colname_rsChoix2 = (get_magic_quotes_gpc()) ? $_POST['niveau_ID'] : addslashes($_POST['niveau_ID']);
 }
-mysqli_select_db($conn_intranet, $database_conn_intranet)
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_rsChoix2 = sprintf("SELECT * FROM stock_niveau WHERE ID_niveau = %s", $colname_rsChoix2);
 $rsChoix2 = mysqli_query($conn_intranet, $query_rsChoix2) or die(mysqli_error());
 $row_rsChoix2 = mysqli_fetch_assoc($rsChoix2);

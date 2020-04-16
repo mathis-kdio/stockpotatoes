@@ -22,7 +22,7 @@ $i=$i+1;
 $postedValue = htmlspecialchars( stripslashes( $tab[1] ) ) ; 
 //$a = htmlentities($postedValue);
 $postedValue = html_entity_decode($postedValue);
-// On supprime pour les images la chaine précédant le nom de l'image
+// On supprime pour les images la chaine prÃ©cÃ©dant le nom de l'image
 $chaine_supp=$chemin_images.'Image/';
 $postedValue = str_replace($chaine_supp, "", $postedValue);
 
@@ -31,19 +31,21 @@ $postedValue = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 <html>
 <head>
 <title></title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head><body>'.$postedValue.'</body></html>';
 $fp = fopen("../Exercices/temp.htm","w");
 fputs($fp,$postedValue);
 fclose($fp);
 
-// Mise à jour du fichier html
+// Mise Ã  jour du fichier html
 
 $file = '../Exercices/temp.htm';
 $newfile = '../Exercices/'.$_POST['nom_fichier'];
 copy($file, $newfile);
 
-//copie des images intégrées dans le fichier html
+//copie des images intÃ©grÃ©es dans le fichier html
 $files = array();
 $chaine_image='../Exercices/UserFiles/Image';
 $handle = opendir($chaine_image);
@@ -53,7 +55,7 @@ while($file = readdir($handle)) {
 	}
 }
 
-// Fermeture du répertoire courant
+// Fermeture du rÃ©pertoire courant
 closedir($handle);
 
 // Tri du tableau

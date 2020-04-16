@@ -10,7 +10,9 @@ include("../Connections/gestion_pass.inc.php");
 <html>
 <head>
 <title>Gestion des mots de passe</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../style_jaune.css" rel="stylesheet" type="text/css">
 </head>
 <body>

@@ -12,7 +12,7 @@ $pass_upload=$_POST['pass_upload'] ;
  
 
 		$fp = @fopen("../Connections/gestion_pass.inc.php", "w")
-			or die ("<b>Le fichier Connections/gestion_pass.inc.php n'a pas pu être ouvert. Vérifiez que vous possédez les droits en écriture sur ce fichier. </b>");
+			or die ("<b>Le fichier Connections/gestion_pass.inc.php n'a pas pu Ãªtre ouvert. VÃ©rifiez que vous possÃ©dez les droits en Ã©criture sur ce fichier. </b>");
 	
 		$data = "<?PHP\n";
 		$data.= " \$pass_profs = \"".$pass_profs."\";\n";
@@ -32,7 +32,9 @@ $pass_upload=$_POST['pass_upload'] ;
 <html>
 <head>
 <title>Installation du Serveur > Etape 2</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../style_jaune.css" rel="stylesheet" type="text/css">
 </head>
 <body>

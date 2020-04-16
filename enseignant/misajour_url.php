@@ -126,7 +126,9 @@ $totalRows_RsNiveau = mysqli_num_rows($RsNiveau);
 <html>
 <head>
 <title>Mise&agrave;jour d'une fiche lien hypertexte</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../style_jaune.css" rel="stylesheet" type="text/css">
 <script language="JavaScript" type="text/javascript">
 <!--
@@ -135,10 +137,10 @@ var sel;
  var nom=new Array();
     var valeur=new Array();
     
-    // On enlève le ?
+    // On enlÃ¨ve le ?
     param = window.location.search.slice(1,window.location.search.length);
 
-    // On s&pare le paramètres....
+    // On s&pare le paramÃ¨tres....
     // first[0] est de la forme param=valeur
 
     first = param.split("&");
@@ -207,7 +209,7 @@ do {
             <td><div align="right"><strong>Ce lien est relatif &agrave; l'&eacute;tude du th&egrave;me</strong></div></td>
             <td class="retrait20"> 
 				<select name="ID_theme" id="ID_theme"> 
-				<option value="0" <?php if (!(strcmp($row_RsTheme['ID_theme'], $_GET['theme_ID']))) {echo "SELECTED";} ?>>Aucun thème (Divers)</option>
+				<option value="0" <?php if (!(strcmp($row_RsTheme['ID_theme'], $_GET['theme_ID']))) {echo "SELECTED";} ?>>Aucun thÃ¨me (Divers)</option>
                 <?php     
 				do { ?>
                 	<option value="<?php echo $row_RsTheme['ID_theme']?>"<?php if (!(strcmp($row_RsTheme['ID_theme'], $_GET['theme_ID']))) {echo "SELECTED";} ?>><?php echo $row_RsTheme['theme']?></option>

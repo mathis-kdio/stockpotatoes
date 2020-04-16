@@ -13,7 +13,7 @@ if (isset($_SESSION['Sess_nom'])) {
 
 function sans_accent($chaine) 
 { 
-   $accent  ="¿¡¬√ƒ≈∆«»… ÀÃÕŒœ–—“”‘’÷ÿŸ⁄€‹›ﬁﬂ‡·‚„‰ÂÊÁËÈÍÎÏÌÓÔÒÚÛÙıˆ¯˘˙˚˝˝˛ˇ"; 
+   $accent  ="√Ä√Å√Ç√É√Ñ√Ö√Ü√á√à√â√ä√ã√å√ç√é√è√ê√ë√í√ì√î√ï√ñ√ò√ô√ö√õ√ú√ù√û√ü√†√°√¢√£√§√•√¶√ß√®√©√™√´√¨√≠√Æ√Ø√∞√±√≤√≥√¥√µ√∂√∏√π√∫√ª√Ω√Ω√æ√ø"; 
    $noaccent="aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyyby"; 
    return strtr(trim($chaine),$accent,$noaccent); 
 } 
@@ -93,7 +93,7 @@ $totalRows_RsChoixMatiere = mysqli_num_rows($RsChoixMatiere);
 
 if (!Empty($_POST['submit2'])) {
 if ($_POST['titre']=='') {
- print '<strong><center><font size=5 color="#FF0000">Il faut donner un titre ‡ votre document </font> </center></strong>';
+ print '<strong><center><font size=5 color="#FF0000">Il faut donner un titre √† votre document </font> </center></strong>';
     echo '<BR><hr>';
 } else {
 
@@ -147,7 +147,7 @@ mysqli_free_result($RsMaxId_quiz);
 $nom_matiere=sans_accent($row_RsChoixMatiere['nom_mat']);
 $repertoire='../Exercices/'.$nom_matiere.'/q'.$total;
 
-if (is_dir($repertoire)) {echo "<center> Le dossier ".$repertoire." existait dÈj‡ </center><BR> "; } else { mkdir($repertoire,0777);}
+if (is_dir($repertoire)) {echo "<center> Le dossier ".$repertoire." existait d√©j√† </center><BR> "; } else { mkdir($repertoire,0777);}
 if ($_FILES['fichier']['tmp_name']<>'') {
     $dossier_destination = $repertoire; 
     $dossier_temporaire = $_FILES['fichier']['tmp_name'];
@@ -155,14 +155,14 @@ if ($_FILES['fichier']['tmp_name']<>'') {
 	$nom_fichier = $_FILES['fichier']['name'];
 	$erreur= $_FILES['fichier']['error'];
 	if ($erreur == 2 ) {
-		exit ("Le fichier dÈpasse la taille de 100 Mo.");
+		exit ("Le fichier d√©passe la taille de 100 Mo.");
 		$deleteSQL = sprintf("DELETE FROM stock_quiz WHERE ID_quiz=%s",
                        GetSQLValueString($total, "int"));
 		mysqli_select_db($conn_cahier_de_texte, $database_conn_cahier_de_texte);
   		$Result1 = mysqli_query($conn_cahier_de_texte, $deleteSQL) or die(mysqli_error());
 	}
 	if ($erreur == 3 ) {
-		exit ("Le fichier travail a ÈtÈ partiellement transfÈrÈ. Envoyez-le ‡ nouveau.");
+		exit ("Le fichier travail a √©t√© partiellement transf√©r√©. Envoyez-le √† nouveau.");
 		$deleteSQL = sprintf("DELETE FROM stock_quiz WHERE ID_quiz=%s",
                        GetSQLValueString($total, "int"));
 		mysqli_select_db($conn_cahier_de_texte, $database_conn_cahier_de_texte);
@@ -178,7 +178,7 @@ if ($_FILES['fichier']['tmp_name']<>'') {
 
 		
     }else {
-	    print '<strong><center><font size=5 color="#FF0000">Le fichier '.$_FILES['fichier']['name']. ' a ÈtÈ envoyÈ sur le serveur </font> </center></strong><BR><center><font size=2 color="#FF0000">dans le dossier '.$dossier_destination .'</font></center><hr>';
+	    print '<strong><center><font size=5 color="#FF0000">Le fichier '.$_FILES['fichier']['name']. ' a √©t√© envoy√© sur le serveur </font> </center></strong><BR><center><font size=2 color="#FF0000">dans le dossier '.$dossier_destination .'</font></center><hr>';
 
 	}
 
@@ -195,7 +195,9 @@ if ($_FILES['fichier']['tmp_name']<>'') {
 <html>
 <head>
 <title>Mettre un exercice en ligne &gt; Fiche</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../style_jaune.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -259,7 +261,7 @@ if ($_FILES['fichier']['tmp_name']<>'') {
       <td nowrap align="right">Ce fichier est relatif &agrave; l'&eacute;tude 
         du th&egrave;me </td>
       <td> <select name="theme_ID" id="select">
-          <option value="value">Selectionnez un thËme</option>
+          <option value="value">Selectionnez un th√®me</option>
           <?php
 			do {  
 			?>
@@ -288,7 +290,7 @@ if ($_FILES['fichier']['tmp_name']<>'') {
             Exercices</label></td>    
 			<td><label>
             <input type="radio" name="cat_doc" value="4">
-            Travail ‡ faire</label></td>
+            Travail √† faire</label></td>
 			<td><label>
             <input type="radio" name="cat_doc" value="5">
             Annexes</label></td>

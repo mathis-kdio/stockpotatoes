@@ -9,7 +9,7 @@ require_once('../Connections/conn_editeur.inc.php');
 
 function sans_accent($chaine) 
 { 
-   $accent  ="ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖØÙÚÛÜİŞßàáâãäåæçèéêëìíîïğñòóôõöøùúûıışÿ"; 
+   $accent  ="Ã€ÃÃ‚ÃƒÃ„Ã…Ã†Ã‡ÃˆÃ‰ÃŠÃ‹ÃŒÃÃÃÃÃ‘Ã’Ã“Ã”Ã•Ã–Ã˜Ã™ÃšÃ›ÃœÃÃÃŸÃ Ã¡Ã¢Ã£Ã¤Ã¥Ã¦Ã§Ã¨Ã©ÃªÃ«Ã¬Ã­Ã®Ã¯Ã°Ã±Ã²Ã³Ã´ÃµÃ¶Ã¸Ã¹ÃºÃ»Ã½Ã½Ã¾Ã¿"; 
    $noaccent="aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyyby"; 
    return strtr(trim($chaine),$accent,$noaccent); 
 } 
@@ -93,24 +93,24 @@ $totalRows_RsChoixMatiere = mysqli_num_rows($RsChoixMatiere);
 
 if (!Empty($_POST['submit2'])) {
 if ($_POST['titre']=='') {
- print '<strong><center><font size=5 color="#FF0000">Il faut donner un titre à votre document </font> </center></strong>';
+ print '<strong><center><font size=5 color="#FF0000">Il faut donner un titre Ã  votre document </font> </center></strong>';
     echo '<BR><hr>';
 } else {
 
 
     
-    // Définition du répertoire de destination
+    // DÃ©finition du rÃ©pertoire de destination
 	
 $total=$row_RsMaxId_quiz['MAX( Id_quiz )']+1;
 $nom_matiere=sans_accent($row_RsChoixMatiere['nom_mat']);
 $repertoire='../Exercices/'.$nom_matiere.'/q'.$total;
 $old_umask = umask(0);
-if (is_dir($repertoire)) {echo "<center> Le dossier ".$repertoire." existait déjà </center><BR> "; } else { mkdir($repertoire,0777);}
+if (is_dir($repertoire)) {echo "<center> Le dossier ".$repertoire." existait dÃ©jÃ  </center><BR> "; } else { mkdir($repertoire,0777);}
 umask($old_umask);
 
 
 
-    // On lance la procédure de copie du fichier html
+    // On lance la procÃ©dure de copie du fichier html
 
 
 $fichier_temp = '../Exercices/temp.htm';
@@ -118,10 +118,10 @@ if ($_POST['nom_fichier']==''){$nom_fichier='defaut';} else { $nom_fichier=$_POS
 
 $fichier_dest = $repertoire.'/'.$nom_fichier.'.htm';
 if (!copy($fichier_temp, $fichier_dest)) {
- echo "La copie du fichier n'a pas réussi...\n";
+ echo "La copie du fichier n'a pas rÃ©ussi...\n";
 }
 
-//copie des images intégre ds le fichier html
+//copie des images intÃ©gre ds le fichier html
 
 $files = array();
 $chaine_image='../Exercices/UserFiles/Image';
@@ -132,7 +132,7 @@ while($file = readdir($handle)) {
 	}
 }
 
-// Fermeture du répertoire courant
+// Fermeture du rÃ©pertoire courant
 closedir($handle);
 
 // Tri du tableau
@@ -188,7 +188,9 @@ if ((isset($_POST['en_ligne'])) && ($_POST['en_ligne']=='O')){$en_ligne='O';} el
 <html>
 <head>
 <title>Mettre un exercice en ligne &gt; Fiche</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../style_jaune.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 <!--
@@ -260,7 +262,7 @@ do {
       <td nowrap align="right">Ce fichier est relatif &agrave; l'&eacute;tude 
         du th&egrave;me </td>
       <td> <select name="theme_ID" id="select">
-          <option value="value">Selectionnez un thème</option>
+          <option value="value">Selectionnez un thÃ¨me</option>
           <?php
 do {  
 ?>
@@ -288,7 +290,7 @@ do {
             Exercices</label></td>    
 			<td><label>
             <input type="radio" name="cat_doc" value="4">
-            Travail à faire</label></td>
+            Travail Ã  faire</label></td>
 			<td><label>
             <input type="radio" name="cat_doc" value="5">
             Annexes</label></td>

@@ -18,13 +18,13 @@ chmod($fichier2,0777);
 function EcrireFichier($serveur,$base,$login, $password ) {
 	
 		$fp = @fopen("../Connections/conn_intranet.php", "w")
-			or die ("<b>Le fichier Connections/conn_intranet.php n'a pas pu �tre ouvert. V�rifiez que vous poss�dez les droits en �criture sur ce fichier. </b>");
+			or die ("<b>Le fichier Connections/conn_intranet.php n'a pas pu être ouvert. Vérifiez que vous possédez les droits en écriture sur ce fichier. </b>");
 		$data = "<?php\n";
 		$data.= " \$hostname_conn_intranet = \"".$serveur."\";\n";
         $data.= " \$database_conn_intranet = \"". $base."\";\n";
 		$data.= " \$username_conn_intranet = \"".$login."\";\n";
 		$data.= " \$password_conn_intranet = \"".$password."\";\n";
-		$data.= " \$conn_intranet = mysqli_connect(\$hostname_conn_intranet, \$username_conn_intranet, \$password_conn_intranet) or die(mysqli_error());\n";
+		$data.= " \$conn_intranet = mysqli_connect(\$hostname_conn_intranet, \$username_conn_intranet, \$password_conn_intranet) or die(mysql_error());\n";
 		$data.= " mysqli_set_charset(\$conn_intranet, 'utf8mb4');\n";	
 		$data.= "\n";
 		$data.= "?>";
@@ -32,7 +32,7 @@ function EcrireFichier($serveur,$base,$login, $password ) {
 		@fclose($fp) or die ("<b>Erreur > Fermeture du fichier </b>");
 
 		$fp2 = @fopen("../Connections/gestion_pass.inc.php", "w")
-			or die ("<b>Le fichier Connections/gestion_pass.inc.php n'a pas pu �tre ouvert. V�rifiez que vous poss�dez les droits en �criture sur ce fichier. </b>");
+			or die ("<b>Le fichier Connections/gestion_pass.inc.php n'a pas pu être ouvert. Vérifiez que vous possédez les droits en écriture sur ce fichier. </b>");
 		$data = "<?php\n";
 		$data.= " \$pass_profs = \"tuteur\";\n";
         $data.= " \$pass_admin = \"maitre\";\n";
@@ -56,7 +56,9 @@ require_once('../Connections/conn_intranet.php');
 <html>
 <head>
 <title>Installation du Serveur > Etape 2</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../style_jaune.css" rel="stylesheet" type="text/css">
 <script language="JavaScript" type="text/JavaScript">
 <!--

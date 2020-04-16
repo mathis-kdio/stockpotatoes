@@ -5,7 +5,9 @@ if (isset($_SESSION['Sess_nom'])) {
 <html>
 <head>
 <title>Espace enseignant</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../style_jaune.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 <!--
@@ -112,7 +114,7 @@ if (isset($_SESSION['Sess_nom'])) {
     <td bgcolor="#cccc99" class="retrait20">&nbsp;</td>
   </tr>
   <tr valign="bottom" class="retrait20"> 
-    <td colspan="2" bgcolor="#cccc99" class="retrait20"> <p>&nbsp;</p> <p><!-- Fil RSS Café Pédagogique -->
+    <td colspan="2" bgcolor="#cccc99" class="retrait20"> <p>&nbsp;</p> <p><!-- Fil RSS CafÃ© PÃ©dagogique -->
   <style>
 .rss_box{
 border: solid 2px #dcb478;
@@ -138,7 +140,7 @@ background-color:#ffefce;/*marron*/
 font-family:arial;
 font-size:100%;
 font-weight:bolder; 
-color:#dc1803;/*rouge-orangé*/
+color:#dc1803;/*rouge-orangÃ©*/
 text-align:left;
 margin-left:0px;
 width:100%;
@@ -158,7 +160,7 @@ text-align: justify; text-justify: distribute;
 .rss_item a:hover {
 font-family:arial;
 font-size:100%;
-color:#dc1803;/*rouge-orangé*/
+color:#dc1803;/*rouge-orangÃ©*/
 background-color:transparent;
 margin-top :0px;
 margin-left :0px;

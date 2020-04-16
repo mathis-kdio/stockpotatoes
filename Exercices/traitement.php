@@ -95,7 +95,7 @@ if ($_SESSION['Sess_nom']<>'VISITEUR')
 if ((isset($_SESSION['Sess_prenom'])) && (isset($_SESSION['Sess_classe']))){
 echo '<strong>'.$_SESSION['Sess_nom']." ".$_SESSION['Sess_prenom']." ".$_SESSION['Sess_classe'].'</strong><BR><BR> ';
 echo "Note : ".$note." /20  ";
-echo "<BR>Note enregistrée.";
+echo "<BR>Note enregistrÃ©e.";
 }
 
 }

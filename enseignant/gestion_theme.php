@@ -91,7 +91,7 @@ $totalRows_rs_niveau = mysqli_num_rows($rs_niveau);
 ?>
 <html>
   <head>
-    <title>Gestion des thèmes</title>
+    <title>Gestion des thÃ¨mes</title>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html">
     <link href="../style_jaune.css" rel="stylesheet" type="text/css">
@@ -190,7 +190,7 @@ $totalRows_rs_niveau = mysqli_num_rows($rs_niveau);
               <td bgcolor="#CCCC99">&nbsp;</td>
               <td bgcolor="#CCCC99"><div align="center"><strong>Date d'apparition</strong></div></td>
               <td bgcolor="#CCCC99"><div align="center"><strong>Date de disparition</strong></div></td>
-              <td bgcolor="#CCCC99"><div align="center"><strong>Visibilité actuelle</strong></div></td>
+              <td bgcolor="#CCCC99"><div align="center"><strong>VisibilitÃ© actuelle</strong></div></td>
             </tr>
             <?php 
   			$x=0;
@@ -227,7 +227,7 @@ $totalRows_rs_niveau = mysqli_num_rows($rs_niveau);
   			  <?php echo $tabid1[$x-1] ?>
   			  <?php echo '"><input name="pos_precedent" type="hidden" id="pos_precedent" value="';?>
   			  <?php echo $tabpos1[$x-1] ?>
-  			  <?php echo '"><input name="Remonter" type="hidden" value="Remonter"><input type="image" src="images/up.gif" alt="Remonter ce thème "></div>';?>
+  			  <?php echo '"><input name="Remonter" type="hidden" value="Remonter"><input type="image" src="images/up.gif" alt="Remonter ce thÃ¨me "></div>';?>
                 <?php echo ' </form>';
   			   
   			     } else {echo '&nbsp;';};?>	
@@ -248,7 +248,7 @@ $totalRows_rs_niveau = mysqli_num_rows($rs_niveau);
   			  <?php echo $tabid1[$x+1] ?>
   			  <?php echo '"><input name="pos_suivant" type="hidden" id="pos_suivant" value="';?>
   			  <?php echo $tabpos1[$x+1] ?>
-  			  <?php echo '"><input name="Descendre" type="hidden" value="Descendre"><input type="image" src="images/down.gif" alt="Descendre ce thème "></div>';?>
+  			  <?php echo '"><input name="Descendre" type="hidden" value="Descendre"><input type="image" src="images/down.gif" alt="Descendre ce thÃ¨me "></div>';?>
                 <?php echo ' </form>';
   			   } else {echo '&nbsp;';};?>	
   			  </td>

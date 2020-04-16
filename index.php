@@ -14,10 +14,10 @@ unset($_SESSION['nom_mat']);
 <!DOCTYPE html>
 <html lang="fr">
   <head>
-    <title>Identification de l'élève</title>
+    <title>Accueil Stockpotatoes</title>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Page principale de Stockpotatoes">
     <link href="style.css" rel="stylesheet" type="text/css">
   </head>
@@ -39,7 +39,7 @@ unset($_SESSION['nom_mat']);
         </ul>
       </div>
       <div class="text-center">
-        <h4>Ver 3.0 ALPHA 3 - 14/04/2020</h4>
+        <h4>Ver 3.0 ALPHA 4 - 15/04/2020</h4>
       </div>
     </section>
   </body>

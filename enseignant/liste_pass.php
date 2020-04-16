@@ -37,7 +37,9 @@ $totalRows_RsListePass = mysqli_num_rows($RsListePass);
 <html>
   <head>
   <title>Liste des mots de passe</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link href="../style_jaune.css" rel="stylesheet" type="text/css">
   </head>
 <body>
@@ -46,7 +48,7 @@ $totalRows_RsListePass = mysqli_num_rows($RsListePass);
  <table width="100%" border="0" cellspacing="10" cellpadding="0">
   <tr valign="top"> 
    <td> <select name="classe" size="1" id="classe">
-     <option value="classe">Sélectionner une classe</option>
+     <option value="classe">SÃ©lectionner une classe</option>
      <?php
       do { 
       ?>

@@ -46,7 +46,9 @@ $totalRows_RsTheme = mysqli_num_rows($RsTheme);
 <html>
 <head>
 <title>R&eacute;sultats d'un quiz pour une classe</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../style_jaune.css" rel="stylesheet" type="text/css">
 <script language="JavaScript" type="text/JavaScript">
 <!--
@@ -84,7 +86,7 @@ MM_reloadPage(true);
               <td width="17%"> <div align="left"> </div></td>
               <td width="60%"> <select name="classe" id="select10">
                   <option value="classe" 
-                    <?php if (isset($_POST['classe'])) { if (!(strcmp("classe", $_POST['classe']))) {echo "SELECTED";}} ?>>Sélectionnez votre classe
+                    <?php if (isset($_POST['classe'])) { if (!(strcmp("classe", $_POST['classe']))) {echo "SELECTED";}} ?>>SÃ©lectionnez votre classe
                  </option>
                   <?php
                   do {  
@@ -137,7 +139,7 @@ MM_reloadPage(true);
                     }
                     ?>      
                              <option value="ID_mat" 
-                    >Sélectionnez la matière
+                    >SÃ©lectionnez la matiÃ¨re
                     </option>            
                   </select>
                 </div>
@@ -186,7 +188,7 @@ do {
                 </div></td>
               <td width="60%"> <div align="left"> 
                 <select name="ID_theme" id="select8">
-          <option value="ID_theme" <?php if (isset($_POST['ID_theme'])) { if (!(strcmp("ID_theme", $_POST['ID_theme']))) {echo "SELECTED";} }?>>Sélectionnez votre thème</option>
+          <option value="ID_theme" <?php if (isset($_POST['ID_theme'])) { if (!(strcmp("ID_theme", $_POST['ID_theme']))) {echo "SELECTED";} }?>>SÃ©lectionnez votre thÃ¨me</option>
           <?php
 do {  
 ?>
@@ -219,7 +221,7 @@ do {
 //debut traitement pour ce theme
 if (isset($_POST['ID_theme'])) {
     
-    //liste activité
+    //liste activitÃ©
     $n_matiere = "0";
     if (isset($_POST['ID_mat'])) {
       $n_matiere = (get_magic_quotes_gpc()) ? $_POST['ID_mat'] : addslashes($_POST['ID_mat']);
@@ -280,7 +282,7 @@ $tab[$row_RsActiviteClasse['eleve_ID']][$row_RsActiviteClasse['quiz_ID']]=$row_R
 } while ($row_RsActiviteClasse = mysqli_fetch_assoc($RsActiviteClasse));
 
 
-//liste d'élève
+//liste d'Ã©lÃ¨ve
 $nom_classe = "1";
 if (isset($_POST['classe'])) {
   $nom_classe = (get_magic_quotes_gpc()) ? $_POST['classe'] : addslashes($_POST['classe']);
@@ -341,7 +343,7 @@ $totalRows_Rs_theme_choisi = mysqli_num_rows($Rs_theme_choisi);
   <?php
   $i=0;
   do  {
-  echo ' <td width="100"  bgcolor="#CCCC99"> <div align="center"><strong>'."   ".$titrequiz[$i].'<br>'.'</strong>'.'( N° '.$numquiz[$i].')'.'</div></td>';
+  echo ' <td width="100"  bgcolor="#CCCC99"> <div align="center"><strong>'."   ".$titrequiz[$i].'<br>'.'</strong>'.'( NÂ° '.$numquiz[$i].')'.'</div></td>';
   $i=$i+1;
   }
   while ($i < $totalRows_Rsquiz);
@@ -428,7 +430,7 @@ if ($nb_notes_h[$row_Rs_Liste_eleve['ID_eleve']]<>0)
       $i=$i+1;
       }
       while ($i < $totalRows_Rsquiz);
-//moyenne générale
+//moyenne gÃ©nÃ©rale
 
 if ($nb_moy <>0 ) { ?>
 <td class="retrait20" width="50"  bgcolor="#CCCC99"> <div align="right"><strong>
@@ -443,12 +445,12 @@ echo '</td>';
 </table>
 
 <?php
-//test téléchargement
+//test tÃ©lÃ©chargement
   $fichier_log = '../Exercices/themeresultats.csv';
   chmod($fichier_log,0777);
   unlink($fichier_log);
   $fp = fopen($fichier_log,"a");
-  $nomprenom=('N°;Nom;Prénom;');
+  $nomprenom=('NÂ°;Nom;PrÃ©nom;');
 
 fwrite($fp, $nomprenom);
 

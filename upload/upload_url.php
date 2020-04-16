@@ -14,7 +14,7 @@ require_once('../Connections/conn_editeur.inc.php');
 
 function sans_accent($chaine) 
 { 
-   $accent  ="ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖØÙÚÛÜİŞßàáâãäåæçèéêëìíîïğñòóôõöøùúûıışÿ"; 
+   $accent  ="Ã€ÃÃ‚ÃƒÃ„Ã…Ã†Ã‡ÃˆÃ‰ÃŠÃ‹ÃŒÃÃÃÃÃ‘Ã’Ã“Ã”Ã•Ã–Ã˜Ã™ÃšÃ›ÃœÃÃÃŸÃ Ã¡Ã¢Ã£Ã¤Ã¥Ã¦Ã§Ã¨Ã©ÃªÃ«Ã¬Ã­Ã®Ã¯Ã°Ã±Ã²Ã³Ã´ÃµÃ¶Ã¸Ã¹ÃºÃ»Ã½Ã½Ã¾Ã¿"; 
    $noaccent="aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyyby"; 
    return strtr(trim($chaine),$accent,$noaccent); 
 } 
@@ -98,7 +98,7 @@ $totalRows_RsChoixMatiere = mysqli_num_rows($RsChoixMatiere);
 
 if (!Empty($_POST['submit2'])) {
 if ($_POST['titre']=='') {
- print '<strong><center><font size=5 color="#FF0000">Il faut donner un titre à votre document </font> </center></strong>';
+ print '<strong><center><font size=5 color="#FF0000">Il faut donner un titre Ã  votre document </font> </center></strong>';
     echo '<BR><hr>';
 } else {
 
@@ -147,7 +147,9 @@ if ($_POST['titre']=='') {
 <html>
 <head>
 <title>Cr&eacute;ation d'un lien vers un document externe &gt; Fiche</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../style_jaune.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 <!--
@@ -219,7 +221,7 @@ if ($_POST['titre']=='') {
       <td width="212" align="right" nowrap>Ce lien est relatif &agrave; l'&eacute;tude 
         du th&egrave;me </td>
       <td width="350"> <select name="theme_ID" id="select">
-          <option value="value">Selectionnez un thème</option>
+          <option value="value">Selectionnez un thÃ¨me</option>
           <?php
           do {  
           ?>

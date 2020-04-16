@@ -6,8 +6,8 @@ Dans votre navigateur, taper :
 http://nom_de_votre_serveur/nom_de_votre_dossier_stockpotatoes/install/
 
 
-Les grands débutants utilisant EasyPhp pour la première fois auront pensé à démarrer le Serveur Web préalablement en faisant un clic droit sur l'icone en bas à droite de l'éran (un "e noir" près de lhorloge)
-Si le point rouge clignote le serveur est démarré.
+Les grands dÃ©butants utilisant EasyPhp pour la premiÃ¨re fois auront pensÃ© Ã  dÃ©marrer le Serveur Web prÃ©alablement en faisant un clic droit sur l'icone en bas Ã  droite de l'Ã©ran (un "e noir" prÃ¨s de lhorloge)
+Si le point rouge clignote le serveur est dÃ©marrÃ©.
 
 
 

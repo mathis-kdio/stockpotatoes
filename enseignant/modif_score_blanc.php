@@ -59,7 +59,9 @@ $totalRows_RsActiviteClasse = mysqli_num_rows($RsActiviteClasse);
 <html>
 <head>
 <title>Effacer les r&eacute;sultats d'un exercice</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../style_jaune.css" rel="stylesheet" type="text/css">
 <script language="JavaScript" type="text/JavaScript">
 <!--
@@ -88,7 +90,7 @@ MM_reloadPage(true);
             <tr> 
               <td width="17%"> <div align="left"> </div></td>
               <td width="60%"> <select name="classe" id="select10">
-                  <option value="classe" <?php if (isset($_POST['classe'])) { if (!(strcmp("classe", $_POST['classe']))) {echo "SELECTED";} }?>>Sélectionner 
+                  <option value="classe" <?php if (isset($_POST['classe'])) { if (!(strcmp("classe", $_POST['classe']))) {echo "SELECTED";} }?>>SÃ©lectionner 
                   votre classe</option>
                   <?php
 do {  
@@ -121,8 +123,8 @@ do {
             <tr> 
               <td width="36%"><div align="left"> 
                   <select name="ID_mat" id="select11">
-                    <option value="ID_mat" <?php if (isset($_POST['ID_mat'])) { if (!(strcmp("ID_mat", $_POST['ID_mat']))) {echo "SELECTED";}} ?>>Sélectionnez 
-                    la matière</option>
+                    <option value="ID_mat" <?php if (isset($_POST['ID_mat'])) { if (!(strcmp("ID_mat", $_POST['ID_mat']))) {echo "SELECTED";}} ?>>SÃ©lectionnez 
+                    la matiÃ¨re</option>
                     <?php
 do {  
 ?>
@@ -178,7 +180,7 @@ do {
                 </div></td>
               <td width="60%"> <div align="left"> 
                   <select name="ID_quiz" id="select8">
-                    <option value="ID_quiz" <?php if (isset($_POST['ID_quiz'])) { if (!(strcmp("ID_quiz", $_POST['ID_quiz']))) {echo "SELECTED";} }?>>Sélectionnez 
+                    <option value="ID_quiz" <?php if (isset($_POST['ID_quiz'])) { if (!(strcmp("ID_quiz", $_POST['ID_quiz']))) {echo "SELECTED";} }?>>SÃ©lectionnez 
                     votre quiz</option>
                     <?php
 do {  

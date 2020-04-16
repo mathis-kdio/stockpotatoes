@@ -7,8 +7,10 @@ include("../Connections/conn_intranet.php");
 ?>
 <html>
 <head>
-<title>Paramètres de connexion à la base de donnée</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>ParamÃ¨tres de connexion Ã  la base de donnÃ©e</title>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../style_jaune.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -27,7 +29,7 @@ include("../Connections/conn_intranet.php");
     </tr>
     <tr> 
       <td width="50%"><b>Serveur MySQL:</b><br>
-        Adresse IP ou URL de votre serveur de bases de données MySQL. La valeur 
+        Adresse IP ou URL de votre serveur de bases de donnÃ©es MySQL. La valeur 
         localhost conviendra dans le cas d'un Intranet</td>
       <td width="50%"><input type="texte" name="serveur" size="25" maxlength="80" value="<?php  echo $hostname_conn_intranet ?>"></td>
     </tr>
@@ -40,7 +42,7 @@ include("../Connections/conn_intranet.php");
       <td width="50%"> <input type="password" name="password" size="25" maxlength="80" value="<?php  echo $password_conn_intranet ?>"></td>
     </tr>
     <tr> 
-      <td width="50%"><b>Nom de la base de données :</b></td>
+      <td width="50%"><b>Nom de la base de donnÃ©es :</b></td>
       <td width="50%"> <input name="base" type="text" id="base"  size="25" maxlength="80" value="<?php  echo $database_conn_intranet ?>"></td>
     </tr>
     <tr> 

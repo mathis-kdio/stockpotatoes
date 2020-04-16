@@ -15,7 +15,7 @@ foreach ( $postArray as $sForm => $value )
 {
 $code = htmlspecialchars( stripslashes( $value ) ) ; 
 
-// On supprime pour les images la chaine précédant le nom de l'image
+// On supprime pour les images la chaine prÃ©cÃ©dant le nom de l'image
 $chaine_supp=$chemin_images.'Image/';
 $new_code = str_replace($chaine_supp, "", $code);
 $postedValue = html_entity_decode($new_code);
@@ -24,7 +24,9 @@ $postedValue = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 <html>
 <head>
 <title></title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head><body>'.$postedValue.'</body></html>';
 $fp = fopen("../Exercices/temp.htm","w");
 fputs($fp,$postedValue);

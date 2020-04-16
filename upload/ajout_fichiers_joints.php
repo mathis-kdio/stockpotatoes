@@ -13,7 +13,7 @@ if (isset($_SESSION['Sess_nom'])) {
 
 function sans_accent($chaine) 
 { 
-   $accent  ="ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿ"; 
+   $accent  ="Ã€ÃÃ‚ÃƒÃ„Ã…Ã†Ã‡ÃˆÃ‰ÃŠÃ‹ÃŒÃÃŽÃÃÃ‘Ã’Ã“Ã”Ã•Ã–Ã˜Ã™ÃšÃ›ÃœÃÃžÃŸÃ Ã¡Ã¢Ã£Ã¤Ã¥Ã¦Ã§Ã¨Ã©ÃªÃ«Ã¬Ã­Ã®Ã¯Ã°Ã±Ã²Ã³Ã´ÃµÃ¶Ã¸Ã¹ÃºÃ»Ã½Ã½Ã¾Ã¿"; 
    $noaccent="aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyyby"; 
    return strtr(trim($chaine),$accent,$noaccent); 
 } 
@@ -73,19 +73,19 @@ if (!Empty($_POST['submit'])) {
     // Si vous voulez renommer le fichier...
     //$Upload-> Filename     = 'fichier';
     
-    // Si vous voulez ajouter un préfixe au nom du fichier...
+    // Si vous voulez ajouter un prÃ©fixe au nom du fichier...
     //$Upload-> Prefixe = 'pre_';
     
     // Si vous voulez ajouter un suffixe au nom du fichier...
     //$Upload-> Suffice = '_suf';
     
-    // Pour changer le mode d'écriture (entre 0 et 3)
+    // Pour changer le mode d'Ã©criture (entre 0 et 3)
     //$Upload-> WriteMode    = 0;
     
     // Pour filtrer les fichiers par extension
     //$Upload-> Extension = '.gif;.jpg;.jpeg;.bmp;.png';
     
-    // Pour filtrer les fichiers par entête
+    // Pour filtrer les fichiers par entÃªte
     //$Upload-> MimeType  = 'image/gif;image/pjpeg;image/bmp;image/x-png'; 
     
     // Pour tester la largeur / hauteur d'une image
@@ -94,43 +94,43 @@ if (!Empty($_POST['submit'])) {
     //$Upload-> ImgMinHeight = 100;
     //$Upload-> ImgMinWidth  = 100;
     
-    // Pour vérifier la page appelante
+    // Pour vÃ©rifier la page appelante
     //$Upload-> CheckReferer = 'http://mondomaine/mon_chemin/mon_fichier.php';
     
-    // Pour générer une erreur si les champs sont obligatoires
+    // Pour gÃ©nÃ©rer une erreur si les champs sont obligatoires
     //$Upload-> Required     = false;
     
-    // Pour interdire automatiquement tous les fichiers considérés comme "dangereux"
+    // Pour interdire automatiquement tous les fichiers considÃ©rÃ©s comme "dangereux"
     //$Upload-> SecurityMax  = true;
     
-    // Définition du répertoire de destination
+    // DÃ©finition du rÃ©pertoire de destination
 	$rep_complet='../Exercices/'.$_POST['rep'];
     $Upload-> DirUpload    = $rep_complet;
 
-    // On lance la procédure d'upload
+    // On lance la procÃ©dure d'upload
     $Upload-> Execute();
     
-   // Gestion erreur / succès
+   // Gestion erreur / succÃ¨s
    // if ($UploadError) {
    //  print 'Il y a eu une erreur :'; 
    // } else {
-   //    print '<strong>Envoi des fichiers effectué avec succès </strong>';
+   //    print '<strong>Envoi des fichiers effectuÃ© avec succÃ¨s </strong>';
    //        }
 		
  
 }
 
 /**
- * Création du formulaire
+ * CrÃ©ation du formulaire
  **/
 
-// Pour limiter la taille d'un fichier (exprimée en ko) - 1024 soit 1 Mo par defaut
+// Pour limiter la taille d'un fichier (exprimÃ©e en ko) - 1024 soit 1 Mo par defaut
 //$Upload-> MaxFilesize  = '1024';
 
 // Pour ajouter des attributs aux champs de type file
 $Upload-> FieldOptions = 'style="border-color:black;border-width:1px;"';
 
-// Pour indiquer le nombre de champs désiré
+// Pour indiquer le nombre de champs dÃ©sirÃ©
 $Upload-> Fields       = 6;
 
 // Initialisation du formulaire
@@ -140,7 +140,9 @@ $Upload-> InitForm();
 <head>
 <title>Envoi de fichiers joints &agrave; un exercice ( image, son, vid&eacute;o... 
 )</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../style_jaune.css" rel="stylesheet" type="text/css">
 </head>
 <body>

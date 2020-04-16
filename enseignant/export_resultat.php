@@ -54,7 +54,7 @@ fputs($fp, $chaine);
   et Open Office a &eacute;t&eacute; g&eacute;n&eacute;r&eacute;.</strong></p>
 <p align="center">&nbsp;</p>
 <p align="center">&nbsp;</p>
-<p align="center"><a href="../Exercices/resultats.csv"><strong>Voir ou télécharger le fichier résultats.csv</strong></a></p>
+<p align="center"><a href="../Exercices/resultats.csv"><strong>Voir ou tÃ©lÃ©charger le fichier rÃ©sultats.csv</strong></a></p>
 <p align="center">&nbsp;</p>
 <p align="center"><a href="../index.php">Accueil Stockpotatoes</a> - <a href="../enseignant/accueil_enseignant.php">Espace Enseignant</a> - <a href="../administrateur/login_administrateur.php">Espace Administrateur</a></p>
 <p align="center"><a href="../upload/upload_menu.php">Envoyer un exercice ou un document sur le serveur</a></p>

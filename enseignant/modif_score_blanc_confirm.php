@@ -53,7 +53,9 @@ $Result1 = mysqli_query($conn_intranet, $deleteSQL) or die(mysqli_error());
 
 <head>
 
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../style_jaune.css" rel="stylesheet" type="text/css">
 
 <title>Remise &agrave; blanc des notes &gt; Confirmation</title></head>
@@ -69,7 +71,7 @@ $Result1 = mysqli_query($conn_intranet, $deleteSQL) or die(mysqli_error());
         <p>&nbsp;</p>
       </div>
       <div align="center"><strong><?php echo 'Classe : '.$_POST['classe'];
-echo '<BR>N° Exercice : '.$_POST['ID_quiz']; ?> </strong> 
+echo '<BR>NÂ° Exercice : '.$_POST['ID_quiz']; ?> </strong> 
         <p><strong>Suppression effectu&eacute;e</strong></p>
         <p>&nbsp;</p>
       </div>

@@ -12,14 +12,16 @@ if (isset($_SESSION['Sess_nom'])) {
 <html>
 <head>
 <title>Document sans titre</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 <?php require_once('../Connections/conn_intranet.php'); 
 require_once('../Connections/conn_editeur.inc.php'); 
 
 function sans_accent($chaine) 
 { 
-   $accent  ="ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿ"; 
+   $accent  ="Ã€ÃÃ‚ÃƒÃ„Ã…Ã†Ã‡ÃˆÃ‰ÃŠÃ‹ÃŒÃÃŽÃÃÃ‘Ã’Ã“Ã”Ã•Ã–Ã˜Ã™ÃšÃ›ÃœÃÃžÃŸÃ Ã¡Ã¢Ã£Ã¤Ã¥Ã¦Ã§Ã¨Ã©ÃªÃ«Ã¬Ã­Ã®Ã¯Ã°Ã±Ã²Ã³Ã´ÃµÃ¶Ã¸Ã¹ÃºÃ»Ã½Ã½Ã¾Ã¿"; 
    $noaccent="aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyyby"; 
    return strtr(trim($chaine),$accent,$noaccent); 
 } 
@@ -86,7 +88,7 @@ $contenu = str_replace('src="http://','h_t_t_p', $contenu);
 $chaine_supp=$chemin_images.'Image/';
 //on remet le chemin du dossier images temporaires devant le nom de chaque fichier image
 $contenu = str_replace('src="','src="'.$chaine_supp, $contenu);
-// on remet dans l'état initial le chemin des smyley et les liens externes
+// on remet dans l'Ã©tat initial le chemin des smyley et les liens externes
 $contenu = str_replace('t_e_m_p',$chaine_temp, $contenu);
 $contenu = str_replace('h_t_t_p','src="http://', $contenu);
 //copie des images idans le dossier temporaire
@@ -100,7 +102,7 @@ while($file = readdir($handle)) {
 	}
 }
 
-// Fermeture du répertoire courant
+// Fermeture du rÃ©pertoire courant
 closedir($handle);
 
 // Tri du tableau
@@ -120,7 +122,9 @@ include("fckeditor.php") ;
 <html>
 	<head>
 		<title>Modifier un document r&eacute;dig&eacute; en ligne</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<meta name="robots" content="noindex, nofollow">
 		<link href="../style_jaune.css" rel="stylesheet" type="text/css">
 </head>

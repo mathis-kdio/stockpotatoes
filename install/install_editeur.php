@@ -3,8 +3,10 @@ require_once('../Connections/conn_editeur.inc.php');
 ?>
 <html>
 <head>
-<title>Paramètres de l'éditeur en ligne</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>ParamÃ¨tres de l'Ã©diteur en ligne</title>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../style_jaune.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 <!--

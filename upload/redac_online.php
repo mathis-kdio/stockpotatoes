@@ -35,7 +35,9 @@ include("fckeditor.php") ;
 	<head>
 		<title>Rédiger un document en ligne</title>
 		<meta name="robots" content="noindex, nofollow">
-		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<link href="sample.css" rel="stylesheet" type="text/css">
 		<link href="../style_jaune.css" rel="stylesheet" type="text/css">
 

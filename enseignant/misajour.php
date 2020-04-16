@@ -108,7 +108,9 @@ $totalRows_RsNiveau = mysqli_num_rows($RsNiveau);
 <html>
 <head>
 <title>Mise &agrave; jour d'une fiche exercice</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../style_jaune.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -133,7 +135,7 @@ $totalRows_RsNiveau = mysqli_num_rows($RsNiveau);
             <td><div align="right"><strong>Th&egrave;me d'&eacute;tude</strong></div></td>
             <td class="retrait20"> 
 				<select name="ID_theme" id="ID_theme"> 
-				<option value="0" <?php if (!(strcmp($row_RsTheme['ID_theme'], $_POST['theme_ID']))) {echo "SELECTED";} ?>>Aucun thème (Divers)</option>
+				<option value="0" <?php if (!(strcmp($row_RsTheme['ID_theme'], $_POST['theme_ID']))) {echo "SELECTED";} ?>>Aucun thÃ¨me (Divers)</option>
                 <?php     
 				do { ?>
                 	<option value="<?php echo $row_RsTheme['ID_theme']?>"<?php if (!(strcmp($row_RsTheme['ID_theme'], $_POST['theme_ID']))) {echo "SELECTED";} ?>><?php echo $row_RsTheme['theme']?></option>

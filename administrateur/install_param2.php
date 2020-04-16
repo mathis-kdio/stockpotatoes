@@ -14,7 +14,7 @@ $base			= $_POST['base'] ;
 function EcrireFichier($serveur,$base,$login, $password ) {
 
 		$fp = @fopen("../Connections/conn_intranet.php", "w")
-			or die ("<b>Le fichier Connections/conn_intranet.php n'a pas pu �tre ouvert. V�rifiez que vous poss�dez les droits en �criture sur ce fichier. </b>");
+			or die ("<b>Le fichier Connections/conn_intranet.php n'a pas pu être ouvert. Vérifiez que vous possédez les droits en écriture sur ce fichier. </b>");
 	
 		
 		$data = "<?PHP\n";
@@ -22,7 +22,7 @@ function EcrireFichier($serveur,$base,$login, $password ) {
         $data.= " \$database_conn_intranet = \"". $base."\";\n";
 		$data.= " \$username_conn_intranet = \"".$login."\";\n";
 		$data.= " \$password_conn_intranet = \"".$password."\";\n";
-		$data.= " \$conn_intranet = mysqli_pconnect(\$hostname_conn_intranet, \$username_conn_intranet, \$password_conn_intranet) or die(mysqli_error());\n";
+		$data.= " \$conn_intranet = mysql_pconnect(\$hostname_conn_intranet, \$username_conn_intranet, \$password_conn_intranet) or die(mysql_error());\n";
 		$data.= "\n";
 		$data.= "?>";
 		$desc = @fwrite($fp, $data) or die ("<b>Erreur > Ecriture du fichier de configuration ! </b>");
@@ -44,7 +44,9 @@ require_once('../Connections/conn_intranet.php');
 <html>
 <head>
 <title>Installation du Serveur > Etape 2</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../style_jaune.css" rel="stylesheet" type="text/css">
 </head>
 <body>

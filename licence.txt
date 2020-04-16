@@ -1,5 +1,5 @@
 
-Ce logiciel est diffusé dans les conditions de la licence GNU general public licence
+Ce logiciel est diffusÃ© dans les conditions de la licence GNU general public licence
 Vous devrez laisser le logo Stockpotatoes et le nom de l'auteur sur la page d'accueil.
 
 pierre.lemaitre@etab.ac-caen.fr
@@ -7,7 +7,7 @@ pierre.lemaitre@etab.ac-caen.fr
 et pour les chocolats...
 
 Pierre Lemaitre
-8 La Bretonnière
+8 La BretonniÃ¨re
 50180 Saint Gilles
 
 

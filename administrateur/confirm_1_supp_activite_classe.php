@@ -6,8 +6,8 @@ if (isset($_SESSION['Sess_nom'])) {
 
 if (isset($_POST['confirmation'])) {
   $deleteSQL = "DELETE FROM stock_activite WHERE stock_activite.nom_classe = '".$_POST['classe']."'";
-  mysqli_select_db($conn_intranet, $database_conn_intranet);
-  $Result1 = mysqli_query($conn_intranet, $deleteSQL) or die(mysqli_error());
+  mysql_select_db($database_conn_intranet, $conn_intranet);
+  $Result1 = mysql_query($deleteSQL, $conn_intranet) or die(mysql_error());
   $deleteGoTo = "confirm_2_supp_activite_classe.php";
   
 header(sprintf("Location: %s", $deleteGoTo));
@@ -22,7 +22,9 @@ header(sprintf("Location: %s", $deleteGoTo));
 <html>
 <head>
 <title>Confimation Suppression Activit&eacute;</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../style_jaune.css" rel="stylesheet" type="text/css">
 <script language="JavaScript" type="text/JavaScript">
 <!--

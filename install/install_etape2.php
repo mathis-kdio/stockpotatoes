@@ -1,7 +1,9 @@
 <html>
 <head>
-<title>Paramètres de connexion à la base de donnée</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>ParamÃ¨tres de connexion Ã  la base de donnÃ©e</title>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../style_jaune.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -32,7 +34,7 @@
     </tr>
     <tr> 
       <td width="50%"><b>Serveur MySQL:</b><br>
-        Adresse IP ou URL de votre serveur de bases de données MySQL. La valeur<font color="#0000FF"> 
+        Adresse IP ou URL de votre serveur de bases de donnÃ©es MySQL. La valeur<font color="#0000FF"> 
         <strong>localhost</strong></font> conviendra dans le cas d'un Intranet<br>
         Chez Free, ce sera <font color="#990000"><strong>sql.free.fr. </strong><font color="#000000">Attention, 
         il convient &eacute;videmment d'avoir activ&eacute; sa base MySql chez 
@@ -55,7 +57,7 @@
       <td width="50%"> <input type="password" name="password" size="25" maxlength="80" ></td>
     </tr>
     <tr> 
-      <td width="50%"><p><b>Nom de la base de données :<br>
+      <td width="50%"><p><b>Nom de la base de donnÃ©es :<br>
           </b>Conservez la valeur <strong><font color="#0000FF">stockpotatoes</font></strong> 
           dans le cas d'un Intranet ou dans le cas ou vous ne disposez pas encore 
           d'une base<b>.<br>

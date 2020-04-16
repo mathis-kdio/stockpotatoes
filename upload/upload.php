@@ -3,7 +3,7 @@
 
 function sans_accent($chaine) 
 { 
-   $accent  ="��������������������������������������������������������������"; 
+   $accent  ="ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿ"; 
    $noaccent="aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyyby"; 
    return strtr(trim($chaine),$accent,$noaccent); 
 } 
@@ -38,23 +38,23 @@ if (isset($HTTP_SERVER_VARS['QUERY_STRING'])) {
   $editFormAction .= "?" . $HTTP_SERVER_VARS['QUERY_STRING'];
 }
 
-mysqli_select_db($conn_intranet, $database_conn_intranet);
+mysql_select_db($database_conn_intranet, $conn_intranet);
 $query_RsMaxId_quiz = "SELECT MAX( Id_quiz )  FROM stock_quiz";
-$RsMaxId_quiz = mysqli_query($conn_intranet, $query_RsMaxId_quiz) or die(mysqli_error());
-$row_RsMaxId_quiz = mysqli_fetch_assoc($RsMaxId_quiz);
-$totalRows_RsMaxId_quiz = mysqli_num_rows($RsMaxId_quiz);
+$RsMaxId_quiz = mysql_query($query_RsMaxId_quiz, $conn_intranet) or die(mysql_error());
+$row_RsMaxId_quiz = mysql_fetch_assoc($RsMaxId_quiz);
+$totalRows_RsMaxId_quiz = mysql_num_rows($RsMaxId_quiz);
 
-mysqli_select_db($conn_intranet, $database_conn_intranet);
+mysql_select_db($database_conn_intranet, $conn_intranet);
 $query_rs_matiere = "SELECT * FROM stock_matiere ORDER BY stock_matiere.nom_mat";
-$rs_matiere = mysqli_query($conn_intranet, $query_rs_matiere) or die(mysqli_error());
-$row_rs_matiere = mysqli_fetch_assoc($rs_matiere);
-$totalRows_rs_matiere = mysqli_num_rows($rs_matiere);
+$rs_matiere = mysql_query($query_rs_matiere, $conn_intranet) or die(mysql_error());
+$row_rs_matiere = mysql_fetch_assoc($rs_matiere);
+$totalRows_rs_matiere = mysql_num_rows($rs_matiere);
 
-mysqli_select_db($conn_intranet, $database_conn_intranet);
+mysql_select_db($database_conn_intranet, $conn_intranet);
 $query_rs_niveau = "SELECT * FROM stock_niveau";
-$rs_niveau = mysqli_query($conn_intranet, $query_rs_niveau) or die(mysqli_error());
-$row_rs_niveau = mysqli_fetch_assoc($rs_niveau);
-$totalRows_rs_niveau = mysqli_num_rows($rs_niveau);
+$rs_niveau = mysql_query($query_rs_niveau, $conn_intranet) or die(mysql_error());
+$row_rs_niveau = mysql_fetch_assoc($rs_niveau);
+$totalRows_rs_niveau = mysql_num_rows($rs_niveau);
 	
 	
 $choixmat_RsTheme = "0";
@@ -65,21 +65,21 @@ $choixniv_RsTheme = "0";
 if (isset($HTTP_POST_VARS['niveau_ID'])) {
   $choixniv_RsTheme = (get_magic_quotes_gpc()) ? $HTTP_POST_VARS['niveau_ID'] : addslashes($HTTP_POST_VARS['niveau_ID']);
 }
-mysqli_select_db($conn_intranet, $database_conn_intranet);
+mysql_select_db($database_conn_intranet, $conn_intranet);
 $query_RsTheme = sprintf("SELECT * FROM stock_theme WHERE stock_theme.mat_ID=%s AND stock_theme.niv_ID=%s ORDER BY stock_theme.theme", $choixmat_RsTheme,$choixniv_RsTheme);
-$RsTheme = mysqli_query($conn_intranet, $query_RsTheme) or die(mysqli_error());
-$row_RsTheme = mysqli_fetch_assoc($RsTheme);
-$totalRows_RsTheme = mysqli_num_rows($RsTheme);
+$RsTheme = mysql_query($query_RsTheme, $conn_intranet) or die(mysql_error());
+$row_RsTheme = mysql_fetch_assoc($RsTheme);
+$totalRows_RsTheme = mysql_num_rows($RsTheme);
 
 $selection_RsChoixMatiere = "0";
 if (isset($HTTP_POST_VARS['matiere_ID'])) {
   $selection_RsChoixMatiere = (get_magic_quotes_gpc()) ? $HTTP_POST_VARS['matiere_ID'] : addslashes($HTTP_POST_VARS['matiere_ID']);
 }
-mysqli_select_db($conn_intranet, $database_conn_intranet);
+mysql_select_db($database_conn_intranet, $conn_intranet);
 $query_RsChoixMatiere = sprintf("SELECT * FROM stock_matiere WHERE stock_matiere.ID_mat=%s", $selection_RsChoixMatiere);
-$RsChoixMatiere = mysqli_query($conn_intranet, $query_RsChoixMatiere) or die(mysqli_error());
-$row_RsChoixMatiere = mysqli_fetch_assoc($RsChoixMatiere);
-$totalRows_RsChoixMatiere = mysqli_num_rows($RsChoixMatiere);
+$RsChoixMatiere = mysql_query($query_RsChoixMatiere, $conn_intranet) or die(mysql_error());
+$row_RsChoixMatiere = mysql_fetch_assoc($RsChoixMatiere);
+$totalRows_RsChoixMatiere = mysql_num_rows($RsChoixMatiere);
 
 
 
@@ -101,26 +101,26 @@ $Upload = new Upload();
 
 if (!Empty($_POST['submit2'])) {
 if ($HTTP_POST_VARS['titre']=='') {
- print '<strong><center><font size=5 color="#FF0000">Il faut donner un titre � votre document </font> </center></strong>';
+ print '<strong><center><font size=5 color="#FF0000">Il faut donner un titre à votre document </font> </center></strong>';
     echo '<BR><hr>';
 } else {
 
     // Si vous voulez renommer le fichier...
     //$Upload-> Filename     = 'fichier';
     
-    // Si vous voulez ajouter un pr�fixe au nom du fichier...
+    // Si vous voulez ajouter un préfixe au nom du fichier...
     //$Upload-> Prefixe = 'pre_';
     
     // Si vous voulez ajouter un suffixe au nom du fichier...
     //$Upload-> Suffice = '_suf';
     
-    // Pour changer le mode d'�criture (entre 0 et 3)
+    // Pour changer le mode d'écriture (entre 0 et 3)
     //$Upload-> WriteMode    = 0;
     
     // Pour filtrer les fichiers par extension
     //$Upload-> Extension = '.htm;.html';
     
-    // Pour filtrer les fichiers par ent�te
+    // Pour filtrer les fichiers par entête
     //$Upload-> MimeType  = 'image/gif;image/pjpeg;image/bmp;image/x-png'; 
     
     // Pour tester la largeur / hauteur d'une image
@@ -129,33 +129,33 @@ if ($HTTP_POST_VARS['titre']=='') {
     //$Upload-> ImgMinHeight = 100;
     //$Upload-> ImgMinWidth  = 100;
     
-    // Pour v�rifier la page appelante
+    // Pour vérifier la page appelante
     //$Upload-> CheckReferer = 'http://mondomaine/mon_chemin/mon_fichier.php';
     
-    // Pour g�n�rer une erreur si les champs sont obligatoires
+    // Pour générer une erreur si les champs sont obligatoires
     //$Upload-> Required     = false;
     
-    // Pour interdire automatiquement tous les fichiers consid�r�s comme "dangereux"
+    // Pour interdire automatiquement tous les fichiers considérés comme "dangereux"
     //$Upload-> SecurityMax  = true;
     
-    // D�finition du r�pertoire de destination
+    // Définition du répertoire de destination
 	
 $total=$row_RsMaxId_quiz['MAX( Id_quiz )']+1;
 $nom_matiere=sans_accent($row_RsChoixMatiere['nom_mat']);
 $repertoire='../Exercices/'.$nom_matiere.'/q'.$total;
 $old_umask = umask(0);
-if (is_dir($repertoire)) {echo "<center> Le dossier ".$repertoire." existait d�j� </center><BR> "; } else { mkdir($repertoire,0777);}
+if (is_dir($repertoire)) {echo "<center> Le dossier ".$repertoire." existait déjà </center><BR> "; } else { mkdir($repertoire,0777);}
 umask($old_umask);
 
 $Upload-> DirUpload    = $repertoire;
 
 
-    // On lance la proc�dure d'upload
+    // On lance la procédure d'upload
 $Upload-> Execute();
 
 
 
-    // Gestion erreur / succ�s
+    // Gestion erreur / succès
     if ($UploadError) {
         print 'Il y a eu une erreur :'; 
         pArray($Upload-> GetError());
@@ -163,7 +163,7 @@ $Upload-> Execute();
 	$aFichier1 = $Upload-> GetSummary(1);
 	$chemin=$repertoire.'/'.$aFichier1['nom'];
 	chmod($chemin,0777);
-    print '<strong><center><font size=5 color="#FF0000">Le fichier '.$aFichier1['nom']. ' a �t� envoy� sur le serveur </font> </center></strong>';
+    print '<strong><center><font size=5 color="#FF0000">Le fichier '.$aFichier1['nom']. ' a été envoyé sur le serveur </font> </center></strong>';
     echo '<BR><hr>';
 	//pArray($Upload-> GetSummary());
 	
@@ -188,8 +188,8 @@ $Upload-> Execute();
                        GetSQLValueString($avec_score, "text"),
 					   GetSQLValueString($evaluation_seul, "text"));
 
-             mysqli_select_db($conn_intranet, $database_conn_intranet);
-             $Result1 = mysqli_query($conn_intranet, $insertSQL) or die(mysqli_error());
+  mysql_select_db($database_conn_intranet, $conn_intranet);
+  $Result1 = mysql_query($insertSQL, $conn_intranet) or die(mysql_error());
 }
 		
 		
@@ -200,16 +200,16 @@ $Upload-> Execute();
 }
 
 /**
- * Cr�ation du formulaire
+ * Création du formulaire
  **/
 
-// Pour limiter la taille d'un fichier (exprim�e en ko)
+// Pour limiter la taille d'un fichier (exprimée en ko)
 $Upload-> MaxFilesize  = '1024';
 
 // Pour ajouter des attributs aux champs de type file
 $Upload-> FieldOptions = 'style="border-color:black;border-width:1px;"';
 
-// Pour indiquer le nombre de champs d�sir�
+// Pour indiquer le nombre de champs désiré
 $Upload-> Fields       = 2;
 
 // Initialisation du formulaire
@@ -221,7 +221,9 @@ $Upload-> InitForm();
 <html>
 <head>
 <title>Mettre un exercice en ligne &gt; Fiche</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../style_jaune.css" rel="stylesheet" type="text/css">
 <script language="JavaScript" type="text/JavaScript">
 <!--
@@ -258,11 +260,11 @@ do {
 ?>
             <option value="<?php echo $row_rs_matiere['ID_mat']?>"<?php if (!(strcmp($row_rs_matiere['ID_mat'], $HTTP_POST_VARS['matiere_ID']))) {echo "SELECTED";} ?>><?php echo $row_rs_matiere['nom_mat']?></option>
             <?php
-} while ($row_rs_matiere = mysqli_fetch_assoc($rs_matiere));
-  $rows = mysqli_num_rows($rs_matiere);
+} while ($row_rs_matiere = mysql_fetch_assoc($rs_matiere));
+  $rows = mysql_num_rows($rs_matiere);
   if($rows > 0) {
-      mysqli_data_seek($rs_matiere, 0);
-	  $row_rs_matiere = mysqli_fetch_assoc($rs_matiere);
+      mysql_data_seek($rs_matiere, 0);
+	  $row_rs_matiere = mysql_fetch_assoc($rs_matiere);
   }
 ?>
           </select>
@@ -274,11 +276,11 @@ do {
 ?>
             <option value="<?php echo $row_rs_niveau['ID_niveau']?>"<?php if (!(strcmp($row_rs_niveau['ID_niveau'], $HTTP_POST_VARS['niveau_ID']))) {echo "SELECTED";} ?>><?php echo $row_rs_niveau['nom_niveau']?></option>
             <?php
-} while ($row_rs_niveau = mysqli_fetch_assoc($rs_niveau));
-  $rows = mysqli_num_rows($rs_niveau);
+} while ($row_rs_niveau = mysql_fetch_assoc($rs_niveau));
+  $rows = mysql_num_rows($rs_niveau);
   if($rows > 0) {
-      mysqli_data_seek($rs_niveau, 0);
-	  $row_rs_niveau = mysqli_fetch_assoc($rs_niveau);
+      mysql_data_seek($rs_niveau, 0);
+	  $row_rs_niveau = mysql_fetch_assoc($rs_niveau);
   }
 ?>
           </select>
@@ -295,17 +297,17 @@ do {
       <td nowrap align="right">Ce fichier est relatif &agrave; l'&eacute;tude 
         du th&egrave;me </td>
       <td> <select name="theme_ID" id="select">
-          <option value="value">Selectionnez un th�me</option>
+          <option value="value">Selectionnez un thème</option>
           <?php
 do {  
 ?>
           <option value="<?php echo $row_RsTheme['ID_theme']?>"><?php echo $row_RsTheme['theme']?></option>
           <?php
-} while ($row_RsTheme = mysqli_fetch_assoc($RsTheme));
-  $rows = mysqli_num_rows($RsTheme);
+} while ($row_RsTheme = mysql_fetch_assoc($RsTheme));
+  $rows = mysql_num_rows($RsTheme);
   if($rows > 0) {
-      mysqli_data_seek($RsTheme, 0);
-	  $row_RsTheme = mysqli_fetch_assoc($RsTheme);
+      mysql_data_seek($RsTheme, 0);
+	  $row_RsTheme = mysql_fetch_assoc($RsTheme);
   }
 ?>
         </select> 
@@ -384,14 +386,14 @@ print $Upload-> Field[1] . '<br>';
 </body>
 </html>
 <?php
-mysqli_free_result($RsMaxId_quiz);
+mysql_free_result($RsMaxId_quiz);
 
-mysqli_free_result($rs_matiere);
+mysql_free_result($rs_matiere);
 
-mysqli_free_result($rs_niveau);
+mysql_free_result($rs_niveau);
 
-mysqli_free_result($RsTheme);
+mysql_free_result($RsTheme);
 
-mysqli_free_result($RsChoixMatiere);
+mysql_free_result($RsChoixMatiere);
 ?>
 

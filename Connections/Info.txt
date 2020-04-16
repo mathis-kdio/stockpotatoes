@@ -1,2 +1,2 @@
-Dans ce dossier seront crées les fichiers conn_intranet.php ,gestion_pass.inc.php et conn_editeur.inc.php
-Ces fichiers recevront des droits en écriture (777) comme le dossier Connections.
+Dans ce dossier seront crÃ©es les fichiers conn_intranet.php ,gestion_pass.inc.php et conn_editeur.inc.php
+Ces fichiers recevront des droits en Ã©criture (777) comme le dossier Connections.

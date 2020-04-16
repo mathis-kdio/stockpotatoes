@@ -62,7 +62,9 @@ $totalRows_RsActiviteClasse = mysqli_num_rows($RsActiviteClasse);
 <html>
 <head>
 <title>R&eacute;sultats d'un quiz pour une classe</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../style_jaune.css" rel="stylesheet" type="text/css">
 <script language="JavaScript" type="text/JavaScript">
 <!--

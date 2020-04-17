@@ -19,7 +19,7 @@ if (isset($_POST['pass']))
 
 mysqli_select_db($conn_intranet, $database_conn_intranet);
 
-$query_rsLogin = sprintf("SELECT stock_eleve.ID_eleve, stock_eleve.nom, stock_eleve.prenom, stock_eleve.classe, stock_eleve.pass FROM stock_eleve WHERE stock_eleve.ID_eleve='%s' AND stock_eleve.pass='%s'", $collog_rsLogin, $colpass_rsLogin);
+$query_rsLogin = sprintf("SELECT * FROM stock_eleve WHERE stock_eleve.ID_eleve='%s' AND stock_eleve.pass='%s'", $collog_rsLogin, $colpass_rsLogin);
 $rsLogin = mysqli_query($conn_intranet, $query_rsLogin) or die(mysqli_error());
 $row_rsLogin = mysqli_fetch_assoc($rsLogin);
 $totalRows_rsLogin = mysqli_num_rows($rsLogin);
@@ -50,7 +50,7 @@ if ((isset($_POST['valider'])) && ($_POST['valider']=="ok"))
 		$_SESSION['Sess_prenom'] = $row_rsLogin['prenom'];
 		$_SESSION['Sess_classe'] = $row_rsLogin['classe'];
 		$_SESSION['Sess_niveau'] = $row_rsLogin['niveau'];	
-		header('Location: accueil_eleve.php?matiere_ID=3&ID_niveau='.$_SESSION['Sess_niveau'].'&Submit=Valider');
+		header('Location: accueil_eleve.php?matiere_ID=1&niveau_ID='.$_SESSION['Sess_niveau'].'&Submit=Valider');
 	}
 	else
 	{

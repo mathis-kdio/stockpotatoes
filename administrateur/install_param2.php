@@ -19,10 +19,11 @@ function EcrireFichier($serveur,$base,$login, $password ) {
 		
 		$data = "<?PHP\n";
 		$data.= " \$hostname_conn_intranet = \"".$serveur."\";\n";
-        $data.= " \$database_conn_intranet = \"". $base."\";\n";
+    $data.= " \$database_conn_intranet = \"". $base."\";\n";
 		$data.= " \$username_conn_intranet = \"".$login."\";\n";
 		$data.= " \$password_conn_intranet = \"".$password."\";\n";
-		$data.= " \$conn_intranet = mysql_pconnect(\$hostname_conn_intranet, \$username_conn_intranet, \$password_conn_intranet) or die(mysql_error());\n";
+		$data.= " \$conn_intranet = mysqli_pconnect(\$hostname_conn_intranet, \$username_conn_intranet, \$password_conn_intranet) or die(mysqli_error());\n";
+    $data.= " mysqli_set_charset(\$conn_intranet, 'utf8mb4');\n"; 
 		$data.= "\n";
 		$data.= "?>";
 		$desc = @fwrite($fp, $data) or die ("<b>Erreur > Ecriture du fichier de configuration ! </b>");

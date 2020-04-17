@@ -58,7 +58,8 @@ if (isset($_SESSION['Sess_nom'])) {
     &agrave; un exercice dans une classe</a></strong></p></td>
   </tr>
   <tr valign="top"> 
-    <td width="50%" bgcolor="#cccc99" class="retrait20">&nbsp;</td>
+    <td width="50%" bgcolor="#cccc99" class="retrait20"> <p><strong><a href="gestion_categorie.php">Gestion 
+    des categories d'&eacute;tude dans une mati&egrave;re</a></strong></p></td>
     <td width="50%" bgcolor="#cccc99" class="retrait20"><a href="liste_resultat_theme_classe.php"><strong>R&eacute;sultats 
       des exercices li&eacute;s &agrave; un th&egrave;me pour une classe</strong></a></td>
   </tr>

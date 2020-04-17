@@ -21,10 +21,10 @@ function EcrireFichier($serveur,$base,$login, $password ) {
 			or die ("<b>Le fichier Connections/conn_intranet.php n'a pas pu être ouvert. Vérifiez que vous possédez les droits en écriture sur ce fichier. </b>");
 		$data = "<?php\n";
 		$data.= " \$hostname_conn_intranet = \"".$serveur."\";\n";
-        $data.= " \$database_conn_intranet = \"". $base."\";\n";
+    $data.= " \$database_conn_intranet = \"". $base."\";\n";
 		$data.= " \$username_conn_intranet = \"".$login."\";\n";
 		$data.= " \$password_conn_intranet = \"".$password."\";\n";
-		$data.= " \$conn_intranet = mysqli_connect(\$hostname_conn_intranet, \$username_conn_intranet, \$password_conn_intranet) or die(mysql_error());\n";
+		$data.= " \$conn_intranet = mysqli_connect(\$hostname_conn_intranet, \$username_conn_intranet, \$password_conn_intranet) or die(mysqli_error());\n";
 		$data.= " mysqli_set_charset(\$conn_intranet, 'utf8mb4');\n";	
 		$data.= "\n";
 		$data.= "?>";
@@ -35,11 +35,11 @@ function EcrireFichier($serveur,$base,$login, $password ) {
 			or die ("<b>Le fichier Connections/gestion_pass.inc.php n'a pas pu être ouvert. Vérifiez que vous possédez les droits en écriture sur ce fichier. </b>");
 		$data = "<?php\n";
 		$data.= " \$pass_profs = \"tuteur\";\n";
-        $data.= " \$pass_admin = \"maitre\";\n";
+    $data.= " \$pass_admin = \"maitre\";\n";
 		$data.= " \$pass_upload = \"hotpot\";\n";
 		$data.= "\n";
 		$data.= "?>";
-	    $desc = @fwrite($fp2, $data) or die ("<b>Erreur > Ecriture du fichier de configuration ! </b>");
+    $desc = @fwrite($fp2, $data) or die ("<b>Erreur > Ecriture du fichier de configuration ! </b>");
 		@fclose($fp2) or die ("<b>Erreur > Fermeture du fichier </b>");
 
 }

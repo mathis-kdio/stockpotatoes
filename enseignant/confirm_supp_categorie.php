@@ -34,20 +34,21 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   return $theValue;
 }
 
-if ((isset($_POST['ID_theme'])) && ($_POST['ID_theme'] != "")) {
-  $deleteSQL = sprintf("DELETE FROM stock_theme WHERE ID_theme=%s",
-                       GetSQLValueString($_POST['ID_theme'], "int"));
+if ((isset($_POST['ID_categorie'])) && ($_POST['ID_categorie'] != ""))
+{
+  $deleteSQL = sprintf("DELETE FROM stock_categorie WHERE ID_categorie=%s",
+                       GetSQLValueString($_POST['ID_categorie'], "int"));
   mysqli_select_db($conn_intranet, $database_conn_intranet);
-  $Result1 = mysqli_query($conn_intranet, $deleteSQL) or die(mysqli_error());
+  $Result1 = mysqli_query($conn_intranet, $deleteSQL) or die(mysqli_error($conn_intranet));
 
-  $updateSQL = sprintf("UPDATE stock_quiz SET theme_ID= 0 WHERE theme_ID=%s",
-                       GetSQLValueString($_POST['ID_theme'], "int"));
+  $updateSQL = sprintf("UPDATE stock_quiz SET categorie_ID= 0 WHERE categorie_ID=%s",
+                       GetSQLValueString($_POST['ID_categorie'], "int"));
   mysqli_select_db($conn_intranet, $database_conn_intranet);
-  $Result2 = mysqli_query($conn_intranet, $updateSQL) or die(mysqli_error());
+  $Result2 = mysqli_query($conn_intranet, $updateSQL) or die(mysqli_error($conn_intranet));
 
 
 
-  $deleteGoTo = "gestion_theme.php";
+  $deleteGoTo = "gestion_categorie.php";
   if (isset($_SERVER['QUERY_STRING'])) {
     $deleteGoTo .= (strpos($deleteGoTo, '?')) ? "&" : "?";
     $deleteGoTo .= $_SERVER['QUERY_STRING'];

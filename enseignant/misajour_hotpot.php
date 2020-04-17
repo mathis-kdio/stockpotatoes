@@ -95,7 +95,7 @@ $totalRows_RsTheme = mysqli_num_rows($RsTheme);
 
 mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsCategorie= sprintf("SELECT * FROM stock_categorie ORDER BY stock_categorie.ID_categorie");
-$RsCategorie = mysqli_query($conn_intranet, $query_RsCategorie) or die(mysql_error());
+$RsCategorie = mysqli_query($conn_intranet, $query_RsCategorie) or die(mysqli_error());
 $row_RsCategorie = mysqli_fetch_assoc($RsCategorie);
 $totalRows_RsCategorie = mysqli_num_rows($RsCategorie);
 

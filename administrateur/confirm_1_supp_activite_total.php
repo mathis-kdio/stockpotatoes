@@ -7,8 +7,8 @@ require_once('../Connections/conn_intranet.php');
 
 if (isset($_POST['confirmation'])) {
   $deleteSQL = ("DELETE FROM stock_activite");
-  mysql_select_db($database_conn_intranet, $conn_intranet);
-  $Result1 = mysql_query($deleteSQL, $conn_intranet) or die(mysql_error());
+  mysqli_select_db($conn_intranet, $database_conn_intranet);
+  $Result1 = mysqli_query($conn_intranet, $deleteSQL) or die(mysqli_error());
   $deleteGoTo = "confirm_2_supp_activite_total.php";
     
 header(sprintf("Location: %s", $deleteGoTo));

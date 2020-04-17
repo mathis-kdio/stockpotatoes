@@ -59,9 +59,9 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form2")) {
 					   GetSQLValueString($_POST['niveau_ID'], "text")
 					   );
 
-  mysql_select_db($database_conn_intranet, $conn_intranet);
-  $Result1 = mysql_query($updateSQL, $conn_intranet) or die(mysql_error());
-echo $updateSQL;
+  mysqli_select_db($conn_intranet, $database_conn_intranet);
+  $Result1 = mysqli_query($conn_intranet, $updateSQL) or die(mysqli_error());
+  echo $updateSQL;
   $updateGoTo = "liste_quiz_avecmodif.php";
   if (isset($_SERVER['QUERY_STRING'])) {
     $updateGoTo .= (strpos($updateGoTo, '?')) ? "&" : "?";
@@ -75,17 +75,17 @@ echo $updateSQL;
 
 
 
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_rs_matiere = "SELECT * FROM stock_matiere";
-$rs_matiere = mysql_query($query_rs_matiere, $conn_intranet) or die(mysql_error());
-$row_rs_matiere = mysql_fetch_assoc($rs_matiere);
-$totalRows_rs_matiere = mysql_num_rows($rs_matiere);
+$rs_matiere = mysqli_query($conn_intranet, $query_rs_matiere) or die(mysqli_error());
+$row_rs_matiere = mysqli_fetch_assoc($rs_matiere);
+$totalRows_rs_matiere = mysqli_num_rows($rs_matiere);
 
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_rs_niveau = "SELECT * FROM stock_niveau";
-$rs_niveau = mysql_query($query_rs_niveau, $conn_intranet) or die(mysql_error());
-$row_rs_niveau = mysql_fetch_assoc($rs_niveau);
-$totalRows_rs_niveau = mysql_num_rows($rs_niveau);
+$rs_niveau = mysqli_query($conn_intranet, $query_rs_niveau) or die(mysqli_error());
+$row_rs_niveau = mysqli_fetch_assoc($rs_niveau);
+$totalRows_rs_niveau = mysqli_num_rows($rs_niveau);
 
 $choix_mat_rsListeSelectMatiereNiveau = "0";
 if (isset($_POST['matiere_ID'])) {
@@ -95,31 +95,31 @@ $choix_niv_rsListeSelectMatiereNiveau = "0";
 if (isset($_POST['niveau_ID'])) {
   $choix_niv_rsListeSelectMatiereNiveau = (get_magic_quotes_gpc()) ? $_POST['niveau_ID'] : addslashes($_POST['niveau_ID']);
 }
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_rsListeSelectMatiereNiveau = sprintf("SELECT * FROM stock_quiz WHERE stock_quiz.matiere_ID=%s  AND stock_quiz.niveau_ID=%s ORDER BY stock_quiz.matiere_ID, stock_quiz.niveau_ID", $choix_mat_rsListeSelectMatiereNiveau,$choix_niv_rsListeSelectMatiereNiveau);
-$rsListeSelectMatiereNiveau = mysql_query($query_rsListeSelectMatiereNiveau, $conn_intranet) or die(mysql_error());
-$row_rsListeSelectMatiereNiveau = mysql_fetch_assoc($rsListeSelectMatiereNiveau);
-$totalRows_rsListeSelectMatiereNiveau = mysql_num_rows($rsListeSelectMatiereNiveau);
+$rsListeSelectMatiereNiveau = mysqli_query($conn_intranet, $query_rsListeSelectMatiereNiveau) or die(mysqli_error());
+$row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau);
+$totalRows_rsListeSelectMatiereNiveau = mysqli_num_rows($rsListeSelectMatiereNiveau);
 
 $colname_rsChoix = "1";
 if (isset($_POST['matiere_ID'])) {
   $colname_rsChoix = (get_magic_quotes_gpc()) ? $_POST['matiere_ID'] : addslashes($_POST['matiere_ID']);
 }
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_rsChoix = sprintf("SELECT * FROM stock_matiere WHERE ID_mat =%s", $colname_rsChoix);
-$rsChoix = mysql_query($query_rsChoix, $conn_intranet) or die(mysql_error());
-$row_rsChoix = mysql_fetch_assoc($rsChoix);
-$totalRows_rsChoix = mysql_num_rows($rsChoix);
+$rsChoix = mysqli_query($conn_intranet, $query_rsChoix) or die(mysqli_error());
+$row_rsChoix = mysqli_fetch_assoc($rsChoix);
+$totalRows_rsChoix = mysqli_num_rows($rsChoix);
 
 $colname_rsChoix2 = "1";
 if (isset($_POST['niveau_ID'])) {
   $colname_rsChoix2 = (get_magic_quotes_gpc()) ? $_POST['niveau_ID'] : addslashes($_POST['niveau_ID']);
 }
-mysql_select_db($database_conn_intranet, $conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_rsChoix2 = sprintf("SELECT * FROM stock_niveau WHERE ID_niveau = %s", $colname_rsChoix2);
-$rsChoix2 = mysql_query($query_rsChoix2, $conn_intranet) or die(mysql_error());
-$row_rsChoix2 = mysql_fetch_assoc($rsChoix2);
-$totalRows_rsChoix2 = mysql_num_rows($rsChoix2);
+$rsChoix2 = mysqli_query($conn_intranet, $query_rsChoix2) or die(mysqli_error());
+$row_rsChoix2 = mysqli_fetch_assoc($rsChoix2);
+$totalRows_rsChoix2 = mysqli_num_rows($rsChoix2);
 ?>
 <html>
 <head>
@@ -131,7 +131,7 @@ $totalRows_rsChoix2 = mysql_num_rows($rsChoix2);
 </head>
 <body>
 <?php 
-while ($row_rsListeSelectMatiereNiveau = mysql_fetch_assoc($rsListeSelectMatiereNiveau)) 
+while ($row_rsListeSelectMatiereNiveau = mysqi_fetch_assoc($rsListeSelectMatiereNiveau)) 
 {        
 //echo ($row_rsListeSelectMatiereNiveau[en_ligne]).'<BR>';
 
@@ -151,11 +151,11 @@ do {
 ?>
             <option value="<?php echo $row_rs_matiere['ID_mat']?>"<?php if (!(strcmp($row_rs_matiere['ID_mat'], $row_rsChoix['ID_mat']))) {echo "SELECTED";} ?>><?php echo $row_rs_matiere['nom_mat']?></option>
             <?php
-} while ($row_rs_matiere = mysql_fetch_assoc($rs_matiere));
-  $rows = mysql_num_rows($rs_matiere);
+} while ($row_rs_matiere = mysqli_fetch_assoc($rs_matiere));
+  $rows = mysqli_num_rows($rs_matiere);
   if($rows > 0) {
-      mysql_data_seek($rs_matiere, 0);
-	  $row_rs_matiere = mysql_fetch_assoc($rs_matiere);
+      mysqli_data_seek($rs_matiere, 0);
+	  $row_rs_matiere = mysqli_fetch_assoc($rs_matiere);
   }
 ?>
           </select>
@@ -167,11 +167,11 @@ do {
 ?>
             <option value="<?php echo $row_rs_niveau['ID_niveau']?>"<?php if (!(strcmp($row_rs_niveau['ID_niveau'], $row_rsChoix2['ID_niveau']))) {echo "SELECTED";} ?>><?php echo $row_rs_niveau['nom_niveau']?></option>
             <?php
-} while ($row_rs_niveau = mysql_fetch_assoc($rs_niveau));
-  $rows = mysql_num_rows($rs_niveau);
+} while ($row_rs_niveau = mysqli_fetch_assoc($rs_niveau));
+  $rows = mysqli_num_rows($rs_niveau);
   if($rows > 0) {
-      mysql_data_seek($rs_niveau, 0);
-	  $row_rs_niveau = mysql_fetch_assoc($rs_niveau);
+      mysqli_data_seek($rs_niveau, 0);
+	  $row_rs_niveau = mysqli_fetch_assoc($rs_niveau);
   }
 ?>
           </select>
@@ -209,7 +209,7 @@ do {
           <input <?php if (!(strcmp($row_rsListeSelectMatiereNiveau['avec_score'],"O"))) {echo "checked";} ?> name="avec_score" type="checkbox" id="avec_score" value="checkbox">
         </div></td>
     </tr>
-    <?php } while ($row_rsListeSelectMatiereNiveau = mysql_fetch_assoc($rsListeSelectMatiereNiveau)); ?>
+    <?php } while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau)); ?>
   </table>
   <p> 
     <input name="tablist" type="hidden" id="tablist" value="<?php echo $rsListeSelectMatiereNiveau?>">
@@ -224,15 +224,15 @@ do {
 </body>
 </html>
 <?php
-mysql_free_result($rs_matiere);
+mysqli_free_result($rs_matiere);
 
-mysql_free_result($rs_niveau);
+mysqli_free_result($rs_niveau);
 
-mysql_free_result($rsListeSelectMatiereNiveau);
+mysqli_free_result($rsListeSelectMatiereNiveau);
 
-mysql_free_result($rsChoix);
+mysqli_free_result($rsChoix);
 
-mysql_free_result($rsChoix2);
+mysqli_free_result($rsChoix2);
 ?>
 
   

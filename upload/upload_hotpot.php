@@ -74,7 +74,7 @@ $totalRows_RsTheme = mysqli_num_rows($RsTheme);
 
 mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsCategorie= sprintf("SELECT * FROM stock_categorie ORDER BY stock_categorie.ID_categorie");
-$RsCategorie = mysqli_query($conn_intranet, $query_RsCategorie) or die(mysql_error());
+$RsCategorie = mysqli_query($conn_intranet, $query_RsCategorie) or die(mysqli_error());
 $row_RsCategorie = mysqli_fetch_assoc($RsCategorie);
 $totalRows_RsCategorie = mysqli_num_rows($RsCategorie);
 
@@ -267,46 +267,46 @@ do {
 <form method="post" enctype="multipart/form-data" name="form1" id="formulaire" action="upload_hotpot.php">
   <table align="center">
     <tr valign="baseline"> 
-      <td nowrap align="right">Ce fichier est relatif &agrave; l'&eacute;tude 
-        du th&egrave;me </td>
-      <td> <select name="theme_ID" id="select">
+      <td nowrap align="right">Ce fichier est relatif &agrave; l'&eacute;tude du th&egrave;me </td>
+      <td>
+        <select name="theme_ID" id="select">
           <option value="value">Selectionnez un thème</option>
           <?php
-			do {  
-			?>
-			          <option value="<?php echo $row_RsTheme['ID_theme']?>"><?php echo $row_RsTheme['theme']?></option>
-			          <?php
-			} while ($row_RsTheme = mysqli_fetch_assoc($RsTheme));
-			  $rows = mysqli_num_rows($RsTheme);
-			  if($rows > 0) {
+          do {  
+          ?>
+			      <option value="<?php echo $row_RsTheme['ID_theme']?>"><?php echo $row_RsTheme['theme']?></option>
+			      <?php
+          } while ($row_RsTheme = mysqli_fetch_assoc($RsTheme));
+          $rows = mysqli_num_rows($RsTheme);
+          if($rows > 0)
+          {
 			      mysqli_data_seek($RsTheme, 0);
-				  $row_RsTheme = mysqli_fetch_assoc($RsTheme);
-			  }
-			?>
+				    $row_RsTheme = mysqli_fetch_assoc($RsTheme);
+          }?>
         </select> 
-      &nbsp;&nbsp;&nbsp;<a href="../enseignant/gestion_theme.php"> Ajouter un nouveau 
-        th&egrave;me</a></td>
+        &nbsp;&nbsp;&nbsp;<a href="../enseignant/gestion_theme.php"> Ajouter un nouveau thème</a>
+      </td>
     </tr>
     <tr valign="baseline"> 
-      	<td nowrap align="right">Dans quelle catégorie doit se trouver ce fichier?</td>
-      	<td> 
-	      	<select name="categorie_ID" id="select">
-	          	<option value="value">Selectionnez une catégorie</option>
-	          	<?php
-				do {  
-				?>
-				 	<option value="<?php echo $row_RsCategorie['ID_categorie']?>"><?php echo $row_RsCategorie['nom_categorie']?></option>
+      <td nowrap align="right">Dans quelle catégorie doit se trouver ce fichier?</td>
+      <td> 
+	     	<select name="categorie_ID" id="select">
+	       	<option value="value">Selectionnez une catégorie</option>
+	       	<?php
+		  		do {  
+          ?>
+				 	  <option value="<?php echo $row_RsCategorie['ID_categorie']?>"><?php echo $row_RsCategorie['nom_categorie']?></option>
 				    <?php
-				} while ($row_RsCategorie = mysqli_fetch_assoc($RsCategorie));
-				$rows = mysqli_num_rows($RsCategorie);
-				if($rows > 0) 
-				{
+				  } while ($row_RsCategorie = mysqli_fetch_assoc($RsCategorie));
+				  $rows = mysqli_num_rows($RsCategorie);
+				  if($rows > 0) 
+				  {
 				    mysqli_data_seek($RsCategorie, 0);
-					$row_RsCategorie = mysqli_fetch_assoc($RsCategorie);
-				}
-				?>
-	        </select> 
-		</td>
+            $row_RsCategorie = mysqli_fetch_assoc($RsCategorie);
+				  }?>
+        </select>
+        &nbsp;&nbsp;&nbsp;<a href="../enseignant/gestion_categorie.php"> Ajouter une nouvelle catégorie</a>
+		  </td>
     </tr>
     <tr> 
     <tr valign="baseline"> 

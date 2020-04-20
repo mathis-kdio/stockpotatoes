@@ -28,7 +28,7 @@ error_reporting(E_ALL);
 
 		<title><?php echo $titre_page ?></title>
 	</head>
-	<body style='background: url("background.jpg")'>	
+	<body>	
 		<header>
 			<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
 			 	<a class="navbar-brand" href="#">
@@ -50,4 +50,4 @@ error_reporting(E_ALL);
 				</div>
 			</nav>
 		</header>
-		<div class="container-fluid">
+		<div class="container">

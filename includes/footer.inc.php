@@ -1,10 +1,13 @@
 	<!-- DEBUT FOOTER -->
-			<footer class="row footer">
-				<div class="container-fluid bg-primary">
+	<!-- /container -->
+		</div>
+		<div class="container-fluid bg-primary">
+			<footer class="row footer bg-primary">
+				<div class="bg-primary">
 					<span class="alert-dark bg-primary">Propulsé par <a href="https://stockpotatoes.ovh" class="alert-link">Stockpotatoes</a></span>
 				</div>
 			</footer>
-		 </div> <!-- /container -->
+		</div>
 
 		<!-- Optional JavaScript -->
 		<!-- jQuery first, then Popper.js, then Bootstrap JS -->

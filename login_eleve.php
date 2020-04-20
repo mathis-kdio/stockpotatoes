@@ -144,14 +144,7 @@ require('includes/header.inc.php');
 			</div>
 		</form>
 	</div>
-<?php } ?>
-<br/><br/>
-<div class="row pt-3 pb-3 shadow bg-warning">
-	<div class="col-12">
-		<h3 class="text-center">TUTO pour se connecter et conseils pour utiliser le site:</h3>
-		<p></p>
-	</div>
-</div>
-<?php
+<?php }
+
 require('includes/footer.inc.php');
 ?>

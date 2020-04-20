@@ -257,9 +257,9 @@ require('includes/header.inc.php');
 								if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 1) 
 								{ ?>
 									<tr>
-										<td>
-											<div><?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?></div>
-										</td>
+										<th scope="row">
+											<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?>
+										</th>
 										<td>
 											<?php 
 											if ($row_rsListeSelectMatiereNiveau['type_doc'] == 1) 
@@ -329,13 +329,13 @@ require('includes/header.inc.php');
 								} while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau)); 
 								if ($i <> 0)
 								{ 
-									echo '<th scope="col-1"><strong>&nbsp;</strong></th>';
-									echo '<th scope="col-1"><strong>N&deg;</strong></th>';
-									echo '<th scope="col-1"><strong>Fait</strong></th>';
-									echo '<th scope="col-3"><strong>Exercice</strong></th>';
-									echo '<th scope="col-1"><strong>Note sur 20</strong></th>';
-									echo '<th scope="col-2"><strong>Entrainement</strong></th>';
-									echo '<th scope="col-3"><strong>Auteur</strong></th>';
+									echo '<th scope="col"><strong>&nbsp;</strong></th>';
+									echo '<th scope="col"><strong>N&deg;</strong></th>';
+									echo '<th scope="col"><strong>Fait</strong></th>';
+									echo '<th scope="col"><strong>Exercice</strong></th>';
+									echo '<th scope="col"><strong>Note sur 20</strong></th>';
+									echo '<th scope="col"><strong>Entrainement</strong></th>';
+									echo '<th scope="col"><strong>Auteur</strong></th>';
 								}
 								if ($totalRows_rsListeSelectMatiereNiveau <> 0)
 								{
@@ -367,32 +367,32 @@ require('includes/header.inc.php');
 
 									$unique = 'N';?>
 							    	<tr>
-										<td>
+										<th scope="row">
 											<?php
 											if ($row_rsListeSelectMatiereNiveau['evaluation_seul'] == 'O') 
 											{   
 												if ($totalRows_RsExosFait <> 0)
 												{
-													echo '<div>Interro terminée</div>';
+													echo 'Interro terminée';
 													$unique = 'O';
 												}
 												else
 												{
-													echo'<div>Interro à faire</div>';
+													echo'Interro à faire';
 												} 
 											}
 											else 
 											{ 
 												if ($totalRows_RsExosFait <> 0)
 												{
-													echo '<div>Fait</div>';
+													echo 'Fait';
 												}
 												else
 												{
-													echo '<div>Exercice à faire</div>';
+													echo 'Exercice à faire';
 												}
 											}?>
-										</td>
+										</th>
 										<td>
 											<div><?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?></div>
 										</td>
@@ -499,9 +499,9 @@ require('includes/header.inc.php');
 								if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 3) 
 								{ ?>
 									<tr>
-										<td>
-											<div><?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?></div>
-										</td>
+										<th scope="row">
+											<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?>
+										</th>
 										<td>
 											<?php 
 											if($row_rsListeSelectMatiereNiveau['type_doc'] == 1) 
@@ -571,9 +571,9 @@ require('includes/header.inc.php');
 								if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 4)
 								{ ?>
 									<tr>
-										<td>
-											<div><?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?></div>
-										</td>
+										<th scope="row">
+											<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?>
+										</th>
 										<td>
 											<?php 
 											if($row_rsListeSelectMatiereNiveau['type_doc'] == 1) 
@@ -646,9 +646,9 @@ require('includes/header.inc.php');
 								if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 5)
 								{ ?>
 									<tr>
-										<td>
-											<div><?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?></div>
-										</td>
+										<th scope="row">
+											<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?>
+										</th>
 										<td>
 											<?php 
 											if($row_rsListeSelectMatiereNiveau['type_doc'] == 1)

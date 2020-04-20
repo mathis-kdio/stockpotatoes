@@ -4,45 +4,42 @@ require_once('Connections/conn_intranet.php');
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$colpass_rsLogin = "1";
-$valider="";
-
 $collog_rsLogin = "1";
 if (isset($_POST['log'])) 
 {
-  $collog_rsLogin = (get_magic_quotes_gpc()) ? $_POST['log'] : addslashes($_POST['log']);
+  $collog_rsLogin = htmlspecialchars($_POST['log']);
 }
 $colpass_rsLogin = "1";
 if (isset($_POST['pass']))
 {
-  $colpass_rsLogin = (get_magic_quotes_gpc()) ? $_POST['pass'] : addslashes($_POST['pass']);
+  $colpass_rsLogin = htmlspecialchars($_POST['pass']);
 }
 
 mysqli_select_db($conn_intranet, $database_conn_intranet);
 
-$query_rsLogin = sprintf("SELECT * FROM stock_eleve WHERE stock_eleve.ID_eleve='%s' AND stock_eleve.pass='%s'", $collog_rsLogin, $colpass_rsLogin);
+$query_rsLogin = sprintf("SELECT * FROM stock_eleve WHERE ID_eleve = '%s' AND pass = '%s' ", $collog_rsLogin, $colpass_rsLogin);
 $rsLogin = mysqli_query($conn_intranet, $query_rsLogin) or die(mysqli_error());
 $row_rsLogin = mysqli_fetch_assoc($rsLogin);
 $totalRows_rsLogin = mysqli_num_rows($rsLogin);
 
-$query_rsClasse = "SELECT DISTINCT classe FROM stock_eleve  ";
+$query_rsClasse = "SELECT DISTINCT classe FROM stock_eleve";
 $rsClasse = mysqli_query($conn_intranet, $query_rsClasse) or die(mysqli_error());
 $row_rsClasse = mysqli_fetch_assoc($rsClasse);
 
 $choix_classe_rsLogin2 = "1";
 if (isset($_POST['classe'])) 
 {
-  $choix_classe_rsLogin2 = (get_magic_quotes_gpc()) ? $_POST['classe'] : addslashes($_POST['classe']);
+  $choix_classe_rsLogin2 = htmlspecialchars($_POST['classe']);
 }
 
-$query_rsLogin2 = sprintf("SELECT stock_eleve.ID_eleve, stock_eleve.nom, stock_eleve.prenom FROM stock_eleve WHERE stock_eleve.classe='%s'", $choix_classe_rsLogin2);
+$query_rsLogin2 = sprintf("SELECT ID_eleve, nom, prenom FROM stock_eleve WHERE classe = '%s' ", $choix_classe_rsLogin2);
 $rsLogin2 = mysqli_query($conn_intranet, $query_rsLogin2) or die(mysqli_error());
 $row_rsLogin2 = mysqli_fetch_assoc($rsLogin2);
 
 $bad_password = 0;
-if ((isset($_POST['valider'])) && ($_POST['valider']=="ok"))
+if ((isset($_POST['valider'])) && ($_POST['valider'] == "ok"))
 {
-	if ($totalRows_rsLogin=='1')
+	if ($totalRows_rsLogin == '1')
 	{
 		session_start();
 		$_SESSION['Sess_ID_eleve'] = $row_rsLogin['ID_eleve'];
@@ -60,7 +57,7 @@ if ((isset($_POST['valider'])) && ($_POST['valider']=="ok"))
 }
 else
 {
-	$erreurlog=1;
+	$erreurlog = 1;
 }
 
 $titre_page = "Identification de l'élève";
@@ -80,24 +77,14 @@ require('includes/header.inc.php');
 		<div class="form-group">
 			<label for="classe">Sélectionnez votre classe</label>
 			<select class="form-control" name="classe" id="classe">
-			  <option value="classe" <?php if (isset($_POST['classe'])) {
-				if (!(strcmp("classe", $_POST['classe']))) {echo "SELECTED";} }?>>Sélectionner votre classe
-				</option>
 				<?php 
-			  	$classe = 0;
 				do {  
 				?>
 					<option value="<?php echo $row_rsClasse['classe']?>"<?php if (isset($_POST['classe'])) { if (!(strcmp($row_rsClasse['classe'], $_POST['classe']))) {echo "SELECTED";}} ?>>
 						<?php echo $row_rsClasse['classe']?>
 					</option>
 					<?php
-				} while ($row_rsClasse = mysqli_fetch_assoc($rsClasse));
-				$rows = mysqli_num_rows($rsClasse);
-				if($rows > 0)
-				{
-				 	mysqli_data_seek($rsClasse, 0);
-					$row_rsClasse = mysqli_fetch_assoc($rsClasse);
-				}?>
+				} while ($row_rsClasse = mysqli_fetch_assoc($rsClasse)); ?>
 			</select>
 		</div>
 		<div class="form-group">
@@ -119,13 +106,7 @@ require('includes/header.inc.php');
 							<?php echo $row_rsLogin2['nom']." ".$row_rsLogin2['prenom']?>
 						</option>
 						<?php
-					} while ($row_rsLogin2 = mysqli_fetch_assoc($rsLogin2));
-					$rows = mysqli_num_rows($rsLogin2);
-					if($rows > 0)
-					{
-						mysqli_data_seek($rsLogin2, 0);
-						$row_rsLogin2 = mysqli_fetch_assoc($rsLogin2);
-					}?>
+					} while ($row_rsLogin2 = mysqli_fetch_assoc($rsLogin2)); ?>
 			    </select> 
 			</div>
 			<?php 

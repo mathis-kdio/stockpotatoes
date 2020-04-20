@@ -170,12 +170,14 @@ require('includes/header.inc.php');
 <!--Une fois la matière et niveau choisis -->
 <?php if (isset($matiereId))
 { ?>
-	<div class="text-center">
-		<?php echo '<h3>'.$row_rsChoix['nom_mat'].'</h3>';?>
+	<div class="row mt-2 mb-2">
+		<div class="col text-center">
+			<h3>Matière actuelle: <?php echo $row_rsChoix['nom_mat']; ?></h3>
+		</div>
 	</div>
-	<div class="row mb-5">
+	<div class="row pb-3">
 		<div class="col-2">
-			<div class="bg-warning shadow rounded">
+			<div class="pb-3 bg-warning shadow rounded">
 				<div class="text-center">
 					<h3>Thème d'étude</h3>
 				</div>
@@ -194,7 +196,7 @@ require('includes/header.inc.php');
 				</div>
 			</div>
 		</div>
-		<div class="col-7 offset-md-1 shadow rounded">
+		<div class="col-7 bg-warning offset-md-1 shadow rounded">
 			<div class="row">
 				<div class="col text-center">
 					<?php

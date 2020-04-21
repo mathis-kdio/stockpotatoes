@@ -47,11 +47,12 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form4")) {
   if ((isset($_POST['evaluation_seul'])) && ($_POST['evaluation_seul']=='O')){$avec_score='O';}
 
 
-  $updateSQL = sprintf("UPDATE stock_quiz SET titre=%s, niveau_ID=%s, theme_ID=%s ,auteur=%s, en_ligne=%s, avec_score=%s, evaluation_seul=%s, cat_doc=%s, type_doc=%s  WHERE ID_quiz=%s",
+  $updateSQL = sprintf("UPDATE stock_quiz SET titre=%s, niveau_ID=%s, theme_ID=%s , categorie_ID=%s, auteur=%s, en_ligne=%s, avec_score=%s, evaluation_seul=%s, cat_doc=%s, type_doc=%s  WHERE ID_quiz=%s",
                        GetSQLValueString($_POST['titre'], "text"),
-					   GetSQLValueString($_POST['select_niveau_ID'], "int"),
-					   GetSQLValueString($_POST['ID_theme'], "int"),
-					   GetSQLValueString($_POST['auteur'], "text"),					   
+          					   GetSQLValueString($_POST['select_niveau_ID'], "int"),
+          					   GetSQLValueString($_POST['ID_theme'], "int"),
+                       GetSQLValueString($_POST['ID_categorie'], "int"),
+					             GetSQLValueString($_POST['auteur'], "text"),					   
                        GetSQLValueString($en_ligne, "text"),
                        GetSQLValueString($avec_score, "text"),
                        GetSQLValueString($evaluation_seul, "text"),
@@ -90,6 +91,12 @@ $query_RsTheme = sprintf("SELECT * FROM stock_theme WHERE stock_theme.mat_ID=%s 
 $RsTheme = mysqli_query($conn_intranet, $query_RsTheme) or die(mysqli_error());
 $row_RsTheme = mysqli_fetch_assoc($RsTheme);
 $totalRows_RsTheme = mysqli_num_rows($RsTheme);
+
+mysqli_select_db($conn_intranet, $database_conn_intranet);
+$query_RsCategorie= sprintf("SELECT * FROM stock_categorie ORDER BY stock_categorie.ID_categorie");
+$RsCategorie = mysqli_query($conn_intranet, $query_RsCategorie) or die(mysqli_error());
+$row_RsCategorie = mysqli_fetch_assoc($RsCategorie);
+$totalRows_RsCategorie = mysqli_num_rows($RsCategorie);
 
 $choixmat_RsMatiere = "0";
 if (isset($_GET['matiere_ID'])) {
@@ -199,23 +206,53 @@ do {
             <td class="retrait20"> <input name="titre" type="text" id="titre" value="<?php echo $row_RsChoixQuiz['titre']; ?>" size="50"> 
             </td>
           </tr>
-          <tr> 
-            <td><div align="right"><strong>Th&egrave;me d'&eacute;tude</strong></div></td>
+          <tr>
+            <td>
+              <div align="right">
+                <strong>Th&egrave;me d'&eacute;tude</strong>
+              </div>
+            </td>
             <td class="retrait20"> 
-				<select name="ID_theme" id="ID_theme"> 
-				<option value="0" <?php if (!(strcmp($row_RsTheme['ID_theme'], $_GET['theme_ID']))) {echo "SELECTED";} ?>>Aucun thème (Divers)</option>
+				      <select name="ID_theme" id="ID_theme"> 
+				        <option value="0" <?php if (!(strcmp($row_RsTheme['ID_theme'], $_GET['theme_ID']))) {echo "SELECTED";} ?>>Aucun thème (Divers)</option>
                 <?php     
-				do { ?>
+				        do
+                { ?>
                 	<option value="<?php echo $row_RsTheme['ID_theme']?>"<?php if (!(strcmp($row_RsTheme['ID_theme'], $_GET['theme_ID']))) {echo "SELECTED";} ?>><?php echo $row_RsTheme['theme']?></option>
                 	<?php
-				} while ($row_RsTheme = mysqli_fetch_assoc($RsTheme));
-  $rows = mysqli_num_rows($RsTheme);
-  if($rows > 0) {
-      mysqli_data_seek($RsTheme, 0);
-	  $row_RsTheme = mysqli_fetch_assoc($RsTheme);
-  }
-?>
-              </select> </td>
+				        } while ($row_RsTheme = mysqli_fetch_assoc($RsTheme));
+                $rows = mysqli_num_rows($RsTheme);
+                if($rows > 0)
+                {
+                  mysqli_data_seek($RsTheme, 0);
+              	  $row_RsTheme = mysqli_fetch_assoc($RsTheme);
+                } ?>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div align="right">
+                <strong>Catégorie d'étude</strong>
+              </div>
+            </td>
+            <td class="retrait20"> 
+              <select name="ID_categorie" id="ID_categorie"> 
+                <option value="0" <?php if (!(strcmp($row_RsCategorie['ID_categorie'], $_POST['categorie_ID']))) {echo "SELECTED";} ?>>Aucune catégorie (Divers)</option>
+                <?php     
+                do
+                { ?>
+                  <option value="<?php echo $row_RsCategorie['ID_categorie']?>"<?php if (!(strcmp($row_RsCategorie['ID_categorie'], $_POST['categorie_ID']))) {echo "SELECTED";} ?>><?php echo $row_RsCategorie['nom_categorie']?></option>
+                  <?php
+                } while ($row_RsCategorie = mysqli_fetch_assoc($RsCategorie));
+                $rows = mysqli_num_rows($RsCategorie);
+                if($rows > 0)
+                {
+                  mysqli_data_seek($RsCategorie, 0);
+                  $row_RsCategorie = mysqli_fetch_assoc($RsCategorie);
+                } ?>
+              </select>
+            </td>
           </tr>
           <tr>
             <td><div align="right"><strong>A classer dans</strong></div></td>

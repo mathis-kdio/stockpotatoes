@@ -227,25 +227,30 @@ window.location = page;
               </select>
           	</td>
           </tr>
-          <<tr> 
-            <td><div align="right"><strong>Cat&eacute;gorie</strong></div></td>
+          <tr> 
+            <td>
+              <div align="right">
+                <strong>Catégorie</strong>
+              </div>
+            </td>
             <td class="retrait20"> 
-        		<select name="ID_categorie" id="ID_categorie"> 
-                  	<?php 
-					do { ?>
-	                	<option value="<?php echo $row_RsCategorie['ID_categorie']?>"<?php if (!(strcmp($row_RsCategorie['ID_categorie'], $_POST['categorie_ID']))) {echo "SELECTED";} ?>><?php echo $row_RsCategorie['nom_categorie']?></option>	                	
-	                	<?php
-					} while ($row_RsCategorie = mysqli_fetch_assoc($RsCategorie));
-			        $rows = mysqli_num_rows($RsCategorie);
-			        if($rows > 0)
-			        {
-			            mysqli_data_seek($RsCategorie, 0);
-			            $row_RsCategorie = mysqli_fetch_assoc($RsCategorie);
-			        }?>
+          		<select name="ID_categorie" id="ID_categorie"> 
+                <?php 
+  					    do
+                { ?>
+  	             	<option value="<?php echo $row_RsCategorie['ID_categorie']?>"<?php if (!(strcmp($row_RsCategorie['ID_categorie'], $_POST['categorie_ID']))) {echo "SELECTED";} ?>><?php echo $row_RsCategorie['nom_categorie']?></option>	                	
+  	              <?php
+  					    } while ($row_RsCategorie = mysqli_fetch_assoc($RsCategorie));
+  			        $rows = mysqli_num_rows($RsCategorie);
+  			        if($rows > 0)
+  			        {
+  			          mysqli_data_seek($RsCategorie, 0);
+  			          $row_RsCategorie = mysqli_fetch_assoc($RsCategorie);
+  			        }?>
                 </select>
             </td>
           </tr>
-		  <tr>
+		      <tr>
             <td><div align="right"><strong>A classer dans</strong></div></td>
             <td class="retrait20"><table width="459">
               <tr>

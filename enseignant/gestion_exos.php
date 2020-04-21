@@ -252,6 +252,7 @@ do {
 				<td bgcolor="#CCCC99">&nbsp;</td>
 				<td bgcolor="#CCCC99">&nbsp;</td>
               <td bgcolor="#CCCC99"><div align="center">Titre</div></td>
+              <td bgcolor="#CCCC99"><div align="center">Catégorie</div></td>
               <td bgcolor="#CCCC99"><div align="center">Fichier</div></td>
               <td bgcolor="#CCCC99"><div align="center">Auteur</div></td>
               <td bgcolor="#CCCC99"><div align="center">Entr.</div></td>
@@ -329,8 +330,9 @@ do {
 			
                     <a href="<?php echo $lien ; ?>" target="_blank"><strong><?php echo $row_rsListeSelectMatiereNiveau['titre']; ?></strong></a>
 					</div></td>
-          
-			  
+        <td class="retrait20">
+          <?php if ($row_rsListeSelectMatiereNiveau['nom_categorie'] !='') {echo $row_rsListeSelectMatiereNiveau['nom_categorie'];}else {echo '-';} ?>
+        </td>
 			  <td class="retrait20"> <?php if($row_rsListeSelectMatiereNiveau['type_doc'] !=1) {echo $row_rsListeSelectMatiereNiveau['fichier'];} else {echo 'Lien hypertexte';}?></td>
               <td class="retrait20"><?php if ($row_rsListeSelectMatiereNiveau['auteur'] !='') {echo $row_rsListeSelectMatiereNiveau['auteur'];}else {echo '-';} ?></td>
               <td><div align="center"><?php echo $row_rsListeSelectMatiereNiveau['en_ligne']; ?></div></td>
@@ -358,9 +360,9 @@ do {
 			  ?>
                 <form style="margin:0px" name="formmod1" method="post" action="<?php echo $redirection ?>?matiere_ID=<?php echo $_GET['matiere_ID']?>&niveau_ID=<?php echo $row_rsListeSelectMatiereNiveau['niveau_ID']; ?>&ID_quiz=<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz'] ?>&theme_ID=<?php echo $row_rsListeSelectMatiereNiveau['theme_ID']; ?>">
                   <div align="center">
-                    
+                    <input name="categorie_ID" type="hidden" value="<?php echo $row_rsListeSelectMatiereNiveau['categorie_ID'] ?>">                    
                     <input name="boutonmod1" type="hidden" value="Modifier">
-					<input type="image" src="images/edit.gif" alt="Modifier - Déplacer un document "> 
+					           <input type="image" src="images/edit.gif" alt="Modifier - Déplacer un document "> 
                   </div>
                 </form>
 			  
@@ -379,24 +381,27 @@ do {
 		<!-- HOTPOTATOES -->
 		
 		<table width="100%" border="O" align="left" cellspacing="0">
-            <tr class="retrait20">
-              <td colspan="12" bgcolor="#CCCC99"><div align="left" class="retrait20">
-                  <p><strong>Hotpotatoes<a name="hotpotatoes"></a></strong><strong> <font size="4"> </font></strong></p>
-              </div></td>
-            </tr>
+      <tr class="retrait20">
+        <td colspan="12" bgcolor="#CCCC99">
+          <div align="left" class="retrait20">
+            <p><strong>Hotpotatoes<a name="hotpotatoes"></a></strong><strong> <font size="4"> </font></strong></p>
+          </div>
+        </td>
+      </tr>
 			<?php 
-           if ($totalRows_rsListeSelectMatiereNiveau != 0) {	mysqli_data_seek($rsListeSelectMatiereNiveau,0);		}
+        if ($totalRows_rsListeSelectMatiereNiveau != 0) {	mysqli_data_seek($rsListeSelectMatiereNiveau,0);		}
      		$x=0;
-		   do {
-		   if ($row_rsListeSelectMatiereNiveau['cat_doc']==2) 
-		   {
-		   $x=$x+1;
-		   $tabpos2[$x]=$row_rsListeSelectMatiereNiveau['pos_doc'];$tabid2[$x]=$row_rsListeSelectMatiereNiveau['ID_quiz'];
-		    };		
-		   } while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau)); 
-		   
-		   $t2=$x; 
-		    if ($x!=0) {echo '
+		    do {
+    		  if ($row_rsListeSelectMatiereNiveau['cat_doc']==2) 
+    		  {
+    		    $x=$x+1;
+    		    $tabpos2[$x]=$row_rsListeSelectMatiereNiveau['pos_doc'];$tabid2[$x]=$row_rsListeSelectMatiereNiveau['ID_quiz'];
+    		  };		
+  		  } while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau)); 
+		    $t2=$x; 
+		    if ($x!=0) 
+        {
+          echo '
             <tr class="retrait20" class="Style1">
               <td bgcolor="#CCCC99">
                 <div align="center">N&deg;</div></td>
@@ -413,37 +418,37 @@ do {
               <td bgcolor="#CCCC99"><div align="center">&nbsp;</div></td>
               <td bgcolor="#CCCC99"><div align="center">&nbsp;</div></td>
             </tr>
-            ';}
-		   
-		   if ($totalRows_rsListeSelectMatiereNiveau != 0) {	mysqli_data_seek($rsListeSelectMatiereNiveau,0);		}
+            ';
+        }
+		    if ($totalRows_rsListeSelectMatiereNiveau != 0) {	mysqli_data_seek($rsListeSelectMatiereNiveau,0);		}
            $x=0;
 			
             do { 
 			
-			if ($row_rsListeSelectMatiereNiveau['cat_doc']==2) {
-			$x=$x+1; 
-			?>
-            <tr valign="middle">
+        if ($row_rsListeSelectMatiereNiveau['cat_doc']==2)
+        {
+          $x=$x+1; ?>
+          <tr valign="middle">
               <td><div align="right" class="retrait20"><?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?></div></td>
-			  <td bgcolor="#CCCC99" >
-			  <?php if($x!=1) { ?>            
-			  <?php echo '<form style="margin:0px" name="Remonter" method="post" action="remonter.php?matiere_ID=';?>
-			  <?php echo $_GET['matiere_ID']?>
-			  <?php echo '&niveau_ID=';?>
-			  <?php echo $row_rsListeSelectMatiereNiveau['niveau_ID']; ?>
-			  <?php echo '"><div align="center"><input name="ID_quiz" type="hidden" id="ID_quiz" value="';?>
-			  <?php echo $row_rsListeSelectMatiereNiveau['ID_quiz'] ?>
-			  <?php echo '"><input name="ID_theme" type="hidden" id="ID_theme" value="';?>
-			  <?php echo $row_rsListeSelectMatiereNiveau['theme_ID']; ?>
-			  <?php echo '"><input name="cat_doc" type="hidden" id="cat_doc" value="';?>
-			  <?php echo $row_rsListeSelectMatiereNiveau['cat_doc']; ?>
-			  <?php echo '"><input name="ID_precedent" type="hidden" id="ID_precedent" value="';?>
-			  <?php echo $tabid2[$x-1] ?>
-			  <?php echo '"><input name="pos_precedent" type="hidden" id="pos_precedent" value="';?>
-			  <?php echo $tabpos2[$x-1] ?>
-			  <?php echo '"><input name="Remonter" type="hidden" value="Remonter"><input type="image" src="images/up.gif" alt="Remonter ce document "></div>';?>
-        <?php echo ' </form>';
-			   } 
+  			  <td bgcolor="#CCCC99" >
+  			  <?php if($x!=1) { ?>            
+  			  <?php echo '<form style="margin:0px" name="Remonter" method="post" action="remonter.php?matiere_ID=';?>
+  			  <?php echo $_GET['matiere_ID']?>
+  			  <?php echo '&niveau_ID=';?>
+  			  <?php echo $row_rsListeSelectMatiereNiveau['niveau_ID']; ?>
+  			  <?php echo '"><div align="center"><input name="ID_quiz" type="hidden" id="ID_quiz" value="';?>
+  			  <?php echo $row_rsListeSelectMatiereNiveau['ID_quiz'] ?>
+  			  <?php echo '"><input name="ID_theme" type="hidden" id="ID_theme" value="';?>
+  			  <?php echo $row_rsListeSelectMatiereNiveau['theme_ID']; ?>
+  			  <?php echo '"><input name="cat_doc" type="hidden" id="cat_doc" value="';?>
+  			  <?php echo $row_rsListeSelectMatiereNiveau['cat_doc']; ?>
+  			  <?php echo '"><input name="ID_precedent" type="hidden" id="ID_precedent" value="';?>
+  			  <?php echo $tabid2[$x-1] ?>
+  			  <?php echo '"><input name="pos_precedent" type="hidden" id="pos_precedent" value="';?>
+  			  <?php echo $tabpos2[$x-1] ?>
+  			  <?php echo '"><input name="Remonter" type="hidden" value="Remonter"><input type="image" src="images/up.gif" alt="Remonter ce document "></div>';?>
+          <?php echo ' </form>';
+        } 
 			   else {echo '&nbsp;';};
 			   ?>
 			  </td>
@@ -517,12 +522,12 @@ do {
                     <input type="image" src="images/edit.gif" alt="Modifier - Déplacer un document "> 
                   </div>
                 </form>
-			  </td>
+			        </td>
             </tr>
-            <?php 
-			} // du if
-			} while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau)); ?>
-          </table>
+          <?php 
+          } // du if
+        } while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau)); ?>
+      </table>
 		</td></tr>
 				<tr><td>
 		<!-- Autres exercices 3 -->
@@ -552,6 +557,7 @@ do {
 				<td bgcolor="#CCCC99">&nbsp;</td>
 				<td bgcolor="#CCCC99">&nbsp;</td>
               <td bgcolor="#CCCC99"><div align="center">Titre</div></td>
+              <td bgcolor="#CCCC99"><div align="center">Categorie</div></td>
               <td bgcolor="#CCCC99"><div align="center">Fichier</div></td>
               <td bgcolor="#CCCC99"><div align="center">Auteur</div></td>
               <td bgcolor="#CCCC99"><div align="center">Entr.</div></td>
@@ -630,7 +636,7 @@ do {
                     <a href="<?php echo $lien ; ?>" target="_blank"><strong><?php echo $row_rsListeSelectMatiereNiveau['titre']; ?></strong></a>
 					</div></td>
           
-			  
+        <td class="retrait20"><?php if ($row_rsListeSelectMatiereNiveau['nom_categorie'] !='') {echo $row_rsListeSelectMatiereNiveau['nom_categorie'];}else {echo '-';} ?></td>			  
 			  <td class="retrait20"> <?php if($row_rsListeSelectMatiereNiveau['type_doc'] !=1) {echo $row_rsListeSelectMatiereNiveau['fichier'];} else {echo 'Lien hypertexte';}?></td>
               <td class="retrait20"><?php if ($row_rsListeSelectMatiereNiveau['auteur'] !='') {echo $row_rsListeSelectMatiereNiveau['auteur'];}else {echo '-';} ?></td>
               <td><div align="center"><?php echo $row_rsListeSelectMatiereNiveau['en_ligne']; ?></div></td>
@@ -658,6 +664,7 @@ do {
 			  ?>
                 <form style="margin:0px" name="formmod3" method="post" action="<?php echo $redirection ?>?matiere_ID=<?php echo $_GET['matiere_ID']?>&niveau_ID=<?php echo $row_rsListeSelectMatiereNiveau['niveau_ID']; ?>&ID_quiz=<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz'] ?>&theme_ID=<?php echo $row_rsListeSelectMatiereNiveau['theme_ID']; ?>">
                   <div align="center">
+                    <input name="categorie_ID" type="hidden" value="<?php echo $row_rsListeSelectMatiereNiveau['categorie_ID'] ?>">
                     <input name="boutonmod3" type="hidden" value="Modifier">
 					<input type="image" src="images/edit.gif" alt="Modifier - Déplacer un document "> 
                   </div>
@@ -700,6 +707,7 @@ do {
 				<td bgcolor="#CCCC99">&nbsp;</td>
 				<td bgcolor="#CCCC99">&nbsp;</td>
               <td bgcolor="#CCCC99"><div align="center">Titre</div></td>
+              <td bgcolor="#CCCC99"><div align="center">Categorie</div></td>
               <td bgcolor="#CCCC99"><div align="center">Fichier</div></td>
               <td bgcolor="#CCCC99"><div align="center">Auteur</div></td>
               <td bgcolor="#CCCC99"><div align="center">Entr.</div></td>
@@ -778,7 +786,9 @@ do {
                     <a href="<?php echo $lien ; ?>" target="_blank"><strong><?php echo $row_rsListeSelectMatiereNiveau['titre']; ?></strong></a>
 					</div></td>
           
-			  
+        <td class="retrait20">
+          <?php if ($row_rsListeSelectMatiereNiveau['nom_categorie'] !='') {echo $row_rsListeSelectMatiereNiveau['nom_categorie'];}else {echo '-';} ?>
+        </td>
 			  <td class="retrait20"> <?php if($row_rsListeSelectMatiereNiveau['type_doc'] !=1) {echo $row_rsListeSelectMatiereNiveau['fichier'];} else {echo 'Lien hypertexte';}?></td>
               <td class="retrait20"><?php if ($row_rsListeSelectMatiereNiveau['auteur'] !='') {echo $row_rsListeSelectMatiereNiveau['auteur'];}else {echo '-';} ?></td>
               <td><div align="center"><?php echo $row_rsListeSelectMatiereNiveau['en_ligne']; ?></div></td>
@@ -806,6 +816,7 @@ do {
 			  ?>
                 <form style="margin:0px" name="formmod4" method="post" action="<?php echo $redirection ?>?matiere_ID=<?php echo $_GET['matiere_ID']?>&niveau_ID=<?php echo $row_rsListeSelectMatiereNiveau['niveau_ID']; ?>&ID_quiz=<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz'] ?>&theme_ID=<?php echo $row_rsListeSelectMatiereNiveau['theme_ID']; ?>">
                   <div align="center">
+                    <input name="categorie_ID" type="hidden" value="<?php echo $row_rsListeSelectMatiereNiveau['categorie_ID'] ?>">
                     <input name="ID_quiz" type="hidden" id="ID_quiz" value="<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz'] ?>">
 					<input type="image" src="images/edit.gif" alt="Modifier - Déplacer un document "> 
                   </div>
@@ -849,6 +860,7 @@ do {
 				<td bgcolor="#CCCC99">&nbsp;</td>
 				<td bgcolor="#CCCC99">&nbsp;</td>
               <td bgcolor="#CCCC99"><div align="center">Titre</div></td>
+              <td bgcolor="#CCCC99"><div align="center">Categorie</div></td>
               <td bgcolor="#CCCC99"><div align="center">Fichier</div></td>
               <td bgcolor="#CCCC99"><div align="center">Auteur</div></td>
               <td bgcolor="#CCCC99"><div align="center">Entr.</div></td>
@@ -926,8 +938,9 @@ do {
 			
                     <a href="<?php echo $lien ; ?>" target="_blank"><strong><?php echo $row_rsListeSelectMatiereNiveau['titre']; ?></strong></a>
 					</div></td>
-          
-			  
+        <td class="retrait20">
+          <?php if ($row_rsListeSelectMatiereNiveau['nom_categorie'] !='') {echo $row_rsListeSelectMatiereNiveau['nom_categorie'];}else {echo '-';} ?>
+        </td>
 			  <td class="retrait20"> <?php if($row_rsListeSelectMatiereNiveau['type_doc'] !=1) {echo $row_rsListeSelectMatiereNiveau['fichier'];} else {echo 'Lien hypertexte';}?></td>
               <td class="retrait20"><?php if ($row_rsListeSelectMatiereNiveau['auteur'] !='') {echo $row_rsListeSelectMatiereNiveau['auteur'];}else {echo '-';} ?></td>
               <td><div align="center"><?php echo $row_rsListeSelectMatiereNiveau['en_ligne']; ?></div></td>
@@ -936,6 +949,7 @@ do {
               <td>
                 <form name="formsup5" style="margin:0px" method="post" action="supp_quiz.php">
                   <div align="center">
+                    <input name="categorie_ID" type="hidden" value="<?php echo $row_rsListeSelectMatiereNiveau['categorie_ID'] ?>">
                     <input name="ID_quiz" type="hidden" id="ID_quiz" value="<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz'] ?>">
                     <input name="nom_mat" type="hidden" id="nom_mat" value="<?php echo $row_rsChoix['nom_mat']; ?>">
                     <input name="boutonsup5" type="hidden" value="Supprimer">

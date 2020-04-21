@@ -77,6 +77,12 @@ $RsTheme = mysqli_query($conn_intranet, $query_RsTheme) or die(mysqli_error());
 $row_RsTheme = mysqli_fetch_assoc($RsTheme);
 $totalRows_RsTheme = mysqli_num_rows($RsTheme);
 
+mysqli_select_db($conn_intranet, $database_conn_intranet);
+$query_RsCategorie= sprintf("SELECT * FROM stock_categorie ORDER BY stock_categorie.ID_categorie");
+$RsCategorie = mysqli_query($conn_intranet, $query_RsCategorie) or die(mysqli_error());
+$row_RsCategorie = mysqli_fetch_assoc($RsCategorie);
+$totalRows_RsCategorie = mysqli_num_rows($RsCategorie);
+
 $selection_RsChoixMatiere = "0";
 if (isset($_POST['matiere_ID'])) {
   $selection_RsChoixMatiere = (get_magic_quotes_gpc()) ? $_POST['matiere_ID'] : addslashes($_POST['matiere_ID']);
@@ -114,13 +120,14 @@ if ($_POST['titre']=='') {
   $row_RsMax = mysqli_fetch_assoc($RsMax);
   $position=$row_RsMax['resultat']+1;
 
-  $insertSQL = sprintf("INSERT INTO stock_quiz (titre, fichier, matiere_ID, niveau_ID,theme_ID, auteur, en_ligne, avec_score, evaluation_seul, cat_doc, type_doc, pos_doc) VALUES (%s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s)",
+  $insertSQL = sprintf("INSERT INTO stock_quiz (titre, fichier, matiere_ID, niveau_ID,theme_ID, categorie_ID, auteur, en_ligne, avec_score, evaluation_seul, cat_doc, type_doc, pos_doc) VALUES (%s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s, %s)",
                        
                        GetSQLValueString($_POST['titre'], "text"),
                        GetSQLValueString($_FILES['fichier']['name'], "text"),
-                 	   GetSQLValueString($_POST['matiere_ID'], "text"),
+                 	   	 GetSQLValueString($_POST['matiere_ID'], "text"),
                        GetSQLValueString($_POST['niveau_ID'], "text"),
-					   GetSQLValueString($_POST['theme_ID'], "int"),
+										   GetSQLValueString($_POST['theme_ID'], "int"),
+										   GetSQLValueString($_POST['categorie_ID'], "int"),
                        GetSQLValueString($_POST['auteur'], "text"),
                        GetSQLValueString($en_ligne, "text"),
                        GetSQLValueString($avec_score, "text"),
@@ -258,25 +265,50 @@ if ($_FILES['fichier']['tmp_name']<>'') {
 <form method="post" enctype="multipart/form-data" name="form1" id="formulaire" action="upload_divers.php">
   <table align="center">
     <tr valign="baseline"> 
-      <td nowrap align="right">Ce fichier est relatif &agrave; l'&eacute;tude 
-        du th&egrave;me </td>
-      <td> <select name="theme_ID" id="select">
+      <td nowrap align="right">
+      	Ce fichier est relatif &agrave; l'&eacute;tude du th&egrave;me
+      </td>
+      <td>
+      	<select name="theme_ID" id="select">
           <option value="value">Selectionnez un thème</option>
           <?php
-			do {  
-			?>
-			          <option value="<?php echo $row_RsTheme['ID_theme']?>"><?php echo $row_RsTheme['theme']?></option>
-			          <?php
-			} while ($row_RsTheme = mysqli_fetch_assoc($RsTheme));
-			  $rows = mysqli_num_rows($RsTheme);
-			  if($rows > 0) {
+					do 
+					{ ?>
+			      <option value="<?php echo $row_RsTheme['ID_theme']?>"><?php echo $row_RsTheme['theme']?></option>
+			      <?php
+					} while ($row_RsTheme = mysqli_fetch_assoc($RsTheme));
+			  	$rows = mysqli_num_rows($RsTheme);
+			  	if($rows > 0)
+			  	{
 			      mysqli_data_seek($RsTheme, 0);
-				  $row_RsTheme = mysqli_fetch_assoc($RsTheme);
-			  }
-			?>
+				  	$row_RsTheme = mysqli_fetch_assoc($RsTheme);
+			  	} ?>
         </select> 
-      &nbsp;&nbsp;&nbsp;<a href="../enseignant/gestion_theme.php"> Ajouter un nouveau 
-        th&egrave;me</a></td>
+      	&nbsp;&nbsp;&nbsp;<a href="../enseignant/gestion_theme.php">Ajouter un nouveau thème</a>
+      </td>
+    </tr>
+    <tr valign="baseline"> 
+      <td nowrap align="right">
+      	Ce fichier est relatif à l'étude de la catégorie
+      </td>
+      <td>
+      	<select name="categorie_ID" id="select">
+          <option value="value">Selectionnez une catégorie</option>
+          <?php
+					do 
+					{ ?>
+			      <option value="<?php echo $row_RsCategorie['ID_categorie']?>"><?php echo $row_RsCategorie['nom_categorie']?></option>
+			      <?php
+					} while ($row_RsCategorie = mysqli_fetch_assoc($RsCategorie));
+			  	$rows = mysqli_num_rows($RsCategorie);
+			  	if($rows > 0)
+			  	{
+			      mysqli_data_seek($RsCategorie, 0);
+				  	$row_RsCategorie = mysqli_fetch_assoc($RsCategorie);
+			  	} ?>
+        </select> 
+      	&nbsp;&nbsp;&nbsp;<a href="../enseignant/gestion_theme.php">Ajouter une nouvelle catégorie</a>
+      </td>
     </tr>
     <tr valign="baseline"> 
       <td width="212" align="right" nowrap>Ce document est &agrave; classer dans </td>

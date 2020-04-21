@@ -82,6 +82,12 @@ $RsTheme = mysqli_query($conn_intranet, $query_RsTheme) or die(mysqli_error());
 $row_RsTheme = mysqli_fetch_assoc($RsTheme);
 $totalRows_RsTheme = mysqli_num_rows($RsTheme);
 
+mysqli_select_db($conn_intranet, $database_conn_intranet);
+$query_RsCategorie= sprintf("SELECT * FROM stock_categorie ORDER BY stock_categorie.ID_categorie");
+$RsCategorie = mysqli_query($conn_intranet, $query_RsCategorie) or die(mysqli_error());
+$row_RsCategorie = mysqli_fetch_assoc($RsCategorie);
+$totalRows_RsCategorie = mysqli_num_rows($RsCategorie);
+
 $selection_RsChoixMatiere = "0";
 if (isset($_POST['matiere_ID'])) {
   $selection_RsChoixMatiere = (get_magic_quotes_gpc()) ? $_POST['matiere_ID'] : addslashes($_POST['matiere_ID']);
@@ -118,13 +124,14 @@ if ($_POST['titre']=='') {
   $position=$row_RsMax['resultat']+1;
 
   $type_doc=1;
-  $insertSQL = sprintf("INSERT INTO stock_quiz (titre, fichier, matiere_ID, niveau_ID,theme_ID, auteur, en_ligne, avec_score, evaluation_seul, cat_doc, type_doc, pos_doc) VALUES (%s, %s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s)",
+  $insertSQL = sprintf("INSERT INTO stock_quiz (titre, fichier, matiere_ID, niveau_ID,theme_ID, categorie_ID, auteur, en_ligne, avec_score, evaluation_seul, cat_doc, type_doc, pos_doc) VALUES (%s, %s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s)",
                        
                        GetSQLValueString($_POST['titre'], "text"),
                        GetSQLValueString($_POST['nom_fichier'], "text"),
                        GetSQLValueString($_POST['matiere_ID'], "text"),
                        GetSQLValueString($_POST['niveau_ID'], "text"),
 		                   GetSQLValueString($_POST['theme_ID'], "int"),
+		                   GetSQLValueString($_POST['categorie_ID'], "int"),
                        GetSQLValueString($_POST['auteur'], "text"),
                        GetSQLValueString($en_ligne, "text"),
                        GetSQLValueString($avec_score, "text"),
@@ -218,9 +225,11 @@ if ($_POST['titre']=='') {
 <form method="post" enctype="multipart/form-data" name="form1" id="formulaire" action="upload_url.php">
   <table align="center">
     <tr valign="baseline"> 
-      <td width="212" align="right" nowrap>Ce lien est relatif &agrave; l'&eacute;tude 
-        du th&egrave;me </td>
-      <td width="350"> <select name="theme_ID" id="select">
+      <td width="212" align="right" nowrap>
+      	Lien est relatif &agrave; l'&eacute;tude du th&egrave;me
+    	</td>
+      <td width="350">
+      	<select name="theme_ID" id="select">
           <option value="value">Selectionnez un thème</option>
           <?php
           do {  
@@ -234,8 +243,32 @@ if ($_POST['titre']=='') {
           	  $row_RsTheme = mysqli_fetch_assoc($RsTheme);
             }
           ?>
-        </select> <a href="../enseignant/gestion_theme.php">Ajouter un nouveau 
-        th&egrave;me</a></td>
+        </select>
+        <a href="../enseignant/gestion_theme.php">Ajouter un nouveau th&egrave;me</a>
+      </td>
+    </tr>
+    <tr valign="baseline"> 
+      <td width="212" align="right" nowrap>
+      	Lien est relatif à l'étude de la catégorie
+    	</td>
+      <td width="350">
+      	<select name="categorie_ID" id="select">
+          <option value="value">Selectionnez un thème</option>
+          <?php
+          do
+          {?>
+            <option value="<?php echo $row_RsCategorie['ID_categorie']?>"><?php echo $row_RsCategorie['nom_categorie']?></option>
+            <?php
+          } while ($row_RsCategorie = mysqli_fetch_assoc($RsCategorie));
+          $rows = mysqli_num_rows($RsCategorie);
+          if($rows > 0)
+          {
+            mysqli_data_seek($RsCategorie, 0);
+          	$row_RsCategorie = mysqli_fetch_assoc($RsCategorie);
+          }?>
+        </select>
+        <a href="../enseignant/gestion_categorie.php">Ajouter une nouvelle categorie</a>
+      </td>
     </tr>
     <tr valign="baseline">
       <td align="right" nowrap>Ce lien est &agrave; classer dans </td>

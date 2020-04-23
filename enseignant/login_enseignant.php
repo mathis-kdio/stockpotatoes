@@ -1,50 +1,64 @@
-<?php 
+<?php
+include("../Connections/gestion_pass.inc.php");
 if (isset($_POST['pass_enseignant'])) 
 {
-include("../Connections/gestion_pass.inc.php");
-if ($_POST['pass_enseignant']==$pass_profs)
-{
-session_start();
-$_SESSION['Sess_nom'] = 'Enseignant';
-header("Location: accueil_enseignant.php");
+	if ($_POST['pass_enseignant'] == $pass_profs)
+	{
+		session_start();
+		$_SESSION['Sess_nom'] = 'Enseignant';
+		header("Location: accueil_enseignant.php");
+	}
+	else
+	{
+		$bad_password = 1;
+	}
 }
-}
-?> 
-<html>
-<head>
-<title>Login Enseignant</title>
-<meta charset="utf-8">
-<meta http-equiv="Content-Type" content="text/html">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../style_jaune.css" rel="stylesheet" type="text/css">
-</head>
-<body>
-<table width="100%" border="0" cellspacing="10" cellpadding="0">
-  <tr valign="top"> 
-    <td width="38%"><a href="../index.php"><img src="../patate.gif" width="253" height="227" border="0"></a></td>
-    <td width="62%"> <p><img src="../patate.jpg" width="324" height="39" align="top"></p>
-      <p><strong><a href="../index.php">Accueil Stockpotatoes</a>  - Espace Enseignant</strong></p>
-      <p>&nbsp;</p>
-      <form name="form1" method="post" action="login_enseignant.php">
-        <p>&nbsp;</p>
-        <p align="center">Entrer votre mot de passe 
-          <input name="pass_enseignant" type="password" id="pass_enseignant">
-          <input type="submit" name="Submit" value="Valider">
-        </p>
-        <p>&nbsp; </p>
-      </form>
-	 <SCRIPT>document.form1.pass_enseignant.focus();</SCRIPT>
-      <p>&nbsp;</p>
-      <p>&nbsp;</p></td>
-  </tr>
-</table>
-<p align="right"><a href="../index.php">Accueil Stockpotatoes</a> - <a href="../administrateur/login_administrateur.php">Espace 
-  Administrateur</a> - <a href="../upload/login_upload.php">Envoyer un exercice ou un document 
-sur le serveur</a></p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp; </p>
-</body>
-</html>
+
+$titre_page = "Login Enseignant";
+$meta_description = "Page de login pour les enseignants";
+$meta_keywords = "outils, ressources, exercices en ligne, hotpotatoes";
+$js_deplus="";
+$css_deplus = "";
+
+require('includes/headerEnseignant.inc.php');
+?>
+<div class="row">
+	<div class="col-12">
+		<div class="row">
+			<h1>Espace Enseignant</h1>
+		</div>
+		<div class="row">
+			<div class="col-3">
+				<img class="img-fluid rounded mx-auto d-block" src="../patate.png" alt="hotpotatoes" title="hotpotatoes" height="150" width="150" />
+			</div>
+			<div class="col-9 align-middle">
+				<p class="h3 bg-warning text-center p-3" style="margin-top: 50px;">Connection à l'espace Enseignant</p>
+			</div>
+		</div>
+		<div class="row jumbotron">
+			<div class="col">
+				<?php 
+				if ($bad_password == 1)
+				{
+					echo '<h4 class="text-center" style="color:red">MOT DE PASSE INCORRECT</h4>';
+				} ?>
+				<form name="form1" method="post" action="login_enseignant.php">
+					<div class="form-group form-row justify-content-center">
+						<div class="col-4">
+							<label for="pass_enseignant">Entrer votre mot de passe</label>
+							<input type="password" class="form-control" name="pass_enseignant" id="pass_enseignant" placeholder="Mot de passe">
+						</div>
+					</div>
+					<div class="form-group form-row justify-content-center">
+						<div class="col-4">
+							<button type="submit" name="Submit" class="btn btn-primary">Valider</button>
+						</div>
+					</div>
+				</form>
+			</div>			
+		</div>
+	</div>
+</div>
+<?php
+require('includes/footerEnseignant.inc.php');
+?>

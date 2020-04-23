@@ -2,7 +2,7 @@
 include("../Connections/gestion_pass.inc.php");
 if (isset($_POST['pass_enseignant'])) 
 {
-	if ($_POST['pass_enseignant'] == $pass_profs)
+	if (htmlspecialchars($_POST['pass_enseignant']) == $pass_profs)
 	{
 		session_start();
 		$_SESSION['Sess_nom'] = 'Enseignant';

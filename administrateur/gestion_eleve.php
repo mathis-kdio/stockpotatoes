@@ -143,6 +143,11 @@ $query_RsModifEleve = sprintf("SELECT * FROM stock_eleve WHERE ID_eleve = '%s'",
 $RsModifEleve = mysqli_query($conn_intranet, $query_RsModifEleve) or die(mysqli_error($conn_intranet));
 $row_RsModifEleve = mysqli_fetch_assoc($RsModifEleve);
 
+$query_RsNiveau = "SELECT * FROM stock_niveau";
+$RsNiveau = mysqli_query($conn_intranet, $query_RsNiveau) or die(mysqli_error($conn_intranet));
+$row_RsNiveau = mysqli_fetch_assoc($RsNiveau);
+
+
 $titre_page = "Gestion des élèves";
 $meta_description = "Page de gestion des élèves";
 $meta_keywords = "outils, ressources, exercices en ligne, hotpotatoes";
@@ -266,7 +271,20 @@ require('include/headerAdministrateur.inc.php');
 								</div>
 								<div class="form-group">
 									<label for="niveau">Niveau :</label>
-									<input type="text" class="form-control" name="niveau" id="niveau">
+									<select name="niveau" id="niveau" class="custom-select">
+										<?php
+										do 
+										{ ?>
+											<option value="<?php echo $row_RsNiveau['ID_niveau']?>"><?php echo $row_RsNiveau['nom_niveau']?></option>
+											<?php
+										} while ($row_RsNiveau = mysqli_fetch_assoc($RsNiveau));
+										$rows = mysqli_num_rows($RsNiveau);
+										if($rows > 0)
+										{
+											mysqli_data_seek($RsNiveau, 0);
+											$row_RsNiveau = mysqli_fetch_assoc($RsNiveau);
+										} ?>
+									</select>
 								</div>
 								<div class="form-group">
 									<button type="submit" class="btn btn-primary">Ajouter cet(te) élève(e)</button>
@@ -298,7 +316,20 @@ require('include/headerAdministrateur.inc.php');
 								</div>
 								<div class="form-group">
 									<label for="niveau">Niveau :</label>
-									<input type="text" class="form-control" name="niveau" id="niveau">
+									<select name="niveau" id="niveau" class="custom-select">
+										<?php
+										do 
+										{ ?>
+											<option value="<?php echo $row_RsNiveau['ID_niveau']?>"><?php echo $row_RsNiveau['nom_niveau']?></option>
+											<?php
+										} while ($row_RsNiveau = mysqli_fetch_assoc($RsNiveau));
+										$rows = mysqli_num_rows($RsNiveau);
+										if($rows > 0)
+										{
+											mysqli_data_seek($RsNiveau, 0);
+											$row_RsNiveau = mysqli_fetch_assoc($RsNiveau);
+										} ?>
+									</select>
 								</div>
 								<div class="form-group">
 									<button type="submit" class="btn btn-primary">Ajouter cet(te) élève(e)</button>
@@ -351,13 +382,12 @@ require('include/headerAdministrateur.inc.php');
 												<option value="<?php echo $row_Rschoixeleve['ID_eleve']?>"<?php if(isset($numeleve)) { if (!(strcmp($row_Rschoixeleve['ID_eleve'], $numeleve))) {echo "SELECTED";} }?>><?php echo $row_Rschoixeleve['ID_eleve'].' '.$row_Rschoixeleve['nom'].' '.$row_Rschoixeleve['prenom']?></option>
 												<?php
 											} while ($row_Rschoixeleve = mysqli_fetch_assoc($Rschoixeleve));
-												$rows = mysqli_num_rows($Rschoixeleve);
-												if($rows > 0)
-												{
-													mysqli_data_seek($Rschoixeleve, 0);
-													$row_Rschoixeleve = mysqli_fetch_assoc($Rschoixeleve);
-												}
-											?>
+											$rows = mysqli_num_rows($Rschoixeleve);
+											if($rows > 0)
+											{
+												mysqli_data_seek($Rschoixeleve, 0);
+												$row_Rschoixeleve = mysqli_fetch_assoc($Rschoixeleve);
+											} ?>
 										</select>
 									</div>
 									<div class="form-group">
@@ -440,7 +470,14 @@ require('include/headerAdministrateur.inc.php');
 										</div>
 										<div class="form-group">
 											<label for="niveau">Niveau :</label>
-											<input type="text" class="form-control" name="niveau" id="niveau" value="<?php echo $row_RsModifEleve['niveau']; ?>">
+											<select name="niveau" id="niveau" class="custom-select">
+												<?php
+												do 
+												{ ?>
+													<option value="<?php echo $row_RsNiveau['ID_niveau']?>" <?php if (!(strcmp($row_RsNiveau['ID_niveau'], $row_RsModifEleve['niveau'])) ) {echo "SELECTED";}?> ><?php echo $row_RsNiveau['nom_niveau']?></option>
+													<?php
+												} while ($row_RsNiveau = mysqli_fetch_assoc($RsNiveau)); ?>
+											</select>
 										</div>
 										<div class="form-group">
 											<button type="submit" class="btn btn-primary">Mettre à jour l'enregistrement</button>

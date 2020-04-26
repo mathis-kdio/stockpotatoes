@@ -55,7 +55,7 @@ require('includes/headerEnseignant.inc.php');
 						</div>
 					</div>
 				</form>
-			</div>			
+			</div>
 		</div>
 	</div>
 </div>

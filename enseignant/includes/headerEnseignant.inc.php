@@ -41,13 +41,13 @@ error_reporting(E_ALL);
 				<div class="collapse navbar-collapse" id="navbarNav">
 					<ul class="navbar-nav">
 						<li class="nav-item active">
-							<a class="nav-link" href="accueil_enseignant">Espace enseignant</a>
+							<a class="nav-link" href="accueil_enseignant">Espace Enseignant</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="../index.php">Menu Stockpotatoes</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="../administrateur/login_administrateur.php">Espace Admin</a>
+							<a class="nav-link" href="../administrateur/login_administrateur.php">Espace Administrateur</a>
 						</li>
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

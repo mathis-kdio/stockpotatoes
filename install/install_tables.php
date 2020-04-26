@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 require_once('../Connections/conn_intranet.php'); 
 mysqli_select_db($conn_intranet, $database_conn_intranet) or die(mysqli_error($conn_intranet));
 $query = "
-CREATE TABLE `stock_activite` (
+CREATE TABLE IF NOT EXISTS `stock_activite` (
   `ID_activite` smallint(5) unsigned NOT NULL auto_increment,
   `eleve_ID` smallint(6) NOT NULL default '0',
   `identifiant` varchar(250) NOT NULL default '',
@@ -16,9 +16,11 @@ CREATE TABLE `stock_activite` (
   `fait` enum('N','O') NOT NULL default 'N',
   PRIMARY KEY  (`ID_activite`)
 ) ENGINE=INNODB AUTO_INCREMENT=0 ;";
+
 $result = mysqli_query($conn_intranet, $query) or die(mysqli_error($conn_intranet));
+
 $query = "
-CREATE TABLE `stock_categorie` (
+CREATE TABLE IF NOT EXISTS `stock_categorie` (
   `ID_categorie` smallint(5) NOT NULL auto_increment,
   `nom_categorie` varchar(250) NOT NULL default '',
   `mat_ID` tinyint(4) NOT NULL default '0',
@@ -26,9 +28,11 @@ CREATE TABLE `stock_categorie` (
   `pos_categorie` smallint(5) NOT NULL default '1', 
   PRIMARY KEY  (`ID_categorie`)
 ) ENGINE=INNODB AUTO_INCREMENT=0 ;";
+
 $result = mysqli_query($conn_intranet, $query) or die(mysqli_error($conn_intranet));
+
 $query = "
-CREATE TABLE `stock_eleve` (
+CREATE TABLE IF NOT EXISTS `stock_eleve` (
   `ID_eleve` smallint(5) unsigned NOT NULL auto_increment,
   `identifiant` varchar(250) NOT NULL default '',
   `nom` varchar(50) NOT NULL default '',
@@ -39,26 +43,32 @@ CREATE TABLE `stock_eleve` (
   PRIMARY KEY  (`ID_eleve`),
   UNIQUE (`identifiant`)
 ) ENGINE=INNODB AUTO_INCREMENT=0 ;";
+
 $result = mysqli_query($conn_intranet, $query) or die(mysqli_error($conn_intranet));
+
 $query = "
-CREATE TABLE `stock_matiere` (
+CREATE TABLE IF NOT EXISTS `stock_matiere` (
   `ID_mat` tinyint(4) NOT NULL auto_increment,
   `nom_mat` varchar(50) NOT NULL default '',
   `theme` varchar(255) default NULL,
   PRIMARY KEY  (`ID_mat`)
 ) ENGINE=INNODB AUTO_INCREMENT=0 ;";
+
 $result = mysqli_query($conn_intranet, $query) or die(mysqli_error($conn_intranet));
+
 $query = "
-CREATE TABLE `stock_niveau` (
+CREATE TABLE IF NOT EXISTS `stock_niveau` (
   `ID_niveau` tinyint(4) NOT NULL auto_increment,
   `nom_niveau` varchar(255) NOT NULL default '',
-  `pos_niv` smallint(5) unsigned NULL default '1', 
+  `pos_niv` smallint(5) unsigned NOT NULL default '1', 
 
   PRIMARY KEY  (`ID_niveau`)
 ) ENGINE=INNODB AUTO_INCREMENT=0 ;";
+
 $result = mysqli_query($conn_intranet, $query) or die(mysqli_error($conn_intranet));
+
 $query = "
-CREATE TABLE `stock_quiz` (
+CREATE TABLE IF NOT EXISTS `stock_quiz` (
   `ID_quiz` smallint(5) unsigned NOT NULL auto_increment,
   `titre` varchar(255) NOT NULL default 'Sans titre',
   `fichier` varchar(255) NOT NULL default '',
@@ -76,9 +86,11 @@ CREATE TABLE `stock_quiz` (
 
   PRIMARY KEY  (`ID_quiz`)
 ) ENGINE=INNODB AUTO_INCREMENT=0 ;";
+
 $result = mysqli_query($conn_intranet, $query) or die(mysqli_error($conn_intranet));
+
 $query = "
-CREATE TABLE `stock_theme` (
+CREATE TABLE IF NOT EXISTS `stock_theme` (
   `ID_theme` smallint(5) unsigned NOT NULL auto_increment,
   `theme` varchar(255) NOT NULL default '',
   `mat_ID` tinyint(4) NOT NULL default '0',
@@ -89,57 +101,50 @@ CREATE TABLE `stock_theme` (
 
   PRIMARY KEY  (`ID_theme`)
 ) ENGINE=INNODB AUTO_INCREMENT=0;";
+
 $result = mysqli_query($conn_intranet, $query) or die(mysqli_error($conn_intranet));
 
+$titre_page = "Installation des tables";
+
+$meta_description = "Le distributeur de patates chaudes";
+$meta_keywords = "outils, ressources, exercices en ligne, hotpotatoes";
+$js_deplus="fonctions.js";
+$css_deplus = "";
+
+require('include/fonctions.inc.php');
+require('include/header.inc.php');
+?>
+<div class="row">
+	<div class="col-lg-12">
+		<section>
+			<header>
+				<h1><?php echo $titre_page ?></h1>
+			</header>
+			<article>
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-3">
+							<img class="img-fluid rounded mx-auto d-block"  src="images/patate.png" alt="hotpotatoes" title="hotpotatoes" height="150" width="150" />
+						</div>
+						<div class="col-lg-9 align-middle">
+							<p class="h3 bg-secondary text-center p-3" style="margin-top: 50px;">Etape 4/5</p>
+						</div>
+					</div>
+					<div class="jumbotron m-3">
+						<blockquote class="p-3">				
+							<div class="h5 text-center">La cr&eacute;ation des tables a &eacute;t&eacute; effectu&eacute;e dans votre base de donn&eacute;es.</div>
+							<div class="h5 text-center">Il vous faut maintenant paramétrer l'&eacute;diteur Html en ligne (FCKeditor).</div>
+							<div class="h5 text-center">Si des difficult&eacute;s survenaient &agrave; l'utilisation de cet &eacute;diteur, vous pourrez revenir sur ces param&egrave;tres dans l'espace Administrateur </div>
+							<p class="text-center m-3">
+								<input name="Submit" type="submit" onClick="MM_goToURL('parent','install_editeur.php');return document.MM_returnValue" value="Param&eacute;trage de l'&eacute;diteur Html en ligne">
+							</p>
+						</blockquote>
+					</div><!--/.jumbotron -->
+				</div><!--/.container -->
+			</article>
+		</section>
+	</div><!-- fin class=col-lg-12 -->
+</div><!-- fin class row -->
+<?php
+require('include/footer.inc.php');
 ?> 
-
-<html>
-<head>
-<title>Installation des tables</title>
-<meta charset="utf-8">
-<meta http-equiv="Content-Type" content="text/html">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../style_jaune.css" rel="stylesheet" type="text/css">
-<script language="JavaScript" type="text/JavaScript">
-<!--
-function MM_goToURL() { //v3.0
-  var i, args=MM_goToURL.arguments; document.MM_returnValue = false;
-  for (i=0; i<(args.length-1); i+=2) eval(args[i]+".location='"+args[i+1]+"'");
-}
-//-->
-</script>
-</head>
-<body>
-<p>&nbsp;</p>
-<table width="100%" border="0" cellspacing="10" cellpadding="0">
-  <tr valign="top"> 
-    <td width="38%"><a href="../index.php"><img src="../patate.gif" width="253" height="227" border="0"></a></td>
-    <td width="62%"> <p align="center"><img src="../patate.jpg" width="324" height="39" align="top"></p>
-      <p align="center"><span class="title"><font size="6" face="Arial, Helvetica, sans-serif">&lt; 
-        Etape 4/5 &gt;</font></span></p>
-      <p align="center">&nbsp;</p>
-      <div align="center"> 
-          <ul>
-            <li>
-              <div align="left"><strong>La cr&eacute;ation des tables a &eacute;t&eacute; effectu&eacute; 
-              dans votre base de donn&eacute;es</strong></div>
-            </li>
-          </ul>
-        <div align="center">
-          <div align="center"><ul><li><div align="left"><strong align="left">Il vous faut maintenant param&eacute;trer l'&eacute;diteur Html en ligne (FCKeditor) </strong></div>
-              </li>
-              <li>
-                <div align="left"><strong align="left">Si des difficult&eacute;s survenaient &agrave; l'utilisation de cet &eacute;diteur, vous pourrez revenir sur ces param&egrave;tres dans l'espace Administrateur </strong></div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <p align="center">
-        <input name="Submit" type="submit" onClick="MM_goToURL('parent','install_editeur.php');return document.MM_returnValue" value="Param&eacute;trage de l'&eacute;diteur Html en ligne">
-      </p></td>
-  </tr>
-</table>
-
-</body>
-</html>

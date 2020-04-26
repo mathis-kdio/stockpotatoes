@@ -35,7 +35,7 @@ require('includes/header.inc.php');
 </div>
 <div class="row">
   <div class="col bg-warning text-center shadow">
-    <h4>Ver 3.0 ALPHA 6 - 21/04/2020</h4>
+    <h4>Ver 3.0 ALPHA 7 - 26/04/2020</h4>
   </div>  
 </div>
 </section>

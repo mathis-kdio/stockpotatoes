@@ -1,1 +1,0 @@
-Le dossier UserFiles et ses sous dossiers doivent posséder les droits en écriture.

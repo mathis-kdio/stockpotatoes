@@ -53,20 +53,17 @@ mysqli_close($conn_intranet);
 }
 ?>
 <?php
-if ($_SESSION['Sess_nom']<>'VISITEUR') {
-
-echo '<script type="text/javascript" language="javascript">';
-echo ' opener.location.href ="../accueil_eleve.php?matiere_ID='.$_SESSION['matiere_ID'].'&ID_niveau='.$_SESSION['niveau_ID'].'&theme_ID='. $_SESSION['theme_ID'].'"';
-echo '</script>';
-
+if ($_SESSION['Sess_nom']<>'VISITEUR') 
+{
+	echo '<script type="text/javascript" language="javascript">';
+	echo ' opener.location.href ="../accueil_eleve.php?matiere_ID='.$_SESSION['matiere_ID'].'&niveau_ID='.$_SESSION['niveau_ID'].'&theme_ID='. $_SESSION['theme_ID'].'"';
+	echo '</script>';
 }
 else
 {
-
-echo '<script type="text/javascript" language="javascript">';
-echo ' opener.location.href ="../accueil_visiteur.php?matiere_ID='.$_SESSION['matiere_ID'].'&niveau_ID='.$_SESSION['niveau_ID'].'&theme_ID='. $_SESSION['theme_ID'].'"';
-echo '</script>';
-
+	echo '<script type="text/javascript" language="javascript">';
+	echo ' opener.location.href ="../accueil_visiteur.php?matiere_ID='.$_SESSION['matiere_ID'].'&niveau_ID='.$_SESSION['niveau_ID'].'&theme_ID='. $_SESSION['theme_ID'].'"';
+	echo '</script>';
 }
 ?>
 

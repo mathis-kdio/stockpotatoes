@@ -15,7 +15,7 @@ function sans_accent($chaine)
 	$_SESSION['nom_mat'] = $nom_mat;
 	
 	if (isset($_GET['matiere_ID'])){$_SESSION['matiere_ID'] = $_GET['matiere_ID'];}
-	if (isset($_GET['ID_niveau'])){$_SESSION['niveau_ID'] = $_GET['ID_niveau'];}
+	if (isset($_GET['niveau_ID'])){$_SESSION['niveau_ID'] = $_GET['niveau_ID'];}
 	if (isset($_GET['theme_ID'])){$_SESSION['theme_ID'] = $_GET['theme_ID'];}
 	
 	

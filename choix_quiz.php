@@ -17,6 +17,7 @@ function sans_accent($chaine)
 	if (isset($_GET['matiere_ID'])){$_SESSION['matiere_ID'] = $_GET['matiere_ID'];}
 	if (isset($_GET['niveau_ID'])){$_SESSION['niveau_ID'] = $_GET['niveau_ID'];}
 	if (isset($_GET['theme_ID'])){$_SESSION['theme_ID'] = $_GET['theme_ID'];}
+	if (isset($_GET['categorie_ID'])){$_SESSION['categorie_ID'] = $_GET['categorie_ID'];}
 	
 	
 	$lien="Exercices/".$nom_mat."/q".$_GET['VAR_ID_quiz']."/".$fichier;

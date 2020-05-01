@@ -445,15 +445,15 @@ require('includes/header.inc.php');
 													} 
 													else
 													{ 
-														if (isset($_GET['theme_ID']))
+														if (isset($themeId))
 														{
-															$theme = $_GET['theme_ID'];
+															$theme = $themeId;
 														}
 														else
 														{
 															$theme = 0;
 														}
-														if ((isset($_GET['matiere_ID'])) && (isset($_GET['niveau_ID'])) )
+														if ((isset($matiereId)) && (isset($niveauId)) )
 														{
 															$lien = 'choix_quiz.php?VAR_fichier='.$row_rsListeSelectMatiereNiveau['fichier'].'&VAR_ID_quiz='.$row_rsListeSelectMatiereNiveau['ID_quiz'].'&VAR_nom_mat='.$row_rsChoix['nom_mat'].'&matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$theme.'&categorie_ID='.$categorieId; 
 														} 
@@ -546,9 +546,9 @@ require('includes/header.inc.php');
 												} 
 												else 
 												{
-													if (isset($_GET['theme_ID']))
+													if (isset($themeId))
 													{
-														$theme = $_GET['theme_ID'];
+														$theme = $themeId;
 													}
 													else
 													{
@@ -618,15 +618,15 @@ require('includes/header.inc.php');
 												} 
 												else
 												{
-													if (isset($_GET['theme_ID']))
+													if (isset($themeId))
 													{
-														$theme = $_GET['theme_ID'];
+														$theme = $themeId;
 													}
 													else
 													{
 														$theme = 0;
 													}
-													if ((isset($_GET['matiere_ID'])) && (isset($_GET['niveau_ID'])) )
+													if ((isset($matiereId)) && (isset($niveauId)) )
 													{
 														$lien = 'choix_quiz.php?VAR_fichier='.$row_rsListeSelectMatiereNiveau['fichier'].'&VAR_ID_quiz='.$row_rsListeSelectMatiereNiveau['ID_quiz'].'&VAR_nom_mat='.$row_rsChoix['nom_mat'].'&matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$theme.'&categorie_ID='.$categorieId; 
 													}
@@ -693,15 +693,15 @@ require('includes/header.inc.php');
 												} 
 												else
 												{
-													if (isset($_GET['theme_ID']))
+													if (isset($themeId))
 													{
-														$theme = $_GET['theme_ID'];
+														$theme = $themeId;
 													}
 													else
 													{
 														$theme = 0;
 													}
-													if ((isset($_GET['matiere_ID'])) && (isset($_GET['niveau_ID'])) )
+													if ((isset($matiereId)) && (isset($niveauId)) )
 													{
 														$lien = 'choix_quiz.php?VAR_fichier='.$row_rsListeSelectMatiereNiveau['fichier'].'&VAR_ID_quiz='.$row_rsListeSelectMatiereNiveau['ID_quiz'].'&VAR_nom_mat='.$row_rsChoix['nom_mat'].'&matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$theme.'&categorie_ID='.$categorieId; 
 													} 

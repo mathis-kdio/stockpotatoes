@@ -6,10 +6,9 @@ if (isset($_POST['pass_enseignant']))
 	{
 		session_start();
 		$_SESSION['Sess_nom'] = 'Enseignant';
-		$cible = htmlspecialchars($_POST['cible']);
-		if (isset($cible)) 
+		if (isset($_POST['cible'])) 
 		{
-			header("Location: ".$cible.".php");
+			header("Location: ".htmlspecialchars($_POST['cible']).".php");
 		}
 		else
 		{
@@ -63,7 +62,7 @@ require('includes/headerEnseignant.inc.php');
 						</div>
 					</div>
 					<?php
-					if (isset(htmlspecialchars($_GET['cible'])))
+					if (isset($_GET['cible']))
 					{
 						echo '<input type="hidden" name="cible" id="cible" value="'.htmlspecialchars($_GET['cible']).'">';
 					} ?>

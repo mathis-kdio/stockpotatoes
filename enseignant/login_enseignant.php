@@ -6,7 +6,15 @@ if (isset($_POST['pass_enseignant']))
 	{
 		session_start();
 		$_SESSION['Sess_nom'] = 'Enseignant';
-		header("Location: accueil_enseignant.php");
+		$cible = htmlspecialchars($_POST['cible']);
+		if (isset($cible)) 
+		{
+			header("Location: ".$cible.".php");
+		}
+		else
+		{
+			header("Location: accueil_enseignant.php");			
+		}
 	}
 	else
 	{
@@ -54,6 +62,11 @@ require('includes/headerEnseignant.inc.php');
 							<button type="submit" name="Submit" class="btn btn-primary">Valider</button>
 						</div>
 					</div>
+					<?php
+					if (isset(htmlspecialchars($_GET['cible'])))
+					{
+						echo '<input type="hidden" name="cible" id="cible" value="'.htmlspecialchars($_GET['cible']).'">';
+					} ?>
 				</form>
 			</div>
 		</div>

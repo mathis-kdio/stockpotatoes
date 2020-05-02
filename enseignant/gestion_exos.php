@@ -7,12 +7,12 @@ if (isset($_SESSION['Sess_nom']))
 {
 	if ($_SESSION['Sess_nom']<>'Enseignant')
 	{
-		header("Location: login_enseignant.php");
+		header("Location: login_enseignant.php?cible=gestion_exos");
 	}
 }
 else
 {
-	header("Location: ../index.php");
+	header("Location: login_enseignant.php?cible=gestion_exos");
 }
 
 require_once('../Connections/conn_intranet.php');

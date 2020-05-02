@@ -7,12 +7,12 @@ if (isset($_SESSION['Sess_nom']))
 { 
 	if ($_SESSION['Sess_nom'] <> 'Administrateur')
 	{ 
-		header("Location: login_administrateur.php");
+		header("Location: login_administrateur.php?cible=gestion_eleve");
 	}
 } 
 else
 {
-	header("Location: ../index.php");
+	header("Location: login_administrateur.php?cible=gestion_eleve");
 }
 require_once('../Connections/conn_intranet.php'); 
 

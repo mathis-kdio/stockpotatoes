@@ -6,7 +6,15 @@ if (isset($_POST['pass_administrateur']))
 	{
 		session_start();
 		$_SESSION['Sess_nom'] = 'Administrateur';
-		header("Location: accueil_admin.php");
+		$cible = htmlspecialchars($_POST['cible']);
+		if (isset($cible)) 
+		{
+			header("Location: ".$cible.".php");
+		}
+		else
+		{
+			header("Location: accueil_admin.php");
+		}
 	}
 	else
 	{
@@ -54,6 +62,11 @@ require('include/headerAdministrateur.inc.php');
 							<button type="submit" name="Submit" class="btn btn-primary">Valider</button>
 						</div>
 					</div>
+					<?php
+					if (htmlspecialchars($_GET['cible']))
+					{
+						echo '<input type="hidden" name="cible" id="cible" value="'.htmlspecialchars($_GET['cible']).'">';
+					} ?>
 				</form>
 			</div>
 		</div>

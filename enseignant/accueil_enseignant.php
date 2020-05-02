@@ -8,7 +8,7 @@ if (isset($_SESSION['Sess_nom']))
 }
 else
 {
-	header("Location: ../index.php");
+	header("Location: login_enseignant.php");
 }
 
 $titre_page = "Espace enseignant";

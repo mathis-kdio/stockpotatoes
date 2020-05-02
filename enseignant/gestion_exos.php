@@ -141,34 +141,30 @@ require('includes/headerEnseignant.inc.php');
 		</div>
 		<div class="container jumbotron">
 			<form name="form1" method="GET" action="gestion_exos.php">
-				<div class="row">
-					<div class="col-3 text-right">
-						<label for="select2">Sélectionnez une matière</label>
-					</div>
-					<div class="col-2">
+				<div class="form-group row align-items-center justify-content-center">
+					<label for="select2" class="col-auto col-form-label">Sélectionnez une matière</label>
+					<div class="col-auto">
 						<select class="form-control" name="matiere_ID" id="select2">
 							<?php
 							do
 							{ ?>
-								<option value="<?php echo $row_rs_matiere['ID_mat']?>"<?php if (isset($matiereId)) { if (!(strcmp($row_rs_matiere['ID_mat'], $matiereId))) {echo "SELECTED";} }  ?>><?php echo $row_rs_matiere['nom_mat']?></option>
+								<option value="<?php echo $row_rs_matiere['ID_mat']?>"<?php if (isset($matiereId)) { if (!(strcmp($row_rs_matiere['ID_mat'], $matiereId))) {echo "SELECTED";}}?>><?php echo $row_rs_matiere['nom_mat']?></option>
 								<?php
 							} while ($row_rs_matiere = mysqli_fetch_assoc($rs_matiere)); ?>
 						</select>
 					</div>
-					<div class="col-3 text-right">
-						<label for="select">Sélectionnez un niveau</label>
-					</div>
-					<div class="col-2">
+					<label for="select" class="col-auto col-form-label">Sélectionnez un niveau</label>
+					<div class="col-auto">
 						<select class="form-control" name="niveau_ID" id="select">
 							<?php
 							do 
 							{ ?>
-								<option value="<?php echo $row_rs_niveau['ID_niveau']?>"<?php if (isset($niveauId)) { if (!(strcmp($row_rs_niveau['ID_niveau'], $niveauId))) {echo "SELECTED";} } ?>><?php echo $row_rs_niveau['nom_niveau']?></option>
+								<option value="<?php echo $row_rs_niveau['ID_niveau']?>"<?php if (isset($niveauId)) { if (!(strcmp($row_rs_niveau['ID_niveau'], $niveauId))) {echo "SELECTED";}}?>><?php echo $row_rs_niveau['nom_niveau']?></option>
 								<?php
 							} while ($row_rs_niveau = mysqli_fetch_assoc($rs_niveau)); ?>
 						</select>
 					</div>
-					<div class="col-2">
+					<div class="col-auto">
 						<button type="submit" name="Submit" class="btn btn-primary">Valider</button>
 					</div>
 				</div>

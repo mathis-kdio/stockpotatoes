@@ -239,21 +239,23 @@ require('include/headerAdministrateur.inc.php');
 					<h4 class="text-center">Liste des matières</h4>
 					<p class="font-italic">Les matières sont classées par ordre alphabétique.</p>
 					<table class="table table-striped table-bordered">
-					  <thead>
-					    <tr>
-					      <th scope="col">ID_mat</th>
-					      <th scope="col">Matière</th>
-					    </tr>
-					  </thead>
-						<?php 
-						do 
-						{ ?>
-							<tr> 
-								<th scope="row"><?php echo $row_RsMatiere['ID_mat']; ?></td>
-								<td><?php echo $row_RsMatiere['nom_mat']; ?></td>
+						<thead>
+							<tr>
+								<th scope="col">ID_mat</th>
+								<th scope="col">Matière</th>
 							</tr>
+						</thead>
+						<tbody>
 							<?php 
-						} while ($row_RsMatiere = mysqli_fetch_assoc($RsMatiere)); ?>
+							do 
+							{ ?>
+								<tr> 
+									<th scope="row"><?php echo $row_RsMatiere['ID_mat']; ?></th>
+									<td><?php echo $row_RsMatiere['nom_mat']; ?></td>
+								</tr>
+								<?php 
+							} while ($row_RsMatiere = mysqli_fetch_assoc($RsMatiere)); ?>
+						</tbody>
 					</table>
 				</div>
 
@@ -344,69 +346,71 @@ require('include/headerAdministrateur.inc.php');
 					<p class="font-italic">Vous pouvez classer les niveaux avec (<img src="up.gif" width="15" height="10"> et <img src="down.gif" width="15" height="10">)</p>
 					<table class="table table-striped table-bordered">
 						<thead>
-					    <tr>
-					      <th scope="col">ID_niveau</th>
-					      <th scope="col">Up</th>
-					      <th scope="col">Down</th>
-					      <th scope="col">Niveaux</th>
-					    </tr>
-					  </thead>
-						<?php 
-						$x = 0;
-						do 
-						{
-							$x = $x + 1;
-							$tabpos1[$x] = $row_RsNiveau['pos_niv'];
-							$tabid1[$x] = $row_RsNiveau['ID_niveau'];
-						} while ($row_RsNiveau = mysqli_fetch_assoc($RsNiveau)); 
-						if ($totalRows_RsNiveau != 0)
-						{
-							mysqli_data_seek($RsNiveau,0);		
-							$row_RsNiveau = mysqli_fetch_assoc($RsNiveau);
-							$t1 = $x; 
+							<tr>
+								<th scope="col">ID_niveau</th>
+								<th scope="col">Up</th>
+								<th scope="col">Down</th>
+								<th scope="col">Niveaux</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php 
 							$x = 0;
-							do
+							do 
 							{
-								$x = $x + 1; ?>
-								<tr> 
-									<th scope="row"><?php echo $row_RsNiveau['ID_niveau']; ?></th>
-									<td class="text-center">
-										<?php if($x != 1)
-										{
-											echo '<form name="Remonter" method="post" action="remonter_niveau.php">'; 
-											echo '<input name="ID_niveau" type="hidden" id="ID_niveau" value="'.$row_RsNiveau['ID_niveau'].'">'; 
-											echo '<input name="ID_precedent" type="hidden" id="ID_precedent" value="'.$tabid1[$x - 1].'">';
-											echo '<input name="pos_precedent" type="hidden" id="pos_precedent" value="'.$tabpos1[$x - 1].'">';
-											echo '<input name="Remonter" type="hidden" value="Remonter">';
-											echo '<input type="image" src="up.gif" alt="Remonter ce niveau">';
-											echo '</form>';
-										} 
-										else 
-										{
-											echo '&nbsp;';
-										}?> 
-									</td>
-									<td class="text-center">
-										<?php if($x != $t1) 
-										{
-											echo '<form name="Descendre" method="post" action="descendre_niveau.php">';
-											echo '<input name="ID_niveau" type="hidden" id="ID_niveau" value="'.$row_RsNiveau['ID_niveau'].'">';
-											echo '<input name="ID_suivant" type="hidden" id="ID_suivant" value="'.$tabid1[$x + 1].'">';
-											echo '<input name="pos_suivant" type="hidden" id="pos_suivant" value="'.$tabpos1[$x + 1].'">';
-											echo '<input name="Descendre" type="hidden" value="Descendre">';
-											echo '<input type="image" src="down.gif" alt="Descendre ce niveau">';
-											echo '</form>';
-										}
-										else
-										{
-											echo '&nbsp;';
-										}?>
-									</td>
-									<td><?php echo $row_RsNiveau['nom_niveau']; ?></td>
-								</tr>
-								<?php 
+								$x = $x + 1;
+								$tabpos1[$x] = $row_RsNiveau['pos_niv'];
+								$tabid1[$x] = $row_RsNiveau['ID_niveau'];
 							} while ($row_RsNiveau = mysqli_fetch_assoc($RsNiveau)); 
-						}?>
+							if ($totalRows_RsNiveau != 0)
+							{
+								mysqli_data_seek($RsNiveau,0);		
+								$row_RsNiveau = mysqli_fetch_assoc($RsNiveau);
+								$t1 = $x; 
+								$x = 0;
+								do
+								{
+									$x = $x + 1; ?>
+									<tr> 
+										<th scope="row"><?php echo $row_RsNiveau['ID_niveau']; ?></th>
+										<td class="text-center">
+											<?php if($x != 1)
+											{
+												echo '<form name="Remonter" method="post" action="remonter_niveau.php">'; 
+												echo '<input name="ID_niveau" type="hidden" id="ID_niveau" value="'.$row_RsNiveau['ID_niveau'].'">'; 
+												echo '<input name="ID_precedent" type="hidden" id="ID_precedent" value="'.$tabid1[$x - 1].'">';
+												echo '<input name="pos_precedent" type="hidden" id="pos_precedent" value="'.$tabpos1[$x - 1].'">';
+												echo '<input name="Remonter" type="hidden" value="Remonter">';
+												echo '<input type="image" src="up.gif" alt="Remonter ce niveau">';
+												echo '</form>';
+											} 
+											else 
+											{
+												echo '&nbsp;';
+											}?> 
+										</td>
+										<td class="text-center">
+											<?php if($x != $t1) 
+											{
+												echo '<form name="Descendre" method="post" action="descendre_niveau.php">';
+												echo '<input name="ID_niveau" type="hidden" id="ID_niveau" value="'.$row_RsNiveau['ID_niveau'].'">';
+												echo '<input name="ID_suivant" type="hidden" id="ID_suivant" value="'.$tabid1[$x + 1].'">';
+												echo '<input name="pos_suivant" type="hidden" id="pos_suivant" value="'.$tabpos1[$x + 1].'">';
+												echo '<input name="Descendre" type="hidden" value="Descendre">';
+												echo '<input type="image" src="down.gif" alt="Descendre ce niveau">';
+												echo '</form>';
+											}
+											else
+											{
+												echo '&nbsp;';
+											}?>
+										</td>
+										<td><?php echo $row_RsNiveau['nom_niveau']; ?></td>
+									</tr>
+									<?php 
+								} while ($row_RsNiveau = mysqli_fetch_assoc($RsNiveau)); 
+							}?>
+						</tbody>
 					</table>
 				</div>
 		</div>

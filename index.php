@@ -35,7 +35,9 @@ require('includes/header.inc.php');
 </div>
 <div class="row">
   <div class="col bg-warning text-center shadow">
-    <h4>Ver 3.0 ALPHA 7 - 26/04/2020</h4>
+    <?php 
+    include("includes/version.php"); ?>
+    <h4>Version : <?php echo $versioninstallee;?></h4>
   </div>  
 </div>
 </section>

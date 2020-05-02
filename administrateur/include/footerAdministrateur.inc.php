@@ -4,7 +4,12 @@
 		<div class="container-fluid bg-primary">
 			<footer class="row footer bg-primary">
 				<div class="bg-primary">
-					<span class="alert-dark bg-primary">Propulsé par <a href="https://stockpotatoes.ovh" class="alert-link">Stockpotatoes</a></span>
+					<span class="alert-dark bg-primary">
+						Propulsé par <a href="https://stockpotatoes.ovh" class="alert-link">Stockpotatoes</a>
+						<?php 
+						include("../includes/version.php"); ?>
+						Version : <?php echo $versioninstallee; ?>
+					</span>				
 				</div>
 			</footer>
 		</div>

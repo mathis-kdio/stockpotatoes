@@ -141,7 +141,7 @@ require('includes/headerEnseignant.inc.php');
 			<?php
 			if (isset($matiereId)) 
 			{ ?>
-				<form method="post" name="form2" action="gestion_theme.php">
+				<form method="post" name="form2" action="gestion_theme.php?matiere_ID=<?php echo $matiereId; ?>&niveau_ID=<?php echo $niveauId; ?>">
 					<div class="form-group row align-items-center justify-content-center mt-5">
 						<label for="theme" class="col-auto col-form-label">Ajouter un thème d'étude à cette matière et à ce niveau:</label>
 						<div class="col-auto">

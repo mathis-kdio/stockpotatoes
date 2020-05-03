@@ -17,7 +17,7 @@ if (isset($_POST['pass_enseignant']))
 	}
 	else
 	{
-		$bad_password = 1;
+		header("Location: login_enseignant.php?cible=".htmlspecialchars($_POST['cible'])."&pass=bad");
 	}
 }
 
@@ -45,7 +45,7 @@ require('includes/headerEnseignant.inc.php');
 		<div class="row jumbotron">
 			<div class="col">
 				<?php 
-				if ($bad_password == 1)
+				if (htmlspecialchars($_GET['pass']) == 'bad')
 				{
 					echo '<h4 class="text-center" style="color:red">MOT DE PASSE INCORRECT</h4>';
 				} ?>

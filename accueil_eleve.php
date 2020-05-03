@@ -241,7 +241,7 @@ require('includes/header.inc.php');
           		{ ?>
           			<div class="col text-center">
           				<?php
-          				$query_categorie = sprintf("SELECT * FROM stock_categorie");
+          				$query_categorie = sprintf("SELECT * FROM stock_categorie WHERE mat_ID = %s AND niv_ID = %s AND theme_ID = %s", $matiereId, $niveauId, $themeId);
 		                $Rs_categorie = mysqli_query($conn_intranet, $query_categorie) or die(mysqli_error());
 		                $row_Rs_categorie = mysqli_fetch_assoc($Rs_categorie);
           				if (!isset($categorieId)) {
@@ -254,8 +254,9 @@ require('includes/header.inc.php');
           				?>
 		                <div>
 		                    <?php
-		                    do{
-		                        echo '<a href="accueil_eleve.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$themeId.'&categorie_ID='.$row_Rs_categorie['ID_categorie'].'"><strong>'.$row_Rs_categorie['ID_categorie'].':'.$row_Rs_categorie['nom_categorie'].'</strong></a>&nbsp;&nbsp;&nbsp;&nbsp;';
+		                    do
+		                    {
+		                        echo '<a href="accueil_eleve.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$themeId.'&categorie_ID='.$row_Rs_categorie['ID_categorie'].'"><strong>'.$row_Rs_categorie['ID_categorie'].' '.$row_Rs_categorie['nom_categorie'].'</strong></a>&nbsp;&nbsp;&nbsp;&nbsp;';
 		                    } while ($row_Rs_categorie = mysqli_fetch_assoc($Rs_categorie)); ?>
 		              	</div>          				
           			</div>

@@ -21,6 +21,9 @@ if (isset($_GET['matiere_ID'])) {
 if (isset($_GET['niveau_ID'])) {
 	$niveauId = htmlspecialchars($_GET['niveau_ID']);
 }
+if (isset($_POST['theme_ID'])) {
+	$themeId = htmlspecialchars($_POST['theme_ID']);
+}
 
 $query_RsMax = "SELECT MAX(pos_categorie) AS resultat FROM stock_categorie ";
 $RsMax = mysqli_query($conn_intranet, $query_RsMax) or die(mysqli_error($conn_intranet));
@@ -29,8 +32,8 @@ $position = $row_RsMax['resultat'] + 1;
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form2"))
 {
-	$insertSQL = sprintf("INSERT INTO stock_categorie (ID_categorie, nom_categorie, mat_ID, niv_ID, pos_categorie) VALUES ('%s', '%s', '%s', '%s', '%s')",
-	htmlspecialchars($_POST['ID_categorie']), htmlspecialchars($_POST['categorie']), htmlspecialchars($_POST['mat_ID']), htmlspecialchars($_POST['niv_ID']), htmlspecialchars($position));
+	$insertSQL = sprintf("INSERT INTO stock_categorie (ID_categorie, nom_categorie, mat_ID, niv_ID, theme_ID, pos_categorie) VALUES ('%s', '%s', '%s', '%s', '%s', '%s')",
+	htmlspecialchars($_POST['ID_categorie']), htmlspecialchars($_POST['categorie']), htmlspecialchars($_POST['mat_ID']), htmlspecialchars($_POST['niv_ID']), htmlspecialchars($_POST['theme_ID']), htmlspecialchars($position));
 
 	$Result1 = mysqli_query($conn_intranet, $insertSQL) or die(mysqli_error($conn_intranet));
 }
@@ -59,6 +62,15 @@ $query_RsChoixmatiere = sprintf("SELECT * FROM stock_matiere WHERE ID_mat = '%s'
 $RsChoixmatiere = mysqli_query($conn_intranet, $query_RsChoixmatiere) or die(mysqli_error($conn_intranet));
 $row_RsChoixmatiere = mysqli_fetch_assoc($RsChoixmatiere);
 
+$choixmat_RsChoixTheme = "0";
+if (isset($themeId))
+{
+	$choixmat_RsChoixTheme = $themeId;
+}
+$query_RsChoixTheme = sprintf("SELECT * FROM stock_theme WHERE ID_theme = '%s'", $choixmat_RsChoixTheme);
+$RsChoixTheme = mysqli_query($conn_intranet, $query_RsChoixTheme) or die(mysqli_error($conn_intranet));
+$row_RsChoixTheme = mysqli_fetch_assoc($RsChoixTheme);
+
 $query_rs_matiere = "SELECT * FROM stock_matiere ORDER BY nom_mat";
 $rs_matiere = mysqli_query($conn_intranet, $query_rs_matiere) or die(mysqli_error($conn_intranet));
 $row_rs_matiere = mysqli_fetch_assoc($rs_matiere);
@@ -66,6 +78,13 @@ $row_rs_matiere = mysqli_fetch_assoc($rs_matiere);
 $query_rs_niveau = "SELECT * FROM stock_niveau";
 $rs_niveau = mysqli_query($conn_intranet, $query_rs_niveau) or die(mysqli_error($conn_intranet));
 $row_rs_niveau = mysqli_fetch_assoc($rs_niveau);
+
+if (isset($matiereId) && isset($niveauId))
+{
+	$query_rs_theme = sprintf("SELECT * FROM stock_theme WHERE mat_ID = '%s' AND niv_ID = '%s'", $matiereId, $niveauId);
+	$rs_theme = mysqli_query($conn_intranet, $query_rs_theme) or die(mysqli_error($conn_intranet));
+	$row_rs_theme = mysqli_fetch_assoc($rs_theme);
+}
 
 $titre_page = "Espace Enseignant - Gestion des catégories";
 $meta_description = "Page gestion des catégories";
@@ -130,7 +149,7 @@ require('includes/headerEnseignant.inc.php');
 					<div class="col-auto">
 						<h5>
 							<?php 
-							if (isset($matiereId)) 
+							if (isset($matiereId))
 							{ 
 								echo 'Matière actuelle: '.$row_RsChoixmatiere['nom_mat'];
 							} ?>
@@ -138,116 +157,154 @@ require('includes/headerEnseignant.inc.php');
 					</div>
 				</div>
 			</form>
-			<?php  
+			<?php
 			if (isset($matiereId))
 			{ ?>
-				<form method="post" name="form2" action="gestion_categorie.php?matiere_ID=<?php echo $matiereId; ?>&niveau_ID=<?php echo $niveauId; ?>">
-					<div class="form-group row align-items-center justify-content-center mt-5">
-						<label for="theme" class="col-auto col-form-label">Ajouter une catégorie à cette matière et à ce niveau:</label>
-						<div class="col-auto">
-							<input type="text" name="categorie" class="form-control">
-						</div>
-						<div class="col-auto">
-							<button type="submit" name="submit" class="btn btn-primary">Enregistrer ce nouveau thème d'étude</button>
-						</div>
-						<input type="hidden" name="ID_categorie" value="">
-						<input type="hidden" name="mat_ID" value="<?php echo $matiereId; ?>">
-						<input type="hidden" name="niv_ID" value="<?php echo $niveauId; ?>">
-						<input type="hidden" name="MM_insert" value="form2">
-						<input type="hidden" name="ID_mat2" id="ID_mat3" value="<?php echo htmlspecialchars($_POST['ID_mat']);?>">
+			<form name="formTheme" method="POST" action="gestion_categorie.php?matiere_ID=<?php echo $matiereId;?>&niveau_ID=<?php echo $niveauId;?>">
+				<div class="form-group row align-items-center justify-content-center">
+					<label for="theme_ID" class="col-auto col-form-label">Thème :</label>
+					<div class="col-auto">
+						<select name="theme_ID" id="selectTheme" class="custom-select">
+							<?php
+							do 
+							{ ?>
+								<option value="<?php echo $row_rs_theme['ID_theme']?>"<?php if (isset($matiereId)) { if (!(strcmp($row_rs_theme['ID_theme'], $themeId))) {echo "SELECTED";} }?>><?php echo $row_rs_theme['theme']?></option>
+								<?php
+							} while ($row_rs_theme = mysqli_fetch_assoc($rs_theme));
+							$rows = mysqli_num_rows($rs_theme);
+							if($rows > 0) 
+							{
+								mysqli_data_seek($rs_matiere, 0);
+								$row_rs_theme = mysqli_fetch_assoc($rs_theme);
+							} ?>
+						</select>
 					</div>
-				</form>
-				<h4 class="text-center mt-5">Liste des catégories & Paramétrages</h4>
-				<div class="row mt-5">
-					<div class="col table-responsive">
-						<table class="table table-striped table-bordered table-sm">
-							<thead>
-								<tr>
-									<th scope="col">N°</th>
-									<th scope="col"></th>
-									<th scope="col"></th>
-									<th scope="col">Catégorie d'étude</th>
-									<th scope="col"></th>
-									<th scope="col"></th>
-								</tr>
-							</thead>
-							<tbody>
-								<?php 
-								$x = 0;
-								do
-								{
-									$x = $x + 1;
-									$tabpos1[$x] = $row_Rscategorie['pos_categorie'];
-									$tabid1[$x] = $row_Rscategorie['ID_categorie'];
-								} while ($row_Rscategorie = mysqli_fetch_assoc($Rscategorie)); 
-								 
-								if ($totalRows_Rscategorie != 0)
-								{
-									mysqli_data_seek($Rscategorie,0);
-									$row_Rscategorie = mysqli_fetch_assoc($Rscategorie);
-									$t1 = $x;
-									$x = 0;
-									do 
-									{ 
-										$x = $x + 1;?>
-										<tr> 
-											<th scope="row"><?php echo $row_Rscategorie['ID_categorie']; ?></th>
-											<td>
-												<?php if($x != 1) 
-												{
-													echo '<form name="Remonter" method="post" action="remonter_categorie.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'">';
-													echo '<input name="niveau_ID" type="hidden" id="niveau_ID" value="'.$niveauId.'">';
-													echo '<input name="ID_categorie" type="hidden" id="ID_categorie" value="'.$row_Rscategorie['ID_categorie'].'">';
-													echo '<input name="ID_precedent" type="hidden" id="ID_precedent" value="'.$tabid1[$x - 1].'">';
-													echo '<input name="pos_precedent" type="hidden" id="pos_precedent" value="'.$tabpos1[$x - 1].'">';
-													echo '<input name="Remonter" type="hidden" value="Remonter">';
-													echo '<input type="image" src="images/up.gif" alt="Remonter ce thème">';
-													echo '</form>';
-												} 
-												else
-												{
-													echo '&nbsp;';
-												}?>
-											</td>
-											<td>
-												<?php if($x != $t1)
-												{
-													echo '<form name="Descendre" method="post" action="descendre_categorie.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'">';
-													echo '<input name="ID_categorie" type="hidden" id="ID_categorie" value="'.$row_Rscategorie['ID_categorie'].'">';
-													echo '<input name="ID_suivant" type="hidden" id="ID_suivant" value="'.$tabid1[$x + 1].'">';
-													echo '<input name="pos_suivant" type="hidden" id="pos_suivant" value="'.$tabpos1[$x + 1].'">';
-													echo '<input name="Descendre" type="hidden" value="Descendre">';
-													echo '<input type="image" src="images/down.gif" alt="Descendre ce thème">';
-													echo '</form>';
-												}
-												else
-												{
-													echo '&nbsp;';
-												}?> 
-											</td>
-											<td><?php echo $row_Rscategorie['nom_categorie']; ?></td>
-											<td> 
-												<form name="form4" method="post" action="verif_supp_categorie.php">
-													<input name="ID_categorie" type="hidden" id="ID_categorie" value="<?php echo $row_Rscategorie['ID_categorie']; ?>">
-													<button type="submit" name="Submit" class="btn btn-primary">Supprimer</button>
-												</form>
-											</td>
-											<td> 
-												<form name="form3" method="post" action="modif_categorie.php">
-													<input name="ID_categorie" type="hidden" id="ID_categorie" value="<?php echo $row_Rscategorie['ID_categorie']; ?>">
-													<button type="submit" name="Submit2" class="btn btn-primary">Modifier</button>
-												</form>
-											</td>
-										</tr>
-										<?php 
-									} while ($row_Rscategorie = mysqli_fetch_assoc($Rscategorie));
-								} ?>
-							</tbody>
-						</table>
+					<div class="col-auto">
+						<button type="submit" name="submitTheme" class="btn btn-primary">Sélectionner</button>
+					</div>
+					<div class="col-auto">
+						<h5>
+							<?php 
+							if (isset($themeId))
+							{ 
+								echo 'Thème actuel: '.$row_RsChoixTheme['theme'];
+							} ?>
+						</h5>
 					</div>
 				</div>
+			</form>
 				<?php
-			}?>
+				if (isset($themeId))
+				{ ?>
+					<form method="post" name="form2" action="gestion_categorie.php?matiere_ID=<?php echo $matiereId; ?>&niveau_ID=<?php echo $niveauId; ?>">
+						<div class="form-group row align-items-center justify-content-center mt-5">
+							<label for="theme" class="col-auto col-form-label">Cette catégorie sera ajoutée au thème que vous venez de choisir:</label>
+							<div class="col-auto">
+								<input type="text" name="categorie" class="form-control">
+							</div>
+							<div class="col-auto">
+								<button type="submit" name="submit" class="btn btn-primary">Enregistrer cette nouvelle catégorie</button>
+							</div>
+							<input type="hidden" name="ID_categorie" value="">
+							<input type="hidden" name="mat_ID" value="<?php echo $matiereId; ?>">
+							<input type="hidden" name="niv_ID" value="<?php echo $niveauId; ?>">
+							<input type="hidden" name="theme_ID" value="<?php echo $themeId; ?>">
+							<input type="hidden" name="MM_insert" value="form2">
+							<input type="hidden" name="ID_mat2" id="ID_mat3" value="<?php echo htmlspecialchars($_POST['ID_mat']);?>">
+						</div>
+					</form>
+					<h4 class="text-center mt-5">Liste des catégories & Paramétrages</h4>
+					<div class="row mt-5">
+						<div class="col table-responsive">
+							<table class="table table-striped table-bordered table-sm">
+								<thead>
+									<tr>
+										<th scope="col">N°</th>
+										<th scope="col"></th>
+										<th scope="col"></th>
+										<th scope="col">Catégorie d'étude</th>
+										<th scope="col"></th>
+										<th scope="col"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php 
+									$x = 0;
+									do
+									{
+										$x = $x + 1;
+										$tabpos1[$x] = $row_Rscategorie['pos_categorie'];
+										$tabid1[$x] = $row_Rscategorie['ID_categorie'];
+									} while ($row_Rscategorie = mysqli_fetch_assoc($Rscategorie)); 
+									 
+									if ($totalRows_Rscategorie != 0)
+									{
+										mysqli_data_seek($Rscategorie,0);
+										$row_Rscategorie = mysqli_fetch_assoc($Rscategorie);
+										$t1 = $x;
+										$x = 0;
+										do 
+										{ 
+											$x = $x + 1;?>
+											<tr> 
+												<th scope="row"><?php echo $row_Rscategorie['ID_categorie']; ?></th>
+												<td>
+													<?php if($x != 1) 
+													{
+														echo '<form name="Remonter" method="post" action="remonter_categorie.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'">';
+														echo '<input name="niveau_ID" type="hidden" id="niveau_ID" value="'.$niveauId.'">';
+														echo '<input name="ID_categorie" type="hidden" id="ID_categorie" value="'.$row_Rscategorie['ID_categorie'].'">';
+														echo '<input name="ID_precedent" type="hidden" id="ID_precedent" value="'.$tabid1[$x - 1].'">';
+														echo '<input name="pos_precedent" type="hidden" id="pos_precedent" value="'.$tabpos1[$x - 1].'">';
+														echo '<input name="Remonter" type="hidden" value="Remonter">';
+														echo '<input type="image" src="images/up.gif" alt="Remonter ce thème">';
+														echo '</form>';
+													} 
+													else
+													{
+														echo '&nbsp;';
+													}?>
+												</td>
+												<td>
+													<?php if($x != $t1)
+													{
+														echo '<form name="Descendre" method="post" action="descendre_categorie.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'">';
+														echo '<input name="ID_categorie" type="hidden" id="ID_categorie" value="'.$row_Rscategorie['ID_categorie'].'">';
+														echo '<input name="ID_suivant" type="hidden" id="ID_suivant" value="'.$tabid1[$x + 1].'">';
+														echo '<input name="pos_suivant" type="hidden" id="pos_suivant" value="'.$tabpos1[$x + 1].'">';
+														echo '<input name="Descendre" type="hidden" value="Descendre">';
+														echo '<input type="image" src="images/down.gif" alt="Descendre ce thème">';
+														echo '</form>';
+													}
+													else
+													{
+														echo '&nbsp;';
+													}?> 
+												</td>
+												<td><?php echo $row_Rscategorie['nom_categorie']; ?></td>
+												<td> 
+													<form name="form4" method="post" action="verif_supp_categorie.php">
+														<input name="ID_categorie" type="hidden" id="ID_categorie" value="<?php echo $row_Rscategorie['ID_categorie']; ?>">
+														<button type="submit" name="Submit" class="btn btn-primary">Supprimer</button>
+													</form>
+												</td>
+												<td> 
+													<form name="form3" method="post" action="modif_categorie.php">
+														<input name="ID_categorie" type="hidden" id="ID_categorie" value="<?php echo $row_Rscategorie['ID_categorie']; ?>">
+														<button type="submit" name="Submit2" class="btn btn-primary">Modifier</button>
+													</form>
+												</td>
+											</tr>
+											<?php 
+										} while ($row_Rscategorie = mysqli_fetch_assoc($Rscategorie));
+									} ?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<?php
+				}
+			} ?>
 		</div>
 	</div>
 </div>

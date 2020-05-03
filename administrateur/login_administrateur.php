@@ -17,7 +17,15 @@ if (isset($_POST['pass_administrateur']))
 	}
 	else
 	{
-		header("Location: login_administrateur.php?cible=".htmlspecialchars($_POST['cible'])."&pass=bad");
+		if (isset($_POST['cible']))
+		{
+			$cible = htmlspecialchars($_POST['cible']);
+		}
+		else
+		{
+			$cible = 'accueil_admin';
+		}
+		header("Location: login_administrateur.php?cible=".$cible."&pass=bad");
 	}
 }
 

@@ -17,7 +17,15 @@ if (isset($_POST['pass_enseignant']))
 	}
 	else
 	{
-		header("Location: login_enseignant.php?cible=".htmlspecialchars($_POST['cible'])."&pass=bad");
+		if (isset($_POST['cible']))
+		{
+			$cible = htmlspecialchars($_POST['cible']);
+		}
+		else
+		{
+			$cible = 'accueil_enseignant';
+		}
+		header("Location: login_enseignant.php?cible=".$cible."&pass=bad");
 	}
 }
 

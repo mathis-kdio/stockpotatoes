@@ -197,35 +197,39 @@ require('include/headerAdministrateur.inc.php');
 							<button type="submit" name="Submit3" class="btn btn-primary">Sélectionner la classe</button>
 						</div>
 					</form>
-					<table class="table table-bordered table-striped">
-						<thead>
-							<tr> 
-								<th scope="col">ID</th>
-								<th scope="col">Identifiant</th>
-								<th scope="col">Nom</th>
-								<th scope="col">Prenom</th>
-								<th scope="col">Classe</th>
-								<th scope="col">Pass</th>
-								<th scope="col">Niv</th>
-							</tr>
-						</thead>
-						<tbody>
-							<?php 
-							do
-							{ ?>
-								<tr> 
-									<th scope="row"><?php echo $row_RsChoixClasse['ID_eleve']; ?></th>
-									<td><?php echo $row_RsChoixClasse['identifiant']; ?></td>
-									<td><?php echo $row_RsChoixClasse['nom']; ?></td>
-									<td><?php echo $row_RsChoixClasse['prenom']; ?></td>
-									<td><?php echo $row_RsChoixClasse['classe']; ?></td>
-									<td><?php echo $row_RsChoixClasse['pass']; ?></td>
-									<td><?php echo $row_RsChoixClasse['niveau']; ?></td>
-								</tr>
-								<?php 
-							} while ($row_RsChoixClasse = mysqli_fetch_assoc($RsChoixClasse)); ?>
-						</tbody>
-					</table>
+					<div class="row">
+						<div class="col table-responsive">
+							<table class="table table-bordered table-striped table-sm">
+								<thead>
+									<tr> 
+										<th scope="col">ID</th>
+										<th scope="col">Identifiant</th>
+										<th scope="col">Nom</th>
+										<th scope="col">Prenom</th>
+										<th scope="col">Classe</th>
+										<th scope="col">Pass</th>
+										<th scope="col">Niv</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php 
+									do
+									{ ?>
+										<tr> 
+											<th scope="row"><?php echo $row_RsChoixClasse['ID_eleve']; ?></th>
+											<td><?php echo $row_RsChoixClasse['identifiant']; ?></td>
+											<td><?php echo $row_RsChoixClasse['nom']; ?></td>
+											<td><?php echo $row_RsChoixClasse['prenom']; ?></td>
+											<td><?php echo $row_RsChoixClasse['classe']; ?></td>
+											<td><?php echo $row_RsChoixClasse['pass']; ?></td>
+											<td><?php echo $row_RsChoixClasse['niveau']; ?></td>
+										</tr>
+										<?php 
+									} while ($row_RsChoixClasse = mysqli_fetch_assoc($RsChoixClasse)); ?>
+								</tbody>
+							</table>
+						</div>
+					</div>
 				</div>
 				<div class="col-5"> 
 					<div class="row">

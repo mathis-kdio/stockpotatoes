@@ -439,7 +439,7 @@ require('includes/headerEnseignant.inc.php');
 									</div>
 								</div>
 								<div class="table-responsive">
-									<table class="table table-bordered table-striped">
+									<table class="table table-bordered table-striped table-sm">
 										<?php 
 										if ($totalRows_rsListeSelectMatiereNiveau != 0)
 										{
@@ -655,7 +655,7 @@ require('includes/headerEnseignant.inc.php');
 									</div>
 								</div>
 								<div class="table-responsive">
-									<table class="table table-bordered table-striped">
+									<table class="table table-bordered table-striped table-sm">
 										<?php 
 										if ($totalRows_rsListeSelectMatiereNiveau != 0)
 										{
@@ -871,7 +871,7 @@ require('includes/headerEnseignant.inc.php');
 									</div>
 								</div>
 								<div class="table-responsive">
-									<table class="table table-bordered table-striped">
+									<table class="table table-bordered table-striped table-sm">
 										<?php 
 										if ($totalRows_rsListeSelectMatiereNiveau != 0)
 										{
@@ -1089,7 +1089,7 @@ require('includes/headerEnseignant.inc.php');
 									</div>
 								</div>
 								<div class="table-responsive">
-									<table class="table table-bordered table-striped">
+									<table class="table table-bordered table-striped table-sm">
 										<?php 
 										if ($totalRows_rsListeSelectMatiereNiveau != 0)
 										{

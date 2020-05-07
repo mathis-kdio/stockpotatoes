@@ -288,17 +288,14 @@ do {
 			</td>
 		</tr>
 		<tr valign="baseline"> 
-			<td nowrap align="right">Dans quelle catégorie doit se trouver ce fichier?<strong>Le thème au dessus doit être le même</strong></td>
+			<td nowrap align="right">Dans quelle catégorie doit se trouver ce fichier?</td>
 			<td> 
 				<select name="categorie_ID" id="select">
-					<option value="value">Selectionnez une catégorie: Le thème au dessus doit être le même</option>
+					<option value="value">Selectionnez une catégorie:</option>
 					<?php
 					do 
-					{
-						$query_RsThemeCat = sprintf("SELECT * FROM stock_theme WHERE ID_theme = '%s'", $row_RsCategorie['theme_ID']);
-						$RsThemeCat = mysqli_query($conn_intranet, $query_RsThemeCat) or die(mysqli_error($conn_intranet));
-						$row_RsThemeCat = mysqli_fetch_assoc($RsThemeCat);?>
-						<option value="<?php echo $row_RsCategorie['ID_categorie']?>"><?php echo $row_RsThemeCat['theme'].' - '.$row_RsCategorie['nom_categorie']?></option>
+					{ ?>
+						<option value="<?php echo $row_RsCategorie['ID_categorie']?>"><?php echo $row_RsCategorie['nom_categorie'];?></option>
 						<?php
 					} while ($row_RsCategorie = mysqli_fetch_assoc($RsCategorie));
 					$rows = mysqli_num_rows($RsCategorie);

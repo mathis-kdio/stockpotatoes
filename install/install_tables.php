@@ -25,7 +25,6 @@ CREATE TABLE IF NOT EXISTS `stock_categorie` (
   `nom_categorie` varchar(250) NOT NULL default '',
   `mat_ID` tinyint(4) NOT NULL default '0',
   `niv_ID` tinyint(4) NOT NULL default '0',
-  `theme_ID` tinyint(4) NOT NULL default '0',
   `pos_categorie` smallint(5) NOT NULL default '1', 
   PRIMARY KEY  (`ID_categorie`)
 ) ENGINE=INNODB AUTO_INCREMENT=0 ;";

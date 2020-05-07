@@ -236,35 +236,35 @@ require('includes/header.inc.php');
 					?>
 				</div>
 			</div>
-					<div class="row mb-3 shadow rounded">
-							<?php if ($selectheme_RsChoixTheme != 0) 
-							{ ?>
-								<div class="col text-center">
-									<?php
-									$query_categorie = sprintf("SELECT * FROM stock_categorie WHERE mat_ID = %s AND niv_ID = %s AND theme_ID = %s", $matiereId, $niveauId, $themeId);
-										$Rs_categorie = mysqli_query($conn_intranet, $query_categorie) or die(mysqli_error());
-										$row_Rs_categorie = mysqli_fetch_assoc($Rs_categorie);
-									if (!isset($categorieId)) {
-										echo "<strong>Veuillez sélectionner une catégorie</strong><br>";
-									}
-									else
-									{
-										echo "<strong>Vous êtes dans la catégorie: ".$categorieId."</strong><br>";	
-									}
-									?>
-										<div>
-												<?php
-												do
-												{
-														echo '<a href="accueil_eleve.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$themeId.'&categorie_ID='.$row_Rs_categorie['ID_categorie'].'"><strong>'.$row_Rs_categorie['ID_categorie'].' '.$row_Rs_categorie['nom_categorie'].'</strong></a>&nbsp;&nbsp;&nbsp;&nbsp;';
-												} while ($row_Rs_categorie = mysqli_fetch_assoc($Rs_categorie)); ?>
-										</div>          				
-								</div>
-							<?php } ?>
-						</div>
+			<div class="row mb-3 shadow rounded">
+				<?php if ($selectheme_RsChoixTheme != 0) 
+				{ ?>
+					<div class="col text-center">
 						<?php
-						if (isset($categorieId) || $selectheme_RsChoixTheme == 0) 
-						{ ?>
+						$query_categorie = sprintf("SELECT * FROM stock_quiz, stock_categorie WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND categorie_ID = ID_categorie GROUP BY categorie_ID ", $matiereId, $niveauId);
+						$Rs_categorie = mysqli_query($conn_intranet, $query_categorie) or die(mysqli_error());
+						$row_Rs_categorie = mysqli_fetch_assoc($Rs_categorie);
+						if (!isset($categorieId))
+						{
+							echo "<strong>Veuillez sélectionner une catégorie</strong><br>";
+						}
+						else
+						{
+							echo "<strong>Vous êtes dans la catégorie: ".$categorieId."</strong><br>";	
+						}?>
+						<div>
+							<?php
+							do
+							{
+								echo '<a href="accueil_eleve.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$themeId.'&categorie_ID='.$row_Rs_categorie['ID_categorie'].'"><strong>'.$row_Rs_categorie['ID_categorie'].' '.$row_Rs_categorie['nom_categorie'].'</strong></a>&nbsp;&nbsp;&nbsp;&nbsp;';
+							} while ($row_Rs_categorie = mysqli_fetch_assoc($Rs_categorie)); ?>
+						</div>          				
+					</div>
+				<?php } ?>
+			</div>
+			<?php
+			if (isset($categorieId) || $selectheme_RsChoixTheme == 0) 
+			{ ?>
 				<div class="row align-items-center">
 					<div class="col pt-1 pb-1 bg-warning shadow rounded text-center">
 						<a href="#cours">Cours</a> - <a href="#hotpotatoes">Ex. Hotpotatoes</a> - <a href="#exercices">Autres exercices</a> - <a href="#travail">Travail à faire</a> - <a href="#annexes">Documents annexes</a>

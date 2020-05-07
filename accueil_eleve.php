@@ -241,7 +241,7 @@ require('includes/header.inc.php');
 				{ ?>
 					<div class="col text-center">
 						<?php
-						$query_categorie = sprintf("SELECT * FROM stock_quiz, stock_categorie WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND categorie_ID = ID_categorie GROUP BY categorie_ID ", $matiereId, $niveauId);
+						$query_categorie = sprintf("SELECT * FROM stock_quiz, stock_categorie WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND theme_ID = '%s' AND categorie_ID = ID_categorie GROUP BY categorie_ID ", $matiereId, $niveauId, $themeId);
 						$Rs_categorie = mysqli_query($conn_intranet, $query_categorie) or die(mysqli_error());
 						$row_Rs_categorie = mysqli_fetch_assoc($Rs_categorie);
 						if (!isset($categorieId))

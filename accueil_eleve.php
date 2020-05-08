@@ -250,14 +250,25 @@ require('includes/header.inc.php');
 						}
 						else
 						{
-							echo "<strong>Vous êtes dans la catégorie: ".$categorieId."</strong><br>";	
+							if ($categorieId != 0)
+							{
+								$query_categorieSelect = sprintf("SELECT * FROM stock_categorie WHERE ID_categorie = '%s'", $categorieId);
+								$Rs_categorieSelect = mysqli_query($conn_intranet, $query_categorieSelect) or die(mysqli_error());
+								$row_Rs_categorieSelect = mysqli_fetch_assoc($Rs_categorieSelect);
+								echo "<strong>Vous êtes dans la catégorie: ".$row_Rs_categorieSelect['nom_categorie']."</strong><br>";
+							}
+							else
+							{
+								echo "<strong>Vous êtes dans la catégorie: Non classés</strong><br>";
+							}
 						}?>
 						<div>
 							<?php
 							do
 							{
-								echo '<a href="accueil_eleve.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$themeId.'&categorie_ID='.$row_Rs_categorie['ID_categorie'].'"><strong>'.$row_Rs_categorie['ID_categorie'].' '.$row_Rs_categorie['nom_categorie'].'</strong></a>&nbsp;&nbsp;&nbsp;&nbsp;';
-							} while ($row_Rs_categorie = mysqli_fetch_assoc($Rs_categorie)); ?>
+								echo '<a href="accueil_eleve.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$themeId.'&categorie_ID='.$row_Rs_categorie['ID_categorie'].'"><strong>'.$row_Rs_categorie['nom_categorie'].'</strong></a>&nbsp;&nbsp;&nbsp;&nbsp;';
+							} while ($row_Rs_categorie = mysqli_fetch_assoc($Rs_categorie));
+							echo '<a href="accueil_eleve.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$themeId.'&categorie_ID=0"><strong>Non classés</strong></a>&nbsp;&nbsp;&nbsp;&nbsp;';?>
 						</div>          				
 					</div>
 				<?php } ?>
@@ -753,7 +764,61 @@ require('includes/header.inc.php');
 			<?php } ?>
 		</div>
 		<div class="col-2">
-			<!-- Tableau résultats prochainement-->
+			<?php
+			if ($selectheme_RsChoixTheme != 0)
+			{ ?>
+				<h5>Résultats en <?php echo $_SESSION['Sess_classe'];?> pour le thème <?php echo $row_RsChoixTheme['theme'];?></h5>
+				<div class="table-responsive">
+					<table class="table table-striped table-bordered table-sm">
+						<thead class="thead-light">
+							<tr>
+								<th scope="col">Nom</th>
+								<th scope="col">Exercices validés</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php
+							$choixclasse_RsLeconBest = 0;
+							if (isset($_SESSION['Sess_classe']))
+							{
+								$choixclasse_RsLeconBest = htmlspecialchars($_SESSION['Sess_classe']);
+							}
+							$choixtheme_RsChoixTheme = 0;
+							if (isset($themeId))
+							{
+								$choixtheme_RsChoixTheme = $themeId;
+							}
+							$query_RsLeconBest = sprintf("SELECT nbdenotes, TEMP.eleve_ID, nom, prenom, lastactivity
+							FROM stock_eleve
+								INNER JOIN (
+								SELECT COUNT(ID_activite) AS nbdenotes, MAX(fin) as lastactivity, eleve_ID
+								FROM stock_activite
+									INNER JOIN stock_quiz
+										ON stock_activite.quiz_ID = stock_quiz.ID_quiz
+									INNER JOIN stock_eleve
+										ON stock_activite.eleve_ID = stock_eleve.ID_eleve
+								WHERE stock_activite.nom_classe = '%s'
+									AND stock_quiz.theme_ID = '%s'
+									AND score = 20
+								GROUP BY eleve_ID
+								) as TEMP ON TEMP.eleve_ID = stock_eleve.ID_eleve
+							ORDER BY `nom` ", $choixclasse_RsLeconBest, $choixtheme_RsChoixTheme);
+							$RsLeconBest = mysqli_query($conn_intranet, $query_RsLeconBest) or die(mysqli_error());
+							$i = 0;
+							while ($row_RsLeconBest = mysqli_fetch_assoc($RsLeconBest))
+							{ ?>
+								<tr>
+									<?php
+									echo  '<td>'.$row_RsLeconBest['nom']." ".$row_RsLeconBest['prenom'].'</td>';
+									echo  '<td>'." ".$row_RsLeconBest['nbdenotes'].'</td>';	?>
+								</tr>
+								<?php
+							}?>
+						</tbody>	
+					</table>
+				</div>
+				<?php 
+			}?>
 		</div>
 	</div>
 <?php 

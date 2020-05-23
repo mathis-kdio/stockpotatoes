@@ -17,12 +17,12 @@ if (isset($_POST['pass']))
 
 mysqli_select_db($conn_intranet, $database_conn_intranet);
 
-$query_rsLogin = sprintf("SELECT * FROM stock_eleve WHERE ID_eleve = '%s' AND pass = '%s' ", $collog_rsLogin, $colpass_rsLogin);
+$query_rsLogin = sprintf("SELECT * FROM stock_eleve WHERE ID_eleve = '%s' AND pass = '%s'", $collog_rsLogin, $colpass_rsLogin);
 $rsLogin = mysqli_query($conn_intranet, $query_rsLogin) or die(mysqli_error());
 $row_rsLogin = mysqli_fetch_assoc($rsLogin);
 $totalRows_rsLogin = mysqli_num_rows($rsLogin);
 
-$query_rsClasse = "SELECT DISTINCT classe FROM stock_eleve";
+$query_rsClasse = "SELECT DISTINCT classe FROM stock_eleve ORDER BY classe DESC";
 $rsClasse = mysqli_query($conn_intranet, $query_rsClasse) or die(mysqli_error());
 $row_rsClasse = mysqli_fetch_assoc($rsClasse);
 
@@ -32,7 +32,7 @@ if (isset($_POST['classe']))
   $choix_classe_rsLogin2 = htmlspecialchars($_POST['classe']);
 }
 
-$query_rsLogin2 = sprintf("SELECT ID_eleve, nom, prenom FROM stock_eleve WHERE classe = '%s' ", $choix_classe_rsLogin2);
+$query_rsLogin2 = sprintf("SELECT ID_eleve, nom, prenom FROM stock_eleve WHERE classe = '%s' ORDER BY nom", $choix_classe_rsLogin2);
 $rsLogin2 = mysqli_query($conn_intranet, $query_rsLogin2) or die(mysqli_error());
 $row_rsLogin2 = mysqli_fetch_assoc($rsLogin2);
 

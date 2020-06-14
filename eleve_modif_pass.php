@@ -1,111 +1,80 @@
-<?php session_start();
- require_once('Connections/conn_intranet.php'); 
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
+session_start();
+if (!isset($_SESSION['Sess_classe']))
 {
-  $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
-
-  switch ($theType) {
-    case "text":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;    
-    case "long":
-    case "int":
-      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
-      break;
-    case "double":
-      $theValue = ($theValue != "") ? "'" . doubleval($theValue) . "'" : "NULL";
-      break;
-    case "date":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;
-    case "defined":
-      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
-      break;
-  }
-  return $theValue;
+	header('Location:login_eleve.php');
 }
 
-$editFormAction = $_SERVER['PHP_SELF'];
-if (isset($_SERVER['QUERY_STRING'])) {
-  $editFormAction .= "?" . $_SERVER['QUERY_STRING'];
-}
+require_once('Connections/conn_intranet.php');
 
-if ($_POST['pass1']==$_POST['pass'])
+mysqli_select_db($conn_intranet, $database_conn_intranet);
+
+
+if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form2"))
 {
-  if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form2"))
-  {
-    $updateSQL = sprintf("UPDATE stock_eleve SET pass=%s WHERE ID_eleve=%s",
-                         GetSQLValueString($_POST['pass'], "text"),
-                         GetSQLValueString($_SESSION['Sess_ID_eleve'], "int"));
+	if ($_POST['pass1'] == $_POST['pass2'])
+	{
+		$updateSQL = sprintf("UPDATE stock_eleve SET pass = '%s' WHERE ID_eleve = '%s'", htmlspecialchars($_POST['pass1']), htmlspecialchars($_SESSION['Sess_ID_eleve']));
 
-    mysqli_select_db($conn_intranet, $database_conn_intranet);
-   $Result1 = mysqli_query($conn_intranet, $updateSQL) or die(mysqli_error());
+		$Result1 = mysqli_query($conn_intranet, $updateSQL) or die(mysqli_error($conn_intranet));
 
-    $updateGoTo = "accueil_eleve.php";
-    if (isset($_SERVER['QUERY_STRING'])) 
-    {
-      $updateGoTo .= (strpos($updateGoTo, '?')) ? "&" : "?";
-      $updateGoTo .= $_SERVER['QUERY_STRING'];
-    }
-  header(sprintf("Location: %s", $updateGoTo));
-  }
+		header('Location:accueil_eleve.php');
+	}
+	else
+	{
+		echo '<h3 class="text-danger text-center">Erreur - Vous devez confirmer en retapant EXACTEMENT à l\'identique votre nouveau mot de passe.</h3>';
+	}
 }
-else
-{
-echo '<B> Erreur - Vous devez confirmer en retapant EXACTEMENT à l\'identique votre nouveau mot de passe. </B>';
-}
+
+$titre_page = "Espace Elève - Modification de mon mot de passe";
+$meta_description = "Page de modification de mon mot de passe pour l'élève";
+$meta_keywords = "outils, ressources, exercices en ligne, hotpotatoes";
+$js_deplus = "";
+$css_deplus = "";
+require('includes/header.inc.php');
 ?>
-
-<html>
-<head>
-<title>Espace El&egrave;ve - Modification de mon mot de passe</title>
-<meta charset="utf-8">
-<meta http-equiv="Content-Type" content="text/html">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="style_jaune.css" rel="stylesheet" type="text/css">
-</head>
-<body>
-<table width="100%" border="0" cellspacing="10" cellpadding="0">
-  <tr> 
-    <td width="58%">
-      <p><strong><a href="accueil_eleve.php">Espace Elève</a> - Changement de mot de passe</strong> </p>
-      <p>&nbsp; </p></td>
-    <td width="42%"><p align="right" class="subtitle"><strong><?php echo $_SESSION['Sess_nom'].'   '.$_SESSION['Sess_prenom'].'   '.$_SESSION['Sess_classe']?></strong></p>
-      <p align="right">&nbsp;</p></td>
-  </tr>
-</table>
-<form method="post" name="form2" action="<?php echo $editFormAction; ?>">
-  <p align="center">&nbsp;</p>
-  <table align="center">
-    <tr valign="baseline"> 
-      <td><div align="center">Entrer votre nouveau mot de passe</div></td>
-    </tr>
-    <tr valign="baseline"> 
-      <td><div align="center"> 
-          <input name="pass1" type="password" id="pass12" size="8">
-        </div></td>
-    </tr>
-    <tr valign="baseline"> 
-      <td><div align="center">Confirmer en retapant ce mot de passe</div></td>
-    </tr>
-    <tr valign="baseline"> 
-      <td><p align="center"> 
-          <input type="password" name="pass" size="8">
-          <br>
-        </p></td>
-    </tr>
-    <tr valign="baseline"> 
-      <td valign="middle"> <div align="center"> 
-          <p> <br>
-            <input name="submit" type="submit" value="Enregistrer mon nouveau mot de passe">
-          </p>
-          <p>&nbsp; </p>
-        </div></td>
-    </tr>
-  </table>
-  <input type="hidden" name="MM_update" value="form2">
-</form>
-<p>&nbsp; </p>
-</body>
-</html>
+<div class="row">
+	<div class="col-12">
+		<div class="row">
+			<h1>Espace Elève</h1>
+		</div>
+		<div class="row">
+			<div class="col-3">
+				<img class="img-fluid rounded mx-auto d-block" src="patate.png" alt="hotpotatoes" title="hotpotatoes" height="150" width="150" />
+			</div>
+			<div class="col-9 align-middle">
+				<p class="h3 bg-warning text-center p-3" style="margin-top: 50px;">Modification de mon mot de passe</p>
+			</div>
+		</div>
+		<div class="container jumbotron">
+			<h3 class="text-right"><?php echo $_SESSION['Sess_nom'].' '.$_SESSION['Sess_prenom'].' '.$_SESSION['Sess_classe']?></h3>
+			<form method="post" name="form2" action="eleve_modif_pass.php">			 
+				<div class="form-group form-row justify-content-center">
+					<div class="col-auto">
+						<label for="pass1">Entrer votre nouveau mot de passe</label>
+						<input type="password" class="form-control" id="pass1" name="pass1">
+					</div>
+				</div>
+				<div class="form-group form-row justify-content-center">
+					<div class="col-auto">
+						<label for="pass2">Confirmer en retapant ce mot de passe</label>
+						<input type="password" class="form-control" id="pass2" name="pass2">
+					</div>
+				</div>
+				<div class="form-group text-center">
+					<button type="submit" name="submit" class="btn btn-primary">Enregistrer mon nouveau mot de passe</button>
+					<input type="hidden" name="MM_update" value="form2">
+				</div>
+				<div class="form-group text-center">
+					<a class="btn btn-primary" href="accueil_eleve.php" role="button">Annuler</a>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<?php
+require('includes/footer.inc.php');
+?>

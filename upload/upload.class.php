@@ -33,7 +33,7 @@
 
 global $UploadError;
 
-class Upload {
+class UploadClass {
     
     /**
 	 * Taille maximum exprimée en kilo-octets pour l'upload d'un fichier.
@@ -210,7 +210,7 @@ class Upload {
         $this-> Required     = false;
         $this-> TrackError   = true;
         $this-> ArrOfError   = Array();
-        $this-> MaxFilesize  = preg_replace('M', '', ini_get('upload_max_filesize')) * 1024;
+        $this-> MaxFilesize  = preg_replace('#M#', '', ini_get('upload_max_filesize')) * 1024;
 	}
 	
 	
@@ -637,7 +637,7 @@ class Upload {
         
         for ($i=0; $i <= $this-> Fields; $i++) {
             if ($i == 0)  $this-> Field[] = '<input type="hidden" name="MAX_FILE_SIZE" value="'. $this-> MaxFilesize .'">';
-            else          $this-> Field[] = '<input size="50" type="file" name="userfile[]" '. $this-> FieldOptions .'>';
+            else          $this-> Field[] = '<input type="file" class="custom-file-input" name="userfile[]" id="userfile[]">';
         }
     }
     

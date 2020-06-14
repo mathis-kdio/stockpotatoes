@@ -3,9 +3,16 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 session_start();
-if (!isset($_SESSION['Sess_nom']))
+if (!isset($_SESSION['Sess_classe']))
 {
-	header('Location:login_eleve.php');
+	if ($_SESSION['Sess_nom'] == 'VISITEUR')
+	{
+		header('Location:accueil_visiteur.php?matiere_ID='.$_SESSION['matiere_ID'].'&niveau_ID='.$_SESSION['niveau_ID'].'&theme_ID='.$_SESSION['theme_ID'].'&categorie_ID='.$_SESSION['categorie_ID']);
+	}
+	else
+	{
+		header('Location:login_eleve.php');
+	}
 }
 
 require_once('Connections/conn_intranet.php');

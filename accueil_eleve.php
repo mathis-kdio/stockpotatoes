@@ -175,12 +175,19 @@ require('includes/header.inc.php');
 					mysqli_stmt_bind_result($listeTheme, $row_RsListeTheme['ID_theme'], $row_RsListeTheme['theme']);
 					while (mysqli_stmt_fetch($listeTheme))
 					{ ?>
-						<a href="accueil_eleve.php?matiere_ID=<?php echo $matiereId; ?>&niveau_ID=<?php echo $niveauId; ?>&theme_ID=<?php echo $row_RsListeTheme['ID_theme']?>"><?php echo $row_RsListeTheme['theme']?></a><br><br/>
-					<?php 
+						<a href="accueil_eleve.php?matiere_ID=<?php echo $matiereId; ?>&niveau_ID=<?php echo $niveauId; ?>&theme_ID=<?php echo $row_RsListeTheme['ID_theme']?>"><?php echo $row_RsListeTheme['theme']?></a><br><br>
+						<?php 
 					}
 					mysqli_stmt_close($listeTheme);
-					?>
-					<a href="accueil_eleve.php?matiere_ID=<?php echo $matiereId?>&niveau_ID=<?php echo $niveauId?>&theme_ID=0">Divers</a>
+
+					//Affiche le thème Divers uniquement s'il y a au moins un doc dedans
+					$qTestExoDivers = sprintf("SELECT * FROM stock_quiz WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND theme_ID = 0", $matiereId, $niveauId);
+					$rsTestExoDivers = mysqli_query($conn_intranet, $qTestExoDivers) or die(mysqli_error());
+					$nbExosDivers = mysqli_num_rows($rsTestExoDivers);
+					if ($nbExosDivers > 0) 
+					{
+						echo '<a href="accueil_eleve.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID=0">Divers</a>';
+					}?>
 				</div>
 			</div>
 		</div>

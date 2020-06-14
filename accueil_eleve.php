@@ -7,11 +7,27 @@ if (!isset($_SESSION['Sess_classe']))
 {
 	if ($_SESSION['Sess_nom'] == 'VISITEUR')
 	{
-		header('Location:accueil_visiteur.php?matiere_ID='.$_SESSION['matiere_ID'].'&niveau_ID='.$_SESSION['niveau_ID'].'&theme_ID='.$_SESSION['theme_ID'].'&categorie_ID='.$_SESSION['categorie_ID']);
+		header('Location:accueil_visiteur.php?matiere_ID='.$_SESSION['matiere_ID'].'&niveau_ID='.$_SESSION['niveau_ID'].'&theme_ID='.$_SESSION['theme_ID'].'&categorie_ID='.$_SESSION['categorie_ID'].'');
 	}
 	else
 	{
 		header('Location:login_eleve.php');
+	}
+}
+if (isset($_SESSION['Sess_classe']))
+{
+	if (isset($_SESSION['matiere_ID'])) 
+	{
+		$Sess_matiereID = $_SESSION['matiere_ID'];
+		$Sess_niveauID = $_SESSION['niveau_ID'];
+		$Sess_themeID = $_SESSION['theme_ID'];
+		$Sess_categorieID = $_SESSION['categorie_ID'];
+		unset($_SESSION['matiere_ID']);
+		unset($_SESSION['niveau_ID']);
+		unset($_SESSION['theme_ID']);
+		unset($_SESSION['categorie_ID']);
+
+		header('Location:accueil_eleve.php?matiere_ID='.$Sess_matiereID.'&niveau_ID='.$Sess_niveauID.'&theme_ID='.$Sess_themeID.'&categorie_ID='.$Sess_categorieID.'');
 	}
 }
 

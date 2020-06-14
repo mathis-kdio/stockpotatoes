@@ -28,7 +28,7 @@ error_reporting(E_ALL);
 
 		<title><?php echo $titre_page ?></title>
 	</head>
-	<body class="" style="background-color: #e9ecef">	
+	<body class="">	
 		<header>
 			<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
 			 	<a class="navbar-brand" href="#">

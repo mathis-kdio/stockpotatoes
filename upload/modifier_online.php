@@ -30,9 +30,9 @@ $colname_RsChoixQuiz = "1";
 if (isset($_POST['ID_quiz'])) {
   $colname_RsChoixQuiz = (get_magic_quotes_gpc()) ? $_POST['ID_quiz'] : addslashes($_POST['ID_quiz']);
 }
-mysqli_select_db($conn_intranet, database_conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsChoixQuiz = sprintf("SELECT * FROM stock_quiz WHERE ID_quiz = %s", $colname_RsChoixQuiz);
-$RsChoixQuiz = mysqli_query($conn_intranet, query_RsChoixQuiz) or die(mysqli_error());
+$RsChoixQuiz = mysqli_query($conn_intranet, $query_RsChoixQuiz) or die(mysqli_error($conn_intranet));
 $row_RsChoixQuiz = mysqli_fetch_assoc($RsChoixQuiz);
 $totalRows_RsChoixQuiz = mysqli_num_rows($RsChoixQuiz);
 
@@ -40,9 +40,9 @@ $colname_RsChoixMatiere = "1";
 if (isset($_POST['matiere_ID'])) {
   $colname_RsChoixMatiere = (get_magic_quotes_gpc()) ? $_POST['matiere_ID'] : addslashes($_POST['matiere_ID']);
 }
-mysqli_select_db($conn_intranet, database_conn_intranet);
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsChoixMatiere = sprintf("SELECT * FROM stock_matiere WHERE ID_mat = %s", $colname_RsChoixMatiere);
-$RsChoixMatiere = mysqli_query($conn_intranet, query_RsChoixMatiere) or die(mysqli_error());
+$RsChoixMatiere = mysqli_query($conn_intranet, $query_RsChoixMatiere) or die(mysqli_error($conn_intranet));
 $row_RsChoixMatiere = mysqli_fetch_assoc($RsChoixMatiere);
 $totalRows_RsChoixMatiere = mysqli_num_rows($RsChoixMatiere);
 
@@ -121,7 +121,7 @@ include("fckeditor.php") ;
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 	<head>
-		<title>Modifier un document r&eacute;dig&eacute; en ligne</title>
+		<title>Modifier un document rédigé en ligne</title>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">

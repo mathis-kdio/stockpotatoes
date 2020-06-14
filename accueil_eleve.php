@@ -35,7 +35,7 @@ $rs_niveau = mysqli_query($conn_intranet, $query_rs_niveau) or die(mysqli_error(
 $row_rs_niveau = mysqli_fetch_assoc($rs_niveau);
 $totalRows_rs_niveau = mysqli_num_rows($rs_niveau);
 
-$query_rsListequiz = "SELECT * FROM stock_quiz WHERE avec_score='O' ORDER BY titre";
+$query_rsListequiz = "SELECT * FROM stock_quiz WHERE avec_score = 'O' ORDER BY titre";
 
 $rsListequiz = mysqli_query($conn_intranet, $query_rsListequiz) or die(mysqli_error($conn_intranet));
 $row_rsListequiz = mysqli_fetch_assoc($rsListequiz);
@@ -58,7 +58,7 @@ if (isset($categorieId)) {
 	$choixcategorie_rsListeSelectMatiereNiveau = $categorieId;
 }
 
-$query_rsListeSelectMatiereNiveau = sprintf("SELECT * FROM stock_quiz WHERE matiere_ID=%s  AND niveau_ID=%s  AND theme_ID=%s AND categorie_ID=%s AND avec_score='O' ORDER BY titre", $choixmat_rsListeSelectMatiereNiveau, $choixniv_rsListeSelectMatiereNiveau, $choixtheme_rsListeSelectMatiereNiveau, $choixcategorie_rsListeSelectMatiereNiveau);
+$query_rsListeSelectMatiereNiveau = sprintf("SELECT * FROM stock_quiz WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND theme_ID = '%s' AND categorie_ID = '%s' AND avec_score = 'O' ORDER BY pos_doc", $choixmat_rsListeSelectMatiereNiveau, $choixniv_rsListeSelectMatiereNiveau, $choixtheme_rsListeSelectMatiereNiveau, $choixcategorie_rsListeSelectMatiereNiveau);
 $rsListeSelectMatiereNiveau = mysqli_query($conn_intranet, $query_rsListeSelectMatiereNiveau) or die(mysqli_error($conn_intranet));
 $row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau);
 $totalRows_rsListeSelectMatiereNiveau = mysqli_num_rows($rsListeSelectMatiereNiveau);
@@ -68,7 +68,7 @@ if (isset($matiereId)) {
 	$colname_rsChoix = $matiereId;
 }
 
-$query_rsChoix = sprintf("SELECT * FROM stock_matiere WHERE ID_mat =%s", $colname_rsChoix);
+$query_rsChoix = sprintf("SELECT * FROM stock_matiere WHERE ID_mat = '%s'", $colname_rsChoix);
 $rsChoix = mysqli_query($conn_intranet, $query_rsChoix) or die(mysqli_error($conn_intranet));
 $row_rsChoix = mysqli_fetch_assoc($rsChoix);
 $totalRows_rsChoix = mysqli_num_rows($rsChoix);
@@ -78,7 +78,7 @@ if (isset($niveauId)) {
 	$colname_rsChoix2 = $niveauId;
 }
 
-$query_rsChoix2 = sprintf("SELECT * FROM stock_niveau WHERE ID_niveau = %s", $colname_rsChoix2);
+$query_rsChoix2 = sprintf("SELECT * FROM stock_niveau WHERE ID_niveau = '%s'", $colname_rsChoix2);
 $rsChoix2 = mysqli_query($conn_intranet, $query_rsChoix2) or die(mysqli_error($conn_intranet));
 $row_rsChoix2 = mysqli_fetch_assoc($rsChoix2);
 $totalRows_rsChoix2 = mysqli_num_rows($rsChoix2);
@@ -93,7 +93,7 @@ if (isset($niveauId)) {
 	$nivListeTheme = $niveauId;
 }
 $today = date("Y-m-d");
-$listeTheme = mysqli_prepare($conn_intranet, "SELECT ID_theme, theme FROM stock_theme WHERE mat_ID = ? AND niv_ID = ? AND '$today' >= date_apparition AND date_disparition >='$today' ORDER BY pos_theme") or exit(mysqli_error($conn_intranet));
+$listeTheme = mysqli_prepare($conn_intranet, "SELECT ID_theme, theme FROM stock_theme WHERE mat_ID = ? AND niv_ID = ? AND '$today' >= date_apparition AND date_disparition >= '$today' ORDER BY pos_theme") or exit(mysqli_error($conn_intranet));
 mysqli_stmt_bind_param($listeTheme, "ii", $matListeTheme, $nivListeTheme);
 
 $selectheme_RsChoixTheme = 0;

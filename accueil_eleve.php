@@ -279,188 +279,491 @@ require('includes/header.inc.php');
 						<a href="#cours">Cours</a> - <a href="#hotpotatoes">Ex. Hotpotatoes</a> - <a href="#exercices">Autres exercices</a> - <a href="#travail">Travail à faire</a> - <a href="#annexes">Documents annexes</a>
 					</div>
 				</div>
+
 				<!-- Le cours -->
-				<div class="row mt-4">
-					<div class="col">
-						<div class="row">
-							<div class="col bg-warning text-center">
-								<strong>Le cours<a name="cours"></a></strong>
+				<?php
+				mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
+				$nbDoc1 = 0;
+				while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau))
+				{
+					if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 1)
+					{
+						$nbDoc1++;
+					}
+				}
+				mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
+				if($nbDoc1 != 0)
+				{ ?>
+					<div class="row mt-2">
+						<div class="col">
+							<div class="row">
+								<div class="col bg-warning text-center">
+									<strong>Le cours<a name="cours"></a></strong>
+								</div>
 							</div>
-						</div>
-						<div class="row">
-							<div class="col table-responsive">
-								<table class="table table-striped table-bordered table-sm">
-									<thead class="thead-light">
-										<tr>
-											<th scope="col">#</th>
-											<th scope="col">Nom du Fichier</th>
-											<th scope="col">Type</th>
-											<th scope="col">Auteur</th>
-										</tr>
-									</thead>
-									<tbody>
-										<?php
-										do
-										{ 
-											if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 1) 
-											{ ?>
-												<tr>
-													<th scope="row">
-														<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?>
-													</th>
-													<td>
-														<?php 
-														if ($row_rsListeSelectMatiereNiveau['type_doc'] == 1) 
-														{
-															$lien = $row_rsListeSelectMatiereNiveau['fichier'];
-														} 
-														else
-														{
-															if (isset($themeId))
+							<div class="row">
+								<div class="col table-responsive">
+									<table class="table table-striped table-bordered table-sm">
+										<thead class="thead-light">
+											<tr>
+												<th scope="col">#</th>
+												<th scope="col">Nom du Fichier</th>
+												<th scope="col">Type</th>
+												<th scope="col">Auteur</th>
+											</tr>
+										</thead>
+										<tbody>
+											<?php
+											do
+											{ 
+												if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 1) 
+												{ ?>
+													<tr>
+														<th scope="row">
+															<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?>
+														</th>
+														<td>
+															<?php 
+															if ($row_rsListeSelectMatiereNiveau['type_doc'] == 1) 
 															{
-																$theme = $themeId;
+																$lien = $row_rsListeSelectMatiereNiveau['fichier'];
 															} 
 															else
 															{
-																$theme = 0;
-															}
-															if ( isset($matiereId) && isset($niveauId) )
+																if (isset($themeId))
+																{
+																	$theme = $themeId;
+																} 
+																else
+																{
+																	$theme = 0;
+																}
+																if ( isset($matiereId) && isset($niveauId) )
+																{
+																	$lien = 'choix_quiz.php?VAR_fichier='.$row_rsListeSelectMatiereNiveau['fichier'].'&VAR_ID_quiz='.$row_rsListeSelectMatiereNiveau['ID_quiz'].'&VAR_nom_mat='.$row_rsChoix['nom_mat'].'&matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$theme.'&categorie_ID='.$categorieId; 
+																}
+															}?>
+															<a href="<?php echo $lien;?>" target="_blank"><strong><?php echo $row_rsListeSelectMatiereNiveau['titre']; ?></strong></a>
+														</td>
+														<td>
+															<img src="<?php echo $icone[$row_rsListeSelectMatiereNiveau['type_doc']]; ?>" width="15" height="15">&nbsp;
+														</td>
+														<td>
+															<?php if ($row_rsListeSelectMatiereNiveau['auteur'] <> '')
 															{
-																$lien = 'choix_quiz.php?VAR_fichier='.$row_rsListeSelectMatiereNiveau['fichier'].'&VAR_ID_quiz='.$row_rsListeSelectMatiereNiveau['ID_quiz'].'&VAR_nom_mat='.$row_rsChoix['nom_mat'].'&matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$theme.'&categorie_ID='.$categorieId; 
+																echo $row_rsListeSelectMatiereNiveau['auteur'];
 															}
-														}?>
-														<a href="<?php echo $lien;?>" target="_blank"><strong><?php echo $row_rsListeSelectMatiereNiveau['titre']; ?></strong></a>
-													</td>
-													<td>
-														<img src="<?php echo $icone[$row_rsListeSelectMatiereNiveau['type_doc']]; ?>" width="15" height="15">&nbsp;
-													</td>
-													<td>
-														<?php if ($row_rsListeSelectMatiereNiveau['auteur'] <> '')
-														{
-															echo $row_rsListeSelectMatiereNiveau['auteur'];
-														}
-														else
-														{
-															echo '-';
-														} ?>
-													</td>
-												</tr>
-												<?php 
-											}
-										} while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau));?>
-									</tbody>
-								</table>
+															else
+															{
+																echo '-';
+															} ?>
+														</td>
+													</tr>
+													<?php 
+												}
+											} while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau));?>
+										</tbody>
+									</table>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<!-- Exercices Hotpotatoes -->
-				<div class="row mt-2">
-					<div class="col">
-						<div class="row">
-							<div class="col bg-warning text-center">
-								<strong>Exercices Hotpotatoes<a name="hotpotatoes"></a></strong>
+					<?php
+				}
+
+				//Exercices Hotpotatoes
+				mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
+				$nbDoc2 = 0;
+				while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau))
+				{
+					if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 2)
+					{
+						$nbDoc2++;
+					}
+				}
+				mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
+				if($nbDoc2 != 0)
+				{ ?>
+					<div class="row mt-2">
+						<div class="col">
+							<div class="row">
+								<div class="col bg-warning text-center">
+									<strong>Exercices Hotpotatoes<a name="hotpotatoes"></a></strong>
+								</div>
 							</div>
-						</div>
-						<div class="row">
-							<div class="col table-responsive">
-								<table class="table table-striped table-bordered table-sm">
-									<thead class="thead-light">
-										<tr>
-											<?php
-											if ($totalRows_rsListeSelectMatiereNiveau <> 0)
+							<div class="row">
+								<div class="col table-responsive">
+									<table class="table table-striped table-bordered table-sm">
+										<thead class="thead-light">
+											<tr>
+												<th scope="col"><strong>&nbsp;</strong></th>
+												<th scope="col"><strong>N°</strong></th>
+												<th scope="col"><strong>Fait</strong></th>
+												<th scope="col"><strong>Exercice</strong></th>
+												<th scope="col"><strong>Note sur 20</strong></th>
+												<th scope="col"><strong>Entrainement</strong></th>
+												<th scope="col"><strong>Auteur</strong></th>
+											</tr>
+										</thead>
+										<tbody>
+											<?php 
+											do
 											{
-												mysqli_data_seek($rsListeSelectMatiereNiveau,0);
-											}
-											$i = 0;
-											do {
 												if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 2)
 												{
-													$i = $i + 1;
+													$choixquiz_RsExosFait = "0";
+													if (isset($row_rsListeSelectMatiereNiveau['ID_quiz']))
+													{
+														$choixquiz_RsExosFait = htmlspecialchars($row_rsListeSelectMatiereNiveau['ID_quiz']);
+													}
+													$choixnom_RsExosFait = "0";
+													if (isset($_SESSION['Sess_ID_eleve']))
+													{
+														$choixnom_RsExosFait = htmlspecialchars($_SESSION['Sess_ID_eleve']);
+													}
+
+													$query_RsExosFait = sprintf("SELECT * FROM stock_activite WHERE eleve_ID = '%s' AND quiz_ID = '%s'", $choixnom_RsExosFait, $choixquiz_RsExosFait);
+													$RsExosFait = mysqli_query($conn_intranet, $query_RsExosFait) or die(mysqli_error($conn_intranet));
+													$row_RsExosFait = mysqli_fetch_assoc($RsExosFait);
+													$totalRows_RsExosFait = mysqli_num_rows($RsExosFait);
+
+													$unique = 'N';?>
+													<tr>
+														<th scope="row">
+															<?php
+															if ($row_rsListeSelectMatiereNiveau['evaluation_seul'] == 'O') 
+															{   
+																if ($totalRows_RsExosFait <> 0)
+																{
+																	echo 'Interro terminée';
+																	$unique = 'O';
+																}
+																else
+																{
+																	echo'Interro à faire';
+																} 
+															}
+															else 
+															{ 
+																if ($totalRows_RsExosFait <> 0)
+																{
+																	echo 'Fait';
+																}
+																else
+																{
+																	echo 'Exercice à faire';
+																}
+															}?>
+														</th>
+														<td>
+															<div><?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?></div>
+														</td>
+														<td>
+															<input type="checkbox" name="checkbox" value="checkbox" <?php if ($totalRows_RsExosFait <> 0) { echo " checked"; }?> >
+														</td>
+														<td>
+															<?php 
+															if ($unique <> 'O')
+															{
+																if($row_rsListeSelectMatiereNiveau['type_doc'] == 1) 
+																{
+																	$lien=$row_rsListeSelectMatiereNiveau['fichier'];
+																} 
+																else
+																{ 
+																	if (isset($themeId))
+																	{
+																		$theme = $themeId;
+																	}
+																	else
+																	{
+																		$theme = 0;
+																	}
+																	if ((isset($matiereId)) && (isset($niveauId)) )
+																	{
+																		$lien = 'choix_quiz.php?VAR_fichier='.$row_rsListeSelectMatiereNiveau['fichier'].'&VAR_ID_quiz='.$row_rsListeSelectMatiereNiveau['ID_quiz'].'&VAR_nom_mat='.$row_rsChoix['nom_mat'].'&matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$theme.'&categorie_ID='.$categorieId; 
+																	} 
+																}
+																echo '<a href="'.$lien.'"><strong>'.$row_rsListeSelectMatiereNiveau['titre'].'</strong></a>';
+															}
+															else
+															{
+																echo '<strong>'.$row_rsListeSelectMatiereNiveau['titre'].'</strong>';
+															}?>
+														</td>
+														<td>
+															<div>
+																<?php if ($totalRows_RsExosFait <> 0)
+																{
+																	echo $row_RsExosFait['score']."/20";
+																}
+																else
+																{
+																	echo "&nbsp;";
+																}?>
+															</div>
+														</td>
+														<td>
+															<div>
+																<?php if ($row_rsListeSelectMatiereNiveau['en_ligne'] == 'O')
+																{
+																	echo '<a href="accueil_visiteur.php"><strong>Oui</strong></a>';
+																}
+																else
+																{
+																	echo '&nbsp;';
+																}?>
+															</div>
+														</td>
+														<td>
+															<?php if ($row_rsListeSelectMatiereNiveau['auteur'] <> '')
+															{
+																echo $row_rsListeSelectMatiereNiveau['auteur'];
+															}
+															else
+															{
+																echo '&nbsp;';
+															} ?>
+														</td>
+													</tr>
+													<?php
 												}
-											} while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau)); 
-											if ($i <> 0)
+											} while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau)); ?>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<?php
+				}
+
+				//Autres exercices
+				mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
+				$nbDoc3 = 0;
+				while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau))
+				{
+					if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 3)
+					{
+						$nbDoc3++;
+					}
+				}
+				mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
+				if($nbDoc3 != 0)
+				{ ?>
+					<div class="row mt-2">
+						<div class="col">
+							<div class="row">
+								<div class="col bg-warning text-center">
+									<strong>Autres exercices<a name="exercices"></a></strong>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col table-responsive">
+									<table class="table table-striped table-bordered table-sm">
+										<thead class="thead-light">
+											<tr>
+												<th scope="col">#</th>
+												<th scope="col">Nom du Fichier</th>
+												<th scope="col">Type</th>
+												<th scope="col">Auteur</th>
+											</tr>
+										</thead>
+										<tbody>
+											<?php
+											do
 											{ 
-												echo '<th scope="col"><strong>&nbsp;</strong></th>';
-												echo '<th scope="col"><strong>N&deg;</strong></th>';
-												echo '<th scope="col"><strong>Fait</strong></th>';
-												echo '<th scope="col"><strong>Exercice</strong></th>';
-												echo '<th scope="col"><strong>Note sur 20</strong></th>';
-												echo '<th scope="col"><strong>Entrainement</strong></th>';
-												echo '<th scope="col"><strong>Auteur</strong></th>';
-											}
-											if ($totalRows_rsListeSelectMatiereNiveau <> 0)
-											{
-												mysqli_data_seek($rsListeSelectMatiereNiveau,0);
-											}?>
-										</tr>
-									</thead>
-									<tbody>
-										<?php 
-										do
-										{
-											if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 2)
-											{
-												$choixquiz_RsExosFait = "0";
-												if (isset($row_rsListeSelectMatiereNiveau['ID_quiz']))
-												{
-													$choixquiz_RsExosFait = (get_magic_quotes_gpc()) ? $row_rsListeSelectMatiereNiveau['ID_quiz'] : addslashes($row_rsListeSelectMatiereNiveau['ID_quiz']);
-												}
-												$choixnom_RsExosFait = "0";
-												if (isset($_SESSION['Sess_ID_eleve']))
-												{
-													$choixnom_RsExosFait = (get_magic_quotes_gpc()) ? $_SESSION['Sess_ID_eleve'] : addslashes($_SESSION['Sess_ID_eleve']);
-												}
-
-												$query_RsExosFait = sprintf("SELECT * FROM stock_activite WHERE stock_activite.eleve_ID=%s AND stock_activite.quiz_ID=%s", $choixnom_RsExosFait,$choixquiz_RsExosFait);
-												$RsExosFait = mysqli_query($conn_intranet, $query_RsExosFait) or die(mysqli_error($conn_intranet));
-												$row_RsExosFait = mysqli_fetch_assoc($RsExosFait);
-												$totalRows_RsExosFait = mysqli_num_rows($RsExosFait);
-
-												$unique = 'N';?>
-												<tr>
-													<th scope="row">
-														<?php
-														if ($row_rsListeSelectMatiereNiveau['evaluation_seul'] == 'O') 
-														{   
-															if ($totalRows_RsExosFait <> 0)
-															{
-																echo 'Interro terminée';
-																$unique = 'O';
-															}
-															else
-															{
-																echo'Interro à faire';
-															} 
-														}
-														else 
-														{ 
-															if ($totalRows_RsExosFait <> 0)
-															{
-																echo 'Fait';
-															}
-															else
-															{
-																echo 'Exercice à faire';
-															}
-														}?>
-													</th>
-													<td>
-														<div><?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?></div>
-													</td>
-													<td>
-														<input type="checkbox" name="checkbox" value="checkbox" <?php if ($totalRows_RsExosFait <> 0) { echo " checked"; }?> >
-													</td>
-													<td>
-														<?php 
-														if ($unique <> 'O')
-														{
+												if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 3) 
+												{ ?>
+													<tr>
+														<th scope="row">
+															<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?>
+														</th>
+														<td>
+															<?php 
 															if($row_rsListeSelectMatiereNiveau['type_doc'] == 1) 
 															{
-																$lien=$row_rsListeSelectMatiereNiveau['fichier'];
+																$lien = $row_rsListeSelectMatiereNiveau['fichier'];
+															} 
+															else 
+															{
+																if (isset($themeId))
+																{
+																	$theme = $themeId;
+																}
+																else
+																{
+																	$theme = 0;
+																}
+																$lien = 'choix_quiz.php?VAR_fichier='.$row_rsListeSelectMatiereNiveau['fichier'].'&VAR_ID_quiz='.$row_rsListeSelectMatiereNiveau['ID_quiz'].'&VAR_nom_mat='.$row_rsChoix['nom_mat'].'&matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$theme.'&categorie_ID='.$categorieId;
+															} ?>
+															<a href="<?php echo $lien ; ?>" target="_blank"><strong><?php echo $row_rsListeSelectMatiereNiveau['titre']; ?></strong></a>
+														</td>
+														<td>
+															<img src="<?php echo $icone[$row_rsListeSelectMatiereNiveau['type_doc']] ; ?>" width="15" height="15">&nbsp;
+														</td>
+														<td>
+															<?php if ($row_rsListeSelectMatiereNiveau['auteur'] <> '')
+															{
+																echo $row_rsListeSelectMatiereNiveau['auteur'];
+															}
+															else
+															{
+																echo '-';
+															} ?>
+														</td>
+													</tr>
+													<?php 
+												}
+											} while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau)); ?>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<?php
+				}
+
+				//Travail à faire
+				mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
+				$nbDoc4 = 0;
+				while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau))
+				{
+					if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 4)
+					{
+						$nbDoc4++;
+					}
+				}
+				mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
+				if($nbDoc4 != 0)
+				{ ?>
+					<div class="row mt-2">
+						<div class="col">
+							<div class="row">
+								<div class="col bg-warning text-center">
+									<strong>Travail à faire<a name="travail"></a></strong>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col table-responsive">							
+									<table class="table table-striped table-bordered table-sm">
+										<thead class="thead-light">
+											<tr>
+												<th scope="col">#</th>
+												<th scope="col">Nom du Fichier</th>
+												<th scope="col">Type</th>
+												<th scope="col">Auteur</th>
+											</tr>
+										</thead>
+										<tbody>
+											<?php
+											do
+											{
+												if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 4)
+												{ ?>
+													<tr>
+														<th scope="row">
+															<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?>
+														</th>
+														<td>
+															<?php 
+															if($row_rsListeSelectMatiereNiveau['type_doc'] == 1) 
+															{
+																$lien = $row_rsListeSelectMatiereNiveau['fichier'];
 															} 
 															else
-															{ 
+															{
+																if (isset($themeId))
+																{
+																	$theme = $themeId;
+																}
+																else
+																{
+																	$theme = 0;
+																}
+																if ((isset($matiereId)) && (isset($niveauId)))
+																{
+																	$lien = 'choix_quiz.php?VAR_fichier='.$row_rsListeSelectMatiereNiveau['fichier'].'&VAR_ID_quiz='.$row_rsListeSelectMatiereNiveau['ID_quiz'].'&VAR_nom_mat='.$row_rsChoix['nom_mat'].'&matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$theme.'&categorie_ID='.$categorieId; 
+																}
+															} ?>
+															<a href="<?php echo $lien ; ?>" target="_blank"><strong><?php echo $row_rsListeSelectMatiereNiveau['titre']; ?></strong></a>
+														</td>
+														<td>
+															<img src="<?php echo $icone[$row_rsListeSelectMatiereNiveau['type_doc']] ; ?>" width="15" height="15">&nbsp;
+														</td>
+														<td>
+															<?php if ($row_rsListeSelectMatiereNiveau['auteur'] <> '')
+															{
+																echo $row_rsListeSelectMatiereNiveau['auteur'];
+															}
+															else
+															{
+																echo '-';
+															} ?>
+														</td>
+													</tr>
+													<?php 
+												}
+											} while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau)); ?>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<?php
+				}
+
+				//Documents annexes
+				mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
+				$nbDoc5 = 0;
+				while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau))
+				{
+					if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 5)
+					{
+						$nbDoc5++;
+					}
+				}
+				mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
+				if($nbDoc5 != 0)
+				{ ?>
+					<div class="row mt-2">
+						<div class="col">
+							<div class="row">
+								<div class="col bg-warning text-center">
+									<strong>Documents annexes <a name="annexes"></a></strong>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col table-responsive">								
+									<table class="table table-striped table-bordered table-sm">
+										<thead class="thead-light">
+											<tr>
+												<th scope="col">#</th>
+												<th scope="col">Nom du Fichier</th>
+												<th scope="col">Type</th>
+												<th scope="col">Auteur</th>
+											</tr>
+										</thead>
+										<tbody>
+											<?php
+											do
+											{ 
+												if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 5)
+												{ ?>
+													<tr>
+														<th scope="row">
+															<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?>
+														</th>
+														<td>
+															<?php 
+															if($row_rsListeSelectMatiereNiveau['type_doc'] == 1)
+															{
+																$lien = $row_rsListeSelectMatiereNiveau['fichier'];
+															} 
+															else
+															{
 																if (isset($themeId))
 																{
 																	$theme = $themeId;
@@ -473,293 +776,35 @@ require('includes/header.inc.php');
 																{
 																	$lien = 'choix_quiz.php?VAR_fichier='.$row_rsListeSelectMatiereNiveau['fichier'].'&VAR_ID_quiz='.$row_rsListeSelectMatiereNiveau['ID_quiz'].'&VAR_nom_mat='.$row_rsChoix['nom_mat'].'&matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$theme.'&categorie_ID='.$categorieId; 
 																} 
-															}
-															echo '<a href="'.$lien.'"><strong>'.$row_rsListeSelectMatiereNiveau['titre'].'</strong></a>';
-														}
-														else
-														{
-															echo '<strong>'.$row_rsListeSelectMatiereNiveau['titre'].'</strong>';
-														}?>
-													</td>
-													<td>
-														<div>
-															<?php if ($totalRows_RsExosFait <> 0)
+															} ?>
+															<a href="<?php echo $lien ; ?>" target="_blank"><strong><?php echo $row_rsListeSelectMatiereNiveau['titre']; ?></strong></a>
+														</td>
+														<td>
+															<img src="<?php echo $icone[$row_rsListeSelectMatiereNiveau['type_doc']] ; ?>" width="15" height="15">&nbsp;
+														</td>
+														<td>
+															<?php if ($row_rsListeSelectMatiereNiveau['auteur'] <> '')
 															{
-																echo $row_RsExosFait['score']."/20";
+																echo $row_rsListeSelectMatiereNiveau['auteur'];
 															}
 															else
 															{
-																echo "&nbsp;";
-															}?>
-														</div>
-													</td>
-													<td>
-														<div>
-															<?php if ($row_rsListeSelectMatiereNiveau['en_ligne'] == 'O')
-															{
-																echo '<a href="accueil_visiteur.php"><strong>Oui</strong></a>';
-															}
-															else
-															{
-																echo '&nbsp;';
-															}?>
-														</div>
-													</td>
-													<td>
-														<?php if ($row_rsListeSelectMatiereNiveau['auteur'] <> '')
-														{
-															echo $row_rsListeSelectMatiereNiveau['auteur'];
-														}
-														else
-														{
-															echo '&nbsp;';
-														} ?>
-													</td>
-												</tr>
+																echo '-';
+															} ?>
+														</td>
+													</tr>
 												<?php
-											}
-										} while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau)); ?>
-									</tbody>
-								</table>
+												}
+											} while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau)); ?>
+										</tbody>
+									</table>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<!-- Autres exercices -->
-				<div class="row mt-2">
-					<div class="col">
-						<div class="row">
-							<div class="col bg-warning text-center">
-								<strong>Autres exercices<a name="exercices"></a></strong>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col table-responsive">
-								<table class="table table-striped table-bordered table-sm">
-									<thead class="thead-light">
-										<tr>
-											<th scope="col">#</th>
-											<th scope="col">Nom du Fichier</th>
-											<th scope="col">Type</th>
-											<th scope="col">Auteur</th>
-										</tr>
-									</thead>
-									<tbody>
-										<?php 
-										if ($totalRows_rsListeSelectMatiereNiveau <> 0)
-										{
-											mysqli_data_seek($rsListeSelectMatiereNiveau,0);
-										}
-										do
-										{ 
-											if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 3) 
-											{ ?>
-												<tr>
-													<th scope="row">
-														<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?>
-													</th>
-													<td>
-														<?php 
-														if($row_rsListeSelectMatiereNiveau['type_doc'] == 1) 
-														{
-															$lien = $row_rsListeSelectMatiereNiveau['fichier'];
-														} 
-														else 
-														{
-															if (isset($themeId))
-															{
-																$theme = $themeId;
-															}
-															else
-															{
-																$theme = 0;
-															}
-															$lien = 'choix_quiz.php?VAR_fichier='.$row_rsListeSelectMatiereNiveau['fichier'].'&VAR_ID_quiz='.$row_rsListeSelectMatiereNiveau['ID_quiz'].'&VAR_nom_mat='.$row_rsChoix['nom_mat'].'&matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$theme.'&categorie_ID='.$categorieId;
-														} ?>
-														<a href="<?php echo $lien ; ?>" target="_blank"><strong><?php echo $row_rsListeSelectMatiereNiveau['titre']; ?></strong></a>
-													</td>
-													<td>
-														<img src="<?php echo $icone[$row_rsListeSelectMatiereNiveau['type_doc']] ; ?>" width="15" height="15">&nbsp;
-													</td>
-													<td>
-														<?php if ($row_rsListeSelectMatiereNiveau['auteur'] <> '')
-														{
-															echo $row_rsListeSelectMatiereNiveau['auteur'];
-														}
-														else
-														{
-															echo '-';
-														} ?>
-													</td>
-												</tr>
-												<?php 
-											}
-										} while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau)); ?>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- Travail à faire -->
-				<div class="row mt-2">
-					<div class="col">
-						<div class="row">
-							<div class="col bg-warning text-center">
-								<strong>Travail à faire<a name="travail"></a></strong>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col table-responsive">							
-								<table class="table table-striped table-bordered table-sm">
-									<thead class="thead-light">
-										<tr>
-											<th scope="col">#</th>
-											<th scope="col">Nom du Fichier</th>
-											<th scope="col">Type</th>
-											<th scope="col">Auteur</th>
-										</tr>
-									</thead>
-									<tbody>
-										<?php 
-										if ($totalRows_rsListeSelectMatiereNiveau <> 0)
-										{
-											mysqli_data_seek($rsListeSelectMatiereNiveau,0);
-										}
-										do
-										{
-											if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 4)
-											{ ?>
-												<tr>
-													<th scope="row">
-														<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?>
-													</th>
-													<td>
-														<?php 
-														if($row_rsListeSelectMatiereNiveau['type_doc'] == 1) 
-														{
-															$lien = $row_rsListeSelectMatiereNiveau['fichier'];
-														} 
-														else
-														{
-															if (isset($themeId))
-															{
-																$theme = $themeId;
-															}
-															else
-															{
-																$theme = 0;
-															}
-															if ((isset($matiereId)) && (isset($niveauId)) )
-															{
-																$lien = 'choix_quiz.php?VAR_fichier='.$row_rsListeSelectMatiereNiveau['fichier'].'&VAR_ID_quiz='.$row_rsListeSelectMatiereNiveau['ID_quiz'].'&VAR_nom_mat='.$row_rsChoix['nom_mat'].'&matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$theme.'&categorie_ID='.$categorieId; 
-															}
-														} ?>
-														<a href="<?php echo $lien ; ?>" target="_blank"><strong><?php echo $row_rsListeSelectMatiereNiveau['titre']; ?></strong></a>
-													</td>
-													<td>
-														<img src="<?php echo $icone[$row_rsListeSelectMatiereNiveau['type_doc']] ; ?>" width="15" height="15">&nbsp;
-													</td>
-													<td>
-														<?php if ($row_rsListeSelectMatiereNiveau['auteur'] <> '')
-														{
-															echo $row_rsListeSelectMatiereNiveau['auteur'];
-														}
-														else
-														{
-															echo '-';
-														} ?>
-													</td>
-												</tr>
-												<?php 
-											}
-										} while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau)); ?>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- Documents annexes -->
-				<div class="row mt-2">
-					<div class="col">
-						<div class="row">
-							<div class="col bg-warning text-center">
-								<strong>Documents annexes <a name="annexes"></a></strong>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col table-responsive">								
-								<table class="table table-striped table-bordered table-sm">
-									<thead class="thead-light">
-										<tr>
-											<th scope="col">#</th>
-											<th scope="col">Nom du Fichier</th>
-											<th scope="col">Type</th>
-											<th scope="col">Auteur</th>
-										</tr>
-									</thead>
-									<tbody>
-										<?php 
-										if ($totalRows_rsListeSelectMatiereNiveau <> 0)
-										{
-											mysqli_data_seek($rsListeSelectMatiereNiveau,0);
-										}
-										do
-										{ 
-											if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 5)
-											{ ?>
-												<tr>
-													<th scope="row">
-														<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?>
-													</th>
-													<td>
-														<?php 
-														if($row_rsListeSelectMatiereNiveau['type_doc'] == 1)
-														{
-															$lien = $row_rsListeSelectMatiereNiveau['fichier'];
-														} 
-														else
-														{
-															if (isset($themeId))
-															{
-																$theme = $themeId;
-															}
-															else
-															{
-																$theme = 0;
-															}
-															if ((isset($matiereId)) && (isset($niveauId)) )
-															{
-																$lien = 'choix_quiz.php?VAR_fichier='.$row_rsListeSelectMatiereNiveau['fichier'].'&VAR_ID_quiz='.$row_rsListeSelectMatiereNiveau['ID_quiz'].'&VAR_nom_mat='.$row_rsChoix['nom_mat'].'&matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$theme.'&categorie_ID='.$categorieId; 
-															} 
-														} ?>
-														<a href="<?php echo $lien ; ?>" target="_blank"><strong><?php echo $row_rsListeSelectMatiereNiveau['titre']; ?></strong></a>
-													</td>
-													<td>
-														<img src="<?php echo $icone[$row_rsListeSelectMatiereNiveau['type_doc']] ; ?>" width="15" height="15">&nbsp;
-													</td>
-													<td>
-														<?php if ($row_rsListeSelectMatiereNiveau['auteur'] <> '')
-														{
-															echo $row_rsListeSelectMatiereNiveau['auteur'];
-														}
-														else
-														{
-															echo '-';
-														} ?>
-													</td>
-												</tr>
-											<?php
-											}
-										} while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau)); ?>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-				</div>
-			<?php } ?>
+					<?php
+				}
+			} ?>
 		</div>
 		<div class="col-2">
 			<?php

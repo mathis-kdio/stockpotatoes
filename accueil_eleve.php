@@ -28,18 +28,14 @@ mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_rs_matiere = "SELECT * FROM stock_matiere ORDER BY nom_mat";
 $rs_matiere = mysqli_query($conn_intranet, $query_rs_matiere) or die(mysqli_error($conn_intranet));
 $row_rs_matiere = mysqli_fetch_assoc($rs_matiere);
-$totalRows_rs_matiere = mysqli_num_rows($rs_matiere);
 
 $query_rs_niveau = "SELECT * FROM stock_niveau ORDER BY ID_niveau";
 $rs_niveau = mysqli_query($conn_intranet, $query_rs_niveau) or die(mysqli_error($conn_intranet));
 $row_rs_niveau = mysqli_fetch_assoc($rs_niveau);
-$totalRows_rs_niveau = mysqli_num_rows($rs_niveau);
 
 $query_rsListequiz = "SELECT * FROM stock_quiz WHERE avec_score = 'O' ORDER BY titre";
-
 $rsListequiz = mysqli_query($conn_intranet, $query_rsListequiz) or die(mysqli_error($conn_intranet));
 $row_rsListequiz = mysqli_fetch_assoc($rsListequiz);
-$totalRows_rsListequiz = mysqli_num_rows($rsListequiz);
 
 $choixmat_rsListeSelectMatiereNiveau = "0";
 if (isset($matiereId)) {
@@ -71,7 +67,6 @@ if (isset($matiereId)) {
 $query_rsChoix = sprintf("SELECT * FROM stock_matiere WHERE ID_mat = '%s'", $colname_rsChoix);
 $rsChoix = mysqli_query($conn_intranet, $query_rsChoix) or die(mysqli_error($conn_intranet));
 $row_rsChoix = mysqli_fetch_assoc($rsChoix);
-$totalRows_rsChoix = mysqli_num_rows($rsChoix);
 
 $colname_rsChoix2 = "1";
 if (isset($niveauId)) {
@@ -81,8 +76,6 @@ if (isset($niveauId)) {
 $query_rsChoix2 = sprintf("SELECT * FROM stock_niveau WHERE ID_niveau = '%s'", $colname_rsChoix2);
 $rsChoix2 = mysqli_query($conn_intranet, $query_rsChoix2) or die(mysqli_error($conn_intranet));
 $row_rsChoix2 = mysqli_fetch_assoc($rsChoix2);
-$totalRows_rsChoix2 = mysqli_num_rows($rsChoix2);
-
 
 $matListeTheme = 0;
 if (isset($matiereId)) {
@@ -138,13 +131,7 @@ require('includes/header.inc.php');
 				do { ?>
 					<option value="<?php echo $row_rs_matiere['ID_mat']?>"<?php if (isset($matiereId)) { if (!(strcmp($row_rs_matiere['ID_mat'], $matiereId))) {echo "SELECTED";} } ?>><?php echo $row_rs_matiere['nom_mat']?></option>
 										<?php
-				} while ($row_rs_matiere = mysqli_fetch_assoc($rs_matiere));
-				$rows = mysqli_num_rows($rs_matiere);
-				if($rows > 0)
-				{
-					mysqli_data_seek($rs_matiere, 0);
-					$row_rs_matiere = mysqli_fetch_assoc($rs_matiere);
-				}?>
+				} while ($row_rs_matiere = mysqli_fetch_assoc($rs_matiere)); ?>
 			</select>
 		</div>
 		<div class="col-2 text-right">
@@ -157,14 +144,7 @@ require('includes/header.inc.php');
 				?>
 					<option value="<?php echo $row_rs_niveau['ID_niveau']?>"<?php if (isset($niveauId)) { if (!(strcmp($row_rs_niveau['ID_niveau'], $niveauId))) {echo "SELECTED";} }?>><?php echo $row_rs_niveau['nom_niveau']?></option>
 					<?php
-				} while ($row_rs_niveau = mysqli_fetch_assoc($rs_niveau));
-				$rows = mysqli_num_rows($rs_niveau);
-				if($rows > 0)
-				{
-					mysqli_data_seek($rs_niveau, 0);
-					$row_rs_niveau = mysqli_fetch_assoc($rs_niveau);
-				}
-				?>
+				} while ($row_rs_niveau = mysqli_fetch_assoc($rs_niveau)); ?>
 			</select>
 		</div>
 		<div class="col-2 text-right">

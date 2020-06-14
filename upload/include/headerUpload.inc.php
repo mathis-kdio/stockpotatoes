@@ -50,14 +50,14 @@ error_reporting(E_ALL);
 							<a class="nav-link" href="../administrateur/accueil_admin.php">Espace Administrateur</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="../enseignant/login_enseignant.php">Espace Enseignant</a>
+							<a class="nav-link" href="../enseignant/acceuil_enseignant.php">Espace Enseignant</a>
 						</li>
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								Espace Upload
 							</a>
 							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-								<a class="dropdown-item" href="login_upload.php">Espace Upload</a>
+								<a class="dropdown-item" href="upload_menu.php">Espace Upload</a>
 								<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href="upload_hotpot.php">Envoyer un exercice Hotpotatoes</a>
 								<a class="dropdown-item" href="modif_select.php">Ajouter des fichiers liés à un exercice Hotpotatoes (images, sons...)</a>

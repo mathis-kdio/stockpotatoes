@@ -47,8 +47,13 @@ if ((isset($_POST['valider'])) && ($_POST['valider'] == "ok"))
 		$_SESSION['Sess_nom'] = $row_rsLogin['nom'];
 		$_SESSION['Sess_prenom'] = $row_rsLogin['prenom'];
 		$_SESSION['Sess_classe'] = $row_rsLogin['classe'];
-		$_SESSION['Sess_niveau'] = $row_rsLogin['niveau'];	
-		header('Location: accueil_eleve.php?matiere_ID=1&niveau_ID='.$_SESSION['Sess_niveau'].'&Submit=Valider');
+		$_SESSION['Sess_niveau'] = $row_rsLogin['niveau'];
+
+		$query_rs_matiere = sprintf("SELECT * FROM stock_quiz WHERE niveau_ID = '%s' ORDER BY matiere_ID", $_SESSION['Sess_niveau']);
+		$rs_matiere = mysqli_query($conn_intranet, $query_rs_matiere) or die(mysqli_error());
+		$row_rs_matiere = mysqli_fetch_assoc($rs_matiere);
+
+		header('Location: accueil_eleve.php?matiere_ID='.$row_rs_matiere['matiere_ID'].'&niveau_ID='.$_SESSION['Sess_niveau'].'&Submit=Valider');
 	}
 	else
 	{

@@ -1,5 +1,19 @@
-<?php require_once('../Connections/conn_intranet.php'); ?>
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+session_start();
+if (isset($_SESSION['Sess_nom']))
+{ 
+  if ($_SESSION['Sess_nom'] <> 'Upload')
+  {
+    header("Location: login_upload.php?cible=upload");
+  }
+}
+else
+{
+  header("Location: login_upload.php?cible=upload");
+}
+require_once('../Connections/conn_intranet.php');
 
 function sans_accent($chaine) 
 { 
@@ -31,11 +45,6 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
       break;
   }
   return $theValue;
-}
-
-$editFormAction = $HTTP_SERVER_VARS['PHP_SELF'];
-if (isset($HTTP_SERVER_VARS['QUERY_STRING'])) {
-  $editFormAction .= "?" . $HTTP_SERVER_VARS['QUERY_STRING'];
 }
 
 mysqli_select_db($conn_intranet, $database_conn_intranet);
@@ -93,7 +102,7 @@ function pArray($array) {
 require_once('upload.class.php');
 
 // Instanciation d'un nouvel objet "upload"
-$Upload = new Upload();
+$Upload = new UploadClass();
 
 /**
  * Gestion lors de la soumission du formulaire

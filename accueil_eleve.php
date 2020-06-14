@@ -763,9 +763,15 @@ require('includes/header.inc.php');
 		</div>
 		<div class="col-2">
 			<?php
-			if ($selectheme_RsChoixTheme != 0)
-			{ ?>
-				<h5>Résultats en <?php echo $_SESSION['Sess_classe'];?> pour le thème <?php echo $row_RsChoixTheme['theme'];?></h5>
+			if (isset($themeId))
+			{ 
+				$nomThemeRes = $row_RsChoixTheme['theme'];
+				if ($themeId == 0)
+				{
+					$nomThemeRes = 'Divers';
+				}
+				?>
+				<h5>Résultats en <?php echo $_SESSION['Sess_classe'];?> pour le thème <?php echo $nomThemeRes;?></h5>
 				<div class="table-responsive">
 					<table class="table table-striped table-bordered table-sm">
 						<thead class="thead-light">

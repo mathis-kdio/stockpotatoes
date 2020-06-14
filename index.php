@@ -1,15 +1,6 @@
 <?php
 session_start();
-//session_destroy();
-unset($_SESSION['Sess_nom']);
-unset($_SESSION['Sess_prenom']);
-unset($_SESSION['Sess_classe']);
-unset($_SESSION['Sess_ID_eleve']);
-unset($_SESSION['Sess_ID_quiz']);
-unset($_SESSION['matiere_ID']);
-unset($_SESSION['niveau_ID']);
-unset($_SESSION['theme_ID']);
-unset($_SESSION['nom_mat']);
+session_destroy();
 
 $titre_page = "Accueil Stockpotatoes";
 $meta_description = "Page principale de Stockpotatoes";

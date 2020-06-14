@@ -248,7 +248,16 @@ require('includes/header.inc.php');
 							{
 								echo '<a href="accueil_eleve.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$themeId.'&categorie_ID='.$row_Rs_categorie['ID_categorie'].'"><strong>'.$row_Rs_categorie['nom_categorie'].'</strong></a>&nbsp;&nbsp;&nbsp;&nbsp;';
 							} while ($row_Rs_categorie = mysqli_fetch_assoc($Rs_categorie));
-							echo '<a href="accueil_eleve.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$themeId.'&categorie_ID=0"><strong>Non classés</strong></a>&nbsp;&nbsp;&nbsp;&nbsp;';?>
+
+							//Affiche la catégorie Non classés uniquement s'il y a au moins un doc dedans
+							$qTestExoNonClasse = sprintf("SELECT * FROM stock_quiz WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND theme_ID = '%s' AND categorie_ID = 0", $matiereId, $niveauId, $themeId);
+							$rsTestExoNonClasse = mysqli_query($conn_intranet, $qTestExoNonClasse) or die(mysqli_error());
+							$nbExos = mysqli_num_rows($rsTestExoNonClasse);
+							if ($nbExos > 0) 
+							{
+								echo '<a href="accueil_eleve.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$themeId.'&categorie_ID=0"><strong>Non classés</strong></a>';
+							}?>
+
 						</div>          				
 					</div>
 				<?php } ?>

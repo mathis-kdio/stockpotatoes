@@ -50,4 +50,4 @@ error_reporting(E_ALL);
 				</div>
 			</nav>
 		</header>
-		<div class="container">
+		<div class="container-fluid">

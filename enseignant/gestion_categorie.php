@@ -84,13 +84,7 @@ require('includes/headerEnseignant.inc.php');
 				{ ?>
 					<option value="<?php echo $row_rs_matiere['ID_mat']?>"<?php if (isset($matiereId)) { if (!(strcmp($row_rs_matiere['ID_mat'], $matiereId))) {echo "SELECTED";} }?>><?php echo $row_rs_matiere['nom_mat']?></option>
 					<?php
-				} while ($row_rs_matiere = mysqli_fetch_assoc($rs_matiere));
-				$rows = mysqli_num_rows($rs_matiere);
-				if($rows > 0) 
-				{
-					mysqli_data_seek($rs_matiere, 0);
-					$row_rs_matiere = mysqli_fetch_assoc($rs_matiere);
-				} ?>
+				} while ($row_rs_matiere = mysqli_fetch_assoc($rs_matiere)); ?>
 			</select>
 		</div>
 		<label for="niveau_ID" class="col-auto col-form-label">Niveau :</label>
@@ -101,13 +95,7 @@ require('includes/headerEnseignant.inc.php');
 				{ ?>
 					<option value="<?php echo $row_rs_niveau['ID_niveau']?>"<?php if (isset($niveauId)) { if (!(strcmp($row_rs_niveau['ID_niveau'], $niveauId))) {echo "SELECTED";} } ?>><?php echo $row_rs_niveau['nom_niveau']?></option>
 					<?php
-				} while ($row_rs_niveau = mysqli_fetch_assoc($rs_niveau));
-				$rows = mysqli_num_rows($rs_niveau);
-				if($rows > 0)
-				{
-					mysqli_data_seek($rs_niveau, 0);
-					$row_rs_niveau = mysqli_fetch_assoc($rs_niveau);
-				} ?>
+				} while ($row_rs_niveau = mysqli_fetch_assoc($rs_niveau)); ?>
 			</select>
 		</div>
 		<div class="col-auto">
@@ -129,7 +117,7 @@ if (isset($matiereId))
 { ?>
 	<form method="post" name="form2" action="gestion_categorie.php?matiere_ID=<?php echo $matiereId; ?>&niveau_ID=<?php echo $niveauId; ?>">
 		<div class="form-group row align-items-center justify-content-center mt-5">
-			<label for="categorie" class="col-auto col-form-label">Ajouter cette catégorie à cette matière et à ce niveau::</label>
+			<label for="categorie" class="col-auto col-form-label">Ajouter cette catégorie à cette matière et à ce niveau :</label>
 			<div class="col-auto">
 				<input type="text" name="categorie" class="form-control">
 			</div>
@@ -149,67 +137,21 @@ if (isset($matiereId))
 				<thead>
 					<tr>
 						<th scope="col">N°</th>
-						<th scope="col"></th>
-						<th scope="col"></th>
 						<th scope="col">Catégorie d'étude</th>
-						<th scope="col"></th>
-						<th scope="col"></th>
+						<th scope="col">Suppression</th>
+						<th scope="col">Modification</th>
 					</tr>
 				</thead>
 				<tbody>
-					<?php 
-					$x = 0;
-					do
-					{
-						$x = $x + 1;
-						$tabpos1[$x] = $row_Rscategorie['pos_categorie'];
-						$tabid1[$x] = $row_Rscategorie['ID_categorie'];
-					} while ($row_Rscategorie = mysqli_fetch_assoc($Rscategorie)); 
-					 
+					<?php					 
 					if ($totalRows_Rscategorie != 0)
 					{
-						mysqli_data_seek($Rscategorie,0);
+						mysqli_data_seek($Rscategorie, 0);
 						$row_Rscategorie = mysqli_fetch_assoc($Rscategorie);
-						$t1 = $x;
-						$x = 0;
 						do 
-						{ 
-							$x = $x + 1;?>
+						{ ?>
 							<tr> 
 								<th scope="row"><?php echo $row_Rscategorie['ID_categorie']; ?></th>
-								<td>
-									<?php if($x != 1) 
-									{
-										echo '<form name="Remonter" method="post" action="remonter_categorie.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'">';
-										echo '<input name="niveau_ID" type="hidden" id="niveau_ID" value="'.$niveauId.'">';
-										echo '<input name="ID_categorie" type="hidden" id="ID_categorie" value="'.$row_Rscategorie['ID_categorie'].'">';
-										echo '<input name="ID_precedent" type="hidden" id="ID_precedent" value="'.$tabid1[$x - 1].'">';
-										echo '<input name="pos_precedent" type="hidden" id="pos_precedent" value="'.$tabpos1[$x - 1].'">';
-										echo '<input name="Remonter" type="hidden" value="Remonter">';
-										echo '<input type="image" src="images/up.gif" alt="Remonter ce thème">';
-										echo '</form>';
-									} 
-									else
-									{
-										echo '&nbsp;';
-									}?>
-								</td>
-								<td>
-									<?php if($x != $t1)
-									{
-										echo '<form name="Descendre" method="post" action="descendre_categorie.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'">';
-										echo '<input name="ID_categorie" type="hidden" id="ID_categorie" value="'.$row_Rscategorie['ID_categorie'].'">';
-										echo '<input name="ID_suivant" type="hidden" id="ID_suivant" value="'.$tabid1[$x + 1].'">';
-										echo '<input name="pos_suivant" type="hidden" id="pos_suivant" value="'.$tabpos1[$x + 1].'">';
-										echo '<input name="Descendre" type="hidden" value="Descendre">';
-										echo '<input type="image" src="images/down.gif" alt="Descendre ce thème">';
-										echo '</form>';
-									}
-									else
-									{
-										echo '&nbsp;';
-									}?> 
-								</td>
 								<td><?php echo $row_Rscategorie['nom_categorie']; ?></td>
 								<td> 
 									<form name="form4" method="post" action="verif_supp_categorie.php">
@@ -232,9 +174,8 @@ if (isset($matiereId))
 		</div>
 	</div>
 	<?php
-}?>
+}
 
-<?php
 require('includes/footerEnseignant.inc.php');
 
 mysqli_free_result($Rscategorie);

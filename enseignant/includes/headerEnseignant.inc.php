@@ -26,7 +26,7 @@ error_reporting(E_ALL);
 		}
 		?>
 
-		<title><?php echo $titre_page ?></title>
+		<title>Espace Enseignant - <?php echo $titre_page; ?></title>
 	</head>
 	<body class="">	
 		<header>
@@ -69,3 +69,17 @@ error_reporting(E_ALL);
 			</nav>
 		</header>
 		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="row">
+						<h1>Espace Enseignant</h1>
+					</div>
+					<div class="row">
+						<div class="col-3">
+							<img class="img-fluid rounded mx-auto d-block" src="../patate.png" alt="hotpotatoes" title="hotpotatoes" height="150" width="150" />
+						</div>
+						<div class="col-9 align-middle">
+							<p class="h3 bg-warning text-center p-3" style="margin-top: 50px;"><?php echo $titre_page; ?></p>
+						</div>
+					</div>
+					<div class="container jumbotron">

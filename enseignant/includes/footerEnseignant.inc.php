@@ -1,5 +1,11 @@
 	<!-- DEBUT FOOTER -->
-	<!-- /container -->
+					<!-- /container jumbotron -->
+					</div>
+				<!-- /col-12 -->
+				</div>
+			<!-- /row -->
+			</div>
+		<!-- /container -->
 		</div>
 		<div class="container-fluid bg-primary">
 			<footer class="row footer bg-primary">

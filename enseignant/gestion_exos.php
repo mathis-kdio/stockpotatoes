@@ -166,7 +166,7 @@ require('includes/headerEnseignant.inc.php');
 					<?php 
 					do 
 					{ ?>
-						<a href="gestion_exos.php?matiere_ID=<?php echo $matiereId?>&niveau_ID=<?php echo $matiereId?>&theme_ID=<?php echo $row_RsListeTheme['ID_theme']?>"><?php echo $row_RsListeTheme['theme']?></a><br><br>
+						<a href="gestion_exos.php?matiere_ID=<?php echo $matiereId?>&niveau_ID=<?php echo $niveauId?>&theme_ID=<?php echo $row_RsListeTheme['ID_theme']?>"><?php echo $row_RsListeTheme['theme']?></a><br><br>
 						<?php 
 					} while ($row_RsListeTheme = mysqli_fetch_assoc($RsListeTheme)); ?>
 					<a href="gestion_exos.php?matiere_ID=<?php echo $matiereId?>&niveau_ID=<?php echo $niveauId?>&theme_ID=0">Divers</a>

@@ -54,6 +54,7 @@ require('include/headerAdministrateur.inc.php');
 						<a href="gestion_eleve.php" class="list-group-item list-group-item-action list-group-item-primary">Gestion des élèves</a>
 						<a href="install_param3.php" class="list-group-item list-group-item-action list-group-item-primary">Gestion des mots de passe</a>
 						<a href="gestion_activite.php" class="list-group-item list-group-item-action list-group-item-primary">Gestion des activités</a>
+						<a href="gestion_theme.php" class="list-group-item list-group-item-action list-group-item-primary">Gestion du thème de Stockpotatoes</a>
 					</div>
 				</div>
 				<div class="col-6">

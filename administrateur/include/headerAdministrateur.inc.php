@@ -26,7 +26,7 @@ error_reporting(E_ALL);
 		}
 		?>
 
-		<title><?php echo $titre_page ?></title>
+		<title>Espace Administrateur - <?php echo $titre_page ?></title>
 	</head>
 	<body class="">	
 		<header>
@@ -41,7 +41,7 @@ error_reporting(E_ALL);
 				<div class="collapse navbar-collapse" id="navbarNav">
 					<ul class="navbar-nav">
 						<li class="nav-item active">
-							<a class="nav-link" href="accueil_admin">Espace Administrateur</a>
+							<a class="nav-link" href="accueil_admin.php">Espace Administrateur</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="../index.php">Menu Stockpotatoes</a>
@@ -69,3 +69,17 @@ error_reporting(E_ALL);
 			</nav>
 		</header>
 		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="row">
+						<h1>Espace Administrateur</h1>
+					</div>
+					<div class="row">
+						<div class="col-3">
+							<img class="img-fluid rounded mx-auto d-block" src="../patate.png" alt="hotpotatoes" title="hotpotatoes" height="150" width="150" />
+						</div>
+						<div class="col-9 align-middle">
+							<p class="h3 bg-warning text-center p-3" style="margin-top: 50px;"><?php echo $titre_page; ?></p>
+						</div>
+					</div>
+					<div class="container jumbotron">

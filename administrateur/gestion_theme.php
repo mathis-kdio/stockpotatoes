@@ -39,22 +39,30 @@ $css_deplus = "";
 
 require('include/headerAdministrateur.inc.php');
 ?>
-	<h5>Theme</h5>
-
-	<form method="POST" action="gestion_theme.php">
-			<?php $lecture = new Lire('../includes/config.yml');
-			$lecture = $lecture->GetTableau()?>
-			<label>Couleur principale</label><br>
-			<input type="color" name='color_theme_main'<?php if(isset($lecture["color"]["theme"]["main"])) echo ' value="'.$lecture["color"]["theme"]["main"].'"'?>><br><br>
-			<label>Couleur lors du survol</label><br>
-			<input type="color" name='color_theme_hover'<?php if(isset($lecture["color"]["theme"]["hover"])) echo ' value="'.$lecture["color"]["theme"]["hover"].'"'?>><br><br>
-			<label>Couleur lors du clic</label><br>
-			<input type="color" name='color_theme_focus'<?php if(isset($lecture["color"]["theme"]["focus"])) echo ' value="'.$lecture["color"]["theme"]["focus"].'"'?>><br><br>
-
-			<button type="submit" name="changementCouleurs" value="1" class="btn btn-primary">Valider les changements</button>
-	</form>
-
-
+<h5 class="text-center">Cliquez sur chaque couleur case pour modifier puis valider</h5>
+<div class="row justify-content-center">
+	<div class="col-auto">
+		<form method="POST" action="gestion_theme.php" >
+			<div class="form-group">
+				<?php $lecture = new Lire('../includes/config.yml');
+				$lecture = $lecture->GetTableau()?>
+				<label for="color_theme_main" class="col-auto col-form-label">Couleur principale :</label>
+				<input type="color" name="color_theme_main" class="form-control" <?php if(isset($lecture["color"]["theme"]["main"])) echo ' value="'.$lecture["color"]["theme"]["main"].'"'?>>
+			</div>
+			<div class="form-group">
+				<label for="color_theme_hover" class="col-auto col-form-label">Couleur lors du survol :</label>
+				<input type="color" name="color_theme_hover" class="form-control" <?php if(isset($lecture["color"]["theme"]["hover"])) echo ' value="'.$lecture["color"]["theme"]["hover"].'"'?>>
+			</div>
+			<div class="form-group">
+				<label for="color_theme_focus" class="col-auto col-form-label">Couleur lors du clic :</label>
+				<input type="color" name="color_theme_focus" class="form-control" <?php if(isset($lecture["color"]["theme"]["focus"])) echo ' value="'.$lecture["color"]["theme"]["focus"].'"'?>>
+			</div>
+			<div class="form-group">
+				<button type="submit" name="changementCouleurs" value="1" class="btn btn-primary">Valider les changements</button>
+			</div>
+		</form>
+	</div>
+</div>
 <?php
 require('include/footerAdministrateur.inc.php');
 ?>

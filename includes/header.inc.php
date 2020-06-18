@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 require_once('includes/yml.class.php');
 
 $config = new Lire('includes/config.yml');
-$config = $config->GetTableau()?>
+$config = $config->GetTableau();
 
 ?>
 <!DOCTYPE html>
@@ -39,8 +39,8 @@ $config = $config->GetTableau()?>
 		<meta name="keywords" content="<?php echo $meta_keywords; ?>" />
 		<meta name="author" content="Stockpotatoes" />
 
-    	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    	
+    	<link rel="stylesheet" type="text/css" media="all" href="includes/bootstrap.min.css" />
+
 		<!-- Mon CSS -->
 		<link rel="stylesheet" type="text/css" media="all" href="includes/style.css" />
 		<!--Ajout d'une à trois feuille(s) de style et/ou d'un à trois script(s) en fonction de l'exo -->

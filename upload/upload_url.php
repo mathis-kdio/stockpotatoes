@@ -108,7 +108,7 @@ if (!Empty($_POST['submit2']))
 	}
 }
 		
-$titre_page = "Espace Upload - Fiche d'enregistrement d'un lien hypertexte";
+$titre_page = "Fiche d'enregistrement d'un lien hypertexte";
 $meta_description = "Page d'enregistrement d'un lien hypertexte";
 $meta_keywords = "outils, ressources, exercices en ligne, hotpotatoes";
 $js_deplus = "";

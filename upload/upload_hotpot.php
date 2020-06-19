@@ -160,7 +160,7 @@ if (!Empty($_POST['submit2']))
 	}
 }
 
-$titre_page = "Espace Upload - Mettre un exercice Hotpotatoes en ligne";
+$titre_page = "Mettre un exercice Hotpotatoes en ligne";
 $meta_description = "Page de mise en ligne  d'un exercice Hotpotatoes";
 $meta_keywords = "outils, ressources, exercices en ligne, hotpotatoes";
 $js_deplus = "";

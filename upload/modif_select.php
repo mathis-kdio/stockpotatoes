@@ -100,7 +100,7 @@ $query_RsChoixTheme = sprintf("SELECT theme FROM stock_theme WHERE ID_theme = '%
 $RsChoixTheme = mysqli_query($conn_intranet, $query_RsChoixTheme) or die(mysqli_error($conn_intranet));
 $row_RsChoixTheme = mysqli_fetch_assoc($RsChoixTheme);
 
-$titre_page = "Espace Upload - Menu d'ajout de fichiers joints";
+$titre_page = "Menu d'ajout de fichiers joints";
 $meta_description = "Page d'ajout de fichiers joints";
 $meta_keywords = "outils, ressources, exercices en ligne, hotpotatoes";
 $js_deplus = "";

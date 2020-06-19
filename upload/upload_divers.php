@@ -160,7 +160,7 @@ if (!Empty($_POST['submit2']))
 		}
 	}
 }
-$titre_page = "Espace Upload - Envoyer un document sur le serveur";
+$titre_page = "Envoyer un document sur le serveur";
 $meta_description = "Page de mise en ligne d'un document sur le serveur";
 $meta_keywords = "outils, ressources, exercices en ligne, hotpotatoes";
 $js_deplus = "";

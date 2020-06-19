@@ -9,12 +9,12 @@ $css_deplus = "";
 require('includes/header.inc.php');
 ?>
 <div class="row mt-3">
-  <div class="col bg-warning text-center shadow">
+  <div class="col bg-info text-center shadow">
     <h3>Stockpotatoes: Le distributeur de patates chaudes!</h3>
   </div>
 </div>
 <div class="row mt-3 mb-3 justify-content-center">
-  <div class="col-8 pt-2 pb-2 bg-warning shadow">
+  <div class="col-8 pt-2 pb-2 bg-info shadow">
     <ul class="">
       <li class=""><a href="login_eleve.php">Accès aux documents en mode identifié - Evaluation</a></li>
       <li class=""><a href="accueil_visiteur.php"> Accès aux documents en mode visiteur - Entrainement</a></li>
@@ -25,7 +25,7 @@ require('includes/header.inc.php');
   </div>
 </div>
 <div class="row">
-  <div class="col bg-warning text-center shadow">
+  <div class="col bg-info text-center shadow">
     <?php 
     include("includes/version.php"); ?>
     <h4>Version : <?php echo $versioninstallee;?></h4>

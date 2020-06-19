@@ -29,7 +29,7 @@ require('include/headerUpload.inc.php');
 				<img class="img-fluid rounded mx-auto d-block" src="../patate.png" alt="hotpotatoes" title="hotpotatoes" height="150" width="150" />
 			</div>
 			<div class="col-9 align-middle">
-				<p class="h3 bg-warning text-center p-3" style="margin-top: 50px;">Accueil de l'espace Upload</p>
+				<p class="h3 bg-info text-center p-3" style="margin-top: 50px;">Accueil de l'espace Upload</p>
 			</div>
 		</div>
 		<?php
@@ -37,7 +37,7 @@ require('include/headerUpload.inc.php');
 		$versionrecente = file_get_contents('https://stockpotatoes.ovh/version.txt');
 		if ($versionrecente != $versioninstallee)
 		{ ?>
-			<div class="card text-white bg-warning mb-3">
+			<div class="card text-white bg-info mb-3">
 				<div class="card-body text-dark">
 					<h5 class="card-title text-center">Mise à jour Stockpotatoes disponible</h5>
 					<p class="card-text">Vous possédez la version <?php echo $versioninstallee;?> et la version <?php echo $versionrecente;?> est disponible. Si vous êtes l'administrateur rendez-vous dans l'Espace Administrateur pour voir la marche à suivre.</p>
@@ -48,7 +48,7 @@ require('include/headerUpload.inc.php');
 		<div class="container jumbotron">
 			<div class="row">
 				<div class="col">
-					<h3 class="bg-warning shadow text-center pb-2 mb-4">Mise en ligne des documents et exercices</h3>
+					<h3 class="bg-info shadow text-center pb-2 mb-4">Mise en ligne des documents et exercices</h3>
 					<div class="list-group">
 						<a href="upload_hotpot.php" class="list-group-item list-group-item-action list-group-item-primary">Ajouter un exercice Hotpotatoes</a>
 						<a href="modif_select.php" class="list-group-item list-group-item-action list-group-item-primary">Ajouter des fichiers liés à un exercice Hotpotatoes (images, sons...)</a>

@@ -46,7 +46,7 @@ require('includes/header.inc.php');
 				<img class="img-fluid rounded mx-auto d-block" src="patate.png" alt="hotpotatoes" title="hotpotatoes" height="150" width="150" />
 			</div>
 			<div class="col-9 align-middle">
-				<p class="h3 bg-warning text-center p-3" style="margin-top: 50px;">Modification de mon mot de passe</p>
+				<p class="h3 bg-info text-center p-3" style="margin-top: 50px;">Modification de mon mot de passe</p>
 			</div>
 		</div>
 		<div class="container jumbotron">

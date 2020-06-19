@@ -144,7 +144,7 @@ require('includes/header.inc.php');
 </div>
 <!-- FORM pour le choix de la matière et du niveau-->
 <form name="form1" method="GET" action="accueil_eleve.php">
-	<div class="row pt-2 pb-2 shadow bg-warning align-items-center">
+	<div class="row pt-2 pb-2 shadow bg-info align-items-center">
 		<div class="col-2 text-right">
 			<h6>Sélectionnez une matière:</h6>
 		</div>
@@ -188,7 +188,7 @@ require('includes/header.inc.php');
 	</div>
 	<div class="row pb-3">
 		<div class="col-2">
-			<div class="pb-3 bg-warning shadow rounded">
+			<div class="pb-3 bg-info shadow rounded">
 				<div class="text-center">
 					<h3>Thème d'étude</h3>
 				</div>
@@ -214,7 +214,7 @@ require('includes/header.inc.php');
 				</div>
 			</div>
 		</div>
-		<div class="col-7 bg-warning offset-md-1 shadow rounded">
+		<div class="col-7 bg-info offset-md-1 shadow rounded">
 			<div class="row">
 				<div class="col text-center">
 					<?php
@@ -298,7 +298,7 @@ require('includes/header.inc.php');
 			if (isset($categorieId)) 
 			{ ?>
 				<div class="row align-items-center">
-					<div class="col pt-1 pb-1 bg-warning shadow rounded text-center">
+					<div class="col pt-1 pb-1 bg-info shadow rounded text-center">
 						<a href="#cours">Cours</a> - <a href="#hotpotatoes">Ex. Hotpotatoes</a> - <a href="#exercices">Autres exercices</a> - <a href="#travail">Travail à faire</a> - <a href="#annexes">Documents annexes</a>
 					</div>
 				</div>
@@ -320,7 +320,7 @@ require('includes/header.inc.php');
 					<div class="row mt-2">
 						<div class="col">
 							<div class="row">
-								<div class="col bg-warning text-center">
+								<div class="col bg-info text-center">
 									<strong>Le cours<a name="cours"></a></strong>
 								</div>
 							</div>
@@ -410,7 +410,7 @@ require('includes/header.inc.php');
 					<div class="row mt-2">
 						<div class="col">
 							<div class="row">
-								<div class="col bg-warning text-center">
+								<div class="col bg-info text-center">
 									<strong>Exercices Hotpotatoes<a name="hotpotatoes"></a></strong>
 								</div>
 							</div>
@@ -577,7 +577,7 @@ require('includes/header.inc.php');
 					<div class="row mt-2">
 						<div class="col">
 							<div class="row">
-								<div class="col bg-warning text-center">
+								<div class="col bg-info text-center">
 									<strong>Autres exercices<a name="exercices"></a></strong>
 								</div>
 							</div>
@@ -664,7 +664,7 @@ require('includes/header.inc.php');
 					<div class="row mt-2">
 						<div class="col">
 							<div class="row">
-								<div class="col bg-warning text-center">
+								<div class="col bg-info text-center">
 									<strong>Travail à faire<a name="travail"></a></strong>
 								</div>
 							</div>
@@ -754,7 +754,7 @@ require('includes/header.inc.php');
 					<div class="row mt-2">
 						<div class="col">
 							<div class="row">
-								<div class="col bg-warning text-center">
+								<div class="col bg-info text-center">
 									<strong>Documents annexes <a name="annexes"></a></strong>
 								</div>
 							</div>

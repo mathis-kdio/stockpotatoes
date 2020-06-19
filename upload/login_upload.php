@@ -37,20 +37,8 @@ $css_deplus = "";
 
 require('include/headerUpload.inc.php');
 ?>
-<div class="row">
-	<div class="col-12">
+
 		<div class="row">
-			<h1>Espace Upload</h1>
-		</div>
-		<div class="row">
-			<div class="col-3">
-				<img class="img-fluid rounded mx-auto d-block" src="../patate.png" alt="hotpotatoes" title="hotpotatoes" height="150" width="150" />
-			</div>
-			<div class="col-9 align-middle">
-				<p class="h3 bg-warning text-center p-3" style="margin-top: 50px;">Connection à l'espace Upload</p>
-			</div>
-		</div>
-		<div class="row jumbotron">
 			<div class="col">
 				<?php 
 				if (htmlspecialchars($_GET['pass']) == 'bad')
@@ -77,8 +65,6 @@ require('include/headerUpload.inc.php');
 				</form>
 			</div>
 		</div>
-	</div>
-</div>
 <?php
 require('include/footerUpload.inc.php');
 ?>

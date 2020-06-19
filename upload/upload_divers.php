@@ -167,215 +167,200 @@ $js_deplus = "";
 $css_deplus = "";
 require('include/headerUpload.inc.php');
 ?>
-<div class="row">
-	<div class="col-12">
-		<div class="row">
-			<h1>Espace Upload</h1>
-		</div>
-		<div class="row">
-			<div class="col-3">
-				<img class="img-fluid rounded mx-auto d-block" src="../patate.png" alt="hotpotatoes" title="hotpotatoes" height="150" width="150" />
-			</div>
-			<div class="col-9 align-middle">
-				<p class="h3 bg-warning text-center p-3" style="margin-top: 50px;">Envoyer un document sur le serveur</p>
-			</div>
-		</div>
-		<div class="container jumbotron">
-			<form name="form1" method="post" action="upload_divers.php">
-				<div class="form-group row align-items-center justify-content-center">
-					<label for="matiere_ID" class="col-auto col-form-label">Matière :</label>
-					<div class="col-auto">
-						<select name="matiere_ID" id="select2" class="custom-select">
-							<?php
-							do { ?>
-								<option value="<?php echo $row_rs_matiere['ID_mat']?>"<?php if (isset($matiereId)) { if (!(strcmp($row_rs_matiere['ID_mat'], $matiereId))) {echo "SELECTED";} }  ?>><?php echo $row_rs_matiere['nom_mat']?></option>
-								<?php
-							} while ($row_rs_matiere = mysqli_fetch_assoc($rs_matiere)); ?>
-						</select>
-					</div>
-					<label for="niveau_ID" class="col-auto col-form-label">Niveau :</label>
-					<div class="col-auto">
-						<select name="niveau_ID" id="niveau_ID" class="custom-select">
-							<?php
-							do { ?>
-								<option value="<?php echo $row_rs_niveau['ID_niveau']?>"<?php if (isset($niveauId)) { if (!(strcmp($row_rs_niveau['ID_niveau'], $niveauId))) {echo "SELECTED";} } ?>><?php echo $row_rs_niveau['nom_niveau']?></option>
-								<?php
-							} while ($row_rs_niveau = mysqli_fetch_assoc($rs_niveau)); ?>
-						</select>
-					</div>
-					<div class="col-auto">
-						<button type="submit" name="Submit" class="btn btn-primary">Sélectionner</button>
-					</div>
-				</div>
-			</form>
-			<?php if (isset($matiereId)) 
-			{ ?>
-				<h1 class="text-center mb-5"><?php echo $row_RsChoixMatiere['nom_mat'];?></h1>
 
-				<form method="post" name="form1" id="formulaire" action="upload_divers.php">
-					<div class="form-group form-row justify-content-right align-items-center">
-						<div class="col-auto">
-							<span class="text-right"> Ce fichier sera dans l'étude du thème:</span>
-						</div>
-						<div class="col-auto">
-							<select class="form-control" name="theme_ID" id="select">
-								<option value="value">Selectionnez un thème</option>
-								<?php
-								do 
-								{ ?>
-									<option value="<?php echo $row_RsTheme['ID_theme']?>"><?php echo $row_RsTheme['theme']?></option>
-									<?php
-								} while ($row_RsTheme = mysqli_fetch_assoc($RsTheme)); ?>
-							</select>
-						</div>
-						<div class="col-auto">
-							<a class="btn btn-primary" href="../enseignant/gestion_theme.php" role="button">Ajouter un nouveau thème</a>
-						</div>
-					</div>
-					<div class="form-group form-row justify-content-right align-items-center">
-						<div class="col-auto">
-							<span class="text-right">Ce fichier sera dans la catégorie:</span>
-						</div>
-						<div class="col-auto">
-							<select class="form-control" name="categorie_ID" id="select">
-								<option value="value">Selectionnez une catégorie</option>
-								<?php
-								do 
-								{ ?>
-									<option value="<?php echo $row_RsCategorie['ID_categorie']?>"><?php echo $row_RsCategorie['nom_categorie'];?></option>
-									<?php
-								} while ($row_RsCategorie = mysqli_fetch_assoc($RsCategorie));?>
-							</select>
-						</div>
-						<div class="col-auto">
-							<a class="btn btn-primary" href="../enseignant/gestion_categorie.php" role="button">Ajouter une nouvelle catégorie</a>
-						</div>
-					</div>
-					<div class="form-group form-row justify-content-right align-items-center">
-						<div class="col-auto">
-							<span class="text-right">Titre du document: <span class="font-weight-bold text-danger">(Obligatoire)</span>:</span>
-						</div>
-						<div class="col-auto">
-							<input type="text" class="form-control" name="titre" placeholder="Titre non utilisé de préférence">
-						</div>
-					</div>
-					<div class="form-group form-row justify-content-right align-items-center">
-						<div class="col-auto">
-							<span class="text-right">Ajouter le fichier:</span>
-						</div>
-						<div class="col-auto">
-							<div class="custom-file">
-							  <input type="file" class="custom-file-input" name="fichier" id="customFile">
-							  <label class="custom-file-label" for="customFile">Veuillez choisir un fichier</label>
-							</div>
-						</div>
-						<input type="hidden" name="MM_insert" value="form1">
-						<input type="hidden" name="MAX_FILE_SIZE" value="100000000">
-						<input name="matiere_ID" type="hidden" id="matiere_ID" value="<?php echo $matiereId;?>"> 
-						<input name="niveau_ID" type="hidden" id="niveau_ID" value="<?php echo $niveauId;?>"> 
-						<input name="nom_mat" type="hidden" id="nom_mat" value="<?php echo htmlspecialchars($_POST['nom_mat']);?>"> 
-					</div>
-					<div class="form-group form-row justify-content-right align-items-center">
-						<div class="col-auto">
-							<span class="text-right">Ce document est à classer dans:</span>
-						</div>
-						<div class="col-auto">
-							<div class="form-check form-check-inline">
-  							<input class="form-check-input" type="radio" name="cat_doc" id="cat_doc1" value="1" checked>
-  							<label class="form-check-label" for="cat_doc1">Cours</label>
-							</div>
-							<div class="form-check form-check-inline">
-  							<input class="form-check-input" type="radio" name="cat_doc" id="cat_doc3" value="3">
-  							<label class="form-check-label" for="cat_doc3">Exercices</label>
-							</div>
-							<div class="form-check form-check-inline">
-  							<input class="form-check-input" type="radio" name="cat_doc" id="cat_doc4" value="4">
-  							<label class="form-check-label" for="cat_doc4">Travail à faire</label>
-							</div>
-							<div class="form-check form-check-inline">
-  							<input class="form-check-input" type="radio" name="cat_doc" id="cat_doc5" value="5">
-  							<label class="form-check-label" for="cat_doc5">Annexes</label>
-							</div>
-						</div>
-					</div>
-					<div class="form-group form-row justify-content-right align-items-center">
-						<div class="col-auto">
-							<span class="text-right">Nature du document:</span>
-						</div>
-						<div class="col-auto">
-							<select class="form-control" name="type_doc" size="1" id="type_doc">
-								<option value="4">Page Web</option>
-								<option value="5">Document Word</option>
-								<option value="6">Document Excel</option>
-								<option value="7">Document Powerpoint</option>
-								<option value="8">Document Pdf</option>
-								<option value="9">Présentation OpenOffice</option>
-								<option value="10">Trait. Texte OpenOffice</option>
-								<option value="11">Tableur Open Office</option>
-								<option value="12">Image fixe</option>
-								<option value="13">Animation</option>
-								<option value="14">Audio</option>
-								<option value="15">Vidéo</option>
-								<option value="16">Autre</option>
-							</select>
-						</div>
-					</div>
-					<div class="form-group form-row justify-content-right align-items-center">
-						<div class="col-auto">
-							<span class="text-right">Vous pouvez ajouter un auteur:</span>
-						</div>
-						<div class="col-auto">
-							<input type="text" class="form-control" name="auteur" placeholder="Nom de l'auteur">
-						</div>
-					</div>
-					<div class="form-group form-row justify-content-right align-items-center">
-						<div class="col-auto">
-							<span class="text-right">Mode Entraînement:</span>
-						</div>
-						<div class="col-auto">
-							<div class="form-check">
-							  <input class="form-check-input" type="checkbox" value="O" name="en_ligne" id="en_ligne" checked>
-							  <label class="form-check-label" for="en_ligne">
-									<span class="font-italic text-danger">Le document peut être vu sans que l'élève soit identifié.</span>
-							  </label>
-							</div>
-						</div>
-					</div>
-					<div class="form-group form-row justify-content-right align-items-center">
-						<div class="col-auto">
-							<span class="text-right">Mode Evaluation:</span>
-						</div>
-						<div class="col-auto">
-							<div class="form-check">
-							  <input class="form-check-input" type="checkbox" value="O" name="avec_score" id="avec_score" checked>
-							  <label class="form-check-label" for="avec_score">
-									<span class="font-italic text-danger">Le document peut être vu par l'élève en s'identifiant</span>
-							  </label>
-							</div>
-						</div>
-					</div>
-					<div class="form-group form-row justify-content-right align-items-center">
-						<div class="col-auto">
-							<span class="text-right">Une seule consultation:</span>
-						</div>
-						<div class="col-auto">
-							<div class="form-check">
-							  <input class="form-check-input" type="checkbox" value="O" name="evaluation_seul" id="evaluation_seul">
-							  <label class="form-check-label" for="evaluation_seul">
-									<span class="font-italic text-danger">En mode évaluation, le document ne pourra être vu qu'une seule fois</span>
-							  </label>
-							</div>
-						</div>
-					</div>
-					<p class="font-italic text-danger">Les paramètres ci-dessus tels que le choix du mode, pourront être modifiés par la suite (voir Espace Enseignant - Gestion des exercices ).</p>
-					<div class="form-group text-center">
-						<button type="submit" name="submit2" class="btn btn-primary" value="Envoyer votre document sur le serveur">Envoyer votre document sur le serveur</button>
-					</div>
-				</form>
-			<?php } ?>
+<form name="form1" method="post" action="upload_divers.php">
+	<div class="form-group row align-items-center justify-content-center">
+		<label for="matiere_ID" class="col-auto col-form-label">Matière :</label>
+		<div class="col-auto">
+			<select name="matiere_ID" id="select2" class="custom-select">
+				<?php
+				do { ?>
+					<option value="<?php echo $row_rs_matiere['ID_mat']?>"<?php if (isset($matiereId)) { if (!(strcmp($row_rs_matiere['ID_mat'], $matiereId))) {echo "SELECTED";} }  ?>><?php echo $row_rs_matiere['nom_mat']?></option>
+					<?php
+				} while ($row_rs_matiere = mysqli_fetch_assoc($rs_matiere)); ?>
+			</select>
+		</div>
+		<label for="niveau_ID" class="col-auto col-form-label">Niveau :</label>
+		<div class="col-auto">
+			<select name="niveau_ID" id="niveau_ID" class="custom-select">
+				<?php
+				do { ?>
+					<option value="<?php echo $row_rs_niveau['ID_niveau']?>"<?php if (isset($niveauId)) { if (!(strcmp($row_rs_niveau['ID_niveau'], $niveauId))) {echo "SELECTED";} } ?>><?php echo $row_rs_niveau['nom_niveau']?></option>
+					<?php
+				} while ($row_rs_niveau = mysqli_fetch_assoc($rs_niveau)); ?>
+			</select>
+		</div>
+		<div class="col-auto">
+			<button type="submit" name="Submit" class="btn btn-primary">Sélectionner</button>
 		</div>
 	</div>
-</div>
+</form>
+<?php if (isset($matiereId)) 
+{ ?>
+	<h1 class="text-center mb-5"><?php echo $row_RsChoixMatiere['nom_mat'];?></h1>
+
+	<form method="post" name="form1" id="formulaire" action="upload_divers.php">
+		<div class="form-group form-row justify-content-right align-items-center">
+			<div class="col-auto">
+				<span class="text-right"> Ce fichier sera dans l'étude du thème:</span>
+			</div>
+			<div class="col-auto">
+				<select class="form-control" name="theme_ID" id="select">
+					<option value="value">Selectionnez un thème</option>
+					<?php
+					do 
+					{ ?>
+						<option value="<?php echo $row_RsTheme['ID_theme']?>"><?php echo $row_RsTheme['theme']?></option>
+						<?php
+					} while ($row_RsTheme = mysqli_fetch_assoc($RsTheme)); ?>
+				</select>
+			</div>
+			<div class="col-auto">
+				<a class="btn btn-primary" href="../enseignant/gestion_theme.php" role="button">Ajouter un nouveau thème</a>
+			</div>
+		</div>
+		<div class="form-group form-row justify-content-right align-items-center">
+			<div class="col-auto">
+				<span class="text-right">Ce fichier sera dans la catégorie:</span>
+			</div>
+			<div class="col-auto">
+				<select class="form-control" name="categorie_ID" id="select">
+					<option value="value">Selectionnez une catégorie</option>
+					<?php
+					do 
+					{ ?>
+						<option value="<?php echo $row_RsCategorie['ID_categorie']?>"><?php echo $row_RsCategorie['nom_categorie'];?></option>
+						<?php
+					} while ($row_RsCategorie = mysqli_fetch_assoc($RsCategorie));?>
+				</select>
+			</div>
+			<div class="col-auto">
+				<a class="btn btn-primary" href="../enseignant/gestion_categorie.php" role="button">Ajouter une nouvelle catégorie</a>
+			</div>
+		</div>
+		<div class="form-group form-row justify-content-right align-items-center">
+			<div class="col-auto">
+				<span class="text-right">Titre du document: <span class="font-weight-bold text-danger">(Obligatoire)</span>:</span>
+			</div>
+			<div class="col-auto">
+				<input type="text" class="form-control" name="titre" placeholder="Titre non utilisé de préférence">
+			</div>
+		</div>
+		<div class="form-group form-row justify-content-right align-items-center">
+			<div class="col-auto">
+				<span class="text-right">Ajouter le fichier:</span>
+			</div>
+			<div class="col-auto">
+				<div class="custom-file">
+				  <input type="file" class="custom-file-input" name="fichier" id="customFile">
+				  <label class="custom-file-label" for="customFile">Veuillez choisir un fichier</label>
+				</div>
+			</div>
+			<input type="hidden" name="MM_insert" value="form1">
+			<input type="hidden" name="MAX_FILE_SIZE" value="100000000">
+			<input name="matiere_ID" type="hidden" id="matiere_ID" value="<?php echo $matiereId;?>"> 
+			<input name="niveau_ID" type="hidden" id="niveau_ID" value="<?php echo $niveauId;?>"> 
+			<input name="nom_mat" type="hidden" id="nom_mat" value="<?php echo htmlspecialchars($_POST['nom_mat']);?>"> 
+		</div>
+		<div class="form-group form-row justify-content-right align-items-center">
+			<div class="col-auto">
+				<span class="text-right">Ce document est à classer dans:</span>
+			</div>
+			<div class="col-auto">
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="cat_doc" id="cat_doc1" value="1" checked>
+					<label class="form-check-label" for="cat_doc1">Cours</label>
+				</div>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="cat_doc" id="cat_doc3" value="3">
+					<label class="form-check-label" for="cat_doc3">Exercices</label>
+				</div>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="cat_doc" id="cat_doc4" value="4">
+					<label class="form-check-label" for="cat_doc4">Travail à faire</label>
+				</div>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="cat_doc" id="cat_doc5" value="5">
+					<label class="form-check-label" for="cat_doc5">Annexes</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group form-row justify-content-right align-items-center">
+			<div class="col-auto">
+				<span class="text-right">Nature du document:</span>
+			</div>
+			<div class="col-auto">
+				<select class="form-control" name="type_doc" size="1" id="type_doc">
+					<option value="4">Page Web</option>
+					<option value="5">Document Word</option>
+					<option value="6">Document Excel</option>
+					<option value="7">Document Powerpoint</option>
+					<option value="8">Document Pdf</option>
+					<option value="9">Présentation OpenOffice</option>
+					<option value="10">Trait. Texte OpenOffice</option>
+					<option value="11">Tableur Open Office</option>
+					<option value="12">Image fixe</option>
+					<option value="13">Animation</option>
+					<option value="14">Audio</option>
+					<option value="15">Vidéo</option>
+					<option value="16">Autre</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group form-row justify-content-right align-items-center">
+			<div class="col-auto">
+				<span class="text-right">Vous pouvez ajouter un auteur:</span>
+			</div>
+			<div class="col-auto">
+				<input type="text" class="form-control" name="auteur" placeholder="Nom de l'auteur">
+			</div>
+		</div>
+		<div class="form-group form-row justify-content-right align-items-center">
+			<div class="col-auto">
+				<span class="text-right">Mode Entraînement:</span>
+			</div>
+			<div class="col-auto">
+				<div class="form-check">
+				  <input class="form-check-input" type="checkbox" value="O" name="en_ligne" id="en_ligne" checked>
+				  <label class="form-check-label" for="en_ligne">
+						<span class="font-italic text-danger">Le document peut être vu sans que l'élève soit identifié.</span>
+				  </label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group form-row justify-content-right align-items-center">
+			<div class="col-auto">
+				<span class="text-right">Mode Evaluation:</span>
+			</div>
+			<div class="col-auto">
+				<div class="form-check">
+				  <input class="form-check-input" type="checkbox" value="O" name="avec_score" id="avec_score" checked>
+				  <label class="form-check-label" for="avec_score">
+						<span class="font-italic text-danger">Le document peut être vu par l'élève en s'identifiant</span>
+				  </label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group form-row justify-content-right align-items-center">
+			<div class="col-auto">
+				<span class="text-right">Une seule consultation:</span>
+			</div>
+			<div class="col-auto">
+				<div class="form-check">
+				  <input class="form-check-input" type="checkbox" value="O" name="evaluation_seul" id="evaluation_seul">
+				  <label class="form-check-label" for="evaluation_seul">
+						<span class="font-italic text-danger">En mode évaluation, le document ne pourra être vu qu'une seule fois</span>
+				  </label>
+				</div>
+			</div>
+		</div>
+		<p class="font-italic text-danger">Les paramètres ci-dessus tels que le choix du mode, pourront être modifiés par la suite (voir Espace Enseignant - Gestion des exercices ).</p>
+		<div class="form-group text-center">
+			<button type="submit" name="submit2" class="btn btn-primary" value="Envoyer votre document sur le serveur">Envoyer votre document sur le serveur</button>
+		</div>
+	</form>
+<?php } ?>
+
 <?php
 require('include/footerUpload.inc.php');
 mysqli_free_result($rs_matiere);

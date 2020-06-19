@@ -24,12 +24,15 @@ if ((isset($_POST["changementCouleurs"])) && ($_POST["changementCouleurs"] == "1
 		$configTheme = new Lire('../includes/config.yml');
 		$_Theme_ = $configTheme->GetTableau();
 		$_Theme_['color']["theme"]['main'] = $_POST["color_theme_main"];
+		$_Theme_['color']["theme"]['second'] = $_POST["color_theme_second"];
 		$_Theme_['color']["theme"]['hover'] = $_POST["color_theme_hover"];
 		$_Theme_['color']["theme"]['focus'] = $_POST["color_theme_focus"];
 		new Ecrire('../includes/config.yml', $_Theme_);
 	}
 }
 
+$lecture = new Lire('../includes/config.yml');
+$lecture = $lecture->GetTableau();
 
 $titre_page = "Gestion du thème de Stockpotatoes";
 $meta_description = "Page de gestion du thème de Stockpotatoes";
@@ -39,15 +42,17 @@ $css_deplus = "";
 
 require('include/headerAdministrateur.inc.php');
 ?>
-<h5 class="text-center">Cliquez sur chaque couleur case pour modifier puis valider</h5>
+<h5 class="text-center">Cliquez sur chaque case pour modifier la couleur puis valider</h5>
 <div class="row justify-content-center">
 	<div class="col-auto">
 		<form method="POST" action="gestion_theme.php" >
 			<div class="form-group">
-				<?php $lecture = new Lire('../includes/config.yml');
-				$lecture = $lecture->GetTableau()?>
 				<label for="color_theme_main" class="col-auto col-form-label">Couleur principale :</label>
 				<input type="color" name="color_theme_main" class="form-control" <?php if(isset($lecture["color"]["theme"]["main"])) echo ' value="'.$lecture["color"]["theme"]["main"].'"'?>>
+			</div>
+			<div class="form-group">
+				<label for="color_theme_second" class="col-auto col-form-label">Couleur secondaire :</label>
+				<input type="color" name="color_theme_second" class="form-control" <?php if(isset($lecture["color"]["theme"]["second"])) echo ' value="'.$lecture["color"]["theme"]["second"].'"'?>>
 			</div>
 			<div class="form-group">
 				<label for="color_theme_hover" class="col-auto col-form-label">Couleur lors du survol :</label>

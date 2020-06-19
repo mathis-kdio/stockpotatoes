@@ -13,7 +13,8 @@ $config = $config->GetTableau();
 	<head>
 		<style>
 		:root {
-			--color-main: <?=$config["color"]["theme"]["main"]?>; 
+			--color-main: <?=$config["color"]["theme"]["main"]?>;
+			--color-second: <?=$config["color"]["theme"]["second"]?>; 
 			--color-hover: <?=$config["color"]["theme"]["hover"]?>; 
 			--color-focus: <?=$config["color"]["theme"]["focus"]?>; 
 		}

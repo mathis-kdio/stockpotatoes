@@ -1,9 +1,11 @@
+---
 General:
-    url: 
-    name: 
-    description: 
+    url: ""
+    name: ""
+    description: ""
 color:
     theme:
-        main: '#0080c0'
-        hover: '#0080ff'
-        focus: '#2080c0'
+        main: '#ff0000'
+        second: '#008000'
+        hover: '#00ff40'
+        focus: '#ff8000'

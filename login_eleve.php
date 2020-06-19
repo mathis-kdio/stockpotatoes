@@ -73,11 +73,11 @@ require('includes/header.inc.php');
 
 ?>
 <div class="row mt-3">
-	<div class="col bg-warning text-center shadow">
+	<div class="col bg-info text-center shadow">
 		<h3 class="">Espace Elève - Mode Evaluation - Identification de l'élève</h3>
 	</div>
 </div>
-<div class="row pt-2 pb-2 mt-3 shadow bg-warning justify-content-center"> 
+<div class="row pt-2 pb-2 mt-3 shadow bg-info justify-content-center"> 
 	<form name="form2" method="post" action="login_eleve.php">
 		<div class="form-group">
 			<label for="classe">Sélectionnez votre classe</label>
@@ -100,7 +100,7 @@ require('includes/header.inc.php');
 <br/><br/>
 <?php if (isset($_POST['classe'])) 
 { ?>
-	<div class="row mt-3 shadow bg-warning justify-content-center">
+	<div class="row mt-3 shadow bg-info justify-content-center">
 		<form name="form1" method="post" action="login_eleve.php">
 			<div class="form-group">
 			    <label for="log">Sélectionnez votre nom</label>

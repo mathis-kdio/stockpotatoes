@@ -108,20 +108,6 @@ $css_deplus = "";
 require('include/headerUpload.inc.php');
 ?>
 
-<div class="row">
-	<div class="col-12">
-		<div class="row">
-			<h1>Espace Upload</h1>
-		</div>
-		<div class="row">
-			<div class="col-3">
-				<img class="img-fluid rounded mx-auto d-block" src="../patate.png" alt="hotpotatoes" title="hotpotatoes" height="150" width="150" />
-			</div>
-			<div class="col-9 align-middle">
-				<p class="h3 bg-warning text-center p-3" style="margin-top: 50px;">Menu d'ajout de fichiers joints</p>
-			</div>
-		</div>
-		<div class="container jumbotron">
 			<form name="form1" method="GET" action="modif_select.php">
 				<div class="form-group row align-items-center justify-content-center">
 					<label for="matiere_ID" class="col-auto col-form-label">Matière :</label>
@@ -226,9 +212,7 @@ require('include/headerUpload.inc.php');
 					</table>
 				<?php } 
 			} ?>
-		</div>
-	</div>
-</div>
+
 <?php
 require('include/footerUpload.inc.php');
 mysqli_free_result($rs_matiere);

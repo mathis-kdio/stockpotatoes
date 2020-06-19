@@ -24,7 +24,7 @@ include("../includes/version.php");
 $versionrecente = file_get_contents('https://stockpotatoes.ovh/version.txt');
 if ($versionrecente != $versioninstallee)
 { ?>
-	<div class="card text-white bg-warning mb-3">
+	<div class="card text-white bg-info mb-3">
 		<div class="card-body text-dark">
 			<h5 class="card-title text-center">Mise à jour Stockpotatoes disponible</h5>
 			<p class="card-text">Vous possédez la version <?php echo $versioninstallee;?> et la version <?php echo $versionrecente;?> est disponible. Si vous êtes l'adminsitrateur rendez-vous dans l'Espace Administrateur pour voir la marche à suivre.</p>
@@ -35,7 +35,7 @@ if ($versionrecente != $versioninstallee)
 
 <div class="row mb-5">
 		<div class="col-6">
-			<h3 class="bg-warning shadow text-center pb-2 mb-4">Listes des exercices</h3>
+			<h3 class="bg-info shadow text-center pb-2 mb-4">Listes des exercices</h3>
 			<div class="list-group">
 				<a href="liste_quiz_recent.php" class="list-group-item list-group-item-action list-group-item-primary">Liste des derniers exercices publiés</a>
 				<a href="liste_quiz_publie.php" class="list-group-item list-group-item-action list-group-item-primary">Liste des exercices publiés dans une matière</a>
@@ -44,7 +44,7 @@ if ($versionrecente != $versioninstallee)
 			</div>
 		</div>
 		<div class="col-6">
-			<h3 class="bg-warning shadow text-center pb-2 mb-4">Listes des résultats</h3>
+			<h3 class="bg-info shadow text-center pb-2 mb-4">Listes des résultats</h3>
 			<div class="list-group">
 				<a href="liste_activite.php" class="list-group-item list-group-item-action list-group-item-primary">Les dernières activités</a>
 				<a href="liste_resultat_quiz_classe.php" class="list-group-item list-group-item-action list-group-item-primary">Résultats à un exercice dans une classe</a>
@@ -56,7 +56,7 @@ if ($versionrecente != $versioninstallee)
 </div>
 <div class="row">
 		<div class="col-6">
-			<h3 class="bg-warning shadow text-center pb-2 mb-4">Gestion</h3>
+			<h3 class="bg-info shadow text-center pb-2 mb-4">Gestion</h3>
 			<div class="list-group">
 				<a href="gestion_exos.php" class="list-group-item list-group-item-action list-group-item-primary">Gestion des exercices - Modification - Suppression</a>
 				<a href="gestion_theme.php" class="list-group-item list-group-item-action list-group-item-primary">Gestion des thèmes d'étude dans une matière</a>
@@ -66,7 +66,7 @@ if ($versionrecente != $versioninstallee)
 			</div>
 		</div>
 		<div class="col-6">
-			<h3 class="bg-warning shadow text-center pb-2 mb-4">Documentations</h3>
+			<h3 class="bg-info shadow text-center pb-2 mb-4">Documentations</h3>
 			<div class="list-group">
 				<a href="../documentation.htm" target="_blank" class="list-group-item list-group-item-action list-group-item-primary">Documentation complète</a>
 				<a href="config.php" class="list-group-item list-group-item-action list-group-item-primary">Aide pour les enseignants</a>

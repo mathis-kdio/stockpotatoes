@@ -23,7 +23,7 @@ include("../includes/version.php");
 $versionrecente = file_get_contents('https://stockpotatoes.ovh/version.txt');
 if ($versionrecente != $versioninstallee)
 { ?>
-	<div class="card text-white bg-warning mb-3">
+	<div class="card text-white bg-info mb-3">
 		<div class="card-body text-dark">
 			<h5 class="card-title text-center">Mise à jour Stockpotatoes disponible</h5>
 			<p class="card-text">Vous possédez la version <?php echo $versioninstallee;?> et la version <?php echo $versionrecente;?> est disponible. Rendez vous sur la page mise à jour ou directement sur <a href="https://stockpotatoes.ovh/telechargement.php">Stockpotatoes.ovh</a>.</p>
@@ -34,7 +34,7 @@ if ($versionrecente != $versioninstallee)
 
 <div class="row mb-5">
 	<div class="col-6">
-		<h3 class="bg-warning shadow text-center pb-2 mb-4">Gestion</h3>
+		<h3 class="bg-info shadow text-center pb-2 mb-4">Gestion</h3>
 		<div class="list-group">
 			<a href="gestion_matiere_niveau.php" class="list-group-item list-group-item-action list-group-item-primary">Gestion des matières et niveaux</a>
 			<a href="gestion_eleve.php" class="list-group-item list-group-item-action list-group-item-primary">Gestion des élèves</a>
@@ -44,7 +44,7 @@ if ($versionrecente != $versioninstallee)
 		</div>
 	</div>
 	<div class="col-6">
-		<h3 class="bg-warning shadow text-center pb-2 mb-4">Paramétrage</h3>
+		<h3 class="bg-info shadow text-center pb-2 mb-4">Paramétrage</h3>
 		<div class="list-group">
 			<a href="../enseignant/config.php" class="list-group-item list-group-item-action list-group-item-primary">Paramétrage du Hotpotatoes des enseignants</a>
 			<a href="install_param.php" class="list-group-item list-group-item-action list-group-item-primary">Paramétrage de la connexion à la base de données</a>
@@ -55,7 +55,7 @@ if ($versionrecente != $versioninstallee)
 </div>
 <div class="row">
 	<div class="col-12">
-		<h3 class="bg-warning shadow text-center pb-2 mb-4">Documentations</h3>
+		<h3 class="bg-info shadow text-center pb-2 mb-4">Documentations</h3>
 		<div class="list-group">
 			<a href="../documentation.htm" target="_blank" class="list-group-item list-group-item-action list-group-item-primary">Documentation complète</a>
 			<a href="aide_editeur.php" class="list-group-item list-group-item-action list-group-item-primary">Aide sur le fonctionnement de l'éditeur</a>

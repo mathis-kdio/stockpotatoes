@@ -144,12 +144,10 @@ require('includes/header.inc.php');
 </div>
 <!-- FORM pour le choix de la matière et du niveau-->
 <form name="form1" method="GET" action="accueil_eleve.php">
-	<div class="row pt-2 pb-2 shadow bg-info align-items-center">
-		<div class="col-2 text-right">
-			<h6>Sélectionnez une matière:</h6>
-		</div>
-		<div class="col-2">
-			<select class="form-control" name="matiere_ID" id="select2">
+	<div class="form-group row align-items-center justify-content-center py-2 bg-info shadow">
+		<label for="matiere_ID" class="col-auto col-form-label">Sélectionnez une matière :</label>
+		<div class="col-auto">
+			<select class="custom-select" name="matiere_ID" id="select2">
 				<?php
 				do { ?>
 					<option value="<?php echo $row_rs_matiere['ID_mat']?>"<?php if (isset($matiereId)) { if (!(strcmp($row_rs_matiere['ID_mat'], $matiereId))) {echo "SELECTED";} } ?>><?php echo $row_rs_matiere['nom_mat']?></option>
@@ -157,11 +155,9 @@ require('includes/header.inc.php');
 				} while ($row_rs_matiere = mysqli_fetch_assoc($rs_matiere)); ?>
 			</select>
 		</div>
-		<div class="col-2 text-right">
-			<h6>Puis un niveau:</h6>
-		</div>
-		<div class="col-2">
-			<select class="form-control" name="niveau_ID" id="select">
+		<label for="niveau_ID" class="col-auto col-form-label">Puis un niveau :</label>
+		<div class="col-auto">
+			<select class="custom-select" name="niveau_ID" id="select">
 				<?php
 				do {
 				?>
@@ -170,11 +166,9 @@ require('includes/header.inc.php');
 				} while ($row_rs_niveau = mysqli_fetch_assoc($rs_niveau)); ?>
 			</select>
 		</div>
-		<div class="col-2 text-right">
-			<h6>Enfin validez:</h6>
-		</div>
-		<div class="col-2">
-			<button type="submit" class="btn btn-primary">Valider</button>
+		<label for="niveau_ID" class="col-auto col-form-label">Enfin validez :</label>
+		<div class="col-auto">
+			<button type="submit" name="submitMatNiv" class="btn btn-primary">Valider</button>
 		</div>
 	</div>
 </form>

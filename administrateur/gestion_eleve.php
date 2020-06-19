@@ -158,347 +158,330 @@ require('include/headerAdministrateur.inc.php');
 
 ?>
 <div class="row">
-	<div class="col-12">
+	<div class="col-7">
+		<h4>Liste des élèves</h4>
+		<form name="form2" style="margin:0px" method="post" action="gestion_eleve.php">
+			<div class="form-group">
+				<label for="select2">Sélectionnez une classe</label>
+				<select name="classe" id="select2" class="custom-select">
+					<?php
+					do 
+					{ ?>
+						<option value="<?php echo $row_rsClasse['classe']?>"<?php if (isset($classe)) { if (!(strcmp($row_rsClasse['classe'], $classe))) {echo "SELECTED";}} ?>><?php echo $row_rsClasse['classe']?></option>
+						<?php
+					} while ($row_rsClasse = mysqli_fetch_assoc($rsClasse));
+					$rows = mysqli_num_rows($rsClasse);
+					if($rows > 0)
+					{
+						mysqli_data_seek($rsClasse, 0);
+						$row_rsClasse = mysqli_fetch_assoc($rsClasse);
+					}
+					?>
+				</select>
+			</div>
+			<div class="form-group">
+				<button type="submit" name="Submit3" class="btn btn-primary">Sélectionner la classe</button>
+			</div>
+		</form>
 		<div class="row">
-			<h1>Espace Administrateur</h1>
+			<div class="col table-responsive">
+				<table class="table table-bordered table-striped table-sm">
+					<thead>
+						<tr> 
+							<th scope="col">ID</th>
+							<th scope="col">Identifiant</th>
+							<th scope="col">Nom</th>
+							<th scope="col">Prenom</th>
+							<th scope="col">Classe</th>
+							<th scope="col">Pass</th>
+							<th scope="col">Niv</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php 
+						do
+						{ ?>
+							<tr> 
+								<th scope="row"><?php echo $row_RsChoixClasse['ID_eleve']; ?></th>
+								<td><?php echo $row_RsChoixClasse['identifiant']; ?></td>
+								<td><?php echo $row_RsChoixClasse['nom']; ?></td>
+								<td><?php echo $row_RsChoixClasse['prenom']; ?></td>
+								<td><?php echo $row_RsChoixClasse['classe']; ?></td>
+								<td><?php echo $row_RsChoixClasse['pass']; ?></td>
+								<td><?php echo $row_RsChoixClasse['niveau']; ?></td>
+							</tr>
+							<?php 
+						} while ($row_RsChoixClasse = mysqli_fetch_assoc($RsChoixClasse)); ?>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="col-5"> 
+		<div class="row">
+			<div class="col">
+				<h4>Insérer des élèves depuis un fichier</h4>
+				<button name="Submit5" type="submit" class="btn btn-primary"  onClick="window.location = 'gestion_eleve_txt.php'">
+					C'est par ici !
+				</button>
+			</div>
 		</div>
 		<div class="row">
-			<div class="col-3">
-				<img class="img-fluid rounded mx-auto d-block" src="../patate.png" alt="hotpotatoes" title="hotpotatoes" height="150" width="150" />
-			</div>
-			<div class="col-9 align-middle">
-				<p class="h3 bg-warning text-center p-3" style="margin-top: 50px;">Gestion des élèves</p>
-			</div>
-		</div>
-		<div class="container jumbotron">
-			<div class="row">
-				<div class="col-7">
-					<h4>Liste des élèves</h4>
-					<form name="form2" style="margin:0px" method="post" action="gestion_eleve.php">
-						<div class="form-group">
-							<label for="select2">Sélectionnez une classe</label>
-							<select name="classe" id="select2" class="custom-select">
+			<div class="col">
+				<h4>Ajout d'un élève dans une classe existante</h4>
+				<form method="post" name="form3" action="gestion_eleve.php">
+					<div class="form-group">
+						<label for="nom">Nom :</label>
+							<input type="text" class="form-control" name="nom" id="nom">
+					</div>
+					<div class="form-group">
+						<label for="prenom">Prénom :</label>
+							<input type="text" class="form-control" name="prenom" id="prenom">
+					</div>
+					<div class="form-group">
+						<label for="classe">Classe :</label>
+						<select name="classe" id="classe" class="custom-select">
+							<?php
+							do 
+							{ ?>
+								<option value="<?php echo $row_rsClasse['classe']?>"><?php echo $row_rsClasse['classe']?></option>
 								<?php
-								do 
-								{ ?>
-									<option value="<?php echo $row_rsClasse['classe']?>"<?php if (isset($classe)) { if (!(strcmp($row_rsClasse['classe'], $classe))) {echo "SELECTED";}} ?>><?php echo $row_rsClasse['classe']?></option>
+							} while ($row_rsClasse = mysqli_fetch_assoc($rsClasse));
+							$rows = mysqli_num_rows($rsClasse);
+							if($rows > 0)
+							{
+								mysqli_data_seek($rsClasse, 0);
+								$row_rsClasse = mysqli_fetch_assoc($rsClasse);
+							} ?>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="pass">Mot de passe :</label>
+							<input type="text" class="form-control" name="pass" id="pass">
+					</div>
+					<div class="form-group">
+						<label for="niveau">Niveau :</label>
+						<select name="niveau" id="niveau" class="custom-select">
+							<?php
+							do 
+							{ ?>
+								<option value="<?php echo $row_RsNiveau['ID_niveau']?>"><?php echo $row_RsNiveau['nom_niveau']?></option>
+								<?php
+							} while ($row_RsNiveau = mysqli_fetch_assoc($RsNiveau));
+							$rows = mysqli_num_rows($RsNiveau);
+							if($rows > 0)
+							{
+								mysqli_data_seek($RsNiveau, 0);
+								$row_RsNiveau = mysqli_fetch_assoc($RsNiveau);
+							} ?>
+						</select>
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary">Ajouter cet(te) élève(e)</button>
+					</div>
+					<input type="hidden" name="ID_eleve" value="">
+					<input type="hidden" name="MM_insert" value="form3">
+				</form>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<h4>Ajout d'un élève avec création d'une nouvelle classe</h4>
+				<form method="post" name="form1" action="gestion_eleve.php">
+					<div class="form-group">
+						<label for="nom">Nom :</label>
+							<input type="text" class="form-control" name="nom" id="nom">
+					</div>
+					<div class="form-group">
+						<label for="prenom">Prénom :</label>
+							<input type="text" class="form-control" name="prenom" id="prenom">
+					</div>
+					<div class="form-group">
+						<label for="classe">Classe :</label>
+						<input type="text" class="form-control" name="classe" id="classe">
+					</div>
+					<div class="form-group">
+						<label for="pass">Mot de passe :</label>
+							<input type="text" class="form-control" name="pass" id="pass">
+					</div>
+					<div class="form-group">
+						<label for="niveau">Niveau :</label>
+						<select name="niveau" id="niveau" class="custom-select">
+							<?php
+							do 
+							{ ?>
+								<option value="<?php echo $row_RsNiveau['ID_niveau']?>"><?php echo $row_RsNiveau['nom_niveau']?></option>
+								<?php
+							} while ($row_RsNiveau = mysqli_fetch_assoc($RsNiveau));
+							$rows = mysqli_num_rows($RsNiveau);
+							if($rows > 0)
+							{
+								mysqli_data_seek($RsNiveau, 0);
+								$row_RsNiveau = mysqli_fetch_assoc($RsNiveau);
+							} ?>
+						</select>
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary">Ajouter cet(te) élève(e)</button>
+					</div>
+					<input type="hidden" name="ID_eleve" value="">
+					<input type="hidden" name="MM_insert" value="form1">
+				</form>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<h4>Suppression d'un élève</h4>
+				<form name="form2" method="post" action="gestion_eleve.php">
+					<div class="form-group">
+						<label for="classe">Classe :</label>
+						<select name="classe" id="classe" class="custom-select">
+							<?php
+							do 
+							{ ?>
+								<option value="<?php echo $row_rsClasse['classe']?>"<?php if(isset($classe)) { if (!(strcmp($row_rsClasse['classe'], $classe))) {echo "SELECTED";} }?>>
+									<?php echo $row_rsClasse['classe']?>
+								</option>
+								<?php
+							} while ($row_rsClasse = mysqli_fetch_assoc($rsClasse));
+							$rows = mysqli_num_rows($rsClasse);
+							if($rows > 0)
+							{
+								mysqli_data_seek($rsClasse, 0);
+								$row_rsClasse = mysqli_fetch_assoc($rsClasse);
+							} ?>
+						</select>
+					</div>
+					<div class="form-group">
+						<button type="submit" name="Submit4" class="btn btn-primary">Sélectionner la classe</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<?php if (isset($classe))
+		{ ?>
+			<div class="row">
+				<div class="col-10 offset-2">
+					<form name="form4" method="get" action="gestion_eleve.php">
+						<div class="form-group">
+							<label for="select3">Elève :</label>
+							<select name="numsupeleve" id="select3" class="custom-select">
+								<?php
+								do {  
+								?>
+									<option value="<?php echo $row_Rschoixeleve['ID_eleve']?>"<?php if(isset($numeleve)) { if (!(strcmp($row_Rschoixeleve['ID_eleve'], $numeleve))) {echo "SELECTED";} }?>><?php echo $row_Rschoixeleve['ID_eleve'].' '.$row_Rschoixeleve['nom'].' '.$row_Rschoixeleve['prenom']?></option>
 									<?php
-								} while ($row_rsClasse = mysqli_fetch_assoc($rsClasse));
-								$rows = mysqli_num_rows($rsClasse);
+								} while ($row_Rschoixeleve = mysqli_fetch_assoc($Rschoixeleve));
+								$rows = mysqli_num_rows($Rschoixeleve);
 								if($rows > 0)
 								{
-									mysqli_data_seek($rsClasse, 0);
-									$row_rsClasse = mysqli_fetch_assoc($rsClasse);
-								}
-								?>
+									mysqli_data_seek($Rschoixeleve, 0);
+									$row_Rschoixeleve = mysqli_fetch_assoc($Rschoixeleve);
+								} ?>
 							</select>
 						</div>
 						<div class="form-group">
-							<button type="submit" name="Submit3" class="btn btn-primary">Sélectionner la classe</button>
+							<button type="submit" name="Submit22" class="btn btn-primary">Supprimer cet élève</button>
 						</div>
+						<input name="classe" type="hidden" id="select" value="<?php echo $classe?>">
 					</form>
-					<div class="row">
-						<div class="col table-responsive">
-							<table class="table table-bordered table-striped table-sm">
-								<thead>
-									<tr> 
-										<th scope="col">ID</th>
-										<th scope="col">Identifiant</th>
-										<th scope="col">Nom</th>
-										<th scope="col">Prenom</th>
-										<th scope="col">Classe</th>
-										<th scope="col">Pass</th>
-										<th scope="col">Niv</th>
-									</tr>
-								</thead>
-								<tbody>
-									<?php 
-									do
-									{ ?>
-										<tr> 
-											<th scope="row"><?php echo $row_RsChoixClasse['ID_eleve']; ?></th>
-											<td><?php echo $row_RsChoixClasse['identifiant']; ?></td>
-											<td><?php echo $row_RsChoixClasse['nom']; ?></td>
-											<td><?php echo $row_RsChoixClasse['prenom']; ?></td>
-											<td><?php echo $row_RsChoixClasse['classe']; ?></td>
-											<td><?php echo $row_RsChoixClasse['pass']; ?></td>
-											<td><?php echo $row_RsChoixClasse['niveau']; ?></td>
-										</tr>
-										<?php 
-									} while ($row_RsChoixClasse = mysqli_fetch_assoc($RsChoixClasse)); ?>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-				<div class="col-5"> 
-					<div class="row">
-						<div class="col">
-							<h4>Insérer des élèves depuis un fichier</h4>
-							<button name="Submit5" type="submit" class="btn btn-primary"  onClick="window.location = 'gestion_eleve_txt.php'">
-								C'est par ici !
-							</button>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col">
-							<h4>Ajout d'un élève dans une classe existante</h4>
-							<form method="post" name="form3" action="gestion_eleve.php">
-								<div class="form-group">
-									<label for="nom">Nom :</label>
-										<input type="text" class="form-control" name="nom" id="nom">
-								</div>
-								<div class="form-group">
-									<label for="prenom">Prénom :</label>
-										<input type="text" class="form-control" name="prenom" id="prenom">
-								</div>
-								<div class="form-group">
-									<label for="classe">Classe :</label>
-									<select name="classe" id="classe" class="custom-select">
-										<?php
-										do 
-										{ ?>
-											<option value="<?php echo $row_rsClasse['classe']?>"><?php echo $row_rsClasse['classe']?></option>
-											<?php
-										} while ($row_rsClasse = mysqli_fetch_assoc($rsClasse));
-										$rows = mysqli_num_rows($rsClasse);
-										if($rows > 0)
-										{
-											mysqli_data_seek($rsClasse, 0);
-											$row_rsClasse = mysqli_fetch_assoc($rsClasse);
-										} ?>
-									</select>
-								</div>
-								<div class="form-group">
-									<label for="pass">Mot de passe :</label>
-										<input type="text" class="form-control" name="pass" id="pass">
-								</div>
-								<div class="form-group">
-									<label for="niveau">Niveau :</label>
-									<select name="niveau" id="niveau" class="custom-select">
-										<?php
-										do 
-										{ ?>
-											<option value="<?php echo $row_RsNiveau['ID_niveau']?>"><?php echo $row_RsNiveau['nom_niveau']?></option>
-											<?php
-										} while ($row_RsNiveau = mysqli_fetch_assoc($RsNiveau));
-										$rows = mysqli_num_rows($RsNiveau);
-										if($rows > 0)
-										{
-											mysqli_data_seek($RsNiveau, 0);
-											$row_RsNiveau = mysqli_fetch_assoc($RsNiveau);
-										} ?>
-									</select>
-								</div>
-								<div class="form-group">
-									<button type="submit" class="btn btn-primary">Ajouter cet(te) élève(e)</button>
-								</div>
-								<input type="hidden" name="ID_eleve" value="">
-								<input type="hidden" name="MM_insert" value="form3">
-							</form>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col">
-							<h4>Ajout d'un élève avec création d'une nouvelle classe</h4>
-							<form method="post" name="form1" action="gestion_eleve.php">
-								<div class="form-group">
-									<label for="nom">Nom :</label>
-										<input type="text" class="form-control" name="nom" id="nom">
-								</div>
-								<div class="form-group">
-									<label for="prenom">Prénom :</label>
-										<input type="text" class="form-control" name="prenom" id="prenom">
-								</div>
-								<div class="form-group">
-									<label for="classe">Classe :</label>
-									<input type="text" class="form-control" name="classe" id="classe">
-								</div>
-								<div class="form-group">
-									<label for="pass">Mot de passe :</label>
-										<input type="text" class="form-control" name="pass" id="pass">
-								</div>
-								<div class="form-group">
-									<label for="niveau">Niveau :</label>
-									<select name="niveau" id="niveau" class="custom-select">
-										<?php
-										do 
-										{ ?>
-											<option value="<?php echo $row_RsNiveau['ID_niveau']?>"><?php echo $row_RsNiveau['nom_niveau']?></option>
-											<?php
-										} while ($row_RsNiveau = mysqli_fetch_assoc($RsNiveau));
-										$rows = mysqli_num_rows($RsNiveau);
-										if($rows > 0)
-										{
-											mysqli_data_seek($RsNiveau, 0);
-											$row_RsNiveau = mysqli_fetch_assoc($RsNiveau);
-										} ?>
-									</select>
-								</div>
-								<div class="form-group">
-									<button type="submit" class="btn btn-primary">Ajouter cet(te) élève(e)</button>
-								</div>
-								<input type="hidden" name="ID_eleve" value="">
-								<input type="hidden" name="MM_insert" value="form1">
-							</form>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col">
-							<h4>Suppression d'un élève</h4>
-							<form name="form2" method="post" action="gestion_eleve.php">
-								<div class="form-group">
-									<label for="classe">Classe :</label>
-									<select name="classe" id="classe" class="custom-select">
-										<?php
-										do 
-										{ ?>
-											<option value="<?php echo $row_rsClasse['classe']?>"<?php if(isset($classe)) { if (!(strcmp($row_rsClasse['classe'], $classe))) {echo "SELECTED";} }?>>
-												<?php echo $row_rsClasse['classe']?>
-											</option>
-											<?php
-										} while ($row_rsClasse = mysqli_fetch_assoc($rsClasse));
-										$rows = mysqli_num_rows($rsClasse);
-										if($rows > 0)
-										{
-											mysqli_data_seek($rsClasse, 0);
-											$row_rsClasse = mysqli_fetch_assoc($rsClasse);
-										} ?>
-									</select>
-								</div>
-								<div class="form-group">
-									<button type="submit" name="Submit4" class="btn btn-primary">Sélectionner la classe</button>
-								</div>
-							</form>
-						</div>
-					</div>
-					<?php if (isset($classe))
-					{ ?>
-						<div class="row">
-							<div class="col-10 offset-2">
-								<form name="form4" method="get" action="gestion_eleve.php">
-									<div class="form-group">
-										<label for="select3">Elève :</label>
-										<select name="numsupeleve" id="select3" class="custom-select">
-											<?php
-											do {  
-											?>
-												<option value="<?php echo $row_Rschoixeleve['ID_eleve']?>"<?php if(isset($numeleve)) { if (!(strcmp($row_Rschoixeleve['ID_eleve'], $numeleve))) {echo "SELECTED";} }?>><?php echo $row_Rschoixeleve['ID_eleve'].' '.$row_Rschoixeleve['nom'].' '.$row_Rschoixeleve['prenom']?></option>
-												<?php
-											} while ($row_Rschoixeleve = mysqli_fetch_assoc($Rschoixeleve));
-											$rows = mysqli_num_rows($Rschoixeleve);
-											if($rows > 0)
-											{
-												mysqli_data_seek($Rschoixeleve, 0);
-												$row_Rschoixeleve = mysqli_fetch_assoc($Rschoixeleve);
-											} ?>
-										</select>
-									</div>
-									<div class="form-group">
-										<button type="submit" name="Submit22" class="btn btn-primary">Supprimer cet élève</button>
-									</div>
-									<input name="classe" type="hidden" id="select" value="<?php echo $classe?>">
-								</form>
-							</div>
-						</div>
-						<?php 
-					}?>
-					<div class="row">
-						<div class="col">
-							<h4>Modification d'un nom ou classe d'un élève</h4>
-							<form name="form2"method="post" action="gestion_eleve.php">
-								<div class="form-group">
-									<label for="classe">Classe :</label>
-									<select name="classe" id="classe" class="custom-select">
-										<?php
-										do
-										{ ?>
-											<option value="<?php echo $row_rsClasse['classe']?>"<?php if(isset($classe)) { if (!(strcmp($row_rsClasse['classe'], $classe))) {echo "SELECTED";} }?>>
-												<?php echo $row_rsClasse['classe']?>
-											</option>
-											<?php
-										} while ($row_rsClasse = mysqli_fetch_assoc($rsClasse)); ?>
-									</select>
-								</div>
-								<div class="form-group">
-									<button type="submit" name="Submit" class="btn btn-primary">Sélectionner la classe</button>
-								</div>
-							</form>
-						</div>
-					</div>
-					<?php if (isset($classe))
-					{ ?>
-						<div class="row">
-							<div class="col-10 offset-2">
-								<form name="form4" method="post" action="">
-									<div class="form-group">
-										<label for="numeleve">Elève :</label>
-										<select name="numeleve" id="numeleve" class="custom-select">
-											<?php
-											do {  
-											?>
-												<option value="<?php echo $row_Rschoixeleve['ID_eleve']?>"<?php if(isset($numeleve)) { if (!(strcmp($row_Rschoixeleve['ID_eleve'], $numeleve)) ) {echo "SELECTED";} }?>>
-													<?php echo $row_Rschoixeleve['ID_eleve'].' '.$row_Rschoixeleve['nom'].' '.$row_Rschoixeleve['prenom']?>
-												</option>
-												<?php
-											} while ($row_Rschoixeleve = mysqli_fetch_assoc($Rschoixeleve)); ?>
-										</select>
-									</div>
-									<div class="form-group">
-										<button type="submit" name="Submit2" class="btn btn-primary">Sélectionner l'élève</button>
-									</div>
-									<input name="classe" type="hidden" id="classe" value="<?php echo $classe?>">
-								</form>
-							</div>
-						</div>
-						<?php if (isset($numeleve))
-						{ ?>
-							<div class="row">
-								<div class="col-8 offset-4">
-									<form method="post" name="form5" action="gestion_eleve.php">
-										<div class="form-group">
-											<label for="nom">Nom :</label>
-												<input type="text" class="form-control" name="nom" id="nom" value="<?php echo $row_RsModifEleve['nom']; ?>">
-										</div>
-										<div class="form-group">
-											<label for="prenom">Prénom :</label>
-												<input type="text" class="form-control" name="prenom" id="prenom" value="<?php echo $row_RsModifEleve['prenom']; ?>">
-										</div>
-										<div class="form-group">
-											<label for="classe">Classe :</label>
-											<input type="text" class="form-control" name="classe" id="classe" value="<?php echo $row_RsModifEleve['classe']; ?>">
-										</div>
-										<div class="form-group">
-											<label for="pass">Mot de passe :</label>
-												<input type="text" class="form-control" name="pass" id="pass" value="<?php echo $row_RsModifEleve['pass']; ?>">
-										</div>
-										<div class="form-group">
-											<label for="niveau">Niveau :</label>
-											<select name="niveau" id="niveau" class="custom-select">
-												<?php
-												do 
-												{ ?>
-													<option value="<?php echo $row_RsNiveau['ID_niveau']?>" <?php if (!(strcmp($row_RsNiveau['ID_niveau'], $row_RsModifEleve['niveau'])) ) {echo "SELECTED";}?> ><?php echo $row_RsNiveau['nom_niveau']?></option>
-													<?php
-												} while ($row_RsNiveau = mysqli_fetch_assoc($RsNiveau)); ?>
-											</select>
-										</div>
-										<div class="form-group">
-											<button type="submit" class="btn btn-primary">Mettre à jour l'enregistrement</button>
-										</div>
-										<input type="hidden" name="ID_eleve" value="<?php echo $row_RsModifEleve['ID_eleve']; ?>">
-										<input type="hidden" name="MM_update" value="form5">
-										<input type="hidden" name="ID_eleve" value="<?php echo $row_RsModifEleve['ID_eleve']; ?>">
-									</form>
-								</div>
-							</div>
-							<?php 
-						}
-					} ?>
-					</td>
 				</div>
 			</div>
+			<?php 
+		}?>
+		<div class="row">
+			<div class="col">
+				<h4>Modification d'un nom ou classe d'un élève</h4>
+				<form name="form2"method="post" action="gestion_eleve.php">
+					<div class="form-group">
+						<label for="classe">Classe :</label>
+						<select name="classe" id="classe" class="custom-select">
+							<?php
+							do
+							{ ?>
+								<option value="<?php echo $row_rsClasse['classe']?>"<?php if(isset($classe)) { if (!(strcmp($row_rsClasse['classe'], $classe))) {echo "SELECTED";} }?>>
+									<?php echo $row_rsClasse['classe']?>
+								</option>
+								<?php
+							} while ($row_rsClasse = mysqli_fetch_assoc($rsClasse)); ?>
+						</select>
+					</div>
+					<div class="form-group">
+						<button type="submit" name="Submit" class="btn btn-primary">Sélectionner la classe</button>
+					</div>
+				</form>
+			</div>
 		</div>
+		<?php if (isset($classe))
+		{ ?>
+			<div class="row">
+				<div class="col-10 offset-2">
+					<form name="form4" method="post" action="">
+						<div class="form-group">
+							<label for="numeleve">Elève :</label>
+							<select name="numeleve" id="numeleve" class="custom-select">
+								<?php
+								do {  
+								?>
+									<option value="<?php echo $row_Rschoixeleve['ID_eleve']?>"<?php if(isset($numeleve)) { if (!(strcmp($row_Rschoixeleve['ID_eleve'], $numeleve)) ) {echo "SELECTED";} }?>>
+										<?php echo $row_Rschoixeleve['ID_eleve'].' '.$row_Rschoixeleve['nom'].' '.$row_Rschoixeleve['prenom']?>
+									</option>
+									<?php
+								} while ($row_Rschoixeleve = mysqli_fetch_assoc($Rschoixeleve)); ?>
+							</select>
+						</div>
+						<div class="form-group">
+							<button type="submit" name="Submit2" class="btn btn-primary">Sélectionner l'élève</button>
+						</div>
+						<input name="classe" type="hidden" id="classe" value="<?php echo $classe?>">
+					</form>
+				</div>
+			</div>
+			<?php if (isset($numeleve))
+			{ ?>
+				<div class="row">
+					<div class="col-8 offset-4">
+						<form method="post" name="form5" action="gestion_eleve.php">
+							<div class="form-group">
+								<label for="nom">Nom :</label>
+									<input type="text" class="form-control" name="nom" id="nom" value="<?php echo $row_RsModifEleve['nom']; ?>">
+							</div>
+							<div class="form-group">
+								<label for="prenom">Prénom :</label>
+									<input type="text" class="form-control" name="prenom" id="prenom" value="<?php echo $row_RsModifEleve['prenom']; ?>">
+							</div>
+							<div class="form-group">
+								<label for="classe">Classe :</label>
+								<input type="text" class="form-control" name="classe" id="classe" value="<?php echo $row_RsModifEleve['classe']; ?>">
+							</div>
+							<div class="form-group">
+								<label for="pass">Mot de passe :</label>
+									<input type="text" class="form-control" name="pass" id="pass" value="<?php echo $row_RsModifEleve['pass']; ?>">
+							</div>
+							<div class="form-group">
+								<label for="niveau">Niveau :</label>
+								<select name="niveau" id="niveau" class="custom-select">
+									<?php
+									do 
+									{ ?>
+										<option value="<?php echo $row_RsNiveau['ID_niveau']?>" <?php if (!(strcmp($row_RsNiveau['ID_niveau'], $row_RsModifEleve['niveau'])) ) {echo "SELECTED";}?> ><?php echo $row_RsNiveau['nom_niveau']?></option>
+										<?php
+									} while ($row_RsNiveau = mysqli_fetch_assoc($RsNiveau)); ?>
+								</select>
+							</div>
+							<div class="form-group">
+								<button type="submit" class="btn btn-primary">Mettre à jour l'enregistrement</button>
+							</div>
+							<input type="hidden" name="ID_eleve" value="<?php echo $row_RsModifEleve['ID_eleve']; ?>">
+							<input type="hidden" name="MM_update" value="form5">
+							<input type="hidden" name="ID_eleve" value="<?php echo $row_RsModifEleve['ID_eleve']; ?>">
+						</form>
+					</div>
+				</div>
+				<?php 
+			}
+		} ?>
+		</td>
 	</div>
 </div>
 <?php

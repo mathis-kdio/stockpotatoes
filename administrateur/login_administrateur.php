@@ -38,45 +38,30 @@ $css_deplus = "";
 require('include/headerAdministrateur.inc.php');
 ?>
 <div class="row">
-	<div class="col-12">
-		<div class="row">
-			<h1>Espace Administrateur</h1>
-		</div>
-		<div class="row">
-			<div class="col-3">
-				<img class="img-fluid rounded mx-auto d-block" src="../patate.png" alt="hotpotatoes" title="hotpotatoes" height="150" width="150" />
+	<div class="col">
+		<?php 
+		if (htmlspecialchars($_GET['pass']) == 'bad')
+		{
+			echo '<h4 class="text-center" style="color:red">MOT DE PASSE INCORRECT</h4>';
+		} ?>
+		<form name="form1" method="post" action="login_administrateur.php">
+			<div class="form-group form-row justify-content-center">
+				<div class="col-4">
+					<label for="pass_administrateur">Entrer votre mot de passe</label>
+					<input type="password" class="form-control" name="pass_administrateur" id="pass_administrateur" placeholder="Mot de passe">
+				</div>
 			</div>
-			<div class="col-9 align-middle">
-				<p class="h3 bg-warning text-center p-3" style="margin-top: 50px;">Connection à l'espace Administrateur</p>
+			<div class="form-group form-row justify-content-center">
+				<div class="col-4">
+					<button type="submit" name="Submit" class="btn btn-primary">Valider</button>
+				</div>
 			</div>
-		</div>
-		<div class="row jumbotron">
-			<div class="col">
-				<?php 
-				if (htmlspecialchars($_GET['pass']) == 'bad')
-				{
-					echo '<h4 class="text-center" style="color:red">MOT DE PASSE INCORRECT</h4>';
-				} ?>
-				<form name="form1" method="post" action="login_administrateur.php">
-					<div class="form-group form-row justify-content-center">
-						<div class="col-4">
-							<label for="pass_administrateur">Entrer votre mot de passe</label>
-							<input type="password" class="form-control" name="pass_administrateur" id="pass_administrateur" placeholder="Mot de passe">
-						</div>
-					</div>
-					<div class="form-group form-row justify-content-center">
-						<div class="col-4">
-							<button type="submit" name="Submit" class="btn btn-primary">Valider</button>
-						</div>
-					</div>
-					<?php
-					if (isset($_GET['cible']))
-					{
-						echo '<input type="hidden" name="cible" id="cible" value="'.htmlspecialchars($_GET['cible']).'">';
-					} ?>
-				</form>
-			</div>
-		</div>
+			<?php
+			if (isset($_GET['cible']))
+			{
+				echo '<input type="hidden" name="cible" id="cible" value="'.htmlspecialchars($_GET['cible']).'">';
+			} ?>
+		</form>
 	</div>
 </div>
 <?php

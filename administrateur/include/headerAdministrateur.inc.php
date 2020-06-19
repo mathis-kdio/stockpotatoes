@@ -1,16 +1,32 @@
 <?php
 error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+require_once('../includes/yml.class.php');
+
+$config = new Lire('../includes/config.yml');
+$config = $config->GetTableau();
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
 	<head>
+		<style>
+		:root {
+			--color-main: <?=$config["color"]["theme"]["main"]?>;
+			--color-second: <?=$config["color"]["theme"]["second"]?>; 
+			--color-hover: <?=$config["color"]["theme"]["hover"]?>; 
+			--color-focus: <?=$config["color"]["theme"]["focus"]?>; 
+		}
+		</style>
 		<!-- Required meta tags -->
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<meta name="description" content="<?php echo $meta_description ?>" />
 		<meta name="keywords" content="<?php echo $meta_keywords ?>" />
 		<meta name="author" content="stockpotatoes" />
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+ 
+    	<link rel="stylesheet" type="text/css" media="all" href="../includes/bootstrap.min.css" />
 		<!-- Mon CSS -->
 		<link rel="stylesheet" type="text/css" media="all" href="include/styleAdministrateur.css" />
 		<!--Ajout d'une à trois feuille(s) de style et/ou d'un à trois script(s) en fonction de l'exo -->
@@ -26,7 +42,7 @@ error_reporting(E_ALL);
 		}
 		?>
 
-		<title><?php echo $titre_page ?></title>
+		<title>Espace Administrateur - <?php echo $titre_page ?></title>
 	</head>
 	<body class="">	
 		<header>
@@ -41,7 +57,7 @@ error_reporting(E_ALL);
 				<div class="collapse navbar-collapse" id="navbarNav">
 					<ul class="navbar-nav">
 						<li class="nav-item active">
-							<a class="nav-link" href="accueil_admin">Espace Administrateur</a>
+							<a class="nav-link" href="accueil_admin.php">Espace Administrateur</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="../index.php">Menu Stockpotatoes</a>
@@ -69,3 +85,17 @@ error_reporting(E_ALL);
 			</nav>
 		</header>
 		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="row">
+						<h1>Espace Administrateur</h1>
+					</div>
+					<div class="row">
+						<div class="col-3">
+							<img class="img-fluid rounded mx-auto d-block" src="../patate.png" alt="hotpotatoes" title="hotpotatoes" height="150" width="150" />
+						</div>
+						<div class="col-9 align-middle">
+							<p class="h3 bg-info text-center p-3" style="margin-top: 50px;"><?php echo $titre_page; ?></p>
+						</div>
+					</div>
+					<div class="container jumbotron">

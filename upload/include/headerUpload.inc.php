@@ -63,7 +63,7 @@ $config = $config->GetTableau();
 							<a class="nav-link" href="../index.php">Menu Stockpotatoes</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="../administrateur/login_admin.php">Espace Administrateur</a>
+							<a class="nav-link" href="../administrateur/login_administrateur.php">Espace Administrateur</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="../enseignant/login_enseignant.php">Espace Enseignant</a>

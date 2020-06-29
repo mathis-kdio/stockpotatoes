@@ -3,9 +3,10 @@ General:
     url: ""
     name: ""
     description: ""
+    studentPass: 'Yes'
 color:
     theme:
-        main: '#ff0000'
-        second: '#008000'
-        hover: '#00ff40'
-        focus: '#ff8000'
+        main: '#0080ff'
+        second: '#ffa600'
+        hover: '#01a6fe'
+        focus: '#0000ff'

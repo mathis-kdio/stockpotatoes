@@ -1,23 +1,35 @@
 <?php
 require_once('Connections/conn_intranet.php');
 
+require_once('includes/yml.class.php');
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 $collog_rsLogin = "1";
 if (isset($_POST['log'])) 
 {
-  $collog_rsLogin = htmlspecialchars($_POST['log']);
+	$collog_rsLogin = htmlspecialchars($_POST['log']);
 }
 $colpass_rsLogin = "1";
 if (isset($_POST['pass']))
 {
-  $colpass_rsLogin = htmlspecialchars($_POST['pass']);
+	$colpass_rsLogin = htmlspecialchars($_POST['pass']);
 }
 
 mysqli_select_db($conn_intranet, $database_conn_intranet);
 
-$query_rsLogin = sprintf("SELECT * FROM stock_eleve WHERE ID_eleve = '%s' AND pass = '%s'", $collog_rsLogin, $colpass_rsLogin);
+$lecture = new Lire('includes/config.yml');
+$lecture = $lecture->GetTableau();
+
+if (isset($lecture['General']["studentPass"]) && $lecture['General']["studentPass"] == "No")
+{
+	$query_rsLogin = sprintf("SELECT * FROM stock_eleve WHERE ID_eleve = '%s'", $collog_rsLogin);
+}
+else
+{
+	$query_rsLogin = sprintf("SELECT * FROM stock_eleve WHERE ID_eleve = '%s' AND pass = '%s'", $collog_rsLogin, $colpass_rsLogin);
+}
 $rsLogin = mysqli_query($conn_intranet, $query_rsLogin) or die(mysqli_error());
 $row_rsLogin = mysqli_fetch_assoc($rsLogin);
 $totalRows_rsLogin = mysqli_num_rows($rsLogin);
@@ -29,7 +41,7 @@ $row_rsClasse = mysqli_fetch_assoc($rsClasse);
 $choix_classe_rsLogin2 = "1";
 if (isset($_POST['classe'])) 
 {
-  $choix_classe_rsLogin2 = htmlspecialchars($_POST['classe']);
+	$choix_classe_rsLogin2 = htmlspecialchars($_POST['classe']);
 }
 
 $query_rsLogin2 = sprintf("SELECT ID_eleve, nom, prenom FROM stock_eleve WHERE classe = '%s' ORDER BY nom", $choix_classe_rsLogin2);
@@ -39,7 +51,7 @@ $row_rsLogin2 = mysqli_fetch_assoc($rsLogin2);
 $bad_password = 0;
 if ((isset($_POST['valider'])) && ($_POST['valider'] == "ok"))
 {
-	if ($totalRows_rsLogin == '1')
+	if ($totalRows_rsLogin == '1' || (isset($lecture['General']["studentPass"]) && $lecture['General']["studentPass"] == "No"))
 	{
 		session_start();
 		$_SESSION['Sess_ID_eleve'] = $row_rsLogin['ID_eleve'];
@@ -81,7 +93,7 @@ require('includes/header.inc.php');
 	<form name="form2" method="post" action="login_eleve.php">
 		<div class="form-group">
 			<label for="classe">Sélectionnez votre classe</label>
-			<select class="form-control" name="classe" id="classe">
+			<select class="custom-select" name="classe" id="classe">
 				<?php 
 				do {  
 				?>
@@ -94,7 +106,7 @@ require('includes/header.inc.php');
 		</div>
 		<div class="form-group">
 			<button type="submit" name="Submit2" class="btn btn-primary">Valider</button>
-	  	</div>
+			</div>
 	</form>
 </div>
 <br/><br/>
@@ -103,8 +115,8 @@ require('includes/header.inc.php');
 	<div class="row mt-3 shadow bg-info justify-content-center">
 		<form name="form1" method="post" action="login_eleve.php">
 			<div class="form-group">
-			    <label for="log">Sélectionnez votre nom</label>
-			    <select class="form-control" name="log" id="log">
+					<label for="log">Sélectionnez votre nom</label>
+					<select class="custom-select" name="log" id="log">
 					<?php
 					do { ?>
 						<option value="<?php echo $row_rsLogin2['ID_eleve']?>">
@@ -112,18 +124,22 @@ require('includes/header.inc.php');
 						</option>
 						<?php
 					} while ($row_rsLogin2 = mysqli_fetch_assoc($rsLogin2)); ?>
-			    </select> 
+					</select> 
 			</div>
-			<?php 
-			if ($bad_password == 1)
+			<?php
+			if (isset($lecture['General']["studentPass"]) && $lecture['General']["studentPass"] != "No")
 			{
-			  	echo '<h4 class="text-center" style="color:red">MOT DE PASSE INCORRECT</h4>';
+				if ($bad_password == 1)
+				{
+						echo '<h4 class="text-center" style="color:red">MOT DE PASSE INCORRECT</h4>';
+				} ?>
+				<div class="form-group">
+					<label for="pass">Tapez votre mot de passe</label>
+					<input type="password" class="form-control" name="pass" id="pass" placeholder="Mot de passe">
+				</div>
+				<?php 
 			} ?>
 			<div class="form-group">
-    			<label for="pass">Tapez votre mot de passe</label>
-    			<input type="password" class="form-control" name="pass" id="pass" placeholder="Mot de passe">
-  			</div>
-  			<div class="form-group">
 				<button type="submit" name="Submit" class="btn btn-primary">Valider</button>
 				<input name="valider" type="hidden" id="valider" value="ok">
 				<input name="classe" type="hidden" id="classe" value="<?php echo $_POST['classe']?>">

@@ -156,7 +156,7 @@ if (isset($matiereId) && isset($niveauId))
 	</form>
 	<?php
 }
-if (isset($_POST['ID_quiz']))
+if (isset($quizId))
 { ?>
 	<div class="row align-items-center justify-content-end bg-info mb-3 py-2">
 		<div class="col-auto">

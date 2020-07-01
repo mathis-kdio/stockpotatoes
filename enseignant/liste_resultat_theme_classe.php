@@ -314,16 +314,14 @@ if (isset($themeId))
 	<div class="table-responsive">
 		<table class="table table-striped table-bordered table-sm">
 			<thead>
-				<tr class="retrait20"> 
+				<tr> 
 					<th scope="col">N°</th>
 					<th scope="col">Nom Prénom</th>
-					<th scope="col">
 						<?php
 						for ($i = 0; $i < $totalRows_Rsquiz; $i++)
 						{
-							echo $titrequiz[$i].'<br>(N° '.$numquiz[$i].')';
+							echo '<th scope="col">'.$titrequiz[$i].'<br>(N° '.$numquiz[$i].')</th>';
 						} ?>
-					</th>
 					<th scope="col">Moyenne</th>
 				</tr>
 			</thead>

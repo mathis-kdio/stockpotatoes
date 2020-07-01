@@ -118,12 +118,13 @@ if (isset($matiereId) && isset($niveauId))
 			</tbody>
 		</table>
 	</div>
-<?php
+	<?php
+	mysqli_free_result($rsListeSelectMatiereNiveau);
+	mysqli_free_result($rsChoix);
 }
 
 require('includes/footerEnseignant.inc.php');
 
 mysqli_free_result($rs_matiere);
 mysqli_free_result($rs_niveau);
-mysqli_free_result($rsListeSelectMatiereNiveau);
-mysqli_free_result($rsChoix);?>
+?>

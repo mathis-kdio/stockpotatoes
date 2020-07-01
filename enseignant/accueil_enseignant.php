@@ -37,10 +37,10 @@ if ($versionrecente != $versioninstallee)
 		<div class="col-6">
 			<h3 class="bg-info shadow text-center pb-2 mb-4">Listes des exercices</h3>
 			<div class="list-group">
-				<a href="liste_quiz_recent.php" class="list-group-item list-group-item-action list-group-item-primary">Liste des derniers exercices publiés</a>
+				<a href="liste_quiz_recent.php" class="list-group-item list-group-item-action list-group-item-primary">Liste des derniers exercices mis en ligne</a>
 				<a href="liste_quiz_publie.php" class="list-group-item list-group-item-action list-group-item-primary">Liste des exercices publiés dans une matière</a>
 				<a href="liste_quiz_non_publie.php" class="list-group-item list-group-item-action list-group-item-primary">Liste des exercices non publiés dans une matière</a>
-				<a href="liste_quiz_avec_score.php" class="list-group-item list-group-item-action list-group-item-primary">Liste des exercices en évaluation seule</a>
+				<a href="liste_quiz_avec_score.php" class="list-group-item list-group-item-action list-group-item-primary">Liste des exercices en évaluation seule dans une matière</a>
 			</div>
 		</div>
 		<div class="col-6">

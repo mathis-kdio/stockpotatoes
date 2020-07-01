@@ -45,8 +45,8 @@ if (isset($matiereId) && isset($niveauId))
   $row_rsChoix = mysqli_fetch_assoc($rsChoix);
 }
 
-$titre_page = "Liste des exercices non publiés en ligne";
-$meta_description = "Page de la liste des exercices non publiés en ligne";
+$titre_page = "Liste des exercices non publiés dans une matière";
+$meta_description = "Page de la liste des exercices non publiés dans une matière";
 $meta_keywords = "outils, ressources, exercices en ligne, hotpotatoes";
 $js_deplus = "";
 $css_deplus = "";

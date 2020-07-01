@@ -37,7 +37,7 @@ $rs_niveau = mysqli_query($conn_intranet, $query_rs_niveau) or die(mysqli_error(
 
 if (isset($matiereId) && isset($niveauId))
 {
-	$query_rsListeSelectMatiereNiveau = sprintf("SELECT * FROM stock_quiz WHERE matiere_ID = '%s'  AND niveau_ID = '%s' ORDER BY matiere_ID, niveau_ID", $matiereId, $niveauId);
+	$query_rsListeSelectMatiereNiveau = sprintf("SELECT * FROM stock_quiz WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND en_ligne = 'O' ORDER BY matiere_ID, niveau_ID", $matiereId, $niveauId);
 	$rsListeSelectMatiereNiveau = mysqli_query($conn_intranet, $query_rsListeSelectMatiereNiveau) or die(mysqli_error($conn_intranet));
 
 	$query_rsChoix = sprintf("SELECT * FROM stock_matiere WHERE ID_mat = '%s'", $matiereId);

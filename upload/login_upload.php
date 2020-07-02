@@ -41,7 +41,7 @@ require('include/headerUpload.inc.php');
 		<div class="row">
 			<div class="col">
 				<?php 
-				if (htmlspecialchars($_GET['pass']) == 'bad')
+				if (isset($_GET['pass']) && htmlspecialchars($_GET['pass']) == 'bad')
 				{
 					echo '<h4 class="text-center" style="color:red">MOT DE PASSE INCORRECT</h4>';
 				} ?>

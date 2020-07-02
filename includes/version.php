@@ -1,3 +1,3 @@
 <?php
-$versioninstallee = "stockpotatoes-3-ALPHA-9";
+$versioninstallee = "stockpotatoes-3-ALPHA-10";
 ?>

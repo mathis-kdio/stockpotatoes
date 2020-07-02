@@ -41,6 +41,7 @@ if ($versionrecente != $versioninstallee)
 				<a href="liste_quiz_publie.php" class="list-group-item list-group-item-action list-group-item-primary">Liste des exercices publiés dans une matière</a>
 				<a href="liste_quiz_non_publie.php" class="list-group-item list-group-item-action list-group-item-primary">Liste des exercices non publiés dans une matière</a>
 				<a href="liste_quiz_avec_score.php" class="list-group-item list-group-item-action list-group-item-primary">Liste des exercices en évaluation seule dans une matière</a>
+				<a href="liste_quiz_avecmodif.php" class="list-group-item list-group-item-action list-group-item-primary">Liste des exercices dans une matière avec modification des modes possible</a>
 			</div>
 		</div>
 		<div class="col-6">

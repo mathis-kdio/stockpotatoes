@@ -39,7 +39,7 @@ $css_deplus = "";
 
 require('include/headerAdministrateur.inc.php');
 ?>
-<h5 class="text-center">Les élèves doivent-ils avoir un mot de passe pour faire accéder à leur espace ?</h5>
+<h5 class="text-center">Les élèves doivent-ils avoir un mot de passe pour accéder à leur espace ?</h5>
 <div class="row justify-content-center">
 	<div class="col-auto">
 		<form method="POST" action="gestion_espace_eleve.php" >

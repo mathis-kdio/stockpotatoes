@@ -66,7 +66,7 @@ require('includes/headerEnseignant.inc.php');
 				} ?>
 			</select>
 		</div>
-		<label for="matiere_ID" class="col-auto col-form-label">Sélectionner un niveau :</label>
+		<label for="niveau_ID" class="col-auto col-form-label">Sélectionner un niveau :</label>
 		<div class="col-auto">
 			<select name="niveau_ID" id="select" class="custom-select">
 				<?php

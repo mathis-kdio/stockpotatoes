@@ -117,6 +117,8 @@ require('includes/headerEnseignant.inc.php');
 		</div>
 	</form>
 	<?php
+	mysqli_free_result($RsMatiere);
+	mysqli_free_result($RsNiveau);
 }
 if (isset($matiereId) && isset($niveauId))
 { ?>
@@ -142,6 +144,7 @@ if (isset($matiereId) && isset($niveauId))
 		</div>
 	</form>
 	<?php
+	mysqli_free_result($Rsquiz);
 }
 if (isset($quizId))
 { ?>
@@ -217,13 +220,10 @@ if (isset($quizId))
 		</table>
 	</div>
 	<?php
+	mysqli_free_result($RsActiviteClasse);
 }
 
 require('includes/footerEnseignant.inc.php');
 
 mysqli_free_result($rsClasse);
-mysqli_free_result($RsMatiere);
-mysqli_free_result($RsNiveau);
-mysqli_free_result($Rsquiz);
-mysqli_free_result($RsActiviteClasse);
 ?>

@@ -1,238 +1,177 @@
-<?php 
-
-//error_reporting(E_ALL);
-//ini_set('display_errors', 1);
-
-session_start(); 
-if (isset($_SESSION['Sess_nom'])) { 
-	if ($_SESSION['Sess_nom']<>'Enseignant') { header("Location: login_enseignant.php");}
-; } else { header("Location: ../index.php");}?>
 <?php
+session_start();
+if (isset($_SESSION['Sess_nom']))
+{
+	if ($_SESSION['Sess_nom'] <> 'Enseignant')
+	{
+		header("Location: login_enseignant.php?cible=liste_quiz_avecmodif");
+	}
+}
+else
+{
+	header("Location: login_enseignant.php?cible=liste_quiz_avecmodif");
+}
 
-require_once('../Connections/conn_intranet.php'); 
+require_once('../Connections/conn_intranet.php');
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 
-
+if (isset($_POST['matiere_ID'])) {
+	$matiereId = htmlspecialchars($_POST['matiere_ID']);
+}
+else if (isset($_GET['matiere_ID'])) {
+	$matiereId = htmlspecialchars($_GET['matiere_ID']);
+}
+if (isset($_POST['niveau_ID'])) {
+	$niveauId = htmlspecialchars($_POST['niveau_ID']);
+}
+else if (isset($_GET['niveau_ID'])) {
+	$niveauId = htmlspecialchars($_GET['niveau_ID']);
+}
 
 function sans_accent($chaine) 
 { 
-   $accent  ="ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿ"; 
-   $noaccent="aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyyby"; 
-   return strtr(trim($chaine),$accent,$noaccent); 
-} 
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
+	 $accent  ="ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿ"; 
+	 $noaccent="aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyyby"; 
+	 return strtr(trim($chaine), $accent,$noaccent); 
+}
+
+if ((isset($_POST["Submit2"])) && ($_POST["Submit2"] == "form2"))
 {
-  $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
+	if ($_POST['en_ligne'] == 'O')
+	{
+		$en_ligne = 'O';
+	}
+	else
+	{
+		$en_ligne = 'N';
+	}
+	if ($_POST['avec_score'] == 'O')
+	{
+		$avec_score = 'O';
+	}
+	else
+	{
+		$avec_score = 'N';
+	}
+	$updateSQL = sprintf("UPDATE stock_quiz SET avec_score = '%s', en_ligne = '%s' WHERE ID_quiz = '%s' ORDER BY matiere_ID, niveau_ID", $avec_score, $en_ligne, htmlspecialchars($_POST['tablist']));
 
-  switch ($theType) {
-    case "text":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;    
-    case "long":
-    case "int":
-      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
-      break;
-    case "double":
-      $theValue = ($theValue != "") ? "'" . doubleval($theValue) . "'" : "NULL";
-      break;
-    case "date":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;
-    case "defined":
-      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
-      break;
-  }
-  return $theValue;
+	$Result1 = mysqli_query($conn_intranet, $updateSQL) or die(mysqli_error($conn_intranet));
+
+	header('Location: liste_quiz_avecmodif.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId);
 }
 
-$editFormAction = $_SERVER['PHP_SELF'];
-if (isset($_SERVER['QUERY_STRING'])) {
-  $editFormAction .= "?" . $_SERVER['QUERY_STRING'];
-}
-
-if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form2")) {
-  if ($_POST['en_ligne']=='O'){$en_ligne='O';} else {$en_ligne='N';}
-  if ($_POST['avec_score']=='O'){$avec_score='O';} else {$avec_score='N';}
-  $updateSQL = sprintf("UPDATE stock_quiz SET avec_score=%s, en_ligne=%s WHERE stock_quiz.matiere_ID=%s  AND stock_quiz.niveau_ID=%s ORDER BY stock_quiz.matiere_ID, stock_quiz.niveau_ID",
-                       GetSQLValueString($en_ligne, "text"),
-                       GetSQLValueString($avec_score, "text"),
-					   GetSQLValueString($_POST['matiere_ID'], "text"),
-					   GetSQLValueString($_POST['niveau_ID'], "text")
-					   );
-
-  mysqli_select_db($conn_intranet, $database_conn_intranet);
-  $Result1 = mysqli_query($conn_intranet, $updateSQL) or die(mysqli_error());
-  echo $updateSQL;
-  $updateGoTo = "liste_quiz_avecmodif.php";
-  if (isset($_SERVER['QUERY_STRING'])) {
-    $updateGoTo .= (strpos($updateGoTo, '?')) ? "&" : "?";
-    $updateGoTo .= $_SERVER['QUERY_STRING'];
-  }
- header(sprintf("Location: %s", $updateGoTo));
-}
-?>
-
-<?php 
-
-
-
-mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_rs_matiere = "SELECT * FROM stock_matiere";
-$rs_matiere = mysqli_query($conn_intranet, $query_rs_matiere) or die(mysqli_error());
-$row_rs_matiere = mysqli_fetch_assoc($rs_matiere);
-$totalRows_rs_matiere = mysqli_num_rows($rs_matiere);
+$rs_matiere = mysqli_query($conn_intranet, $query_rs_matiere) or die(mysqli_error($conn_intranet));
 
-mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_rs_niveau = "SELECT * FROM stock_niveau";
-$rs_niveau = mysqli_query($conn_intranet, $query_rs_niveau) or die(mysqli_error());
-$row_rs_niveau = mysqli_fetch_assoc($rs_niveau);
-$totalRows_rs_niveau = mysqli_num_rows($rs_niveau);
+$rs_niveau = mysqli_query($conn_intranet, $query_rs_niveau) or die(mysqli_error($conn_intranet));
 
-$choix_mat_rsListeSelectMatiereNiveau = "0";
-if (isset($_POST['matiere_ID'])) {
-  $choix_mat_rsListeSelectMatiereNiveau = (get_magic_quotes_gpc()) ? $_POST['matiere_ID'] : addslashes($_POST['matiere_ID']);
-}
-$choix_niv_rsListeSelectMatiereNiveau = "0";
-if (isset($_POST['niveau_ID'])) {
-  $choix_niv_rsListeSelectMatiereNiveau = (get_magic_quotes_gpc()) ? $_POST['niveau_ID'] : addslashes($_POST['niveau_ID']);
-}
-mysqli_select_db($conn_intranet, $database_conn_intranet);
-$query_rsListeSelectMatiereNiveau = sprintf("SELECT * FROM stock_quiz WHERE stock_quiz.matiere_ID=%s  AND stock_quiz.niveau_ID=%s ORDER BY stock_quiz.matiere_ID, stock_quiz.niveau_ID", $choix_mat_rsListeSelectMatiereNiveau,$choix_niv_rsListeSelectMatiereNiveau);
-$rsListeSelectMatiereNiveau = mysqli_query($conn_intranet, $query_rsListeSelectMatiereNiveau) or die(mysqli_error());
-$row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau);
-$totalRows_rsListeSelectMatiereNiveau = mysqli_num_rows($rsListeSelectMatiereNiveau);
+if (isset($matiereId) && isset($niveauId))
+{
+	$query_rsListeSelectMatiereNiveau = sprintf("SELECT * FROM stock_quiz WHERE matiere_ID = '%s' AND niveau_ID = '%s' ORDER BY matiere_ID, niveau_ID", $matiereId, $niveauId);
+	$rsListeSelectMatiereNiveau = mysqli_query($conn_intranet, $query_rsListeSelectMatiereNiveau) or die(mysqli_error($conn_intranet));
 
-$colname_rsChoix = "1";
-if (isset($_POST['matiere_ID'])) {
-  $colname_rsChoix = (get_magic_quotes_gpc()) ? $_POST['matiere_ID'] : addslashes($_POST['matiere_ID']);
+	$query_rsChoix = sprintf("SELECT * FROM stock_matiere WHERE ID_mat = '%s'", $matiereId);
+	$rsChoix = mysqli_query($conn_intranet, $query_rsChoix) or die(mysqli_error($conn_intranet));
+	$row_rsChoix = mysqli_fetch_assoc($rsChoix);
 }
-mysqli_select_db($conn_intranet, $database_conn_intranet);
-$query_rsChoix = sprintf("SELECT * FROM stock_matiere WHERE ID_mat =%s", $colname_rsChoix);
-$rsChoix = mysqli_query($conn_intranet, $query_rsChoix) or die(mysqli_error());
-$row_rsChoix = mysqli_fetch_assoc($rsChoix);
-$totalRows_rsChoix = mysqli_num_rows($rsChoix);
 
-$colname_rsChoix2 = "1";
-if (isset($_POST['niveau_ID'])) {
-  $colname_rsChoix2 = (get_magic_quotes_gpc()) ? $_POST['niveau_ID'] : addslashes($_POST['niveau_ID']);
-}
-mysqli_select_db($conn_intranet, $database_conn_intranet);
-$query_rsChoix2 = sprintf("SELECT * FROM stock_niveau WHERE ID_niveau = %s", $colname_rsChoix2);
-$rsChoix2 = mysqli_query($conn_intranet, $query_rsChoix2) or die(mysqli_error());
-$row_rsChoix2 = mysqli_fetch_assoc($rsChoix2);
-$totalRows_rsChoix2 = mysqli_num_rows($rsChoix2);
+$titre_page = "Liste des exercices dans une matière avec modification des modes possible";
+$meta_description = "Page de la liste des exercices dans une matière avec modification du mode (entrainement et/ou évaluation)";
+$meta_keywords = "outils, ressources, exercices en ligne, hotpotatoes";
+$js_deplus = "";
+$css_deplus = "";
+require('includes/headerEnseignant.inc.php');
 ?>
-<html>
-<head>
-<title>Liste des quiz - Changement des paramètres</title>
-<meta charset="utf-8">
-<meta http-equiv="Content-Type" content="text/html">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../style_jaune.css" rel="stylesheet" type="text/css">
-</head>
-<body>
-<?php 
-while ($row_rsListeSelectMatiereNiveau = mysqi_fetch_assoc($rsListeSelectMatiereNiveau)) 
-{        
-//echo ($row_rsListeSelectMatiereNiveau[en_ligne]).'<BR>';
 
-}
-?>
-<p><img src="../patate.gif" width="62" height="44"> <img src="../patate.jpg" width="324" height="39"></p>
-<p><strong><a href="../index.php">Accueil Stockpotatoes</a></strong><strong> - </strong><strong><a href="accueil_enseignant.php">Espace enseignan</a>t - Liste des 
-    exercices avec modification du mode (entrainement et/ou &eacute;valuation)</strong></p>
-<p align="right">&nbsp;</p>
 <form name="form1" method="post" action="liste_quiz_avecmodif.php">
-  <table width="100%" border="0" cellspacing="10" cellpadding="0">
-    <tr> 
-      <td width="35%"><div align="right"> 
-          <select name="matiere_ID" id="select2">
-            <?php
-do {  
-?>
-            <option value="<?php echo $row_rs_matiere['ID_mat']?>"<?php if (!(strcmp($row_rs_matiere['ID_mat'], $row_rsChoix['ID_mat']))) {echo "SELECTED";} ?>><?php echo $row_rs_matiere['nom_mat']?></option>
-            <?php
-} while ($row_rs_matiere = mysqli_fetch_assoc($rs_matiere));
-  $rows = mysqli_num_rows($rs_matiere);
-  if($rows > 0) {
-      mysqli_data_seek($rs_matiere, 0);
-	  $row_rs_matiere = mysqli_fetch_assoc($rs_matiere);
-  }
-?>
-          </select>
-        </div></td>
-      <td width="24%"><div align="center"> 
-          <select name="niveau_ID" id="select">
-            <?php
-do {  
-?>
-            <option value="<?php echo $row_rs_niveau['ID_niveau']?>"<?php if (!(strcmp($row_rs_niveau['ID_niveau'], $row_rsChoix2['ID_niveau']))) {echo "SELECTED";} ?>><?php echo $row_rs_niveau['nom_niveau']?></option>
-            <?php
-} while ($row_rs_niveau = mysqli_fetch_assoc($rs_niveau));
-  $rows = mysqli_num_rows($rs_niveau);
-  if($rows > 0) {
-      mysqli_data_seek($rs_niveau, 0);
-	  $row_rs_niveau = mysqli_fetch_assoc($rs_niveau);
-  }
-?>
-          </select>
-        </div></td>
-      <td width="41%"><input type="submit" name="Submit" value="Valider"></td>
-    </tr>
-  </table>
+	<div class="form-group row align-items-center justify-content-center">
+		<label for="matiere_ID" class="col-auto col-form-label">Sélectionner une matière :</label>
+		<div class="col-auto">
+			<select name="matiere_ID" id="select2" class="custom-select">
+				<?php
+				while ($row_RsMatiere = mysqli_fetch_assoc($rs_matiere)) 
+				{ ?>
+					<option value="<?php echo $row_RsMatiere['ID_mat']?>"<?php if (isset($matiereId)) { if (!(strcmp($row_RsMatiere['ID_mat'], $matiereId))) {echo " SELECTED";}} ?>><?php echo $row_RsMatiere['nom_mat']; ?></option>
+					<?php
+				} ?>
+			</select>
+		</div>
+		<label for="niveau_ID" class="col-auto col-form-label">Sélectionner un niveau :</label>
+		<div class="col-auto">
+			<select name="niveau_ID" id="select" class="custom-select">
+				<?php
+				while ($row_RsNiveau = mysqli_fetch_assoc($rs_niveau)) 
+				{ ?>
+					<option value="<?php echo $row_RsNiveau['ID_niveau']?>"<?php if (isset($niveauId)) { if (!(strcmp($row_RsNiveau['ID_niveau'], $niveauId))) {echo " SELECTED";}} ?>><?php echo $row_RsNiveau['nom_niveau']; ?></option>
+					<?php
+				} ?>
+			</select>
+		</div>
+		<div class="col-auto">
+			<button type="submit" name="Submit" class="btn btn-primary">Sélectionner</button>
+		</div>
+	</div>
 </form>
-<?php if (isset($_POST['matiere_ID'])) { ?>
-<form name="form2" method="POST" action="<?php echo $editFormAction; ?>">
-  <table border="1">
-    <tr> 
-      <td><div align="center"><strong>N&deg; Ex.</strong></div></td>
-      <td><div align="center"><strong>Titre</strong></div></td>
-      <td><div align="center"><strong>Fichier</strong></div></td>
-      <td><div align="center"><strong>Auteur</strong></div></td>
-      <td><div align="center"><strong>En entrainement</strong></div></td>
-      <td><div align="center"><strong>En &eacute;valuation</strong></div></td>
-      <td>&nbsp;</td>
-    </tr>
-    <?php do { 
-	 $matiere=sans_accent($row_rsListeSelectMatiereNiveau['nom_mat']);
-	 ?>
-    <tr> 
-      <td><div align="center"><?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?></div></td>
-      <td class="retrait20"><a href="<?php echo '../Exercices/'.$matiere.'/q'.$row_rsListeSelectMatiereNiveau['ID_quiz']; ?>/<?php echo $row_rsListeSelectMatiereNiveau['fichier']; ?>"><strong><?php echo $row_rsListeSelectMatiereNiveau['titre']; ?></strong></a></td>
-      <td class="retrait20"><?php echo $row_rsListeSelectMatiereNiveau['fichier']; ?></td>
-      <td class="retrait20"><?php echo $row_rsListeSelectMatiereNiveau['auteur']; ?></td>
-      <td> 
-        <div align="center"> 
-          <input <?php if (!(strcmp($row_rsListeSelectMatiereNiveau['en_ligne'],"O"))) {echo "checked";} ?> name="en_ligne" type="checkbox" id="en_ligne" value="checkbox">
-        </div></td>
-      <td> 
-        <div align="center"> 
-          <input <?php if (!(strcmp($row_rsListeSelectMatiereNiveau['avec_score'],"O"))) {echo "checked";} ?> name="avec_score" type="checkbox" id="avec_score" value="checkbox">
-        </div></td>
-    </tr>
-    <?php } while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau)); ?>
-  </table>
-  <p> 
-    <input name="tablist" type="hidden" id="tablist" value="<?php echo $rsListeSelectMatiereNiveau?>">
-    <input type="submit" name="Submit2" value="Modifier">
-  </p>
-  <input type="hidden" name="MM_update" value="form2">
-</form>
-<?php } ?>
-<p align="center"><a href="../index.php">Accueil Stockpotatoes</a> - <a href="../enseignant/accueil_enseignant.php">Espace Enseignant</a> - <a href="../administrateur/login_administrateur.php">Espace Administrateur</a></p>
-<p align="center"><a href="../upload/upload_menu.php">Envoyer un exercice ou un document sur le serveur</a></p>
-<p>&nbsp;</p>
-</body>
-</html>
-<?php
+
+<?php 
+if (isset($matiereId) && isset($niveauId))
+{ ?>
+	<div class="table-responsive">
+		<table class="table table-striped table-bordered table-sm">
+			<thead>
+				<tr>
+					<th scope="col">N° Ex.</th>
+					<th scope="col">Titre</th>
+					<th scope="col">Fichier</th>
+					<th scope="col">Auteur</th>
+					<th scope="col">En entraînement</th>
+					<th scope="col">En évaluation</th>
+					<th scope="col"> </th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php
+				while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau))
+				{
+					$matiere = sans_accent($row_rsChoix['nom_mat']); ?>
+					<form name="form2" method="POST" action="liste_quiz_avecmodif.php">
+						<tr>
+							<td><?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?></td>
+							<td>
+								<a href="<?php echo '../Exercices/'.$matiere.'/q'.$row_rsListeSelectMatiereNiveau['ID_quiz']; ?>/<?php echo $row_rsListeSelectMatiereNiveau['fichier']; ?>"><?php echo $row_rsListeSelectMatiereNiveau['titre']; ?></a>
+							</td>
+							<td><?php echo $row_rsListeSelectMatiereNiveau['fichier']; ?></td>
+							<td><?php echo $row_rsListeSelectMatiereNiveau['auteur']; ?></td>
+							<td>
+								<div class="form-check text-center">
+								  <input type="checkbox" name="en_ligne" id="en_ligne" value="O" class="form-check-input" <?php if (!(strcmp($row_rsListeSelectMatiereNiveau['en_ligne'], "O"))) {echo " checked ";} ?>>
+								</div>
+							</td>
+							<td>
+								<div class="form-check text-center">
+									<input type="checkbox" name="avec_score" id="avec_score" value="O" class="form-check-input" <?php if (!(strcmp($row_rsListeSelectMatiereNiveau['avec_score'], "O"))) {echo " checked ";} ?> >
+								</div>
+							</td>
+							<td>
+								<button type="submit" name="Submit2" value="form2" class="btn btn-primary">Modifier</button>
+								<input type="hidden" name="tablist" id="tablist" value="<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?>">
+								<input type="hidden" name="matiere_ID" id="matiere_ID" value="<?php echo $matiereId; ?>">
+								<input type="hidden" name="niveau_ID" id="niveau_ID" value="<?php echo $niveauId; ?>">
+							</td>
+						</tr>
+					</form>
+					<?php
+				} ?>
+			</tbody>
+		</table>
+	</div>
+	<?php 
+	mysqli_free_result($rsListeSelectMatiereNiveau);
+	mysqli_free_result($rsChoix);
+}
+
+require('includes/footerEnseignant.inc.php');
+
 mysqli_free_result($rs_matiere);
-
-mysqli_free_result($rs_niveau);
-
-mysqli_free_result($rsListeSelectMatiereNiveau);
-
-mysqli_free_result($rsChoix);
-
-mysqli_free_result($rsChoix2);
-?>
-
-  
+mysqli_free_result($rs_niveau); ?>

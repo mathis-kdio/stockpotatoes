@@ -27,15 +27,12 @@ if (isset($_POST['classe'])) {
 
 $query_rsClasse = "SELECT ID_eleve, nom, prenom, classe, niveau FROM stock_eleve GROUP BY classe ORDER BY classe DESC";
 $rsClasse = mysqli_query($conn_intranet, $query_rsClasse) or die(mysqli_error($conn_intranet));
-$row_rsClasse = mysqli_fetch_assoc($rsClasse);
 
 $query_RsMatiere = "SELECT * FROM stock_matiere ORDER BY nom_mat";
 $RsMatiere = mysqli_query($conn_intranet, $query_RsMatiere) or die(mysqli_error($conn_intranet));
-$row_RsMatiere = mysqli_fetch_assoc($RsMatiere);
 
 $query_RsNiveau = "SELECT * FROM stock_niveau";
 $RsNiveau = mysqli_query($conn_intranet, $query_RsNiveau) or die(mysqli_error($conn_intranet));
-$row_RsNiveau = mysqli_fetch_assoc($RsNiveau);
 
 if (isset($classeName) && isset($niveauId) && isset($matiereId))
 {
@@ -136,34 +133,37 @@ require('includes/headerEnseignant.inc.php');
 ?>
 <form name="form2" method="post" action="liste_resultat_theme_pourcent_classe.php">
 	<div class="form-group row align-items-center justify-content-center">
-		<label for="matiere_ID" class="col-auto col-form-label">Sélectionner une classe :</label>
+		<label for="classe" class="col-auto col-form-label">Sélectionner une classe :</label>
 		<div class="col-auto">
 			<select name="classe" id="select10" class="custom-select">
 				<?php
-				do { ?>
+				while ($row_rsClasse = mysqli_fetch_assoc($rsClasse)) 
+				{ ?>
 					<option value="<?php echo $row_rsClasse['classe']?>"<?php if (isset($classeName)) { if (!(strcmp($row_rsClasse['classe'], $classeName))) {echo " SELECTED";} }?>><?php echo $row_rsClasse['classe']; ?></option>
 					<?php
-				} while ($row_rsClasse = mysqli_fetch_assoc($rsClasse)); ?>
+				} ?>
 			</select>
 		</div>
-		<label for="matiere_ID" class="col-auto col-form-label">Sélectionner une matière :</label>
+		<label for="ID_mat" class="col-auto col-form-label">Sélectionner une matière :</label>
 		<div class="col-auto">
 			<select name="ID_mat" id="select11" class="custom-select">
 				<?php
-				do { ?>
+				while ($row_RsMatiere = mysqli_fetch_assoc($RsMatiere)) 
+				{ ?>
 					<option value="<?php echo $row_RsMatiere['ID_mat']?>"<?php if (isset($matiereId)) { if (!(strcmp($row_RsMatiere['ID_mat'], $matiereId))) {echo " SELECTED";}} ?>><?php echo $row_RsMatiere['nom_mat']?></option>
 					<?php
-				} while ($row_RsMatiere = mysqli_fetch_assoc($RsMatiere)); ?>
+				} ?>
 			</select>
 		</div>
-		<label for="matiere_ID" class="col-auto col-form-label">Sélectionner un niveau :</label>
+		<label for="ID_niveau" class="col-auto col-form-label">Sélectionner un niveau :</label>
 		<div class="col-auto">
 			<select name="ID_niveau" id="select7" class="custom-select">
 				<?php
-				do { ?>
+				while ($row_RsNiveau = mysqli_fetch_assoc($RsNiveau)) 
+				{ ?>
 					<option value="<?php echo $row_RsNiveau['ID_niveau']?>"<?php if (isset($niveauId)) { if (!(strcmp($row_RsNiveau['ID_niveau'], $niveauId))) {echo " SELECTED";}} ?>><?php echo $row_RsNiveau['nom_niveau']?></option>
 					<?php
-				} while ($row_RsNiveau = mysqli_fetch_assoc($RsNiveau)); ?>
+				} ?>
 			</select>
 		</div>
 		<div class="col-auto">

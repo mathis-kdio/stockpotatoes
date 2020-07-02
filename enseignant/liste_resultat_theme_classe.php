@@ -33,28 +33,18 @@ if (isset($_POST['classe'])) {
 
 $query_rsClasse = "SELECT DISTINCT classe FROM stock_eleve ORDER BY classe DESC";
 $rsClasse = mysqli_query($conn_intranet, $query_rsClasse) or die(mysqli_error($conn_intranet));
-$row_rsClasse = mysqli_fetch_assoc($rsClasse);
 
 $query_RsMatiere = "SELECT * FROM stock_matiere ORDER BY nom_mat";
 $RsMatiere = mysqli_query($conn_intranet, $query_RsMatiere) or die(mysqli_error($conn_intranet));
-$row_RsMatiere = mysqli_fetch_assoc($RsMatiere);
 
 $query_RsNiveau = "SELECT * FROM stock_niveau";
 $RsNiveau = mysqli_query($conn_intranet, $query_RsNiveau) or die(mysqli_error($conn_intranet));
-$row_RsNiveau = mysqli_fetch_assoc($RsNiveau);
 
-$colname1_RsTheme = "0";
-if (isset($matiereId)) {
-	$colname1_RsTheme = $matiereId;
+if (isset($matiereId) && isset($niveauId))
+{
+	$query_RsTheme = sprintf("SELECT * FROM stock_theme WHERE mat_ID = '%s' AND niv_ID = '%s' ORDER BY theme ASC", $matiereId, $niveauId);
+	$RsTheme = mysqli_query($conn_intranet, $query_RsTheme) or die(mysqli_error($conn_intranet));
 }
-$colname2_RsTheme = "0";
-if (isset($niveauId)) {
-	$colname2_RsTheme = $niveauId;
-}
-$query_RsTheme = sprintf("SELECT * FROM stock_theme WHERE mat_ID = '%s' AND niv_ID = '%s' ORDER BY theme ASC", $colname1_RsTheme, $colname2_RsTheme);
-$RsTheme = mysqli_query($conn_intranet, $query_RsTheme) or die(mysqli_error($conn_intranet));
-$row_RsTheme = mysqli_fetch_assoc($RsTheme);
-
 //CALCUL DES NOTES
 if (isset($themeId))
 {
@@ -221,14 +211,15 @@ require('includes/headerEnseignant.inc.php');
 
 <form name="form2" method="post" action="liste_resultat_theme_classe.php">
 	<div class="form-group row align-items-center justify-content-center">
-		<label for="matiere_ID" class="col-auto col-form-label">Sélectionner une classe :</label>
+		<label for="classe" class="col-auto col-form-label">Sélectionner une classe :</label>
 		<div class="col-auto">
 			<select name="classe" id="select10" class="custom-select">
 				<?php
-				do { ?>
+				while ($row_rsClasse = mysqli_fetch_assoc($rsClasse))
+				{ ?>
 					<option value="<?php echo $row_rsClasse['classe']?>"<?php if (isset($classeName)) { if (!(strcmp($row_rsClasse['classe'], $classeName))) {echo " SELECTED";} }?>><?php echo $row_rsClasse['classe']; ?></option>
 					<?php
-				} while ($row_rsClasse = mysqli_fetch_assoc($rsClasse)); ?>
+				} ?>
 			</select>
 		</div>
 		<div class="col-auto">
@@ -236,28 +227,32 @@ require('includes/headerEnseignant.inc.php');
 		</div>
 	</div>
 </form>
-<?php if (isset($classeName)) 
+<?php 
+mysqli_free_result($rsClasse);
+if (isset($classeName)) 
 { ?>
 	<form name="form4" method="post" action="liste_resultat_theme_classe.php">
 		<div class="form-group row align-items-center justify-content-center">
-			<label for="matiere_ID" class="col-auto col-form-label">Sélectionner une matière :</label>
+			<label for="ID_mat" class="col-auto col-form-label">Sélectionner une matière :</label>
 			<div class="col-auto">
 				<select name="ID_mat" id="select11" class="custom-select">
 					<?php
-					do { ?>
+					while ($row_RsMatiere = mysqli_fetch_assoc($RsMatiere))
+					{ ?>
 						<option value="<?php echo $row_RsMatiere['ID_mat']?>"<?php if (isset($matiereId)) { if (!(strcmp($row_RsMatiere['ID_mat'], $matiereId))) {echo " SELECTED";}} ?>><?php echo $row_RsMatiere['nom_mat']?></option>
 						<?php
-					} while ($row_RsMatiere = mysqli_fetch_assoc($RsMatiere)); ?>
+					} ?>
 				</select>
 			</div>
-			<label for="matiere_ID" class="col-auto col-form-label">Sélectionner un niveau :</label>
+			<label for="ID_niveau" class="col-auto col-form-label">Sélectionner un niveau :</label>
 			<div class="col-auto">
 				<select name="ID_niveau" id="select7" class="custom-select">
 					<?php
-					do { ?>
+					while ($row_RsNiveau = mysqli_fetch_assoc($RsNiveau))
+					{ ?>
 						<option value="<?php echo $row_RsNiveau['ID_niveau']?>"<?php if (isset($niveauId)) { if (!(strcmp($row_RsNiveau['ID_niveau'], $niveauId))) {echo " SELECTED";}} ?>><?php echo $row_RsNiveau['nom_niveau']?></option>
 						<?php
-					} while ($row_RsNiveau = mysqli_fetch_assoc($RsNiveau)); ?>
+					} ?>
 				</select>
 			</div>
 			<div class="col-auto">
@@ -267,19 +262,22 @@ require('includes/headerEnseignant.inc.php');
 		</div>
 	</form>
 	<?php
+	mysqli_free_result($RsMatiere);
+	mysqli_free_result($RsNiveau);
 }
 if (isset($matiereId) && isset($niveauId))
 { ?>
 	<form name="form1" method="post" action="liste_resultat_theme_classe.php">
 		<div class="form-group row align-items-center justify-content-center">
-			<label for="matiere_ID" class="col-auto col-form-label">Sélectionner un thème :</label>
+			<label for="ID_theme" class="col-auto col-form-label">Sélectionner un thème :</label>
 			<div class="col-auto">
 				<select name="ID_theme" id="select8" class="custom-select">
 					<?php
-					do { ?>
+					while ($row_RsTheme = mysqli_fetch_assoc($RsTheme)) 
+					{ ?>
 						<option value="<?php echo $row_RsTheme['ID_theme']?>"<?php if (isset($themeId)) { if (!(strcmp($row_RsTheme['ID_theme'], $themeId))) {echo " SELECTED";}} ?>><?php echo $row_RsTheme['theme']; ?></option>
 						<?php
-					} while ($row_RsTheme = mysqli_fetch_assoc($RsTheme)); ?>
+					} ?>
 				</select>
 			</div>
 			<div class="col-auto">
@@ -291,6 +289,7 @@ if (isset($matiereId) && isset($niveauId))
 		</div>
 	</form>
 	<?php
+	mysqli_free_result($RsTheme);
 }
 if (isset($themeId))
 { ?>
@@ -400,9 +399,4 @@ if (isset($themeId))
 	mysqli_free_result($Rs_theme_choisi);
 }
 
-require('includes/footerEnseignant.inc.php');
-
-mysqli_free_result($rsClasse);
-mysqli_free_result($RsTheme);
-mysqli_free_result($RsMatiere);
-mysqli_free_result($RsNiveau); ?>
+require('includes/footerEnseignant.inc.php'); ?>

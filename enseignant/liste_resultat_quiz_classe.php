@@ -30,40 +30,23 @@ if (isset($_POST['classe'])) {
 
 $query_rsClasse = "SELECT DISTINCT classe FROM stock_eleve ORDER BY classe DESC";
 $rsClasse = mysqli_query($conn_intranet, $query_rsClasse) or die(mysqli_error($conn_intranet));
-$row_rsClasse = mysqli_fetch_assoc($rsClasse);
 
 $query_RsMatiere = "SELECT * FROM stock_matiere ORDER BY nom_mat";
 $RsMatiere = mysqli_query($conn_intranet, $query_RsMatiere) or die(mysqli_error($conn_intranet));
-$row_RsMatiere = mysqli_fetch_assoc($RsMatiere);
 
 $query_RsNiveau = "SELECT * FROM stock_niveau";
 $RsNiveau = mysqli_query($conn_intranet, $query_RsNiveau) or die(mysqli_error($conn_intranet));
-$row_RsNiveau = mysqli_fetch_assoc($RsNiveau);
 
-$colname1_Rsquiz = "0";
-if (isset($matiereId)) {
-	$colname1_Rsquiz = $matiereId;
-}
-$colname2_Rsquiz = "0";
-if (isset($niveauId)) {
-	$colname2_Rsquiz = $niveauId;
-}
-$query_Rsquiz = sprintf("SELECT * FROM stock_quiz WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND cat_doc = '2' ORDER BY titre ASC", $colname1_Rsquiz, $colname2_Rsquiz);
-$Rsquiz = mysqli_query($conn_intranet, $query_Rsquiz) or die(mysqli_error($conn_intranet));
-$row_Rsquiz = mysqli_fetch_assoc($Rsquiz);
-
-$varquiz_RsActiviteClasse = "0";
-if (isset($quizId)) {
-	$varquiz_RsActiviteClasse = $quizId;
-}
-$varchoixclasse_RsActiviteClasse = "0";
-if (isset($classeName)) {
-	$varchoixclasse_RsActiviteClasse = $classeName;
+if (isset($matiereId) && isset($niveauId)) {
+	$query_Rsquiz = sprintf("SELECT * FROM stock_quiz WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND cat_doc = '2' ORDER BY titre ASC", $matiereId, $niveauId);
+	$Rsquiz = mysqli_query($conn_intranet, $query_Rsquiz) or die(mysqli_error($conn_intranet));
 }
 
-$query_RsActiviteClasse = sprintf("SELECT * FROM stock_activite, stock_eleve WHERE stock_activite.quiz_ID = '%s' AND stock_activite.nom_classe = '%s' AND stock_activite.eleve_ID=stock_eleve.ID_eleve ORDER BY stock_eleve.nom, stock_eleve.prenom ", $varquiz_RsActiviteClasse, $varchoixclasse_RsActiviteClasse);
-$RsActiviteClasse = mysqli_query($conn_intranet, $query_RsActiviteClasse) or die(mysqli_error($conn_intranet));
-$totalRows_RsActiviteClasse = mysqli_num_rows($RsActiviteClasse);
+if (isset($quizId) && isset($classeName)) {
+	$query_RsActiviteClasse = sprintf("SELECT * FROM stock_activite, stock_eleve WHERE stock_activite.quiz_ID = '%s' AND stock_activite.nom_classe = '%s' AND stock_activite.eleve_ID=stock_eleve.ID_eleve ORDER BY stock_eleve.nom, stock_eleve.prenom ", $quizId, $classeName);
+	$RsActiviteClasse = mysqli_query($conn_intranet, $query_RsActiviteClasse) or die(mysqli_error($conn_intranet));
+	$totalRows_RsActiviteClasse = mysqli_num_rows($RsActiviteClasse);
+}
 
 $choix_th_Rs_quiz_choisi = "0";
 if (isset($quizId))
@@ -85,14 +68,15 @@ require('includes/headerEnseignant.inc.php');
 
 <form name="form2" method="post" action="liste_resultat_quiz_classe.php">
 	<div class="form-group row align-items-center justify-content-center">
-		<label for="matiere_ID" class="col-auto col-form-label">Sélectionner une classe :</label>
+		<label for="classe" class="col-auto col-form-label">Sélectionner une classe :</label>
 		<div class="col-auto">
 			<select name="classe" id="select10" class="custom-select">
 				<?php
-				do { ?>
+				while ($row_rsClasse = mysqli_fetch_assoc($rsClasse))
+				{ ?>
 					<option value="<?php echo $row_rsClasse['classe']?>"<?php if (isset($classeName)) { if (!(strcmp($row_rsClasse['classe'], $classeName))) {echo "SELECTED";} }?>><?php echo $row_rsClasse['classe']; ?></option>
 						<?php
-				} while ($row_rsClasse = mysqli_fetch_assoc($rsClasse)); ?>
+				} ?>
 			</select>
 		</div>
 		<div class="col-auto">
@@ -104,24 +88,26 @@ require('includes/headerEnseignant.inc.php');
 { ?>
 	<form name="form4" method="post" action="liste_resultat_quiz_classe.php">
 		<div class="form-group row align-items-center justify-content-center">
-			<label for="matiere_ID" class="col-auto col-form-label">Sélectionner une matière :</label>
+			<label for="ID_mat" class="col-auto col-form-label">Sélectionner une matière :</label>
 			<div class="col-auto">
 				<select name="ID_mat" id="select11" class="custom-select">
 					<?php
-					do { ?>
+					while ($row_RsMatiere = mysqli_fetch_assoc($RsMatiere)) 
+					{ ?>
 						<option value="<?php echo $row_RsMatiere['ID_mat']?>"<?php if (isset($matiereId)) { if (!(strcmp($row_RsMatiere['ID_mat'], $matiereId))) {echo "SELECTED";}} ?>><?php echo $row_RsMatiere['nom_mat']?></option>
 						<?php
-					} while ($row_RsMatiere = mysqli_fetch_assoc($RsMatiere)); ?>
+					} ?>
 				</select>
 			</div>
-			<label for="matiere_ID" class="col-auto col-form-label">Sélectionner un niveau :</label>
+			<label for="ID_niveau" class="col-auto col-form-label">Sélectionner un niveau :</label>
 			<div class="col-auto">
 				<select name="ID_niveau" id="select7" class="custom-select">
 					<?php
-					do { ?>
+					while ($row_RsNiveau = mysqli_fetch_assoc($RsNiveau))
+					{ ?>
 						<option value="<?php echo $row_RsNiveau['ID_niveau']?>"<?php if (isset($niveauId)) { if (!(strcmp($row_RsNiveau['ID_niveau'], $niveauId))) {echo "SELECTED";}} ?>><?php echo $row_RsNiveau['nom_niveau']?></option>
 						<?php
-					} while ($row_RsNiveau = mysqli_fetch_assoc($RsNiveau)); ?>
+					} ?>
 				</select>
 			</div>
 			<div class="col-auto">
@@ -136,14 +122,15 @@ if (isset($matiereId) && isset($niveauId))
 { ?>
 	<form name="form1" method="post" action="liste_resultat_quiz_classe.php">
 		<div class="form-group row align-items-center justify-content-center">
-			<label for="matiere_ID" class="col-auto col-form-label">Sélectionner un quiz :</label>
+			<label for="ID_quiz" class="col-auto col-form-label">Sélectionner un quiz :</label>
 			<div class="col-auto">
 				<select name="ID_quiz" id="select8" class="custom-select">
 					<?php
-					do { ?>
+					while ($row_Rsquiz = mysqli_fetch_assoc($Rsquiz)) 
+					{ ?>
 						<option value="<?php echo $row_Rsquiz['ID_quiz']?>"<?php if (isset($quizId)) { if (!(strcmp($row_Rsquiz['ID_quiz'], $quizId))) {echo "SELECTED";}} ?>><?php echo $row_Rsquiz['titre']; ?></option>
 						<?php
-					} while ($row_Rsquiz = mysqli_fetch_assoc($Rsquiz)); ?>
+					} ?>
 				</select>
 			</div>
 			<div class="col-auto">

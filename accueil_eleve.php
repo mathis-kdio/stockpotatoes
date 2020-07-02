@@ -14,7 +14,7 @@ if (!isset($_SESSION['Sess_classe']))
 		header('Location:login_eleve.php');
 	}
 }
-if (isset($_SESSION['Sess_classe']))
+else if (isset($_SESSION['Sess_classe']))
 {
 	if (isset($_SESSION['matiere_ID'])) 
 	{
@@ -50,11 +50,9 @@ mysqli_select_db($conn_intranet, $database_conn_intranet);
 
 $query_rs_matiere = "SELECT * FROM stock_matiere ORDER BY nom_mat";
 $rs_matiere = mysqli_query($conn_intranet, $query_rs_matiere) or die(mysqli_error($conn_intranet));
-$row_rs_matiere = mysqli_fetch_assoc($rs_matiere);
 
 $query_rs_niveau = "SELECT * FROM stock_niveau ORDER BY ID_niveau";
 $rs_niveau = mysqli_query($conn_intranet, $query_rs_niveau) or die(mysqli_error($conn_intranet));
-$row_rs_niveau = mysqli_fetch_assoc($rs_niveau);
 
 $query_rsListequiz = "SELECT * FROM stock_quiz WHERE avec_score = 'O' ORDER BY titre";
 $rsListequiz = mysqli_query($conn_intranet, $query_rsListequiz) or die(mysqli_error($conn_intranet));
@@ -128,10 +126,9 @@ mysqli_stmt_close($themeChoisi);
 $titre_page = "Accueil des élèves";
 $meta_description = "Page accueil des élève pour y être évalué";
 $meta_keywords = "outils, ressources, exercices en ligne, hotpotatoes";
+$js_deplus = "";
 $css_deplus = "";
 require('includes/header.inc.php');
-
-
 ?>
 <div class="row">
 	<div class="col">
@@ -149,24 +146,25 @@ require('includes/header.inc.php');
 		<div class="col-auto">
 			<select class="custom-select" name="matiere_ID" id="select2">
 				<?php
-				do { ?>
+				while ($row_rs_matiere = mysqli_fetch_assoc($rs_matiere)) 
+				{ ?>
 					<option value="<?php echo $row_rs_matiere['ID_mat']?>"<?php if (isset($matiereId)) { if (!(strcmp($row_rs_matiere['ID_mat'], $matiereId))) {echo "SELECTED";} } ?>><?php echo $row_rs_matiere['nom_mat']?></option>
-										<?php
-				} while ($row_rs_matiere = mysqli_fetch_assoc($rs_matiere)); ?>
+					<?php
+				} ?>
 			</select>
 		</div>
 		<label for="niveau_ID" class="col-auto col-form-label">Puis un niveau :</label>
 		<div class="col-auto">
 			<select class="custom-select" name="niveau_ID" id="select">
 				<?php
-				do {
-				?>
+				while ($row_rs_niveau = mysqli_fetch_assoc($rs_niveau))
+				{ ?>
 					<option value="<?php echo $row_rs_niveau['ID_niveau']?>"<?php if (isset($niveauId)) { if (!(strcmp($row_rs_niveau['ID_niveau'], $niveauId))) {echo "SELECTED";} }?>><?php echo $row_rs_niveau['nom_niveau']?></option>
 					<?php
-				} while ($row_rs_niveau = mysqli_fetch_assoc($rs_niveau)); ?>
+				} ?>
 			</select>
 		</div>
-		<label for="niveau_ID" class="col-auto col-form-label">Enfin validez :</label>
+		<label for="submitMatNiv" class="col-auto col-form-label">Enfin validez :</label>
 		<div class="col-auto">
 			<button type="submit" name="submitMatNiv" class="btn btn-primary">Valider</button>
 		</div>

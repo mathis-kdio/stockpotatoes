@@ -150,7 +150,7 @@ if (isset($matiereId))
 			<input type="hidden" name="ID_mat2" id="ID_mat3" value="<?php echo htmlspecialchars($_POST['ID_mat']);?>">
 		</div>
 	</form>
-	<h4 class="text-center mt-5">Liste des thèmes & Paramétrages</h4>
+	<h4 class="text-center mt-5" id="listeThemes">Liste des thèmes & Paramétrages</h4>
 	<h5 class="text-center">Faire glisser les thèmes pour changer l'ordre</h5>
 	<div class="row">
 		<div class="col">
@@ -246,7 +246,7 @@ if (isset($matiereId))
 		</div>
 	</div>
 	<div class="form-group row align-items-center justify-content-center">	
-		<form method="post" name="form_nouvel_ordre" action="gestion_theme.php?matiere_ID=<?php echo $matiereId; ?>&niveau_ID=<?php echo $niveauId; ?>">
+		<form method="post" name="form_nouvel_ordre" action="gestion_theme.php?matiere_ID=<?php echo $matiereId; ?>&niveau_ID=<?php echo $niveauId; ?>#listeThemes">
 			<div class="col-auto">
 				<button type="submit" name="submit_nouvel_ordre" class="btn btn-primary" onclick="setValuesInputOrderList()">Enregistrer le nouvel ordre</button>
 			</div>

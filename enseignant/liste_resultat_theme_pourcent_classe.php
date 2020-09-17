@@ -38,12 +38,14 @@ if (isset($classeName) && isset($niveauId) && isset($matiereId))
 {
 	$query_RsChoixTheme = sprintf("SELECT * FROM stock_theme WHERE mat_ID = '%s' AND niv_ID = '%s' ORDER BY theme", $matiereId, $niveauId);
 	$RsChoixTheme = mysqli_query($conn_intranet, $query_RsChoixTheme) or die(mysqli_error($conn_intranet));
+	$totalRows_Rstheme = mysqli_num_rows($RsChoixTheme);
 
 	$query_Rs_Liste_eleve = sprintf("SELECT ID_eleve, nom, prenom FROM stock_eleve WHERE classe = '%s' ORDER BY nom", $classeName);
 	$Rs_Liste_eleve = mysqli_query($conn_intranet, $query_Rs_Liste_eleve) or die(mysqli_error($conn_intranet));
 
 	$themeid = array();
 	$theme = array();
+
 	while ($row_RsChoixTheme = mysqli_fetch_assoc($RsChoixTheme)) 
 	{
 		$themeid[] = $row_RsChoixTheme['ID_theme'];
@@ -71,7 +73,7 @@ if (isset($classeName) && isset($niveauId) && isset($matiereId))
 
 }
 
-function generateResult($classeName, $conn_intranet, $totalRows_Rsquiz, $theme, $themeid, $tab, $totaltheme)
+function generateResult($classeName, $conn_intranet, $totalRows_Rstheme, $totalRows_Rsquiz, $theme, $themeid, $tab, $totaltheme)
 {
 	$query_Rs_Liste_eleve = sprintf("SELECT ID_eleve, nom, prenom FROM stock_eleve WHERE classe = '%s' ORDER BY nom ", $classeName);
 	$Rs_Liste_eleve = mysqli_query($conn_intranet, $query_Rs_Liste_eleve) or die(mysqli_error($conn_intranet));
@@ -84,7 +86,7 @@ function generateResult($classeName, $conn_intranet, $totalRows_Rsquiz, $theme, 
 
 	fwrite($fp, 'Nom Prénom;');
 
-	for ($i = 0; $i < $totalRows_Rsquiz; $i++)
+	for ($i = 0; $i < $totalRows_Rstheme; $i++)
 	{
 		$listethemes = $theme[$i]."  ".'(N'.$themeid[$i].');';
 		fwrite($fp, $listethemes);
@@ -97,7 +99,7 @@ function generateResult($classeName, $conn_intranet, $totalRows_Rsquiz, $theme, 
 		fwrite($fp, $listeeleves);
 		$i = 0;
 
-		for ($i = 0; $i < $totalRows_Rsquiz; $i++)
+		for ($i = 0; $i < $totalRows_Rstheme; $i++)
 		{
 			if (isset($tab[$row_Rs_Liste_eleve['ID_eleve']][$themeid[$i]])) 
 			{
@@ -119,7 +121,7 @@ function generateResult($classeName, $conn_intranet, $totalRows_Rsquiz, $theme, 
 
 if ((isset($_POST['Submit4'])) && ($_POST['Submit4'] == "export"))
 {
-	generateResult($classeName, $conn_intranet, $totalRows_Rsquiz, $theme, $themeid, $tab, $totaltheme);
+	generateResult($classeName, $conn_intranet, $totalRows_Rstheme, $totalRows_Rsquiz, $theme, $themeid, $tab, $totaltheme);
 	header('Location: ../Exercices/resultats_themes_pourcent.csv');
 }
 
@@ -192,13 +194,12 @@ if (isset($classeName) && isset($niveauId) && isset($matiereId))
 		<table class="table table-striped table-bordered table-sm">
 			<thead>
 				<tr>
-						<th scope="col">Nom - Prénom</th>
-						<?php
-						for ($i = 0; $i < $totalRows_Rsquiz; $i++)
-						{
-							echo '<th scope="col">'.$theme[$i].'  '.'( N°'.$themeid[$i].')</th>';
-						}
-						?>
+					<th scope="col">Nom - Prénom</th>
+					<?php
+					for ($i = 0; $i < $totalRows_Rstheme; $i++)
+					{
+						echo '<th scope="col">'.$theme[$i].'  '.'( N°'.$themeid[$i].')</th>';
+					}	?>
 				</tr>
 			</thead>
 			<tbody>
@@ -208,7 +209,7 @@ if (isset($classeName) && isset($niveauId) && isset($matiereId))
 					<tr>
 						<td><?php echo $row_Rs_Liste_eleve['nom'].' '.$row_Rs_Liste_eleve['prenom'];?></td>
 						<?php
-						for ($i = 0; $i < $totalRows_Rsquiz; $i++)
+						for ($i = 0; $i < $totalRows_Rstheme; $i++)
 						{
 							if (isset($tab[$row_Rs_Liste_eleve['ID_eleve']][$themeid[$i]])) 
 							{

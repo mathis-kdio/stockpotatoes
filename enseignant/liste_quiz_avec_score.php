@@ -53,7 +53,7 @@ $css_deplus = "";
 require('includes/headerEnseignant.inc.php');
 ?>
 
-<form name="form1" method="post" action="liste_quiz_non_publie.php">
+<form name="form1" method="post" action="liste_quiz_avec_score.php">
   <div class="form-group row align-items-center justify-content-center">
     <label for="matiere_ID" class="col-auto col-form-label">Sélectionner une matière :</label>
     <div class="col-auto">

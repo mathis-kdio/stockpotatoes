@@ -3,21 +3,21 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 session_start();
-if (!isset($_SESSION['Sess_classe']))
-{
-	if ($_SESSION['Sess_nom'] == 'VISITEUR')
-	{
-		header('Location:accueil_visiteur.php?matiere_ID='.$_SESSION['matiere_ID'].'&niveau_ID='.$_SESSION['niveau_ID'].'&theme_ID='.$_SESSION['theme_ID'].'&categorie_ID='.$_SESSION['categorie_ID'].'');
+if (!isset($_SESSION['Sess_classe'])) {
+	if ($_SESSION['Sess_nom'] == 'VISITEUR') {
+		if(isset($_SESSION['matiere_ID']) && $_SESSION['niveau_ID'] && $_SESSION['theme_ID'] && $_SESSION['categorie_ID']) {
+			header('Location:accueil_visiteur.php?matiere_ID='.$_SESSION['matiere_ID'].'&niveau_ID='.$_SESSION['niveau_ID'].'&theme_ID='.$_SESSION['theme_ID'].'&categorie_ID='.$_SESSION['categorie_ID'].'');
+		}
+		else {
+			header('Location:accueil_visiteur.php');	
+		}
 	}
-	else
-	{
+	else {
 		header('Location:login_eleve.php');
 	}
 }
-else if (isset($_SESSION['Sess_classe']))
-{
-	if (isset($_SESSION['matiere_ID'])) 
-	{
+else if (isset($_SESSION['Sess_classe'])) {
+	if (isset($_SESSION['matiere_ID'])) {
 		$Sess_matiereID = $_SESSION['matiere_ID'];
 		$Sess_niveauID = $_SESSION['niveau_ID'];
 		$Sess_themeID = $_SESSION['theme_ID'];

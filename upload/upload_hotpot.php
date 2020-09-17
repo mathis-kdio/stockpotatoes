@@ -110,18 +110,18 @@ if (!Empty($_POST['submit2']))
 		}
 		//fin enregistrement ds la table
 
-		$query_RsMaxId_quiz = "SELECT MAX(Id_quiz) FROM stock_quiz";
+		$query_RsMaxId_quiz = "SELECT MAX(Id_quiz) AS maxId FROM stock_quiz";
 		$RsMaxId_quiz = mysqli_query($conn_intranet, $query_RsMaxId_quiz) or die(mysqli_error($conn_intranet));
 		$row_RsMaxId_quiz = mysqli_fetch_assoc($RsMaxId_quiz);
 
-		$total = $row_RsMaxId_quiz['MAX( Id_quiz )'];
+		$total = $row_RsMaxId_quiz['maxId'];
 		mysqli_free_result($RsMaxId_quiz);
 		$nom_matiere = sans_accent($row_RsChoixMatiere['nom_mat']);
 		$repertoire = '../Exercices/'.$nom_matiere.'/q'.$total;
 
 		if (is_dir($repertoire))
 		{
-			echo '<span class="text-center">Le dossier ".$repertoire." existait déjà</span>';
+			echo '<span class="text-center">Le dossier '.$repertoire.' existait déjà</span>';
 		}
 		else
 		{
@@ -154,7 +154,7 @@ if (!Empty($_POST['submit2']))
 			}
 			else
 			{
-				echo '<h3 class="text-danger text-center">Le fichier '.$_FILES['fichier']['name'].' a été envoyé sur le serveur dans le dossier '.$dossier_destination.'</h3>';
+				echo '<h3 class="text-success text-center">Le fichier '.$_FILES['fichier']['name'].' a été envoyé sur le serveur dans le dossier '.$dossier_destination.'</h3>';
 			}
 		}
 	}
@@ -201,7 +201,7 @@ require('include/headerUpload.inc.php');
 { ?>
 	<h1 class="text-center mb-5"><?php echo $row_RsChoixMatiere['nom_mat'];?></h1>
 
-	<form method="post" name="form1" id="formulaire" action="upload_hotpot.php">
+	<form method="post" name="form1" id="formulaire" action="upload_hotpot.php" enctype="multipart/form-data">
 		<div class="form-group form-row justify-content-right align-items-center">
 			<div class="col-auto">
 				<span class="text-right">Ce fichier sera dans l'étude du thème:</span>

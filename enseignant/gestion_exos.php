@@ -319,12 +319,11 @@ require('includes/headerEnseignant.inc.php');
 											</div>
 											<div class="col-1">
 												<form name="formsup1" method="post" action="supp_quiz.php">
-													<div align="center">
-														<input name="ID_quiz" type="hidden" id="ID_quiz" value="<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz'] ?>">
-														<input name="nom_mat" type="hidden" id="nom_mat" value="<?php echo $row_rsChoix['nom_mat']; ?>">
-														<input name="boutonsup1" type="hidden" value="Supprimer">
-														<input type="image" src="images/delete.gif" alt="Supprimer un document">
-													</div>
+													<input name="ID_quiz" type="hidden" id="ID_quiz" value="<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?>">
+													<input name="ID_mat" type="hidden" id="ID_mat" value="<?php echo $themeId; ?>">
+													<input name="ID_niv" type="hidden" id="ID_niv" value="<?php echo $niveauId; ?>">
+													<input name="ID_theme" type="hidden" id="ID_theme" value="<?php echo $themeId; ?>">
+													<input type="image" src="images/delete.gif" alt="Supprimer un document">
 												</form>
 											</div>
 											<div class="col-1">
@@ -466,12 +465,11 @@ require('includes/headerEnseignant.inc.php');
 												</div>
 												<div class="col-1">
 													<form name="formsup2" method="post" action="supp_quiz.php">
-														<div align="center">
-															<input name="ID_quiz" type="hidden" id="ID_quiz" value="<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz'] ?>">
-															<input name="nom_mat" type="hidden" id="nom_mat" value="<?php echo $row_rsChoix['nom_mat']; ?>">
-															<input name="boutonsup2" type="hidden" value="Supprimer">
-															<input type="image" src="images/delete.gif" alt="Supprimer un document">
-														</div>
+														<input name="ID_quiz" type="hidden" id="ID_quiz" value="<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?>">
+														<input name="ID_mat" type="hidden" id="ID_mat" value="<?php echo $themeId; ?>">
+														<input name="ID_niv" type="hidden" id="ID_niv" value="<?php echo $niveauId; ?>">
+														<input name="ID_theme" type="hidden" id="ID_theme" value="<?php echo $themeId; ?>">
+														<input type="image" src="images/delete.gif" alt="Supprimer un document">
 													</form>
 												</div>
 												<div class="col-1">
@@ -614,12 +612,11 @@ require('includes/headerEnseignant.inc.php');
 											</div>
 											<div class="col-1">
 												<form name="formsup3" method="post" action="supp_quiz.php">
-													<div align="center">
-														<input name="ID_quiz" type="hidden" id="ID_quiz" value="<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz'] ?>">
-														<input name="nom_mat" type="hidden" id="nom_mat" value="<?php echo $row_rsChoix['nom_mat']; ?>">
-														<input name="boutonsup3" type="hidden" value="Supprimer">
-														<input type="image" src="images/delete.gif" alt="Supprimer un document">
-													</div>
+													<input name="ID_quiz" type="hidden" id="ID_quiz" value="<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?>">
+													<input name="ID_mat" type="hidden" id="ID_mat" value="<?php echo $themeId; ?>">
+													<input name="ID_niv" type="hidden" id="ID_niv" value="<?php echo $niveauId; ?>">
+													<input name="ID_theme" type="hidden" id="ID_theme" value="<?php echo $themeId; ?>">
+													<input type="image" src="images/delete.gif" alt="Supprimer un document">
 												</form>
 											</div>
 											<div class="col-1">
@@ -761,12 +758,11 @@ require('includes/headerEnseignant.inc.php');
 											</div>
 											<div class="col-1">
 												<form name="formsup4" method="post" action="supp_quiz.php">
-													<div align="center">
-														<input name="ID_quiz" type="hidden" id="ID_quiz" value="<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz'] ?>">
-														<input name="nom_mat" type="hidden" id="nom_mat" value="<?php echo $row_rsChoix['nom_mat']; ?>">
-														<input name="boutonsup4" type="hidden" value="Supprimer">
-														<input type="image" src="images/delete.gif" alt="Supprimer un document">
-													</div>
+													<input name="ID_quiz" type="hidden" id="ID_quiz" value="<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?>">
+													<input name="ID_mat" type="hidden" id="ID_mat" value="<?php echo $themeId; ?>">
+													<input name="ID_niv" type="hidden" id="ID_niv" value="<?php echo $niveauId; ?>">
+													<input name="ID_theme" type="hidden" id="ID_theme" value="<?php echo $themeId; ?>">
+													<input type="image" src="images/delete.gif" alt="Supprimer un document">
 												</form>
 											</div>
 											<div class="col-1">
@@ -909,13 +905,11 @@ require('includes/headerEnseignant.inc.php');
 											</div>
 											<div class="col-1">
 												<form name="formsup5" method="post" action="supp_quiz.php">
-													<div align="center">
-														<input name="categorie_ID" type="hidden" value="<?php echo $row_rsListeSelectMatiereNiveau['categorie_ID'] ?>">
-														<input name="ID_quiz" type="hidden" id="ID_quiz" value="<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz'] ?>">
-														<input name="nom_mat" type="hidden" id="nom_mat" value="<?php echo $row_rsChoix['nom_mat']; ?>">
-														<input name="boutonsup5" type="hidden" value="Supprimer">
-														<input type="image" src="images/delete.gif" alt="Supprimer un document">
-													</div>
+													<input name="ID_quiz" type="hidden" id="ID_quiz" value="<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?>">
+													<input name="ID_mat" type="hidden" id="ID_mat" value="<?php echo $themeId; ?>">
+													<input name="ID_niv" type="hidden" id="ID_niv" value="<?php echo $niveauId; ?>">
+													<input name="ID_theme" type="hidden" id="ID_theme" value="<?php echo $themeId; ?>">
+													<input type="image" src="images/delete.gif" alt="Supprimer un document">
 												</form>
 											</div>
 											<div class="col-1">

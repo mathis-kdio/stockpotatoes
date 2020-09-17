@@ -1,37 +1,43 @@
-<?php session_start(); 
-if (isset($_SESSION['Sess_nom'])) { 
-	if ($_SESSION['Sess_nom']<>'Enseignant') { header("Location: login_enseignant.php");}
-; } else { header("Location: ../index.php");}?>
-<html>
-<head>
-<title>Suppression d'un exercice &gt; Confirmation</title>
-<meta charset="utf-8">
-<meta http-equiv="Content-Type" content="text/html">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../style_jaune.css" rel="stylesheet" type="text/css">
-</head>
-<body>
+<?php 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr valign="top"> 
-    <td width="40%"><img src="../patate.gif" width="253" height="227"></td>
-    <td width="60%"><div align="center">
-        <p><img src="../patate.jpg" width="324" height="39" align="top"></p>
-        <p>&nbsp;</p>
-        <form name="form1" method="post" action="">
-          <div align="center"> 
-            <p><strong><br>
-              L'exercice a &eacute;t&eacute; supprim&eacute;</strong></p>
-            <p>&nbsp;</p>
-          </div>
-        </form>
-        <p><a href="gestion_exos.php"><strong>Retour Gestion des exercices</strong></a></p>
-        <p><a href="../index.php"><strong>Accueil Stockpotatoes</strong></a> - <strong><a href="accueil_enseignant.php">Espace Enseignant</a></strong></p>
-        <p><strong><a href="../upload/upload_menu.php">Envoyer un exercice ou un document 
-              sur le serveur</a></strong></p>
-    </div></td>
-  </tr>
-</table>
-<p>&nbsp; </p>
-</body>
-</html>
+session_start(); 
+if (isset($_SESSION['Sess_nom'])) {
+	if ($_SESSION['Sess_nom'] <> 'Enseignant') {
+		header("Location: login_enseignant.php?cible=gestion_exos");
+	}
+}
+else {
+	header("Location: login_enseignant.php?cible=gestion_exos");
+}
+
+require_once('../Connections/conn_intranet.php');
+
+if (isset($_GET['matiere_ID'])) {
+	$matId = htmlspecialchars($_GET['matiere_ID']);
+}
+if (isset($_GET['niveau_ID'])) {
+	$nivId = htmlspecialchars($_GET['niveau_ID']);
+}
+if (isset($_GET['theme_ID'])) {
+	$themeId = htmlspecialchars($_GET['theme_ID']);
+}
+
+$titre_page = "Confirmation de la suppression d'un exercice";
+$meta_description = "Page de confirmation de la suppression d'un exercice";
+$meta_keywords = "outils, ressources, exercices en ligne, hotpotatoes";
+$js_deplus = "";
+$css_deplus = "";
+require('includes/headerEnseignant.inc.php');
+?>
+<div class="text-center">
+	<div>
+		<p class="text-success font-weight-bold">L'exercice a été supprimé</p>
+	</div>
+	<div>
+		<a class="btn btn-primary" href="gestion_exos.php?matiere_ID=<?php echo $matId; ?>&niveau_ID=<?php echo $nivId; ?>&theme_ID=<?php echo $themeId; ?>" role="button">Retourner sur la page de gestion des exercices</a>
+	</div>
+</div>
+<?php
+require('includes/footerEnseignant.inc.php'); ?>

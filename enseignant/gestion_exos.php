@@ -161,7 +161,7 @@ require('includes/headerEnseignant.inc.php');
 	<div class="form-group row align-items-center justify-content-center">
 		<label for="select2" class="col-auto col-form-label">Sélectionnez une matière</label>
 		<div class="col-auto">
-			<select class="form-control" name="matiere_ID" id="select2">
+			<select class="custom-select" name="matiere_ID" id="select2">
 				<?php
 				do
 				{ ?>
@@ -172,7 +172,7 @@ require('includes/headerEnseignant.inc.php');
 		</div>
 		<label for="select" class="col-auto col-form-label">Sélectionnez un niveau</label>
 		<div class="col-auto">
-			<select class="form-control" name="niveau_ID" id="select">
+			<select class="custom-select" name="niveau_ID" id="select">
 				<?php
 				do 
 				{ ?>
@@ -198,7 +198,7 @@ require('includes/headerEnseignant.inc.php');
 		<div class="form-group row align-items-center justify-content-center">
 			<label for="select3" class="col-auto col-form-label">Sélectionnez un thème :</label>
 			<div class="col-auto">
-				<select class="form-control" name="theme_ID" id="select3">
+				<select class="custom-select" name="theme_ID" id="select3">
 					<?php
 					do { ?>
 						<option value="<?php echo $row_RsListeTheme['ID_theme']?>"<?php if (isset($themeId)) { if (!(strcmp($row_RsListeTheme['ID_theme'], $themeId))) {echo "SELECTED";}}?>><?php echo $row_RsListeTheme['theme']?></option>
@@ -359,7 +359,7 @@ require('includes/headerEnseignant.inc.php');
 				</div>
 			</div>
 			<div class="form-group row align-items-center justify-content-center">	
-				<form method="post" name="form_nouvel_ordre_cours" action="gestion_exos.php?matiere_ID=<?php echo $matiereId; ?>&niveau_ID=<?php echo $niveauId; ?>&theme_ID=<?php echo $themeId; ?>">
+				<form method="post" name="form_nouvel_ordre_cours" action="gestion_exos.php?matiere_ID=<?php echo $matiereId; ?>&niveau_ID=<?php echo $niveauId; ?>&theme_ID=<?php echo $themeId; ?>#cours">
 					<div class="col-auto">
 						<button type="submit" name="submit_nouvel_ordre_cours" class="btn btn-primary" onclick="setValuesInputOrderListCours()">Enregistrer le nouvel ordre des cours</button>
 					</div>
@@ -372,7 +372,7 @@ require('includes/headerEnseignant.inc.php');
 					animation: 100,
 					group: 'list-1',
 					draggable: '.list-group-item',
-					handle: '.list-group-item',
+					handle: '.position-handle',
 					sort: true,
 					filter: '.sortable-disabled',
 					chosenClass: 'active',
@@ -507,7 +507,7 @@ require('includes/headerEnseignant.inc.php');
 				</div>
 			</div>
 			<div class="row form-group align-items-center justify-content-center">	
-				<form method="post" name="form_nouvel_ordre_hotpotatoes" action="gestion_exos.php?matiere_ID=<?php echo $matiereId; ?>&niveau_ID=<?php echo $niveauId; ?>&theme_ID=<?php echo $themeId; ?>">
+				<form method="post" name="form_nouvel_ordre_hotpotatoes" action="gestion_exos.php?matiere_ID=<?php echo $matiereId; ?>&niveau_ID=<?php echo $niveauId; ?>&theme_ID=<?php echo $themeId; ?>#hotpotatoes">
 					<div class="col-auto">
 						<button type="submit" name="submit_nouvel_ordre_Hotpotatoes" class="btn btn-primary" onclick="setValuesInputOrderListHotpotatoes()">Enregistrer le nouvel ordre des exos Hotpotatoes</button>
 					</div>
@@ -654,7 +654,7 @@ require('includes/headerEnseignant.inc.php');
 				</div>
 			</div>
 			<div class="row form-group align-items-center justify-content-center">	
-				<form method="post" name="form_nouvel_ordre_autres" action="gestion_exos.php?matiere_ID=<?php echo $matiereId; ?>&niveau_ID=<?php echo $niveauId; ?>&theme_ID=<?php echo $themeId; ?>">
+				<form method="post" name="form_nouvel_ordre_autres" action="gestion_exos.php?matiere_ID=<?php echo $matiereId; ?>&niveau_ID=<?php echo $niveauId; ?>&theme_ID=<?php echo $themeId; ?>#exercices">
 					<div class="col-auto">
 						<button type="submit" name="submit_nouvel_ordre_autres" class="btn btn-primary" onclick="setValuesInputOrderListAutres()">Enregistrer le nouvel ordre des autres documents</button>
 					</div>
@@ -801,7 +801,7 @@ require('includes/headerEnseignant.inc.php');
 				</div>
 			</div>
 			<div class="row form-group align-items-center justify-content-center">	
-				<form method="post" name="form_nouvel_ordre_travail" action="gestion_exos.php?matiere_ID=<?php echo $matiereId; ?>&niveau_ID=<?php echo $niveauId; ?>&theme_ID=<?php echo $themeId; ?>">
+				<form method="post" name="form_nouvel_ordre_travail" action="gestion_exos.php?matiere_ID=<?php echo $matiereId; ?>&niveau_ID=<?php echo $niveauId; ?>&theme_ID=<?php echo $themeId; ?>#travail">
 					<div class="col-auto">
 						<button type="submit" name="submit_nouvel_ordre_travail" class="btn btn-primary" onclick="setValuesInputOrderListTravail()">Enregistrer le nouvel ordre du travail à faire</button>
 					</div>
@@ -950,7 +950,7 @@ require('includes/headerEnseignant.inc.php');
 				</div>
 			</div>
 			<div class="row form-group align-items-center justify-content-center">	
-				<form method="post" name="form_nouvel_ordre_documents" action="gestion_exos.php?matiere_ID=<?php echo $matiereId; ?>&niveau_ID=<?php echo $niveauId; ?>&theme_ID=<?php echo $themeId; ?>">
+				<form method="post" name="form_nouvel_ordre_documents" action="gestion_exos.php?matiere_ID=<?php echo $matiereId; ?>&niveau_ID=<?php echo $niveauId; ?>&theme_ID=<?php echo $themeId; ?>#annexes">
 					<div class="col-auto">
 						<button type="submit" name="submit_nouvel_ordre_documents" class="btn btn-primary" onclick="setValuesInputOrderListDocuments()">Enregistrer le nouvel ordre des documents annexes</button>
 					</div>

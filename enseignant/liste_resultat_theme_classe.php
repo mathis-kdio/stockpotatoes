@@ -331,20 +331,18 @@ if (isset($themeId))
 					<tr> 
 						<th scope="row"><?php echo $row_Rs_Liste_eleve['ID_eleve']; ?></th>
 						<td><?php echo $row_Rs_Liste_eleve['nom'].' '.$row_Rs_Liste_eleve['prenom']; ?></td>
-						<td>
-							<?php
-							for ($i = 0; $i < $totalRows_Rsquiz; $i++)
+						<?php
+						for ($i = 0; $i < $totalRows_Rsquiz; $i++)
+						{
+							if (isset($tab[$row_Rs_Liste_eleve['ID_eleve']][$numquiz[$i]])) 
 							{
-								if (isset($tab[$row_Rs_Liste_eleve['ID_eleve']][$numquiz[$i]])) 
-								{
-									echo $tab[$row_Rs_Liste_eleve['ID_eleve']][$numquiz[$i]];  
-								}
-								else
-								{
-									echo ' ';
-								}
-							} ?>
-						</td>
+								echo '<td>'.$tab[$row_Rs_Liste_eleve['ID_eleve']][$numquiz[$i]].'</td>';
+							}
+							else
+							{
+								echo '<td></td> ';
+							}
+						} ?>
 						<td>
 							<?php
 							//Affichage moyenne de l'élève
@@ -365,20 +363,18 @@ if (isset($themeId))
 				<tr>
 					<td>-</td>
 					<td>Moyenne :</td>
-					<td>
-						<?php
-						for ($i = 0; $i < $totalRows_Rsquiz; $i++)
+					<?php
+					for ($i = 0; $i < $totalRows_Rsquiz; $i++)
+					{
+						if ($nb_notes_v[$i] != 0)
 						{
-							if ($nb_notes_v[$i] != 0)
-							{
-								echo round(($somme_v[$i] / $nb_notes_v[$i]), 1);
-							}
-							else
-							{
-								echo '-';
-							}
-						}?>
-					</td>
+							echo '<td>'.round(($somme_v[$i] / $nb_notes_v[$i]), 1).'</td>';
+						}
+						else
+						{
+							echo '<td>-</td>';
+						}
+					}?>
 					<td>
 						<?php
 						//moyenne générale

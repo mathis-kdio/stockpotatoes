@@ -33,6 +33,8 @@ else if (isset($_SESSION['Sess_classe'])) {
 
 require_once('Connections/conn_intranet.php');
 
+require_once('includes/yml.class.php');
+
 if (isset($_GET['matiere_ID'])) {
 	$matiereId = htmlspecialchars($_GET['matiere_ID']);
 }
@@ -106,8 +108,7 @@ $nivListeTheme = 0;
 if (isset($niveauId)) {
 	$nivListeTheme = $niveauId;
 }
-$today = date("Y-m-d");
-$listeTheme = mysqli_prepare($conn_intranet, "SELECT ID_theme, theme FROM stock_theme WHERE mat_ID = ? AND niv_ID = ? AND '$today' >= date_apparition AND date_disparition >= '$today' ORDER BY pos_theme") or exit(mysqli_error($conn_intranet));
+$listeTheme = mysqli_prepare($conn_intranet, "SELECT ID_theme, theme FROM stock_theme WHERE mat_ID = ? AND niv_ID = ? ORDER BY pos_theme") or exit(mysqli_error($conn_intranet));
 mysqli_stmt_bind_param($listeTheme, "ii", $matListeTheme, $nivListeTheme);
 
 $selectheme_RsChoixTheme = 0;
@@ -122,6 +123,8 @@ mysqli_stmt_bind_result($themeChoisi, $row_RsChoixTheme['theme']);
 mysqli_stmt_fetch($themeChoisi);
 mysqli_stmt_close($themeChoisi);
 
+$lecture = new Lire('includes/config.yml');
+$lecture = $lecture->GetTableau();
 
 $titre_page = "Accueil des élèves";
 $meta_description = "Page accueil des élève pour y être évalué";
@@ -130,43 +133,52 @@ $js_deplus = "";
 $css_deplus = "";
 require('includes/header.inc.php');
 ?>
-<div class="row">
+<div class="row no-gutters align-items-center text-break">
 	<div class="col">
-		<h4>Mode Evaluation - Choix de l'exercice<h4>
+		<h4>Mode Evaluation - Choix de l'exercice</h4>
 	</div>
 	<div class="col text-right">
 		<h2><?php echo $_SESSION['Sess_nom'].'   '.$_SESSION['Sess_prenom'].'   '.$_SESSION['Sess_classe']?></h2>
-		<h3><a href="eleve_modif_pass.php">Changer mon mot de passe</a><h3>
+		<?php
+		if (isset($lecture['General']["studentPass"]) && $lecture['General']["studentPass"] == "Yes") { ?>
+			<h5><a href="eleve_modif_pass.php">Changer mon mot de passe</a></h5>
+			<?php
+		} ?>
 	</div>
 </div>
 <!-- FORM pour le choix de la matière et du niveau-->
-<form name="form1" method="GET" action="accueil_eleve.php">
-	<div class="form-group row align-items-center justify-content-center py-2 bg-info shadow">
-		<label for="matiere_ID" class="col-auto col-form-label">Sélectionnez une matière :</label>
-		<div class="col-auto">
-			<select class="custom-select" name="matiere_ID" id="select2">
-				<?php
-				while ($row_rs_matiere = mysqli_fetch_assoc($rs_matiere)) 
-				{ ?>
-					<option value="<?php echo $row_rs_matiere['ID_mat']?>"<?php if (isset($matiereId)) { if (!(strcmp($row_rs_matiere['ID_mat'], $matiereId))) {echo "SELECTED";} } ?>><?php echo $row_rs_matiere['nom_mat']?></option>
+<form name="form1" method="GET" action="accueil_eleve.php#listeThemes">
+	<div class="form-row justify-content-around py-2 bg-info shadow rounded">
+		<div class="form-row justify-content-center mt-1 pb-1">
+			<label for="matiere_ID" class="col-auto col-form-label">Sélectionnez une matière :</label>
+			<div class="col-auto">
+				<select class="custom-select" name="matiere_ID" id="select2">
 					<?php
-				} ?>
-			</select>
+					while ($row_rs_matiere = mysqli_fetch_assoc($rs_matiere)) { ?>
+						<option value="<?php echo $row_rs_matiere['ID_mat']?>"<?php if (isset($matiereId)) { if (!(strcmp($row_rs_matiere['ID_mat'], $matiereId))) {echo "SELECTED";} } ?>><?php echo $row_rs_matiere['nom_mat']?></option>
+						<?php
+					} ?>
+				</select>
+			</div>
 		</div>
-		<label for="niveau_ID" class="col-auto col-form-label">Puis un niveau :</label>
-		<div class="col-auto">
-			<select class="custom-select" name="niveau_ID" id="select">
-				<?php
-				while ($row_rs_niveau = mysqli_fetch_assoc($rs_niveau))
-				{ ?>
-					<option value="<?php echo $row_rs_niveau['ID_niveau']?>"<?php if (isset($niveauId)) { if (!(strcmp($row_rs_niveau['ID_niveau'], $niveauId))) {echo "SELECTED";} }?>><?php echo $row_rs_niveau['nom_niveau']?></option>
+		<div class="form-row justify-content-center mt-1 pb-1">
+			<label for="niveau_ID" class="col-auto col-form-label">Puis un niveau :</label>
+			<div class="col-auto">
+				<select class="custom-select" name="niveau_ID" id="select">
 					<?php
-				} ?>
-			</select>
+					while ($row_rs_niveau = mysqli_fetch_assoc($rs_niveau))
+					{ ?>
+						<option value="<?php echo $row_rs_niveau['ID_niveau']?>"<?php if (isset($niveauId)) { if (!(strcmp($row_rs_niveau['ID_niveau'], $niveauId))) {echo "SELECTED";} }?>><?php echo $row_rs_niveau['nom_niveau']?></option>
+						<?php
+					} ?>
+				</select>
+			</div>
 		</div>
-		<label for="submitMatNiv" class="col-auto col-form-label">Enfin validez :</label>
-		<div class="col-auto">
-			<button type="submit" name="submitMatNiv" class="btn btn-primary">Valider</button>
+		<div class="form-row justify-content-center mt-1 pb-1">
+			<label for="submitMatNiv" class="col-auto col-form-label">Enfin validez :</label>
+			<div class="col-auto">
+				<button type="submit" name="submitMatNiv" class="btn btn-primary">Valider</button>
+			</div>
 		</div>
 	</div>
 </form>
@@ -179,44 +191,48 @@ require('includes/header.inc.php');
 		</div>
 	</div>
 	<div class="row pb-3">
-		<div class="col-md-2">
+		<!-- Liste des thèmes -->
+		<div class="col-md-2 mb-3" id="listeThemes">
 			<div class="pb-3 bg-info shadow rounded">
 				<div class="text-center">
 					<h3>Thème d'étude</h3>
 				</div>
 				<div class="text-center">
-					<?php
-					mysqli_stmt_execute($listeTheme);
-					mysqli_stmt_bind_result($listeTheme, $row_RsListeTheme['ID_theme'], $row_RsListeTheme['theme']);
-					while (mysqli_stmt_fetch($listeTheme))
-					{ ?>
-						<a href="accueil_eleve.php?matiere_ID=<?php echo $matiereId; ?>&niveau_ID=<?php echo $niveauId; ?>&theme_ID=<?php echo $row_RsListeTheme['ID_theme']?>"><?php echo $row_RsListeTheme['theme']?></a><br><br>
-						<?php 
-					}
-					mysqli_stmt_close($listeTheme);
+					<div class="btn-group-vertical" role="group">
+						<?php
+						mysqli_stmt_execute($listeTheme);
+						mysqli_stmt_bind_result($listeTheme, $row_RsListeTheme['ID_theme'], $row_RsListeTheme['theme']);
+						while (mysqli_stmt_fetch($listeTheme))
+						{ ?>
+								<a href="accueil_eleve.php?matiere_ID=<?php echo $matiereId; ?>&niveau_ID=<?php echo $niveauId; ?>&theme_ID=<?php echo $row_RsListeTheme['ID_theme']?>#listeCategories" class="btn btn-primary btn-lg mt-2" role="button"><?php echo $row_RsListeTheme['theme']?></a>
+							<?php 
+						}
+						mysqli_stmt_close($listeTheme);
 
-					//Affiche le thème Divers uniquement s'il y a au moins un doc dedans
-					$qTestExoDivers = sprintf("SELECT * FROM stock_quiz WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND theme_ID = 0", $matiereId, $niveauId);
-					$rsTestExoDivers = mysqli_query($conn_intranet, $qTestExoDivers) or die(mysqli_error());
-					$nbExosDivers = mysqli_num_rows($rsTestExoDivers);
-					if ($nbExosDivers > 0) 
-					{
-						echo '<a href="accueil_eleve.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID=0">Divers</a>';
-					}?>
+						//Affiche le thème Divers uniquement s'il y a au moins un doc dedans
+						$qTestExoDivers = sprintf("SELECT * FROM stock_quiz WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND theme_ID = 0", $matiereId, $niveauId);
+						$rsTestExoDivers = mysqli_query($conn_intranet, $qTestExoDivers) or die(mysqli_error());
+						$nbExosDivers = mysqli_num_rows($rsTestExoDivers);
+						if ($nbExosDivers > 0) {
+							echo '<a href="accueil_eleve.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID=0#listeCategories" class="btn btn-primary btn-lg" role="button">Divers</a>';
+						}?>
+					</div>	
 				</div>
 			</div>
 		</div>
-		<div class="col-md-7 offset-md-1">
+		<!-- Contenus principal -->
+		<div class="col-md-7 offset-md-1 mb-3">
 			<div class="container bg-info shadow rounded">
 				<div class="row">
 					<div class="col text-center">
 						<?php
-						if (isset($themeId))
-						{
-							if ($themeId == 0)
+						if (isset($themeId)) {
+							if ($themeId == 0) {
 								echo '<h3>Divers</h3>';
-							else
+							}
+							else {
 								echo '<h3>'.$row_RsChoixTheme['theme'].'</h3>';
+							}
 						}
 
 						$icone[1] = 'enseignant/images/link.gif';
@@ -238,61 +254,73 @@ require('includes/header.inc.php');
 						?>
 					</div>
 				</div>
-				<div class="row mb-3 shadow rounded">
+				<div class="row shadow rounded" id="listeCategories">
 					<div class="col text-center">
 						<?php
-						if(isset($themeId))
-						{
+						if(isset($themeId)) {
 							$query_categorie = sprintf("SELECT * FROM stock_quiz, stock_categorie WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND theme_ID = '%s' AND categorie_ID = ID_categorie GROUP BY categorie_ID ", $matiereId, $niveauId, $themeId);
 							$Rs_categorie = mysqli_query($conn_intranet, $query_categorie) or die(mysqli_error());
-							$row_Rs_categorie = mysqli_fetch_assoc($Rs_categorie);
-							if (!isset($categorieId))
-							{
-								echo "<strong>Veuillez sélectionner une catégorie</strong><br>";
+							if (!isset($categorieId)) {
+								echo "<h5>Veuillez sélectionner une catégorie:</h5>";
 							}
-							else
-							{
-								if ($categorieId != 0)
-								{
+							else {
+								if ($categorieId != 0) {
 									$query_categorieSelect = sprintf("SELECT * FROM stock_categorie WHERE ID_categorie = '%s'", $categorieId);
 									$Rs_categorieSelect = mysqli_query($conn_intranet, $query_categorieSelect) or die(mysqli_error());
 									$row_Rs_categorieSelect = mysqli_fetch_assoc($Rs_categorieSelect);
-									echo "<strong>Vous êtes dans la catégorie: ".$row_Rs_categorieSelect['nom_categorie']."</strong><br>";
+									echo "<h5>Vous êtes dans la catégorie: <span class='font-weight-bold'>".$row_Rs_categorieSelect['nom_categorie']."</span></h5>";
 								}
-								else
-								{
-									echo "<strong>Vous êtes dans la catégorie: Non classés</strong><br>";
+								else {
+									echo "<h5>Vous êtes dans la catégorie: <span class='font-weight-bold'>Non classés</span></h5>";
 								}
-							}?>
-							<div>
+							} ?>
+							<!-- Listes des catégorie -->
+							<div class="btn-toolbar justify-content-center mb-3" role="toolbar">
 								<?php
-								do
-								{
-									echo '<a href="accueil_eleve.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$themeId.'&categorie_ID='.$row_Rs_categorie['ID_categorie'].'"><strong>'.$row_Rs_categorie['nom_categorie'].'</strong></a>&nbsp;&nbsp;&nbsp;&nbsp;';
-								} while ($row_Rs_categorie = mysqli_fetch_assoc($Rs_categorie));
+								 while ($row_Rs_categorie = mysqli_fetch_assoc($Rs_categorie)) {
+									echo '<div class="btn-group mx-1 mt-2" role="group">';
+									echo '<a href="accueil_eleve.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$themeId.'&categorie_ID='.$row_Rs_categorie['ID_categorie'].'#listeExos" class="btn btn-primary" role="button">'.$row_Rs_categorie['nom_categorie'].'</a>';
+									echo '</div>';
+								};
 
 								//Affiche la catégorie Non classés uniquement s'il y a au moins un doc dedans
 								$qTestExoNonClasse = sprintf("SELECT * FROM stock_quiz WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND theme_ID = '%s' AND categorie_ID = 0", $matiereId, $niveauId, $themeId);
 								$rsTestExoNonClasse = mysqli_query($conn_intranet, $qTestExoNonClasse) or die(mysqli_error());
 								$nbExos = mysqli_num_rows($rsTestExoNonClasse);
-								if ($nbExos > 0) 
-								{
-									echo '<a href="accueil_eleve.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$themeId.'&categorie_ID=0"><strong>Non classés</strong></a>';
-								}
-							}
-							else
-							{
-								echo "<h2 class='text-center'>Veuillez sélectionner un thème d'étude</h2>";							
-							}?>
-						</div>
+								if ($nbExos > 0) {
+									echo '<div class="btn-group mx-1 mt-2" role="group">';
+									echo '<a href="accueil_eleve.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$themeId.'&categorie_ID=0#listeExos" class="btn btn-primary" role="button">Non classés</a>';
+									echo '</div>';
+								} ?>
+							</div>
+							<?php
+						}
+						else {
+							echo "<h4 class='text-center'>Veuillez sélectionner un thème d'étude</h4>";							
+						} ?>
 					</div>
 				</div>
 				<?php
-				if (isset($categorieId)) 
-				{ ?>
-					<div class="row align-items-center">
-						<div class="col pt-1 pb-1 bg-info shadow rounded text-center">
-							<a href="#cours">Cours</a> - <a href="#hotpotatoes">Ex. Hotpotatoes</a> - <a href="#exercices">Autres exercices</a> - <a href="#travail">Travail à faire</a> - <a href="#annexes">Documents annexes</a>
+				if (isset($categorieId)) { ?>
+					<div class="row mb-3 py-3 shadow rounded" id="listeExos">
+						<div class="col text-center">
+							<div class="btn-toolbar justify-content-center" role="toolbar">
+								<div class="btn-group mx-1 mt-2" role="group">
+									<a href="#cours" class="btn btn-primary" role="button">Cours</a>
+								</div>
+								<div class="btn-group mx-1 mt-2" role="group">
+									<a href="#hotpotatoes" class="btn btn-primary" role="button">Ex. Hotpotatoes</a>
+								</div>
+								<div class="btn-group mx-1 mt-2" role="group">
+									<a href="#exercices" class="btn btn-primary" role="button">Autres exercices</a>
+								</div>
+								<div class="btn-group mx-1 mt-2" role="group">
+									<a href="#travail" class="btn btn-primary" role="button">Travail à faire</a>
+								</div>
+								<div class="btn-group mx-1 mt-2" role="group">
+									<a href="#annexes" class="btn btn-primary" role="button">Documents annexes</a>
+								</div>
+							</div>
 						</div>
 					</div>
 					
@@ -314,7 +342,7 @@ require('includes/header.inc.php');
 							<div class="col">
 								<div class="row">
 									<div class="col bg-info text-center">
-										<strong>Le cours<a name="cours"></a></strong>
+										<h5 id="cours">Le cours</h5>
 									</div>
 								</div>
 								<div class="row">
@@ -404,7 +432,7 @@ require('includes/header.inc.php');
 							<div class="col">
 								<div class="row">
 									<div class="col bg-info text-center">
-										<strong>Exercices Hotpotatoes<a name="hotpotatoes"></a></strong>
+										<h5 id="hotpotatoes">Exercices Hotpotatoes</h5>
 									</div>
 								</div>
 								<div class="row">
@@ -412,9 +440,8 @@ require('includes/header.inc.php');
 										<table class="table table-striped table-bordered table-sm">
 											<thead class="thead-light">
 												<tr>
-													<th scope="col"><strong>&nbsp;</strong></th>
+													<th scope="col"><strong>Statut</strong></th>
 													<th scope="col"><strong>N°</strong></th>
-													<th scope="col"><strong>Fait</strong></th>
 													<th scope="col"><strong>Exercice</strong></th>
 													<th scope="col"><strong>Note sur 20</strong></th>
 													<th scope="col"><strong>Entrainement</strong></th>
@@ -473,9 +500,6 @@ require('includes/header.inc.php');
 															</th>
 															<td>
 																<div><?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?></div>
-															</td>
-															<td>
-																<input type="checkbox" name="checkbox" value="checkbox" <?php if ($totalRows_RsExosFait <> 0) { echo " checked"; }?> >
 															</td>
 															<td>
 																<?php 
@@ -571,7 +595,7 @@ require('includes/header.inc.php');
 							<div class="col">
 								<div class="row">
 									<div class="col bg-info text-center">
-										<strong>Autres exercices<a name="exercices"></a></strong>
+										<h5 id="exercices">Autres exercices</h5>
 									</div>
 								</div>
 								<div class="row">
@@ -658,7 +682,7 @@ require('includes/header.inc.php');
 							<div class="col">
 								<div class="row">
 									<div class="col bg-info text-center">
-										<strong>Travail à faire<a name="travail"></a></strong>
+										<h5 id="travail">Travail à faire</h5>
 									</div>
 								</div>
 								<div class="row">
@@ -748,7 +772,7 @@ require('includes/header.inc.php');
 							<div class="col">
 								<div class="row">
 									<div class="col bg-info text-center">
-										<strong>Documents annexes <a name="annexes"></a></strong>
+										<h5 id="annexes">Documents annexes</h5>
 									</div>
 								</div>
 								<div class="row">
@@ -823,7 +847,8 @@ require('includes/header.inc.php');
 				} ?>
 			</div>
 		</div>
-		<div class="col-md-2">
+		<!-- Liste des résultats -->
+		<div class="col-md-2 mb-3">
 			<?php
 			if (isset($themeId))
 			{ 

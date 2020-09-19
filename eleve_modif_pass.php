@@ -8,6 +8,15 @@ if (!isset($_SESSION['Sess_classe']))
 	header('Location:login_eleve.php');
 }
 
+require_once('includes/yml.class.php');
+
+$lecture = new Lire('includes/config.yml');
+$lecture = $lecture->GetTableau();
+
+if (isset($lecture['General']["studentPass"]) && $lecture['General']["studentPass"] == "No") {
+	header('Location:login_eleve.php');
+}
+
 require_once('Connections/conn_intranet.php');
 
 mysqli_select_db($conn_intranet, $database_conn_intranet);

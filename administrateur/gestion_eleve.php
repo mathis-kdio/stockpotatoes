@@ -221,7 +221,7 @@ require('include/headerAdministrateur.inc.php');
 		<div class="row">
 			<div class="col">
 				<h4>Insérer des élèves depuis un fichier</h4>
-				<button name="Submit5" type="submit" class="btn btn-primary"  onClick="window.location = 'gestion_eleve_txt.php'">
+				<button name="Submit5" type="submit" class="btn btn-primary"  onClick="window.location = 'gestion_eleve_fichier.php'">
 					C'est par ici !
 				</button>
 			</div>

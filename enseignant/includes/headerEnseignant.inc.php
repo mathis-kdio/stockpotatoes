@@ -26,7 +26,7 @@ $config = $config->GetTableau();
 		<meta name="keywords" content="<?php echo $meta_keywords ?>" />
 		<meta name="author" content="stockpotatoes" />
 
-    	<link rel="stylesheet" type="text/css" media="all" href="../includes/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" media="all" href="../includes/bootstrap.min.css" />
 		<!-- Mon CSS -->
 		<link rel="stylesheet" type="text/css" media="all" href="includes/styleEnseignant.css" />
 		<!--Ajout d'une à trois feuille(s) de style et/ou d'un à trois script(s) en fonction de l'exo -->

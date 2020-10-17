@@ -2,27 +2,46 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 session_start();
-if (isset($_SESSION['Sess_nom']))
-{ 
-	if ($_SESSION['Sess_nom'] <> 'Upload')
-	{
-		header("Location: login_upload.php?cible=upload_divers");
+
+if (isset($_GET['matiere_ID'])) {
+	$matiereId = htmlspecialchars($_GET['matiere_ID']);
+}
+if (isset($_GET['niveau_ID'])) {
+	$niveauId = htmlspecialchars($_GET['niveau_ID']);
+}
+if (isset($_GET['theme_ID'])) {
+	$themeId = htmlspecialchars($_GET['theme_ID']);
+}
+if (isset($niveauId) && isset($matiereId)) {
+	if (isset($themeId)) {
+		$location = "login_upload.php?cible=upload_divers.php".urlencode("?matiere_ID=".$matiereId."&niveau_ID=".$niveauId."&theme_ID=".$themeId."&n=");
+	}
+	else {
+		$location = "login_upload.php?cible=upload_divers.php".urlencode("?matiere_ID=".$matiereId."&niveau_ID=".$niveauId."&n=");
 	}
 }
-else
-{
-	header("Location: login_upload.php?cible=upload_divers");
+
+if (isset($_SESSION['Sess_nom'])) { 
+	if ($_SESSION['Sess_nom'] <> 'Upload') {
+		if (isset($location)) {
+			header("Location: ".$location);
+		}
+		else {
+			header("Location: login_upload.php?cible=upload_divers");
+		}
+	}
+}
+else {
+	if (isset($location)) {
+		header("Location: ".$location);
+	}
+	else {
+		header("Location: login_upload.php?cible=upload_divers");
+	}
 }
 require_once('../Connections/conn_intranet.php');
 
 mysqli_select_db($conn_intranet, $database_conn_intranet);
-
-if (isset($_POST['matiere_ID'])) {
-	$matiereId = htmlspecialchars($_POST['matiere_ID']);
-}
-if (isset($_POST['niveau_ID'])) {
-	$niveauId = htmlspecialchars($_POST['niveau_ID']);
-}
 
 function sans_accent($chaine) 
 { 
@@ -168,11 +187,12 @@ $css_deplus = "";
 require('include/headerUpload.inc.php');
 ?>
 
-<form name="form1" method="post" action="upload_divers.php">
+<form name="form1" method="get" action="upload_divers.php">
 	<div class="form-group row align-items-center justify-content-center">
 		<label for="matiere_ID" class="col-auto col-form-label">Matière :</label>
 		<div class="col-auto">
 			<select name="matiere_ID" id="select2" class="custom-select">
+				<option disabled selected value="">Selectionnez une matière</option>
 				<?php
 				do { ?>
 					<option value="<?php echo $row_rs_matiere['ID_mat']?>"<?php if (isset($matiereId)) { if (!(strcmp($row_rs_matiere['ID_mat'], $matiereId))) {echo "SELECTED";} }  ?>><?php echo $row_rs_matiere['nom_mat']?></option>
@@ -183,6 +203,7 @@ require('include/headerUpload.inc.php');
 		<label for="niveau_ID" class="col-auto col-form-label">Niveau :</label>
 		<div class="col-auto">
 			<select name="niveau_ID" id="niveau_ID" class="custom-select">
+				<option disabled selected value="">Selectionnez un niveau</option>
 				<?php
 				do { ?>
 					<option value="<?php echo $row_rs_niveau['ID_niveau']?>"<?php if (isset($niveauId)) { if (!(strcmp($row_rs_niveau['ID_niveau'], $niveauId))) {echo "SELECTED";} } ?>><?php echo $row_rs_niveau['nom_niveau']?></option>
@@ -199,18 +220,17 @@ require('include/headerUpload.inc.php');
 { ?>
 	<h1 class="text-center mb-5"><?php echo $row_RsChoixMatiere['nom_mat'];?></h1>
 
-	<form method="post" name="form1" id="formulaire" action="upload_divers.php" enctype="multipart/form-data">
+	<form method="post" name="form1" id="formulaire" action="upload_divers.php?matiere_ID=<?php echo $matiereId;?>&niveau_ID=<?php echo $niveauId;?>" enctype="multipart/form-data">
 		<div class="form-group form-row justify-content-right align-items-center">
 			<div class="col-auto">
 				<span class="text-right"> Ce fichier sera dans l'étude du thème:</span>
 			</div>
 			<div class="col-auto">
-				<select class="form-control" name="theme_ID" id="select">
-					<option value="value">Selectionnez un thème</option>
+				<select class="custom-select" name="theme_ID" id="select" required>
+					<option disabled selected value="">Selectionnez un thème</option>
 					<?php
-					do 
-					{ ?>
-						<option value="<?php echo $row_RsTheme['ID_theme']?>"><?php echo $row_RsTheme['theme']?></option>
+					do { ?>
+						<option value="<?php echo $row_RsTheme['ID_theme']?>"<?php if (isset($niveauId)) { if (!(strcmp($row_RsTheme['ID_theme'], $themeId))) {echo "SELECTED";} } ?>><?php echo $row_RsTheme['theme']?></option>
 						<?php
 					} while ($row_RsTheme = mysqli_fetch_assoc($RsTheme)); ?>
 				</select>
@@ -224,11 +244,10 @@ require('include/headerUpload.inc.php');
 				<span class="text-right">Ce fichier sera dans la catégorie:</span>
 			</div>
 			<div class="col-auto">
-				<select class="form-control" name="categorie_ID" id="select">
-					<option value="value">Selectionnez une catégorie</option>
+				<select class="custom-select" name="categorie_ID" id="select" required>
+					<option disabled selected value="">Selectionnez une catégorie</option>
 					<?php
-					do 
-					{ ?>
+					do { ?>
 						<option value="<?php echo $row_RsCategorie['ID_categorie']?>"><?php echo $row_RsCategorie['nom_categorie'];?></option>
 						<?php
 					} while ($row_RsCategorie = mysqli_fetch_assoc($RsCategorie));?>
@@ -243,7 +262,7 @@ require('include/headerUpload.inc.php');
 				<span class="text-right">Titre du document: <span class="font-weight-bold text-danger">(Obligatoire)</span>:</span>
 			</div>
 			<div class="col-auto">
-				<input type="text" class="form-control" name="titre" placeholder="Titre non utilisé de préférence">
+				<input type="text" class="form-control" name="titre" placeholder="Titre non utilisé de préférence" required>
 			</div>
 		</div>
 		<div class="form-group form-row justify-content-right align-items-center">
@@ -252,14 +271,12 @@ require('include/headerUpload.inc.php');
 			</div>
 			<div class="col-auto">
 				<div class="custom-file">
-				  <input type="file" class="custom-file-input" name="fichier" id="fichier">
+				  <input type="file" class="custom-file-input" name="fichier" id="fichier" required>
 				  <label class="custom-file-label" for="fichier">Veuillez choisir un fichier</label>
 				</div>
 			</div>
 			<input type="hidden" name="MM_insert" value="form1">
 			<input type="hidden" name="MAX_FILE_SIZE" value="100000000">
-			<input name="matiere_ID" type="hidden" id="matiere_ID" value="<?php echo $matiereId;?>"> 
-			<input name="niveau_ID" type="hidden" id="niveau_ID" value="<?php echo $niveauId;?>"> 
 			<input name="nom_mat" type="hidden" id="nom_mat" value="<?php echo htmlspecialchars($_POST['nom_mat']);?>"> 
 		</div>
 		<div class="form-group form-row justify-content-right align-items-center">

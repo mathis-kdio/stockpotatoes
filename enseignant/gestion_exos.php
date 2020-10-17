@@ -3,15 +3,12 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 session_start(); 
-if (isset($_SESSION['Sess_nom']))
-{
-	if ($_SESSION['Sess_nom'] <> 'Enseignant')
-	{
+if (isset($_SESSION['Sess_nom'])) {
+	if ($_SESSION['Sess_nom'] != 'Enseignant') {
 		header("Location: login_enseignant.php?cible=gestion_exos");
 	}
 }
-else
-{
+else {
 	header("Location: login_enseignant.php?cible=gestion_exos");
 }
 
@@ -320,7 +317,7 @@ require('includes/headerEnseignant.inc.php');
 											<div class="col-1">
 												<form name="formsup1" method="post" action="supp_quiz.php">
 													<input name="ID_quiz" type="hidden" id="ID_quiz" value="<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?>">
-													<input name="ID_mat" type="hidden" id="ID_mat" value="<?php echo $themeId; ?>">
+													<input name="ID_mat" type="hidden" id="ID_mat" value="<?php echo $matiereId; ?>">
 													<input name="ID_niv" type="hidden" id="ID_niv" value="<?php echo $niveauId; ?>">
 													<input name="ID_theme" type="hidden" id="ID_theme" value="<?php echo $themeId; ?>">
 													<input type="image" src="images/delete.gif" alt="Supprimer un document">
@@ -365,6 +362,11 @@ require('includes/headerEnseignant.inc.php');
 					<input type="hidden" name="MM_nouvel_ordre" value="form_nouvel_ordre_cours">
 					<input type="hidden" id="ordreCours" name="ordreCours" value="">
 				</form>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-auto">
+					<a class="btn btn-primary" href="../upload/upload_divers.php?matiere_ID=<?php echo $matiereId;?>&niveau_ID=<?php echo $niveauId;?>&theme_ID=<?php if (isset($themeId)) { echo $themeId; }?>" role="button">Ajouter un cours</a>
+				</div>
 			</div>
 			<script type="text/javascript">
 				let listCours = Sortable.create(sortablelistCours, {
@@ -411,7 +413,6 @@ require('includes/headerEnseignant.inc.php');
 										if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 2) { ?>
 										<div class="list-group-item d-flex align-items-center justify-content-between text-center overflow-auto" data-id="<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']?>">
 												<div class="col-1" style="cursor: grab;">
-													<!--<span class="position-handle badge badge-dark">14</span>-->
 													<img class="position-handle" src="images/move.png" width="19" height="19">
 												</div>
 												<div class="col-1">
@@ -466,7 +467,7 @@ require('includes/headerEnseignant.inc.php');
 												<div class="col-1">
 													<form name="formsup2" method="post" action="supp_quiz.php">
 														<input name="ID_quiz" type="hidden" id="ID_quiz" value="<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?>">
-														<input name="ID_mat" type="hidden" id="ID_mat" value="<?php echo $themeId; ?>">
+														<input name="ID_mat" type="hidden" id="ID_mat" value="<?php echo $matiereId; ?>">
 														<input name="ID_niv" type="hidden" id="ID_niv" value="<?php echo $niveauId; ?>">
 														<input name="ID_theme" type="hidden" id="ID_theme" value="<?php echo $themeId; ?>">
 														<input type="image" src="images/delete.gif" alt="Supprimer un document">
@@ -512,6 +513,11 @@ require('includes/headerEnseignant.inc.php');
 					<input type="hidden" name="MM_nouvel_ordre" value="form_nouvel_ordre_hotpotatoes">
 					<input type="hidden" id="ordreHotpotatoes" name="ordreHotpotatoes" value="">
 				</form>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-auto">
+					<a class="btn btn-primary" href="../upload/upload_hotpot.php?matiere_ID=<?php echo $matiereId;?>&niveau_ID=<?php echo $niveauId;?>&theme_ID=<?php if (isset($themeId)) { echo $themeId; }?>" role="button">Ajouter un exercice Hotpotatoes</a>
+				</div>
 			</div>
 			<script type="text/javascript">
 				let listHotpotatoes = Sortable.create(sortablelistHotpotatoes, {
@@ -613,7 +619,7 @@ require('includes/headerEnseignant.inc.php');
 											<div class="col-1">
 												<form name="formsup3" method="post" action="supp_quiz.php">
 													<input name="ID_quiz" type="hidden" id="ID_quiz" value="<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?>">
-													<input name="ID_mat" type="hidden" id="ID_mat" value="<?php echo $themeId; ?>">
+													<input name="ID_mat" type="hidden" id="ID_mat" value="<?php echo $matiereId; ?>">
 													<input name="ID_niv" type="hidden" id="ID_niv" value="<?php echo $niveauId; ?>">
 													<input name="ID_theme" type="hidden" id="ID_theme" value="<?php echo $themeId; ?>">
 													<input type="image" src="images/delete.gif" alt="Supprimer un document">
@@ -658,6 +664,11 @@ require('includes/headerEnseignant.inc.php');
 					<input type="hidden" name="MM_nouvel_ordre" value="form_nouvel_ordre_autres">
 					<input type="hidden" id="ordreAutres" name="ordreAutres" value="">
 				</form>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-auto">
+					<a class="btn btn-primary" href="../upload/upload_divers.php?matiere_ID=<?php echo $matiereId;?>&niveau_ID=<?php echo $niveauId;?>&theme_ID=<?php if (isset($themeId)) { echo $themeId; }?>" role="button">Ajouter un autre exercice</a>
+				</div>
 			</div>
 			<script type="text/javascript">
 				let listAutres = Sortable.create(sortablelistAutres, {
@@ -759,7 +770,7 @@ require('includes/headerEnseignant.inc.php');
 											<div class="col-1">
 												<form name="formsup4" method="post" action="supp_quiz.php">
 													<input name="ID_quiz" type="hidden" id="ID_quiz" value="<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?>">
-													<input name="ID_mat" type="hidden" id="ID_mat" value="<?php echo $themeId; ?>">
+													<input name="ID_mat" type="hidden" id="ID_mat" value="<?php echo $matiereId; ?>">
 													<input name="ID_niv" type="hidden" id="ID_niv" value="<?php echo $niveauId; ?>">
 													<input name="ID_theme" type="hidden" id="ID_theme" value="<?php echo $themeId; ?>">
 													<input type="image" src="images/delete.gif" alt="Supprimer un document">
@@ -804,6 +815,11 @@ require('includes/headerEnseignant.inc.php');
 					<input type="hidden" name="MM_nouvel_ordre" value="form_nouvel_ordre_travail">
 					<input type="hidden" id="ordreTravail" name="ordreTravail" value="">
 				</form>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-auto">
+					<a class="btn btn-primary" href="../upload/upload_divers.php?matiere_ID=<?php echo $matiereId;?>&niveau_ID=<?php echo $niveauId;?>&theme_ID=<?php if (isset($themeId)) { echo $themeId; }?>" role="button">Ajouter un travail à faire</a>
+				</div>
 			</div>
 			<script type="text/javascript">
 				let listTravail = Sortable.create(sortablelistTravail, {
@@ -906,7 +922,7 @@ require('includes/headerEnseignant.inc.php');
 											<div class="col-1">
 												<form name="formsup5" method="post" action="supp_quiz.php">
 													<input name="ID_quiz" type="hidden" id="ID_quiz" value="<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?>">
-													<input name="ID_mat" type="hidden" id="ID_mat" value="<?php echo $themeId; ?>">
+													<input name="ID_mat" type="hidden" id="ID_mat" value="<?php echo $matiereId; ?>">
 													<input name="ID_niv" type="hidden" id="ID_niv" value="<?php echo $niveauId; ?>">
 													<input name="ID_theme" type="hidden" id="ID_theme" value="<?php echo $themeId; ?>">
 													<input type="image" src="images/delete.gif" alt="Supprimer un document">
@@ -951,6 +967,11 @@ require('includes/headerEnseignant.inc.php');
 					<input type="hidden" name="MM_nouvel_ordre" value="form_nouvel_ordre_documents">
 					<input type="hidden" id="ordreDocuments" name="ordreDocuments" value="">
 				</form>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-auto">
+					<a class="btn btn-primary" href="../upload/upload_divers.php?matiere_ID=<?php echo $matiereId;?>&niveau_ID=<?php echo $niveauId;?>&theme_ID=<?php if (isset($themeId)) { echo $themeId; }?>" role="button">Ajouter un document annex</a>
+				</div>
 			</div>
 			<script type="text/javascript">
 				let listDocuments = Sortable.create(sortablelistDocuments, {

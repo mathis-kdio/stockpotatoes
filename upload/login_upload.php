@@ -8,7 +8,7 @@ if (isset($_POST['pass_upload']))
 		$_SESSION['Sess_nom'] = 'Upload';
 		if (isset($_POST['cible'])) 
 		{
-			header("Location: ".htmlspecialchars($_POST['cible']).".php");
+			header("Location: ".$_POST['cible'].".php");
 		}
 		else
 		{
@@ -19,7 +19,7 @@ if (isset($_POST['pass_upload']))
 	{
 		if (isset($_POST['cible']))
 		{
-			$cible = htmlspecialchars($_POST['cible']);
+			$cible = urlencode($_POST['cible']);
 		}
 		else
 		{
@@ -32,7 +32,7 @@ if (isset($_POST['pass_upload']))
 $titre_page = "Login Upload";
 $meta_description = "Page de login pour accéder à la page upload";
 $meta_keywords = "outils, ressources, exercices en ligne, hotpotatoes";
-$js_deplus="";
+$js_deplus = "";
 $css_deplus = "";
 
 require('include/headerUpload.inc.php');

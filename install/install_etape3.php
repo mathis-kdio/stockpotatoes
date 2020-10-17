@@ -86,7 +86,7 @@ require('include/header.inc.php');
 							<img class="img-fluid rounded mx-auto d-block"  src="images/patate.png" alt="hotpotatoes" title="hotpotatoes" height="150" width="150" />
 						</div>
 						<div class="col-lg-9 align-middle">
-							<p class="h3 bg-secondary text-center p-3" style="margin-top: 50px;">Etape 3/5</p>
+							<p class="h3 bg-info text-center p-3" style="margin-top: 50px;">Etape 3/5</p>
 						</div>
 					</div>
 					<div class="jumbotron m-3">
@@ -105,7 +105,7 @@ require('include/header.inc.php');
 										<p class="text-center">est maintenant r&eacute;alis&eacute;e avec vos param&egrave;tres.</p>
 										<p class ="alert alert-info m-3">Il est temps maintenant d'installer les tables...</p>
 										<p align="center"> 
-											<input name="Submit2" type="submit" onClick="MM_goToURL('parent','install_tables.php');return document.MM_returnValue" value="Ma base est d&eacute;j&agrave; existante - Cr&eacute;er uniquement les tables">
+											<button type="submit" name="Submit2" onClick="MM_goToURL('parent','install_tables.php');return document.MM_returnValue" class="btn btn-primary">Ma base est déjà existante - Créer uniquement les tables</button>
 										</p>
 									</td>
 								</tr>

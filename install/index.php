@@ -22,7 +22,7 @@ require('include/header.inc.php');
 							<img class="img-fluid rounded mx-auto d-block"  src="images/patate.png" alt="hotpotatoes" title="hotpotatoes" height="150" width="150" />
 						</div>
 						<div class="col-lg-9 align-middle">
-							<p class="h3 bg-secondary text-center p-3" style="margin-top: 50px;">Etape 1/5</p>
+							<p class="h3 bg-info text-center p-3" style="margin-top: 50px;">Etape 1/5</p>
 						</div>
 					</div>
 					<div class="jumbotron m-3">
@@ -49,7 +49,7 @@ require('include/header.inc.php');
 									</p>
 								</div>	
 								<p class="text-center">
-									<input name="Submit2" type="submit" onClick="MM_goToURL('parent','install_etape2.php');return document.MM_returnValue" value="Passer &agrave; l'&eacute;tape 2">
+									<button type="submit" name="Submit2" onClick="MM_goToURL('parent','install_etape2.php');return document.MM_returnValue" class="btn btn-primary">Passer à l'étape 2</button>
 								</p>
 							</blockquote>
 							<blockquote>
@@ -84,7 +84,7 @@ require('include/header.inc.php');
 												<td>
 													<p>Je vous propose de tenter de modifier les droits via un Chmod 777. Cette op&eacute;ration ne fonctionne pas avec tous les h&eacute;bergeurs.En cas de probl&egrave;me, (messages d'erreurs renvoy&eacute;s par le serveur), il vous faudra attribuer<strong> ces droits manuellement</strong>.</p>
 													<p class="text-center">
-														<input name="Submit22" type="submit" onClick="MM_goToURL('parent','install_chmod.php');return document.MM_returnValue" value="Tenter de modifier les droits en &eacute;criture avec un Chmod">
+														<button type="submit" name="Submit22" onClick="MM_goToURL('parent','install_chmod.php');return document.MM_returnValue" class="btn btn-primary">Tenter de modifier les droits en écriture avec un Chmod</button>
 													</p>
 												</td>
 											</tr>

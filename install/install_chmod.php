@@ -28,7 +28,7 @@ chmod_R( $fichier2, 0777, 0777);
 							<img class="img-fluid rounded mx-auto d-block"  src="images/patate.png" alt="hotpotatoes" title="hotpotatoes" height="150" width="150" />
 						</div>
 						<div class="col-lg-9 align-middle">
-							<p class="h3 bg-secondary text-center p-3" style="margin-top: 50px;">Chmod</p>
+							<p class="h3 bg-info text-center p-3" style="margin-top: 50px;">Chmod</p>
 						</div>
 					</div>
 					<div class="jumbotron m-3">

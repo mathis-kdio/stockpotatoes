@@ -20,7 +20,7 @@ require('include/header.inc.php');
 							<img class="img-fluid rounded mx-auto d-block"  src="images/patate.png" alt="hotpotatoes" title="hotpotatoes" height="150" width="150" />
 						</div>
 						<div class="col-lg-9 align-middle">
-							<p class="h3 bg-secondary text-center p-3" style="margin-top: 50px;">Etape 2/5</p>
+							<p class="h3 bg-info text-center p-3" style="margin-top: 50px;">Etape 2/5</p>
 						</div>
 					</div>
 					<div class="jumbotron m-3">
@@ -69,7 +69,7 @@ require('include/header.inc.php');
 									<tr> 
 										<td colspan="2" align="center">
 											<p class="text-center"> 
-												<input type="submit" name="verif" value="Enregistrer ces param&egrave;tres et passer &agrave; l'&eacute;tape suivante">
+												<button type="submit" name="verif" class="btn btn-primary">Enregistrer ces paramètres et passer à l'étape suivante</button>
 											</p>
 										</td>
 									</tr>

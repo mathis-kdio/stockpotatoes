@@ -30,7 +30,7 @@ creer_base($serveur, $login, $password, $base, $retour);
 							<img class="img-fluid rounded mx-auto d-block"  src="images/patate.png" alt="hotpotatoes" title="hotpotatoes" height="150" width="150" />
 						</div>
 						<div class="col-lg-9 align-middle">
-							<div class="h3 bg-secondary text-center p-3" style="margin-top: 50px;"><?php echo $meta_description."<span class=\"badge badge-success\">". $base ."</span>" ?></div>	
+							<div class="h3 bg-info text-center p-3" style="margin-top: 50px;"><?php echo $meta_description."<span class=\"badge badge-success\">". $base ."</span>" ?></div>	
 						</div>
 					</div>
 					<div class="jumbotron m-3">
@@ -44,7 +44,7 @@ creer_base($serveur, $login, $password, $base, $retour);
 								<input type="hidden" id="base" name="base"  size="25" maxlength="80" value="<?php echo $base ?>">
 								<input type="hidden" id="port" name="port"  size="25" maxlength="80" value="<?php echo $port ?>">
 								<p class="text-center m-3">
-									<input name="Submit" type="submit" value="Etape suivante 👉">
+									<button type="submit" name="Submit" class="btn btn-primary">Etape suivante 👉</button>
 								</p>
 							</form>
 						</blockquote>

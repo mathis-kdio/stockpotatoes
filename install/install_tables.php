@@ -127,7 +127,7 @@ require('include/header.inc.php');
 							<img class="img-fluid rounded mx-auto d-block"  src="images/patate.png" alt="hotpotatoes" title="hotpotatoes" height="150" width="150" />
 						</div>
 						<div class="col-lg-9 align-middle">
-							<p class="h3 bg-secondary text-center p-3" style="margin-top: 50px;">Etape 4/5</p>
+							<p class="h3 bg-info text-center p-3" style="margin-top: 50px;">Etape 4/5</p>
 						</div>
 					</div>
 					<div class="jumbotron m-3">
@@ -136,7 +136,7 @@ require('include/header.inc.php');
 							<div class="h5 text-center">Il vous faut maintenant paramétrer l'&eacute;diteur Html en ligne (FCKeditor).</div>
 							<div class="h5 text-center">Si des difficult&eacute;s survenaient &agrave; l'utilisation de cet &eacute;diteur, vous pourrez revenir sur ces param&egrave;tres dans l'espace Administrateur </div>
 							<p class="text-center m-3">
-								<input name="Submit" type="submit" onClick="MM_goToURL('parent','install_editeur.php');return document.MM_returnValue" value="Param&eacute;trage de l'&eacute;diteur Html en ligne">
+								<button type="submit" name="Submit" onClick="MM_goToURL('parent','install_editeur.php');return document.MM_returnValue" class="btn btn-primary">Paramètrage de l'éditeur Html en ligne</button>
 							</p>
 						</blockquote>
 					</div><!--/.jumbotron -->

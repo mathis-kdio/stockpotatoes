@@ -19,6 +19,11 @@ $config = $config->GetTableau();
 			--color-focus: <?=$config["color"]["theme"]["focus"]?>; 
 		}
 		</style>
+		<style>
+			.custom-file-input ~ .custom-file-label:lang(fr)::after {
+				content: "Choisir...";
+			}
+		</style>
 		<!-- Required meta tags -->
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -26,7 +31,7 @@ $config = $config->GetTableau();
 		<meta name="keywords" content="<?php echo $meta_keywords ?>" />
 		<meta name="author" content="stockpotatoes" />
  
-    	<link rel="stylesheet" type="text/css" media="all" href="../includes/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" media="all" href="../includes/bootstrap.min.css" />
 		<!-- Mon CSS -->
 		<link rel="stylesheet" type="text/css" media="all" href="include/styleAdministrateur.css" />
 		<!--Ajout d'une à trois feuille(s) de style et/ou d'un à trois script(s) en fonction de l'exo -->

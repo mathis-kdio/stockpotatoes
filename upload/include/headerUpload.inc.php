@@ -19,6 +19,11 @@ $config = $config->GetTableau();
 			--color-focus: <?=$config["color"]["theme"]["focus"]?>; 
 		}
 		</style>
+		<style>
+			.custom-file-input ~ .custom-file-label:lang(fr)::after {
+				content: "Choisir...";
+			}
+		</style>
 		<!-- Required meta tags -->
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">

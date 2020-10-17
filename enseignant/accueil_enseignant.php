@@ -61,7 +61,7 @@ if ($versionrecente != $versioninstallee)
 			<div class="list-group">
 				<a href="gestion_exos.php" class="list-group-item list-group-item-action list-group-item-primary">Gestion des exercices - Modification - Suppression</a>
 				<a href="gestion_theme.php" class="list-group-item list-group-item-action list-group-item-primary">Gestion des thèmes d'étude dans une matière</a>
-				<a href="gestion_categorie.php" class="list-group-item list-group-item-action list-group-item-primary">Gestion des categories d'étude dans une matière</a>
+				<a href="gestion_categorie.php" class="list-group-item list-group-item-action list-group-item-primary">Gestion des catégories d'étude dans une matière</a>
 				<a href="modif_score_blanc.php" class="list-group-item list-group-item-action list-group-item-primary">Remise à blanc des résultats pour un exercice dans une classe</a>
 				<a href="liste_pass.php" class="list-group-item list-group-item-action list-group-item-primary">Liste des mots de passe d'une classe</a>
 			</div>

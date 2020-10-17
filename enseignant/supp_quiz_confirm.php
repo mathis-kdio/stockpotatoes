@@ -12,13 +12,11 @@ else {
 	header("Location: login_enseignant.php?cible=gestion_exos");
 }
 
-require_once('../Connections/conn_intranet.php');
-
 if (isset($_GET['matiere_ID'])) {
-	$matId = htmlspecialchars($_GET['matiere_ID']);
+	$matiereId = htmlspecialchars($_GET['matiere_ID']);
 }
 if (isset($_GET['niveau_ID'])) {
-	$nivId = htmlspecialchars($_GET['niveau_ID']);
+	$niveauId = htmlspecialchars($_GET['niveau_ID']);
 }
 if (isset($_GET['theme_ID'])) {
 	$themeId = htmlspecialchars($_GET['theme_ID']);
@@ -36,7 +34,7 @@ require('includes/headerEnseignant.inc.php');
 		<p class="text-success font-weight-bold">L'exercice a été supprimé</p>
 	</div>
 	<div>
-		<a class="btn btn-primary" href="gestion_exos.php?matiere_ID=<?php echo $matId; ?>&niveau_ID=<?php echo $nivId; ?>&theme_ID=<?php echo $themeId; ?>" role="button">Retourner sur la page de gestion des exercices</a>
+		<a class="btn btn-primary" href="gestion_exos.php?matiere_ID=<?php echo $matiereId; ?>&niveau_ID=<?php echo $niveauId; ?>&theme_ID=<?php echo $themeId; ?>" role="button">Retourner sur la page de gestion des exercices</a>
 	</div>
 </div>
 <?php

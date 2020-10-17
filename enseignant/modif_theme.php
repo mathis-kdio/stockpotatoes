@@ -1,119 +1,75 @@
-<?php session_start(); 
+<?php 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-
-if (isset($_SESSION['Sess_nom'])) { 
-	if ($_SESSION['Sess_nom']<>'Enseignant') { header("Location: login_enseignant.php");}
-; } else { header("Location: ../index.php");}?>
-<?php require_once('../Connections/conn_intranet.php'); ?>
-<?php
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
-{
-  $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
-
-  switch ($theType) {
-    case "text":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;    
-    case "long":
-    case "int":
-      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
-      break;
-    case "double":
-      $theValue = ($theValue != "") ? "'" . doubleval($theValue) . "'" : "NULL";
-      break;
-    case "date":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;
-    case "defined":
-      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
-      break;
-  }
-  return $theValue;
+session_start(); 
+if (isset($_SESSION['Sess_nom'])) {
+	if ($_SESSION['Sess_nom'] != 'Enseignant') {
+		header("Location: login_enseignant.php?cible=gestion_theme");
+	}
+}
+else {
+	header("Location: login_enseignant.php?cible=gestion_theme");
 }
 
-$editFormAction = $_SERVER['PHP_SELF'];
-if (isset($_SERVER['QUERY_STRING'])) {
-  $editFormAction .= "?" . $_SERVER['QUERY_STRING'];
+require_once('../Connections/conn_intranet.php');
+
+if (isset($_POST['ID_mat'])) {
+	$matiereId = htmlspecialchars($_POST['ID_mat']);
 }
+if (isset($_POST['ID_niv'])) {
+	$niveauId = htmlspecialchars($_POST['ID_niv']);
+}
+if (isset($_POST['ID_theme'])) {
+	$themeId = htmlspecialchars($_POST['ID_theme']);
+}
+
+mysqli_select_db($conn_intranet, $database_conn_intranet);
 
 if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
-  $updateSQL = sprintf("UPDATE stock_theme SET theme=%s WHERE ID_theme=%s",
-                       GetSQLValueString($_POST['theme'], "text"),
-                       GetSQLValueString($_POST['ID_theme'], "int"));
+	$updateSQL = sprintf("UPDATE stock_theme SET theme = '%s' WHERE ID_theme = '%s'", htmlspecialchars($_POST['theme']), $themeId);
 
-  mysqli_select_db($conn_intranet, $database_conn_intranet);
-  $Result1 = mysqli_query($conn_intranet, $updateSQL) or die(mysqli_error());
+	$Result1 = mysqli_query($conn_intranet, $updateSQL) or die(mysqli_error($conn_intranet));
 
-  $updateGoTo = "gestion_theme.php";
-  if (isset($_SERVER['QUERY_STRING'])) {
-    $updateGoTo .= (strpos($updateGoTo, '?')) ? "&" : "?";
-    $updateGoTo .= $_SERVER['QUERY_STRING'];
-  }
-  header(sprintf("Location: %s", $updateGoTo));
+	header(sprintf("Location: gestion_theme.php?matiere_ID=".$matiereId."&niveau_ID=".$niveauId."#listeThemes"));
 }
 
 $choixtheme_RsChoixTheme = "0";
-if (isset($_POST['ID_theme'])) {
-  $choixtheme_RsChoixTheme = (get_magic_quotes_gpc()) ? $_POST['ID_theme'] : addslashes($_POST['ID_theme']);
+if (isset($themeId)) {
+	$choixtheme_RsChoixTheme = $themeId;
 }
-mysqli_select_db($conn_intranet, $database_conn_intranet);
-$query_RsChoixTheme = sprintf("SELECT * FROM stock_theme WHERE stock_theme.ID_theme=%s", $choixtheme_RsChoixTheme);
-$RsChoixTheme = mysqli_query($conn_intranet, $query_RsChoixTheme) or die(mysqli_error());
+$query_RsChoixTheme = sprintf("SELECT * FROM stock_theme WHERE ID_theme = '%s'", $choixtheme_RsChoixTheme);
+$RsChoixTheme = mysqli_query($conn_intranet, $query_RsChoixTheme) or die(mysqli_error($conn_intranet));
 $row_RsChoixTheme = mysqli_fetch_assoc($RsChoixTheme);
-$totalRows_RsChoixTheme = mysqli_num_rows($RsChoixTheme);
-?>
-<html>
-<head>
-<title>Modification d'un th&egrave;me</title>
-<meta charset="utf-8">
-<meta http-equiv="Content-Type" content="text/html">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../style_jaune.css" rel="stylesheet" type="text/css">
-</head>
-<body>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr valign="top"> 
-    <td><img src="../patate.gif" width="253" height="227"></td>
-    <td> <p><img src="../patate.jpg" width="324" height="39" align="top"> </p>
-      <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
-        <p>&nbsp;</p>
-        <blockquote> 
-          <p><strong>Modification du libell&eacute; du th&egrave;me de l'&eacute;tude</strong></p>
-        </blockquote>
-        <table align="center">
-          <tr valign="baseline"> 
-            <td width="234"><input type="text" name="theme" value="<?php echo $row_RsChoixTheme['theme']; ?>" size="50"></td>
-          </tr>
-          <tr valign="baseline"> 
-            <td>&nbsp;</td>
-          </tr>
-          <tr valign="baseline"> 
-            <td><div align="center"> 
-                <input type="submit" value="Mettre à jour l'enregistrement">
-              </div></td>
-          </tr>
-        </table>
-        <input type="hidden" name="MM_update" value="form1">
-        <input type="hidden" name="ID_theme" value="<?php echo $row_RsChoixTheme['ID_theme']; ?>">
-      </form>
-      <p align="center"><a href="gestion_theme.php">Gestion des th&egrave;mes</a></p></td>
-  </tr>
-</table>
-<p>&nbsp; </p>
-<p>&nbsp;</p>
-<p align="center"><a href="../index.php">Accueil Stockpotatoes</a> - <a href="../enseignant/accueil_enseignant.php">Espace 
-  Enseignant</a> - <a href="../administrateur/login_administrateur.php">Espace 
-  Administrateur</a></p>
-<p align="center"><a href="../upload/upload_menu.php">Envoyer un exercice ou un document 
-  sur le serveur</a></p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp; </p>
-</body>
-</html>
-<?php
-mysqli_free_result($RsChoixTheme);
-?>
 
+$titre_page = "Modification d'un thème";
+$meta_description = "Page de modification d'un thème";
+$meta_keywords = "outils, ressources, exercices en ligne, hotpotatoes";
+$js_deplus = "";
+$css_deplus = "";
+
+require('includes/headerEnseignant.inc.php');
+?>
+<div class="row">
+	<div class="col text-center">
+		<h4>Mofication du thème: "<?php echo $row_RsChoixTheme['theme'];?>"</h4>
+		<form method="post" name="form1" action="modif_theme.php">
+			<div class="form-group form-row justify-content-center">
+				<div class="col-auto">
+					<label for="theme">Modification du libellé du thème de l'étude</label>
+					<input type="text" class="form-control" id="theme" name="theme" value="<?php echo $row_RsChoixTheme['theme']; ?>">
+				</div>
+			</div>
+			<button type="submit" class="btn btn-primary mb-2">Mettre à jour l'enregistrement</button>
+			<input type="hidden" name="ID_theme" value="<?php echo $row_RsChoixTheme['ID_theme']; ?>">
+			<input type="hidden" name="ID_mat" id="ID_mat" value="<?php echo $matiereId; ?>">
+			<input type="hidden" name="ID_niv" id="ID_niv" value="<?php echo $niveauId; ?>">
+			<input type="hidden" name="MM_update" value="form1">
+		</form>
+		<a class="btn btn-primary mt-3" href="gestion_theme.php?matiere_ID=<?php echo $matiereId;?>&niveau_ID=<?php echo $niveauId;?>#listeThemes" role="button">Abandonner la modification</a>
+	</div>
+</div>
+<?php
+require('includes/footerEnseignant.inc.php');
+
+mysqli_free_result($RsChoixTheme); ?>

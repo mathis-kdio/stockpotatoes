@@ -159,7 +159,7 @@ require('includes/headerEnseignant.inc.php');
 					<td><?php echo $libel_niveau[$row_RsActivite['niveau_ID']];?></td>
 					<td>
 						<?php 
-						if ($row_RsActivite['theme_ID'] != 0)
+						if (isset($libel_theme[$row_RsActivite['theme_ID']]) && $row_RsActivite['theme_ID'] != 0)
 						{
 							echo $libel_theme[$row_RsActivite['theme_ID']];
 						}

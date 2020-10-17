@@ -120,20 +120,16 @@ require('includes/headerEnseignant.inc.php');
 		<div class="col-auto">
 			<button type="submit" name="Submit3" class="btn btn-primary">Sélectionner</button>
 		</div>
-		<div class="col-auto">
-			<h5>
-				<?php 
-				if (isset($matiereId)) 
-				{ 
-					echo 'Matière actuelle: '.$row_RsChoixmatiere['nom_mat'];
-				} ?>
-			</h5>
-		</div>
 	</div>
 </form>
 <?php
 if (isset($matiereId)) 
 { ?>
+	<div class="row mt-2">
+		<div class="col text-center">
+			<h3>Matière actuelle: <?php echo $row_RsChoixmatiere['nom_mat']; ?></h3>
+		</div>
+	</div>
 	<form method="post" name="form2" action="gestion_theme.php?matiere_ID=<?php echo $matiereId; ?>&niveau_ID=<?php echo $niveauId; ?>">
 		<div class="form-group row align-items-center justify-content-center mt-5">
 			<label for="theme" class="col-auto col-form-label">Ajouter un thème d'étude à cette matière et à ce niveau:</label>
@@ -185,14 +181,18 @@ if (isset($matiereId))
 								<?php echo $row_RsTheme['theme'];?>
 							</div>
 							<div class="col-1">
-								<form name="form4" method="post" action="verif_supp_theme.php">
+								<form name="form4" method="post" action="supp_theme.php">
 									<input name="ID_theme" type="hidden" id="ID_theme" value="<?php echo $row_RsTheme['ID_theme']; ?>">
+									<input name="ID_mat" type="hidden" id="ID_mat" value="<?php echo $matiereId; ?>">
+									<input name="ID_niv" type="hidden" id="ID_niv" value="<?php echo $niveauId; ?>">
 									<button type="submit" name="Submit" class="btn btn-primary">Supprimer</button>
 								</form>
 							</div>
 							<div class="col-2">
 								<form name="form3" method="post" action="modif_theme.php">
 									<input name="ID_theme" type="hidden" id="ID_theme" value="<?php echo $row_RsTheme['ID_theme']; ?>">
+									<input name="ID_mat" type="hidden" id="ID_mat" value="<?php echo $matiereId; ?>">
+									<input name="ID_niv" type="hidden" id="ID_niv" value="<?php echo $niveauId; ?>">
 									<button type="submit" name="Submit2" class="btn btn-primary">Modifier</button>
 								</form>
 							</div>

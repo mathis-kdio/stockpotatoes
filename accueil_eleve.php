@@ -108,7 +108,8 @@ $nivListeTheme = 0;
 if (isset($niveauId)) {
 	$nivListeTheme = $niveauId;
 }
-$listeTheme = mysqli_prepare($conn_intranet, "SELECT ID_theme, theme FROM stock_theme WHERE mat_ID = ? AND niv_ID = ? ORDER BY pos_theme") or exit(mysqli_error($conn_intranet));
+$today = date("Y-m-d");
+$listeTheme = mysqli_prepare($conn_intranet, "SELECT ID_theme, theme FROM stock_theme WHERE mat_ID = ? AND niv_ID = ? AND '$today' >= date_apparition AND date_disparition >= '$today' ORDER BY pos_theme") or exit(mysqli_error($conn_intranet));
 mysqli_stmt_bind_param($listeTheme, "ii", $matListeTheme, $nivListeTheme);
 
 $selectheme_RsChoixTheme = 0;
@@ -197,7 +198,7 @@ require('includes/header.inc.php');
 				<div class="text-center">
 					<h3>Thème d'étude</h3>
 				</div>
-				<div class="text-center">
+				<div class="text-center mx-2">
 					<div class="btn-group-vertical" role="group">
 						<?php
 						mysqli_stmt_execute($listeTheme);
@@ -211,10 +212,10 @@ require('includes/header.inc.php');
 
 						//Affiche le thème Divers uniquement s'il y a au moins un doc dedans
 						$qTestExoDivers = sprintf("SELECT * FROM stock_quiz WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND theme_ID = 0", $matiereId, $niveauId);
-						$rsTestExoDivers = mysqli_query($conn_intranet, $qTestExoDivers) or die(mysqli_error());
+						$rsTestExoDivers = mysqli_query($conn_intranet, $qTestExoDivers) or die(mysqli_error($conn_intranet));
 						$nbExosDivers = mysqli_num_rows($rsTestExoDivers);
 						if ($nbExosDivers > 0) {
-							echo '<a href="accueil_eleve.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID=0#listeCategories" class="btn btn-primary btn-lg" role="button">Divers</a>';
+							echo '<a href="accueil_eleve.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID=0#listeCategories" class="btn btn-primary btn-lg mt-2" role="button">Divers</a>';
 						}?>
 					</div>	
 				</div>
@@ -258,15 +259,27 @@ require('includes/header.inc.php');
 					<div class="col text-center">
 						<?php
 						if(isset($themeId)) {
-							$query_categorie = sprintf("SELECT * FROM stock_quiz, stock_categorie WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND theme_ID = '%s' AND categorie_ID = ID_categorie GROUP BY categorie_ID ", $matiereId, $niveauId, $themeId);
-							$Rs_categorie = mysqli_query($conn_intranet, $query_categorie) or die(mysqli_error());
+							$query_categorie = sprintf("SELECT * FROM stock_quiz, stock_categorie WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND theme_ID = '%s' AND categorie_ID = ID_categorie GROUP BY pos_categorie", $matiereId, $niveauId, $themeId);
+							$Rs_categorie = mysqli_query($conn_intranet, $query_categorie) or die(mysqli_error($conn_intranet));
+							$totalRows_RsCategorie = mysqli_num_rows($Rs_categorie);
+
+							//Affiche la catégorie Non classés uniquement s'il y a au moins un doc dedans
+							$qTestExoNonClasse = sprintf("SELECT * FROM stock_quiz WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND theme_ID = '%s' AND categorie_ID = 0", $matiereId, $niveauId, $themeId);
+							$rsTestExoNonClasse = mysqli_query($conn_intranet, $qTestExoNonClasse) or die(mysqli_error($conn_intranet));
+							$nbExosNonClasse = mysqli_num_rows($rsTestExoNonClasse);
+
 							if (!isset($categorieId)) {
-								echo "<h5>Veuillez sélectionner une catégorie:</h5>";
+								if ($totalRows_RsCategorie != 0 || $nbExosNonClasse > 0) {
+									echo "<h5>Veuillez sélectionner une catégorie:</h5>";
+								}
+								else {
+									echo "<h5>Il n'y a rien dans ce thème pour l'instant.</h5>";
+								}
 							}
 							else {
 								if ($categorieId != 0) {
 									$query_categorieSelect = sprintf("SELECT * FROM stock_categorie WHERE ID_categorie = '%s'", $categorieId);
-									$Rs_categorieSelect = mysqli_query($conn_intranet, $query_categorieSelect) or die(mysqli_error());
+									$Rs_categorieSelect = mysqli_query($conn_intranet, $query_categorieSelect) or die(mysqli_error($conn_intranet));
 									$row_Rs_categorieSelect = mysqli_fetch_assoc($Rs_categorieSelect);
 									echo "<h5>Vous êtes dans la catégorie: <span class='font-weight-bold'>".$row_Rs_categorieSelect['nom_categorie']."</span></h5>";
 								}
@@ -284,14 +297,12 @@ require('includes/header.inc.php');
 								};
 
 								//Affiche la catégorie Non classés uniquement s'il y a au moins un doc dedans
-								$qTestExoNonClasse = sprintf("SELECT * FROM stock_quiz WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND theme_ID = '%s' AND categorie_ID = 0", $matiereId, $niveauId, $themeId);
-								$rsTestExoNonClasse = mysqli_query($conn_intranet, $qTestExoNonClasse) or die(mysqli_error());
-								$nbExos = mysqli_num_rows($rsTestExoNonClasse);
-								if ($nbExos > 0) {
+								if ($nbExosNonClasse > 0) {
 									echo '<div class="btn-group mx-1 mt-2" role="group">';
 									echo '<a href="accueil_eleve.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$themeId.'&categorie_ID=0#listeExos" class="btn btn-primary" role="button">Non classés</a>';
 									echo '</div>';
-								} ?>
+								}
+								?>
 							</div>
 							<?php
 						}
@@ -301,40 +312,81 @@ require('includes/header.inc.php');
 					</div>
 				</div>
 				<?php
-				if (isset($categorieId)) { ?>
+				if (isset($categorieId)) {
+					mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
+					$nbDoc1 = 0;
+					while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau)) {
+						if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 1) {
+							$nbDoc1++;
+						}
+					}
+					mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
+					$nbDoc2 = 0;
+					while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau)) {
+						if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 2) {
+							$nbDoc2++;
+						}
+					}
+					mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
+					$nbDoc3 = 0;
+					while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau)) {
+						if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 3) {
+							$nbDoc3++;
+						}
+					}
+					mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
+					$nbDoc4 = 0;
+					while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau)) {
+						if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 4) {
+							$nbDoc4++;
+						}
+					}
+					mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
+					$nbDoc5 = 0;
+					while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau)) {
+						if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 5) {
+							$nbDoc5++;
+						}
+					} ?>
 					<div class="row mb-3 py-3 shadow rounded" id="listeExos">
 						<div class="col text-center">
 							<div class="btn-toolbar justify-content-center" role="toolbar">
-								<div class="btn-group mx-1 mt-2" role="group">
-									<a href="#cours" class="btn btn-primary" role="button">Cours</a>
-								</div>
-								<div class="btn-group mx-1 mt-2" role="group">
-									<a href="#hotpotatoes" class="btn btn-primary" role="button">Ex. Hotpotatoes</a>
-								</div>
-								<div class="btn-group mx-1 mt-2" role="group">
-									<a href="#exercices" class="btn btn-primary" role="button">Autres exercices</a>
-								</div>
-								<div class="btn-group mx-1 mt-2" role="group">
-									<a href="#travail" class="btn btn-primary" role="button">Travail à faire</a>
-								</div>
-								<div class="btn-group mx-1 mt-2" role="group">
-									<a href="#annexes" class="btn btn-primary" role="button">Documents annexes</a>
-								</div>
+								<?php if ($nbDoc1 != 0) {?>
+									<div class="btn-group mx-1 mt-2" role="group">
+										<a href="#cours" class="btn btn-primary" role="button">Cours</a>
+									</div>
+									<?php
+								}
+								if ($nbDoc2 != 0) {?>
+									<div class="btn-group mx-1 mt-2" role="group">
+										<a href="#hotpotatoes" class="btn btn-primary" role="button">Ex. Hotpotatoes</a>
+									</div>
+									<?php 
+								}
+								if ($nbDoc3 != 0) {?>
+									<div class="btn-group mx-1 mt-2" role="group">
+										<a href="#exercices" class="btn btn-primary" role="button">Autres exercices</a>
+									</div>
+									<?php
+								}
+								if ($nbDoc4 != 0) {?>
+									<div class="btn-group mx-1 mt-2" role="group">
+										<a href="#travail" class="btn btn-primary" role="button">Travail à faire</a>
+									</div>
+									<?php
+								}
+								if ($nbDoc5 != 0) {?>
+									<div class="btn-group mx-1 mt-2" role="group">
+										<a href="#annexes" class="btn btn-primary" role="button">Documents annexes</a>
+									</div>
+								<?php
+								} ?>
 							</div>
 						</div>
 					</div>
 					
 					<?php
 					//Le cours
-					mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
-					$nbDoc1 = 0;
-					while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau))
-					{
-						if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 1)
-						{
-							$nbDoc1++;
-						}
-					}
 					mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
 					if($nbDoc1 != 0)
 					{ ?>
@@ -416,15 +468,6 @@ require('includes/header.inc.php');
 					}
 
 					//Exercices Hotpotatoes
-					mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
-					$nbDoc2 = 0;
-					while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau))
-					{
-						if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 2)
-						{
-							$nbDoc2++;
-						}
-					}
 					mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
 					if($nbDoc2 != 0)
 					{ ?>
@@ -580,15 +623,6 @@ require('includes/header.inc.php');
 
 					//Autres exercices
 					mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
-					$nbDoc3 = 0;
-					while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau))
-					{
-						if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 3)
-						{
-							$nbDoc3++;
-						}
-					}
-					mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
 					if($nbDoc3 != 0)
 					{ ?>
 						<div class="row mt-2">
@@ -666,15 +700,6 @@ require('includes/header.inc.php');
 					}
 
 					//Travail à faire
-					mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
-					$nbDoc4 = 0;
-					while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau))
-					{
-						if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 4)
-						{
-							$nbDoc4++;
-						}
-					}
 					mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
 					if($nbDoc4 != 0)
 					{ ?>
@@ -756,15 +781,6 @@ require('includes/header.inc.php');
 					}
 
 					//Documents annexes
-					mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
-					$nbDoc5 = 0;
-					while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau))
-					{
-						if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 5)
-						{
-							$nbDoc5++;
-						}
-					}
 					mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
 					if($nbDoc5 != 0)
 					{ ?>
@@ -894,7 +910,7 @@ require('includes/header.inc.php');
 								GROUP BY eleve_ID
 								) as TEMP ON TEMP.eleve_ID = stock_eleve.ID_eleve
 							ORDER BY `nom` ", $choixclasse_RsLeconBest, $choixtheme_RsChoixTheme);
-							$RsLeconBest = mysqli_query($conn_intranet, $query_RsLeconBest) or die(mysqli_error());
+							$RsLeconBest = mysqli_query($conn_intranet, $query_RsLeconBest) or die(mysqli_error($conn_intranet));
 							$i = 0;
 							while ($row_RsLeconBest = mysqli_fetch_assoc($RsLeconBest))
 							{ ?>

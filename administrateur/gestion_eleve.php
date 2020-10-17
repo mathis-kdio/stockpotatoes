@@ -49,20 +49,19 @@ if (isset($prenom) && isset($nom))
 	$query_IdentifiantEleve = "SELECT * FROM stock_eleve ORDER BY identifiant";
 	$IdentifiantEleve = mysqli_query($conn_intranet, $query_IdentifiantEleve) or die(mysqli_error($conn_intranet));
 	$row_IdentifiantEleve = mysqli_fetch_assoc($IdentifiantEleve);
+	
 	$identifiant = strtolower($nom . $prenom );
-
 	$idtmp = $identifiant;
 	$i = 0;
-	do
-	{
-		if ($row_IdentifiantEleve['identifiant'] == $idtmp) 
-		{
-			$idtmp = $identifiant;
+	do {
+		if ($row_IdentifiantEleve['identifiant'] == $idtmp) {
 			$i++;
-			$idtmp = strtolower($idtmp . $i);
+			$idtmp = strtolower($identifiant . $i);
+			$query_IdentifiantEleve = "SELECT * FROM stock_eleve ORDER BY identifiant";
+			$IdentifiantEleve = mysqli_query($conn_intranet, $query_IdentifiantEleve) or die(mysqli_error($conn_intranet));
+			$row_IdentifiantEleve = mysqli_fetch_assoc($IdentifiantEleve);
 		}
-
-	}while ($row_IdentifiantEleve = mysqli_fetch_assoc($IdentifiantEleve));
+	} while ($row_IdentifiantEleve = mysqli_fetch_assoc($IdentifiantEleve));
 }
 
 //AJOUT D'UN ÉLÈVE AVEC CRÉATION D'UNE NOUVELLE CLASSE

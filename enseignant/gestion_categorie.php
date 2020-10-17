@@ -35,6 +35,17 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form2"))
 	$Result1 = mysqli_query($conn_intranet, $insertSQL) or die(mysqli_error($conn_intranet));
 }
 
+//Mise à jour de l'ordre des Catégories
+if ((isset($_POST["MM_nouvel_ordre"])) && ($_POST["MM_nouvel_ordre"] == "form_nouvel_ordre")) {
+	$ordre = htmlspecialchars($_POST['ordreCategories']);
+	$ordre = explode(",", $ordre);
+
+	for ($i = 1; $i <= count($ordre); $i++) {
+		$updatePositionsCategories = sprintf("UPDATE stock_categorie SET pos_categorie = '%s' WHERE ID_categorie = '%s'", $i, $ordre[$i-1]);
+		$RsNewPositions = mysqli_query($conn_intranet, $updatePositionsCategories) or die(mysqli_error($conn_intranet));
+	}
+}
+
 $choixmat_Rscategorie = "0";
 if (isset($matiereId))
 {
@@ -70,7 +81,7 @@ $row_rs_niveau = mysqli_fetch_assoc($rs_niveau);
 $titre_page = "Gestion des catégories";
 $meta_description = "Page gestion des catégories";
 $meta_keywords = "outils, ressources, exercices en ligne, hotpotatoes";
-$js_deplus = "";
+$js_deplus = "includes/Sortable.js";
 $css_deplus = "";
 require('includes/headerEnseignant.inc.php');
 ?>
@@ -101,20 +112,16 @@ require('includes/headerEnseignant.inc.php');
 		<div class="col-auto">
 			<button type="submit" name="Submit3" class="btn btn-primary">Sélectionner</button>
 		</div>
-		<div class="col-auto">
-			<h5>
-				<?php 
-				if (isset($matiereId))
-				{ 
-					echo 'Matière actuelle: '.$row_RsChoixmatiere['nom_mat'];
-				} ?>
-			</h5>
-		</div>
 	</div>
 </form>
 <?php
 if (isset($matiereId))
 { ?>
+	<div class="row mt-2">
+		<div class="col text-center">
+			<h3>Matière actuelle: <?php echo $row_RsChoixmatiere['nom_mat']; ?></h3>
+		</div>
+	</div>
 	<form method="post" name="form2" action="gestion_categorie.php?matiere_ID=<?php echo $matiereId; ?>&niveau_ID=<?php echo $niveauId; ?>">
 		<div class="form-group row align-items-center justify-content-center mt-5">
 			<label for="categorie" class="col-auto col-form-label">Ajouter cette catégorie à cette matière et à ce niveau :</label>
@@ -130,49 +137,87 @@ if (isset($matiereId))
 			<input type="hidden" name="MM_insert" value="form2">
 		</div>
 	</form>
-	<h4 class="text-center mt-5">Liste des catégories & Paramétrages</h4>
-	<div class="row mt-5">
-		<div class="col table-responsive">
-			<table class="table table-striped table-bordered table-sm">
-				<thead>
-					<tr>
-						<th scope="col">N°</th>
-						<th scope="col">Catégorie d'étude</th>
-						<th scope="col">Suppression</th>
-						<th scope="col">Modification</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php					 
-					if ($totalRows_Rscategorie != 0)
-					{
-						mysqli_data_seek($Rscategorie, 0);
-						$row_Rscategorie = mysqli_fetch_assoc($Rscategorie);
-						do 
-						{ ?>
-							<tr> 
-								<th scope="row"><?php echo $row_Rscategorie['ID_categorie']; ?></th>
-								<td><?php echo $row_Rscategorie['nom_categorie']; ?></td>
-								<td> 
-									<form name="form4" method="post" action="verif_supp_categorie.php">
-										<input name="ID_categorie" type="hidden" id="ID_categorie" value="<?php echo $row_Rscategorie['ID_categorie']; ?>">
-										<button type="submit" name="Submit" class="btn btn-primary">Supprimer</button>
-									</form>
-								</td>
-								<td> 
-									<form name="form3" method="post" action="modif_categorie.php">
-										<input name="ID_categorie" type="hidden" id="ID_categorie" value="<?php echo $row_Rscategorie['ID_categorie']; ?>">
-										<button type="submit" name="Submit2" class="btn btn-primary">Modifier</button>
-									</form>
-								</td>
-							</tr>
-							<?php 
-						} while ($row_Rscategorie = mysqli_fetch_assoc($Rscategorie));
-					} ?>
-				</tbody>
-			</table>
+	<h4 class="text-center mt-5" id="listeCategories">Liste des catégories & Paramétrages</h4>
+	<h5 class="text-center">Faire glisser les thèmes pour changer l'ordre</h5>
+	<div class="row">
+		<div class="col">
+			<div class="d-flex bg-white p-3 text-center overflow-auto overflow-auto">
+				<div class="col-1">Réordonner</div>
+				<div class="col-2">N°</div>
+				<div class="col-3">Catégorie d'étude</div>
+				<div class="col-3">Supprimer</div>
+				<div class="col-3">Modifier</div>
+			</div>
 		</div>
 	</div>
+	<div class="row">
+		<div class="col">
+			<div id="sortablelist" class="list-group mb-4" data-id="1">
+				<?php
+				if ($totalRows_Rscategorie != 0) {
+					mysqli_data_seek($Rscategorie, 0);
+					$row_Rscategorie = mysqli_fetch_assoc($Rscategorie);
+					do { ?>
+						<div class="list-group-item d-flex align-items-center justify-content-between text-center overflow-auto" data-id="<?php echo $row_Rscategorie['ID_categorie']?>">
+							<div class="col-1" style="cursor: grab;">
+								<img class="position-handle" src="images/move.png" width="19" height="19">
+							</div>
+							<div class="col-2">
+								<?php echo $row_Rscategorie['ID_categorie']; ?>
+							</div>
+							<div class="col-3">
+								<?php echo $row_Rscategorie['nom_categorie']; ?>
+							</div>
+							<div class="col-3">
+								<form name="form4" method="post" action="supp_categorie.php">
+									<input name="ID_categorie" type="hidden" id="ID_categorie" value="<?php echo $row_Rscategorie['ID_categorie']; ?>">
+									<input name="ID_mat" type="hidden" id="ID_mat" value="<?php echo $matiereId; ?>">
+									<input name="ID_niv" type="hidden" id="ID_niv" value="<?php echo $niveauId; ?>">
+									<button type="submit" name="Submit" class="btn btn-primary">Supprimer</button>
+								</form>
+							</div>
+							<div class="col-3">
+								<form name="form3" method="post" action="modif_categorie.php">
+									<input name="ID_categorie" type="hidden" id="ID_categorie" value="<?php echo $row_Rscategorie['ID_categorie']; ?>">
+									<input name="ID_mat" type="hidden" id="ID_mat" value="<?php echo $matiereId; ?>">
+									<input name="ID_niv" type="hidden" id="ID_niv" value="<?php echo $niveauId; ?>">
+									<button type="submit" name="Submit2" class="btn btn-primary">Modifier</button>
+								</form>
+							</div>
+						</div>
+						<?php
+					} while ($row_Rscategorie = mysqli_fetch_assoc($Rscategorie));
+				} ?>
+			</div>
+		</div>
+	</div>
+	<div class="form-group row align-items-center justify-content-center">	
+		<form method="post" name="form_nouvel_ordre" action="gestion_categorie.php?matiere_ID=<?php echo $matiereId; ?>&niveau_ID=<?php echo $niveauId; ?>#listeCategories">
+			<div class="col-auto">
+				<button type="submit" name="submit_nouvel_ordre" class="btn btn-primary" onclick="setValuesInputOrderList()">Enregistrer le nouvel ordre</button>
+			</div>
+			<input type="hidden" name="mat_ID" value="<?php echo $matiereId; ?>">
+			<input type="hidden" name="niv_ID" value="<?php echo $niveauId; ?>">
+			<input type="hidden" name="MM_nouvel_ordre" value="form_nouvel_ordre">
+			<input type="hidden" id="ordreCategories" name="ordreCategories" value="">
+		</form>
+	</div>
+	<script type="text/javascript">
+		var list = Sortable.create(sortablelist, {
+			animation: 100,
+			group: 'list-1',
+			draggable: '.list-group-item',
+			handle: '.position-handle',
+			sort: true,
+			filter: '.sortable-disabled',
+			chosenClass: 'active',
+		});
+		function setValuesInputOrderList() {
+			var order = list.toArray();
+			let inputOrdreCategories = document.getElementById('ordreCategories');
+			inputOrdreCategories.setAttribute('value', order);
+		}
+	</script>
 	<?php
 }
 

@@ -12,6 +12,10 @@ if (isset($_GET['niveau_ID'])) {
 if (isset($_GET['theme_ID'])) {
 	$themeId = htmlspecialchars($_GET['theme_ID']);
 }
+else if (isset($_POST['theme_ID'])) {
+	$themeId = htmlspecialchars($_POST['theme_ID']);
+}
+
 if (isset($niveauId) && isset($matiereId)) {
 	if (isset($themeId)) {
 		$location = "login_upload.php?cible=upload_hotpot.php".urlencode("?matiere_ID=".$matiereId."&niveau_ID=".$niveauId."&theme_ID=".$themeId."&n=");
@@ -230,7 +234,7 @@ require('include/headerUpload.inc.php');
 					<option disabled selected value="">Selectionnez un thème</option>
 					<?php
 					do { ?>
-						<option value="<?php echo $row_RsTheme['ID_theme']?>"<?php if (isset($niveauId)) { if (!(strcmp($row_RsTheme['ID_theme'], $themeId))) {echo "SELECTED";} } ?>><?php echo $row_RsTheme['theme']?></option>
+						<option value="<?php echo $row_RsTheme['ID_theme']?>"<?php if (isset($themeId)) { if (!(strcmp($row_RsTheme['ID_theme'], $themeId))) {echo "SELECTED";} } ?>><?php echo $row_RsTheme['theme']?></option>
 						<?php
 					} while ($row_RsTheme = mysqli_fetch_assoc($RsTheme));?>
 				</select>
@@ -249,7 +253,7 @@ require('include/headerUpload.inc.php');
 					<?php
 					do 
 					{ ?>
-						<option value="<?php echo $row_RsCategorie['ID_categorie']?>"><?php echo $row_RsCategorie['nom_categorie'];?></option>
+						<option value="<?php echo $row_RsCategorie['ID_categorie']?>" <?php if (isset($_POST['categorie_ID'])) { if (!(strcmp($row_RsCategorie['ID_categorie'], $_POST['categorie_ID']))) {echo "SELECTED";} } ?>><?php echo $row_RsCategorie['nom_categorie'];?></option>
 						<?php
 					} while ($row_RsCategorie = mysqli_fetch_assoc($RsCategorie));?>
 				</select>
@@ -312,7 +316,7 @@ require('include/headerUpload.inc.php');
 				<span class="text-right">Vous pouvez ajouter un auteur:</span>
 			</div>
 			<div class="col-auto">
-				<input type="text" class="form-control" name="auteur" placeholder="Nom de l'auteur">
+				<input type="text" class="form-control" name="auteur" placeholder="Nom de l'auteur" value="<?php if (isset($_POST['auteur'])) { echo htmlspecialchars($_POST['auteur']); } ?>">
 			</div>
 		</div>
 		<div class="form-group form-row justify-content-right align-items-center">

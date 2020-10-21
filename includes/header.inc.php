@@ -19,11 +19,11 @@ $config = $config->GetTableau();
 			--color-focus: <?=$config["color"]["theme"]["focus"]?>; 
 		}
 		</style>
-	    <!-- Required meta tags -->
+			<!-- Required meta tags -->
 		<meta name="theme-color" content="<?=$config["color"]["theme"]["main"];?>">
 		<meta name="msapplication-navbutton-color" content="<?=$config["color"]["theme"]["main"];?>">
 		<meta name="apple-mobile-web-app-statut-bar-style" content="<?=$config["color"]["theme"]["main"];?>">
-	    <meta name="apple-mobile-web-app-capable" content="<?=$config["color"]["theme"]["main"];?>">
+		<meta name="apple-mobile-web-app-capable" content="<?=$config["color"]["theme"]["main"];?>">
 
 		<meta property="og:title" content="<?=$config['General']['name']?>">
 		<meta property="og:type" content="website" />
@@ -34,13 +34,13 @@ $config = $config->GetTableau();
 		<meta name="twitter:title" content="<?=$config['General']['name']?>">
 		<meta name="twitter:description" content="<?=$config['General']['description']?>">
 
-	    <meta charset="utf-8">
-	    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<meta name="description" content="<?php echo $meta_description; ?>" />
 		<meta name="keywords" content="<?php echo $meta_keywords; ?>" />
 		<meta name="author" content="Stockpotatoes" />
 
-    	<link rel="stylesheet" type="text/css" media="all" href="includes/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" media="all" href="includes/bootstrap.min.css" />
 
 		<!-- Mon CSS -->
 		<link rel="stylesheet" type="text/css" media="all" href="includes/style.css" />
@@ -62,22 +62,31 @@ $config = $config->GetTableau();
 	<body class="">	
 		<header>
 			<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
-			 	<a class="navbar-brand" href="#">
+				<a class="navbar-brand" href="#">
 					<img src="patate.gif" width="30" height="30" class="d-inline-block align-top" alt="">
-					Stockpotatoes
+					<?php echo $config['General']['name'];?>
 				</a>
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-				    <span class="navbar-toggler-icon"></span>
+						<span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="collapse navbar-collapse" id="navbarNav">
 					<ul class="navbar-nav">
-					    <li class="nav-item active">
-					        <a class="nav-link" href="#">Accueil <span class="sr-only">(current)</span></a>
-					    </li>
-					    <li class="nav-item">
-					    	<a class="nav-link" href="index.php">Menu principal</a>
+						<li class="nav-item active">
+							<a class="nav-link" href="#">Accueil<span class="sr-only">(actuel)</span></a>
 						</li>
-				    </ul>
+						<?php
+						$str_arr = explode (";", $config['navBar']['espaceEleve']);
+						for ($i = 0; $i < count($str_arr); $i++) { 
+							$str_arr2[$i] = explode (",", $str_arr[$i]);  
+						}
+						$i = 0;
+						for ($i = 0; $i < count($str_arr); $i++) { ?>
+							<li class="nav-item">
+								<a class="nav-link" href="<?php echo $str_arr2[$i][2];?>"><?php echo $str_arr2[$i][1];?></a>
+							</li>
+							<?php
+						} ?>
+					</ul>
 				</div>
 			</nav>
 		</header>

@@ -1,12 +1,13 @@
----
 General:
-    url: ""
-    name: ""
-    description: ""
+    url: ''
+    name: 'Stockpotatoes'
+    description: ''
     studentPass: 'Yes'
 color:
     theme:
         main: '#0080ff'
-        second: '#ffa600'
+        second: '#ff8000'
         hover: '#01a6fe'
         focus: '#0000ff'
+navBar:
+    espaceEleve: '0,Login Eleve,login_eleve.php'

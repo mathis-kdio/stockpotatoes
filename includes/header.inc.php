@@ -11,12 +11,33 @@ $config = $config->GetTableau();
 <!DOCTYPE html>
 <html lang="fr">
 	<head>
+		<?php
+		//Check si couleur personnalisée pour cette matière et ce niveau
+		if (isset($matiereId) && isset($niveauId)) {
+			$colorElementShow = explode (";", $config['espaceEleve']['color']);
+			for ($i = 0; $i < count($colorElementShow); $i++) { 
+				$colorElementItemShow[$i] = explode (",", $colorElementShow[$i]);
+				if (isset($colorElementItemShow[$i][0]) && $colorElementItemShow[$i][0] == $matiereId && isset($colorElementItemShow[$i][1]) && $colorElementItemShow[$i][1] == $niveauId) {
+					$colormain = $colorElementItemShow[$i][2];
+					$colorsecond = $colorElementItemShow[$i][3];
+					$colorhover = $colorElementItemShow[$i][4];
+					$colorfocus = $colorElementItemShow[$i][5];
+					break;
+				}
+			}
+		}
+		if (!isset($colormain)) {
+			$colormain = $config["color"]["theme"]["main"];
+			$colorsecond = $config["color"]["theme"]["second"];
+			$colorhover = $config["color"]["theme"]["hover"];
+			$colorfocus = $config["color"]["theme"]["focus"];
+		}	?>
 		<style>
 		:root {
-			--color-main: <?=$config["color"]["theme"]["main"]?>;
-			--color-second: <?=$config["color"]["theme"]["second"]?>; 
-			--color-hover: <?=$config["color"]["theme"]["hover"]?>; 
-			--color-focus: <?=$config["color"]["theme"]["focus"]?>; 
+			--color-main: <?=$colormain?>;
+			--color-second: <?=$colorsecond?>; 
+			--color-hover: <?=$colorhover?>; 
+			--color-focus: <?=$colorfocus?>; 
 		}
 		</style>
 			<!-- Required meta tags -->

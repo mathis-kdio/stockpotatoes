@@ -59,7 +59,7 @@ require('include/headerAdministrateur.inc.php');
 		<form method="POST" action="gestion_stockpotatoes.php" >
 			<div class="form-group">
 				<label for="nom" class="col-auto col-form-label">Nom (Remplacera "stockpotatoes" dans la barre de navigation):</label>
-				<input type="text" name="nom" class="form-control" <?php if(isset($lecture["General"]["name"])) echo ' value="'.$lecture["General"]["name"].'"'?>>
+				<input type="text" name="nom" class="form-control" <?php if(isset($lecture["General"]["name"])) echo 'value="'.$lecture["General"]["name"].'"';?>>
 			</div>
 			<div class="form-group text-center">
 				<button type="submit" name="changementNom" value="1" class="btn btn-primary">Valider les changements</button>

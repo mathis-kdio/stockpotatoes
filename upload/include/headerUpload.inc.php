@@ -53,7 +53,7 @@ $config = $config->GetTableau();
 		<header>
 			<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
 				<a class="navbar-brand" href="#">
-					<img src="../patate.gif" width="30" height="30" class="d-inline-block align-top" alt="">
+					<img src="../includes/imgNavBar.jpg" width="30" height="30" class="d-inline-block align-top" alt="">
 					<?php echo $config['General']['name'];?>
 				</a>
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

@@ -287,7 +287,7 @@ require('include/headerAdministrateur.inc.php');
 		<label for="matiere_ID" class="col-auto col-form-label">Matière :</label>
 		<div class="col-auto">
 			<select name="matiere_ID" id="select2" class="custom-select" required>
-				<option disabled selected value="">Selectionnez une matière</option>
+				<option disabled selected value="">Veuillez choisir une matière</option>
 				<?php
 				while ($row_rs_matiere = mysqli_fetch_assoc($rs_matiere)) { ?>
 					<option value="<?php echo $row_rs_matiere['ID_mat']?>"<?php if (isset($matiereId)) { if (!(strcmp($row_rs_matiere['ID_mat'], $matiereId))) {echo " SELECTED";} } ?>><?php echo $row_rs_matiere['nom_mat']?></option>

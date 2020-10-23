@@ -158,7 +158,8 @@ require('includes/headerEnseignant.inc.php');
 	<div class="form-group row align-items-center justify-content-center">
 		<label for="select2" class="col-auto col-form-label">Sélectionnez une matière</label>
 		<div class="col-auto">
-			<select class="custom-select" name="matiere_ID" id="select2">
+			<select class="custom-select" name="matiere_ID" id="select2" required>
+				<option disabled selected value="">Veuillez choisir une matière</option>
 				<?php
 				do
 				{ ?>
@@ -169,7 +170,8 @@ require('includes/headerEnseignant.inc.php');
 		</div>
 		<label for="select" class="col-auto col-form-label">Sélectionnez un niveau</label>
 		<div class="col-auto">
-			<select class="custom-select" name="niveau_ID" id="select">
+			<select class="custom-select" name="niveau_ID" id="select" required>
+				<option disabled selected value="">Veuillez choisir un niveau</option>
 				<?php
 				do 
 				{ ?>
@@ -195,7 +197,8 @@ require('includes/headerEnseignant.inc.php');
 		<div class="form-group row align-items-center justify-content-center">
 			<label for="select3" class="col-auto col-form-label">Sélectionnez un thème :</label>
 			<div class="col-auto">
-				<select class="custom-select" name="theme_ID" id="select3">
+				<select class="custom-select" name="theme_ID" id="select3" required>
+					<option disabled selected value="">Veuillez choisir un thème</option>
 					<?php
 					do { ?>
 						<option value="<?php echo $row_RsListeTheme['ID_theme']?>"<?php if (isset($themeId)) { if (!(strcmp($row_RsListeTheme['ID_theme'], $themeId))) {echo "SELECTED";}}?>><?php echo $row_RsListeTheme['theme']?></option>
@@ -231,6 +234,17 @@ require('includes/headerEnseignant.inc.php');
 							<a href="#cours">Cours</a> - <a href="#hotpotatoes">Ex. Hotpotatoes</a> - <a href="#exercices">Autres exercices</a> - <a href="#travail">Travail à faire</a> - <a href="#annexes">Documents annexes</a>
 						</div>
 					</div>
+				</div>
+			</div>
+			<!-- Boutton ajout exos/documents -->
+			<div class="row justify-content-center">
+				<div class="col-auto">
+					<h5 class="text-center">Ajouter un : </h5>
+					<a class="btn btn-primary" href="../upload/upload_divers.php?matiere_ID=<?php echo $matiereId;?>&niveau_ID=<?php echo $niveauId;?>&theme_ID=<?php if (isset($themeId)) { echo $themeId; }?>" role="button">Cours</a>
+					<a class="btn btn-primary" href="../upload/upload_hotpot.php?matiere_ID=<?php echo $matiereId;?>&niveau_ID=<?php echo $niveauId;?>&theme_ID=<?php if (isset($themeId)) { echo $themeId; }?>" role="button">Exercice Hotpotatoes</a>
+					<a class="btn btn-primary" href="../upload/upload_divers.php?matiere_ID=<?php echo $matiereId;?>&niveau_ID=<?php echo $niveauId;?>&theme_ID=<?php if (isset($themeId)) { echo $themeId; }?>" role="button">Autre Exercice</a>
+					<a class="btn btn-primary" href="../upload/upload_divers.php?matiere_ID=<?php echo $matiereId;?>&niveau_ID=<?php echo $niveauId;?>&theme_ID=<?php if (isset($themeId)) { echo $themeId; }?>" role="button">Travail à faire</a>
+					<a class="btn btn-primary" href="../upload/upload_divers.php?matiere_ID=<?php echo $matiereId;?>&niveau_ID=<?php echo $niveauId;?>&theme_ID=<?php if (isset($themeId)) { echo $themeId; }?>" role="button">Document Annexe</a>
 				</div>
 			</div>
 			<!-- LE COURS -->
@@ -362,11 +376,6 @@ require('includes/headerEnseignant.inc.php');
 					<input type="hidden" name="MM_nouvel_ordre" value="form_nouvel_ordre_cours">
 					<input type="hidden" id="ordreCours" name="ordreCours" value="">
 				</form>
-			</div>
-			<div class="row justify-content-center">
-				<div class="col-auto">
-					<a class="btn btn-primary" href="../upload/upload_divers.php?matiere_ID=<?php echo $matiereId;?>&niveau_ID=<?php echo $niveauId;?>&theme_ID=<?php if (isset($themeId)) { echo $themeId; }?>" role="button">Ajouter un cours</a>
-				</div>
 			</div>
 			<script type="text/javascript">
 				let listCours = Sortable.create(sortablelistCours, {
@@ -514,11 +523,6 @@ require('includes/headerEnseignant.inc.php');
 					<input type="hidden" id="ordreHotpotatoes" name="ordreHotpotatoes" value="">
 				</form>
 			</div>
-			<div class="row justify-content-center">
-				<div class="col-auto">
-					<a class="btn btn-primary" href="../upload/upload_hotpot.php?matiere_ID=<?php echo $matiereId;?>&niveau_ID=<?php echo $niveauId;?>&theme_ID=<?php if (isset($themeId)) { echo $themeId; }?>" role="button">Ajouter un exercice Hotpotatoes</a>
-				</div>
-			</div>
 			<script type="text/javascript">
 				let listHotpotatoes = Sortable.create(sortablelistHotpotatoes, {
 					animation: 100,
@@ -664,11 +668,6 @@ require('includes/headerEnseignant.inc.php');
 					<input type="hidden" name="MM_nouvel_ordre" value="form_nouvel_ordre_autres">
 					<input type="hidden" id="ordreAutres" name="ordreAutres" value="">
 				</form>
-			</div>
-			<div class="row justify-content-center">
-				<div class="col-auto">
-					<a class="btn btn-primary" href="../upload/upload_divers.php?matiere_ID=<?php echo $matiereId;?>&niveau_ID=<?php echo $niveauId;?>&theme_ID=<?php if (isset($themeId)) { echo $themeId; }?>" role="button">Ajouter un autre exercice</a>
-				</div>
 			</div>
 			<script type="text/javascript">
 				let listAutres = Sortable.create(sortablelistAutres, {
@@ -816,11 +815,6 @@ require('includes/headerEnseignant.inc.php');
 					<input type="hidden" id="ordreTravail" name="ordreTravail" value="">
 				</form>
 			</div>
-			<div class="row justify-content-center">
-				<div class="col-auto">
-					<a class="btn btn-primary" href="../upload/upload_divers.php?matiere_ID=<?php echo $matiereId;?>&niveau_ID=<?php echo $niveauId;?>&theme_ID=<?php if (isset($themeId)) { echo $themeId; }?>" role="button">Ajouter un travail à faire</a>
-				</div>
-			</div>
 			<script type="text/javascript">
 				let listTravail = Sortable.create(sortablelistTravail, {
 					animation: 100,
@@ -967,11 +961,6 @@ require('includes/headerEnseignant.inc.php');
 					<input type="hidden" name="MM_nouvel_ordre" value="form_nouvel_ordre_documents">
 					<input type="hidden" id="ordreDocuments" name="ordreDocuments" value="">
 				</form>
-			</div>
-			<div class="row justify-content-center">
-				<div class="col-auto">
-					<a class="btn btn-primary" href="../upload/upload_divers.php?matiere_ID=<?php echo $matiereId;?>&niveau_ID=<?php echo $niveauId;?>&theme_ID=<?php if (isset($themeId)) { echo $themeId; }?>" role="button">Ajouter un document annex</a>
-				</div>
 			</div>
 			<script type="text/javascript">
 				let listDocuments = Sortable.create(sortablelistDocuments, {

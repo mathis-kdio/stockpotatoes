@@ -70,7 +70,8 @@ require('includes/headerEnseignant.inc.php');
 	<div class="form-group row align-items-center justify-content-center">
 		<label for="classe" class="col-auto col-form-label">Sélectionner une classe :</label>
 		<div class="col-auto">
-			<select name="classe" id="select10" class="custom-select">
+			<select name="classe" id="select10" class="custom-select" required>
+				<option disabled selected value="">Veuillez choisir une classe</option>
 				<?php
 				while ($row_rsClasse = mysqli_fetch_assoc($rsClasse))
 				{ ?>
@@ -90,7 +91,8 @@ require('includes/headerEnseignant.inc.php');
 		<div class="form-group row align-items-center justify-content-center">
 			<label for="ID_mat" class="col-auto col-form-label">Sélectionner une matière :</label>
 			<div class="col-auto">
-				<select name="ID_mat" id="select11" class="custom-select">
+				<select name="ID_mat" id="select11" class="custom-select" required>
+					<option disabled selected value="">Veuillez choisir une matière</option>
 					<?php
 					while ($row_RsMatiere = mysqli_fetch_assoc($RsMatiere)) 
 					{ ?>
@@ -101,7 +103,8 @@ require('includes/headerEnseignant.inc.php');
 			</div>
 			<label for="ID_niveau" class="col-auto col-form-label">Sélectionner un niveau :</label>
 			<div class="col-auto">
-				<select name="ID_niveau" id="select7" class="custom-select">
+				<select name="ID_niveau" id="select7" class="custom-select" required>
+					<option disabled selected value="">Veuillez choisir un niveau</option>
 					<?php
 					while ($row_RsNiveau = mysqli_fetch_assoc($RsNiveau))
 					{ ?>
@@ -126,7 +129,8 @@ if (isset($matiereId) && isset($niveauId))
 		<div class="form-group row align-items-center justify-content-center">
 			<label for="ID_quiz" class="col-auto col-form-label">Sélectionner un quiz :</label>
 			<div class="col-auto">
-				<select name="ID_quiz" id="select8" class="custom-select">
+				<select name="ID_quiz" id="select8" class="custom-select" required>
+					<option disabled selected value="">Veuillez choisir un quiz</option>
 					<?php
 					while ($row_Rsquiz = mysqli_fetch_assoc($Rsquiz)) 
 					{ ?>

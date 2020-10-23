@@ -40,7 +40,8 @@ require('include/headerAdministrateur.inc.php');
 		<form name="form2" method="post" action="supp_activite_classe.php">
 			<div class="form-group form-row justify-content-center">
 				<div class="col-auto">
-					<select class="custom-select" name="classe" id="classe">
+					<select class="custom-select" name="classe" id="classe" required>
+						<option disabled selected value="">Veuillez choisir une classe</option>
 						<?php
 						while ($row_rsClasse = mysqli_fetch_assoc($rsClasse)) { ?>
 							<option value="<?php echo $row_rsClasse['classe']?>"><?php echo $row_rsClasse['classe']?></option>

@@ -48,7 +48,7 @@ require('include/headerAdministrateur.inc.php');
 			<div class="form-group form-row justify-content-center">
 				<div class="col-4">
 					<label for="pass_administrateur">Entrer votre mot de passe</label>
-					<input type="password" class="form-control" name="pass_administrateur" id="pass_administrateur" placeholder="Mot de passe">
+					<input type="password" class="form-control" name="pass_administrateur" id="pass_administrateur" placeholder="Mot de passe" required>
 				</div>
 			</div>
 			<div class="form-group form-row justify-content-center">

@@ -130,7 +130,7 @@ require('include/headerAdministrateur.inc.php');
 				<label class="col-auto col-form-label" for="select2">Sélectionnez une classe :</label>
 				<div class="col-auto">
 					<select name="classe" id="select2" class="custom-select" required>
-						<option disabled selected value="">Liste des classes disponibles</option>
+						<option disabled selected value="">Veuillez choisir une classe</option>
 						<?php
 						while ($row_rsClasse = mysqli_fetch_assoc($rsClasse)) { ?>
 							<option value="<?php echo $row_rsClasse['classe']?>"<?php if (isset($classe)) { if (!(strcmp($row_rsClasse['classe'], $classe))) {echo " SELECTED";}} ?>><?php echo $row_rsClasse['classe']?></option>
@@ -157,7 +157,7 @@ require('include/headerAdministrateur.inc.php');
 				<label class="col-auto col-form-label" for="niveau">niveau :</label>
 				<div class="col-auto">
 					<select name="niveau" id="niveau" class="custom-select" required>
-						<option disabled selected value="">Liste des niveaux disponibles</option>
+						<option disabled selected value="">Veuillez chosiir un niveau</option>
 						<?php
 						while ($row_RsNiveau = mysqli_fetch_assoc($RsNiveau)) { ?>
 							<option value="<?php echo $row_RsNiveau['ID_niveau']?>"<?php if (isset($niveau)) { if (!(strcmp($row_RsNiveau['ID_niveau'], $niveau))) {echo " SELECTED";}} ?>><?php echo $row_RsNiveau['nom_niveau']?></option>

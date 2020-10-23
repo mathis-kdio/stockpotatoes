@@ -57,7 +57,8 @@ require('includes/headerEnseignant.inc.php');
 	<div class="form-group row align-items-center justify-content-center">
 		<label for="matiere_ID" class="col-auto col-form-label">Sélectionner une matière :</label>
 		<div class="col-auto">
-			<select name="matiere_ID" id="select2" class="custom-select">
+			<select name="matiere_ID" id="select2" class="custom-select" required>
+				<option disabled selected value="">Veuillez choisir une matière</option>
 				<?php
 				while ($row_RsMatiere = mysqli_fetch_assoc($rs_matiere)) 
 				{ ?>
@@ -68,7 +69,8 @@ require('includes/headerEnseignant.inc.php');
 		</div>
 		<label for="niveau_ID" class="col-auto col-form-label">Sélectionner un niveau :</label>
 		<div class="col-auto">
-			<select name="niveau_ID" id="select" class="custom-select">
+			<select name="niveau_ID" id="select" class="custom-select" required>
+				<option disabled selected value="">Veuillez choisir un niveau</option>
 				<?php
 				while ($row_RsNiveau = mysqli_fetch_assoc($rs_niveau)) 
 				{ ?>

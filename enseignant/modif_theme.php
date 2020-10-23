@@ -57,7 +57,7 @@ require('includes/headerEnseignant.inc.php');
 			<div class="form-group form-row justify-content-center">
 				<div class="col-auto">
 					<label for="theme">Modification du libellé du thème de l'étude</label>
-					<input type="text" class="form-control" id="theme" name="theme" value="<?php echo $row_RsChoixTheme['theme']; ?>">
+					<input type="text" class="form-control" id="theme" name="theme" value="<?php echo $row_RsChoixTheme['theme']; ?>" required>
 				</div>
 			</div>
 			<button type="submit" class="btn btn-primary mb-2">Mettre à jour l'enregistrement</button>

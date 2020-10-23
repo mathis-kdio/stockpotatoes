@@ -85,7 +85,8 @@ require('includes/headerEnseignant.inc.php');
 	<div class="form-group row align-items-center justify-content-center">
 		<label for="matiere_ID" class="col-auto col-form-label">Matière :</label>
 		<div class="col-auto">
-			<select name="matiere_ID" id="select2" class="custom-select">
+			<select name="matiere_ID" id="select2" class="custom-select" required>
+				<option disabled selected value="">Veuillez choisir une matière</option>
 				<?php
 				do 
 				{ ?>
@@ -102,7 +103,8 @@ require('includes/headerEnseignant.inc.php');
 		</div>
 		<label for="niveau_ID" class="col-auto col-form-label">Niveau :</label>
 		<div class="col-auto">
-			<select name="niveau_ID" id="select" class="custom-select">
+			<select name="niveau_ID" id="select" class="custom-select" required>
+				<option disabled selected value="">Veuillez choisir un niveau</option>
 				<?php
 				do 
 				{ ?>
@@ -134,7 +136,7 @@ if (isset($matiereId))
 		<div class="form-group row align-items-center justify-content-center mt-5">
 			<label for="theme" class="col-auto col-form-label">Ajouter un thème d'étude à cette matière et à ce niveau:</label>
 			<div class="col-auto">
-				<input type="text" name="theme" class="form-control">
+				<input type="text" name="theme" class="form-control" required>
 			</div>
 			<div class="col-auto">
 				<button type="submit" name="submit" class="btn btn-primary">Enregistrer ce nouveau thème d'étude</button>

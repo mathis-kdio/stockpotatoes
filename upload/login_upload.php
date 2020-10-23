@@ -49,7 +49,7 @@ require('include/headerUpload.inc.php');
 					<div class="form-group form-row justify-content-center">
 						<div class="col-4">
 							<label for="pass_upload">Entrer votre mot de passe</label>
-							<input type="password" class="form-control" name="pass_upload" id="pass_upload" placeholder="Mot de passe">
+							<input type="password" class="form-control" name="pass_upload" id="pass_upload" placeholder="Mot de passe" required>
 						</div>
 					</div>
 					<div class="form-group form-row justify-content-center">

@@ -126,7 +126,8 @@ require('includes/header.inc.php');
 			<div class="form-group text-center">
 				<label for="classe">Sélectionnez votre classe :</label>
 				<div class="col-auto">
-					<select class="custom-select" name="classe" id="classe">
+					<select class="custom-select" name="classe" id="classe" required>
+						<option disabled selected value="">Veuillez choisir une classe</option>
 						<?php
 						do { ?>
 							<option value="<?php echo $row_rsClasse['classe']?>"<?php if (isset($_POST['classe'])) { if (!(strcmp($row_rsClasse['classe'], $_POST['classe']))) {echo "SELECTED";}} ?>>
@@ -146,7 +147,8 @@ require('includes/header.inc.php');
 				<div class="form-group text-center">
 					<label for="log">Sélectionnez votre nom :</label>
 					<div class="col-auto">
-						<select class="custom-select" name="log" id="log">
+						<select class="custom-select" name="log" id="log" required>
+							<option disabled selected value="">Veuillez choisir un élève</option>
 							<?php
 							do { ?>
 								<option value="<?php echo $row_rsLogin2['ID_eleve']?>">
@@ -165,7 +167,7 @@ require('includes/header.inc.php');
 					<div class="form-group text-center">
 						<label for="pass">Tapez votre mot de passe :</label>
 						<div class="col-auto">
-							<input type="password" class="form-control" name="pass" id="pass" placeholder="Mot de passe">
+							<input type="password" class="form-control" name="pass" id="pass" placeholder="Mot de passe" required>
 						</div>
 					</div>
 					<?php 

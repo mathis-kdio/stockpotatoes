@@ -108,110 +108,113 @@ $css_deplus = "";
 require('include/headerUpload.inc.php');
 ?>
 
-			<form name="form1" method="GET" action="modif_select.php">
-				<div class="form-group row align-items-center justify-content-center">
-					<label for="matiere_ID" class="col-auto col-form-label">Matière :</label>
-					<div class="col-auto">
-						<select name="matiere_ID" id="select2" class="custom-select">
-							<?php
-							do { ?>
-								<option value="<?php echo $row_rs_matiere['ID_mat']?>"<?php if (isset($matiereId)) { if (!(strcmp($row_rs_matiere['ID_mat'], $matiereId))) {echo "SELECTED";} } ?>><?php echo $row_rs_matiere['nom_mat']?></option>
-								<?php
-							} while ($row_rs_matiere = mysqli_fetch_assoc($rs_matiere)); ?>
-						</select>
-					</div>
-					<label for="niveau_ID" class="col-auto col-form-label">Niveau :</label>
-					<div class="col-auto">
-						<select name="niveau_ID" id="select" class="custom-select">
-							<?php
-							do { ?>
-								<option value="<?php echo $row_rs_niveau['ID_niveau']?>"<?php if (isset($niveauId)) { if (!(strcmp($row_rs_niveau['ID_niveau'], $niveauId))) {echo "SELECTED";} } ?>><?php echo $row_rs_niveau['nom_niveau']?></option>
-								<?php
-							} while ($row_rs_niveau = mysqli_fetch_assoc($rs_niveau)); ?>
-						</select>
-					</div>
-					<div class="col-auto">
-						<button type="submit" name="Submit" class="btn btn-primary">Sélectionner</button>
-					</div>
-				</div>
-			</form>
-			<?php if (isset($matiereId))
-			{ ?>
-				<form name="form1" method="GET" action="modif_select.php">
-					<div class="form-group row align-items-center justify-content-center">
-						<label for="theme_ID" class="col-auto col-form-label">Thème :</label>
-						<div class="col-auto">
-							<select name="theme_ID" id="select2" class="custom-select">
-								<?php
-								do { ?>
-									<option value="<?php echo $row_RsListeTheme['ID_theme']?>"<?php if (isset($themeId)) { if (!(strcmp($row_RsListeTheme['ID_theme'], $themeId))) {echo "SELECTED";} } ?>><?php echo $row_RsListeTheme['theme']?></option>
-									<?php
-								} while ($row_RsListeTheme = mysqli_fetch_assoc($RsListeTheme)); ?>
-									<option value="0">Divers</option>
-							</select>
-						</div>
-						<div class="col-auto">
-							<button type="submit" name="Submit" class="btn btn-primary">Sélectionner</button>
-						</div>
-					</div>
-					<input name="niveau_ID" type="hidden" id="niveau_ID" value="<?php echo $niveauId; ?>">
-					<input name="matiere_ID" type="hidden" id="matiere_ID" value="<?php echo $matiereId; ?>">
-				</form>
-				<?php if (isset($themeId))
-				{ ?>
-					<h2 class="text-center mb-5">
+<form name="form1" method="GET" action="modif_select.php">
+	<div class="form-group row align-items-center justify-content-center">
+		<label for="matiere_ID" class="col-auto col-form-label">Matière :</label>
+		<div class="col-auto">
+			<select name="matiere_ID" id="select2" class="custom-select" required>
+				<option disabled selected value="">Veuillez choisir une matière</option>
+				<?php
+				do { ?>
+					<option value="<?php echo $row_rs_matiere['ID_mat']?>"<?php if (isset($matiereId)) { if (!(strcmp($row_rs_matiere['ID_mat'], $matiereId))) {echo "SELECTED";} } ?>><?php echo $row_rs_matiere['nom_mat']?></option>
+					<?php
+				} while ($row_rs_matiere = mysqli_fetch_assoc($rs_matiere)); ?>
+			</select>
+		</div>
+		<label for="niveau_ID" class="col-auto col-form-label">Niveau :</label>
+		<div class="col-auto">
+			<select name="niveau_ID" id="select" class="custom-select" required>
+				<option disabled selected value="">Veuillez choisir un niveau</option>
+				<?php
+				do { ?>
+					<option value="<?php echo $row_rs_niveau['ID_niveau']?>"<?php if (isset($niveauId)) { if (!(strcmp($row_rs_niveau['ID_niveau'], $niveauId))) {echo "SELECTED";} } ?>><?php echo $row_rs_niveau['nom_niveau']?></option>
+					<?php
+				} while ($row_rs_niveau = mysqli_fetch_assoc($rs_niveau)); ?>
+			</select>
+		</div>
+		<div class="col-auto">
+			<button type="submit" name="Submit" class="btn btn-primary">Sélectionner</button>
+		</div>
+	</div>
+</form>
+<?php if (isset($matiereId))
+{ ?>
+	<form name="form1" method="GET" action="modif_select.php">
+		<div class="form-group row align-items-center justify-content-center">
+			<label for="theme_ID" class="col-auto col-form-label">Thème :</label>
+			<div class="col-auto">
+				<select name="theme_ID" id="select2" class="custom-select" required>
+					<option disabled selected value="">Veuillez choisir un thème</option>
+					<?php
+					do { ?>
+						<option value="<?php echo $row_RsListeTheme['ID_theme']?>"<?php if (isset($themeId)) { if (!(strcmp($row_RsListeTheme['ID_theme'], $themeId))) {echo "SELECTED";} } ?>><?php echo $row_RsListeTheme['theme']?></option>
 						<?php
-						if ($themeId != 0)
-						{
-							echo $row_rsChoix['nom_mat'].'-'.$row_rsChoix2['nom_niveau'].'-'.$row_RsChoixTheme['theme'];
-						}
-						else
-						{
-							echo $row_rsChoix['nom_mat'].'-'.$row_rsChoix2['nom_niveau'].'-Divers';
-						} ?>
-					</h2>
-					<table class="table table-striped table-bordered table-sm">
-						<thead>
-							<tr>
-								<th scope="col">N°</th>
-								<th scope="col">Titre de l'exercice</th>
-								<th scope="col">Fichier</th>
-								<th scope="col">Auteur</th>
-								<th scope="col"></th>
-							</tr>
-						</thead>
-						<tbody>
-							<?php 
-							while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau))
-							{ ?>
-								<tr> 
-									<td>
-										<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?>
-									</td>
-									<td>
-										<a href="../choix_quiz.php?VAR_fichier=<?php echo $row_rsListeSelectMatiereNiveau['fichier']; ?>&VAR_ID_quiz=<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?>&VAR_nom_mat=<?php echo $row_rsChoix['nom_mat']; ?>"><strong><?php echo $row_rsListeSelectMatiereNiveau['titre']; ?></strong>
-										</a>
-									</td>
-									<td>
-										<?php echo $row_rsListeSelectMatiereNiveau['fichier']; ?>
-									</td>
-									<td>
-										<?php echo $row_rsListeSelectMatiereNiveau['auteur']; ?>
-									</td>
-									<td>
-										<form name="form2" method="post" action="ajout_fichiers_joints.php">
-											<button type="submit" name="Submit3" class="btn btn-primary">Sélectionner</button>
-											<input name="ID_quiz" type="hidden" id="ID_quiz" value="<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz'] ?>">
-											<input name="matiere_ID" type="hidden" id="matiere_ID" value="<?php echo $row_rsChoix['ID_mat']; ?>">
-										</form>
-									</td>
-								</tr>
-								<?php 
-							}?>
-						</tbody>
-					</table>
-				<?php } 
+					} while ($row_RsListeTheme = mysqli_fetch_assoc($RsListeTheme)); ?>
+						<option value="0">Divers</option>
+				</select>
+			</div>
+			<div class="col-auto">
+				<button type="submit" name="Submit" class="btn btn-primary">Sélectionner</button>
+			</div>
+		</div>
+		<input name="niveau_ID" type="hidden" id="niveau_ID" value="<?php echo $niveauId; ?>">
+		<input name="matiere_ID" type="hidden" id="matiere_ID" value="<?php echo $matiereId; ?>">
+	</form>
+	<?php if (isset($themeId))
+	{ ?>
+		<h2 class="text-center mb-5">
+			<?php
+			if ($themeId != 0)
+			{
+				echo $row_rsChoix['nom_mat'].'-'.$row_rsChoix2['nom_niveau'].'-'.$row_RsChoixTheme['theme'];
+			}
+			else
+			{
+				echo $row_rsChoix['nom_mat'].'-'.$row_rsChoix2['nom_niveau'].'-Divers';
 			} ?>
+		</h2>
+		<table class="table table-striped table-bordered table-sm">
+			<thead>
+				<tr>
+					<th scope="col">N°</th>
+					<th scope="col">Titre de l'exercice</th>
+					<th scope="col">Fichier</th>
+					<th scope="col">Auteur</th>
+					<th scope="col"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php 
+				while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau))
+				{ ?>
+					<tr> 
+						<td>
+							<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?>
+						</td>
+						<td>
+							<a href="../choix_quiz.php?VAR_fichier=<?php echo $row_rsListeSelectMatiereNiveau['fichier']; ?>&VAR_ID_quiz=<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?>&VAR_nom_mat=<?php echo $row_rsChoix['nom_mat']; ?>"><strong><?php echo $row_rsListeSelectMatiereNiveau['titre']; ?></strong>
+							</a>
+						</td>
+						<td>
+							<?php echo $row_rsListeSelectMatiereNiveau['fichier']; ?>
+						</td>
+						<td>
+							<?php echo $row_rsListeSelectMatiereNiveau['auteur']; ?>
+						</td>
+						<td>
+							<form name="form2" method="post" action="ajout_fichiers_joints.php">
+								<button type="submit" name="Submit3" class="btn btn-primary">Sélectionner</button>
+								<input name="ID_quiz" type="hidden" id="ID_quiz" value="<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz'] ?>">
+								<input name="matiere_ID" type="hidden" id="matiere_ID" value="<?php echo $row_rsChoix['ID_mat']; ?>">
+							</form>
+						</td>
+					</tr>
+					<?php 
+				}?>
+			</tbody>
+		</table>
+	<?php } 
+} ?>
 
 <?php
 require('include/footerUpload.inc.php');

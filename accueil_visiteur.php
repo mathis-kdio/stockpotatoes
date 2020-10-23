@@ -118,7 +118,8 @@ require('includes/header.inc.php');
 		<div class="form-row justify-content-center mt-1 pb-1">
 			<label for="matiere_ID" class="col-auto col-form-label">Sélectionnez une matière :</label>
 			<div class="col-auto">
-				<select class="custom-select" name="matiere_ID" id="select2">
+				<select class="custom-select" name="matiere_ID" id="select2" required>
+					<option disabled selected value="">Veuillez choisir une matière</option>
 					<?php
 					while ($row_rs_matiere = mysqli_fetch_assoc($rs_matiere)) { ?>
 						<option value="<?php echo $row_rs_matiere['ID_mat']?>"<?php if (isset($matiereId)) { if (!(strcmp($row_rs_matiere['ID_mat'], $matiereId))) {echo "SELECTED";} } ?>><?php echo $row_rs_matiere['nom_mat']?></option>
@@ -130,7 +131,8 @@ require('includes/header.inc.php');
 		<div class="form-row justify-content-center mt-1 pb-1">
 			<label for="niveau_ID" class="col-auto col-form-label">Puis un niveau :</label>
 			<div class="col-auto">
-				<select class="custom-select" name="niveau_ID" id="select">
+				<select class="custom-select" name="niveau_ID" id="select" required>
+					<option disabled selected value="">Veuillez choisir un niveau</option>
 					<?php
 					while ($row_rs_niveau = mysqli_fetch_assoc($rs_niveau))
 					{ ?>

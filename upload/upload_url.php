@@ -152,7 +152,7 @@ require('include/headerUpload.inc.php');
 		<label for="matiere_ID" class="col-auto col-form-label">Matière :</label>
 		<div class="col-auto">
 			<select name="matiere_ID" id="select2" class="custom-select" required>
-				<option disabled selected value="">Selectionnez une matière</option>
+				<option disabled selected value="">Veuillez choisir une matière</option>
 				<?php
 				do { ?>
 					<option value="<?php echo $row_rs_matiere['ID_mat']?>"<?php if (isset($matiereId)) { if (!(strcmp($row_rs_matiere['ID_mat'], $matiereId))) {echo "SELECTED";} } ?>><?php echo $row_rs_matiere['nom_mat']?></option>
@@ -163,7 +163,7 @@ require('include/headerUpload.inc.php');
 		<label for="niveau_ID" class="col-auto col-form-label">Niveau :</label>
 		<div class="col-auto">
 			<select name="niveau_ID" id="niveau_ID" class="custom-select" required>
-				<option disabled selected value="">Selectionnez un niveau</option>
+				<option disabled selected value="">Veuillez choisir un niveau</option>
 				<?php
 				do { ?>
 					<option value="<?php echo $row_rs_niveau['ID_niveau']?>"<?php if (isset($niveauId)) { if (!(strcmp($row_rs_niveau['ID_niveau'], $niveauId))) {echo "SELECTED";} } ?>><?php echo $row_rs_niveau['nom_niveau']?></option>
@@ -187,7 +187,7 @@ require('include/headerUpload.inc.php');
 			</div>
 			<div class="col-auto">
 				<select name="theme_ID" id="select" class="custom-select" required>
-					<option disabled selected value="">Selectionnez un thème</option>
+					<option disabled selected value="">Veuillez choisir un thème</option>
 					<?php
 					do { ?>
 						<option value="<?php echo $row_RsTheme['ID_theme']?>"<?php if (isset($themeId)) { if (!(strcmp($row_RsTheme['ID_theme'], $themeId))) {echo "SELECTED";} } ?>><?php echo $row_RsTheme['theme']?></option>
@@ -205,7 +205,7 @@ require('include/headerUpload.inc.php');
 			</div>
 			<div class="col-auto">
 				<select name="categorie_ID" id="select" class="custom-select" required>
-					<option disabled selected value="">Selectionnez une catégorie</option>
+					<option disabled selected value="">Veuillez choisir une catégorie</option>
 					<?php
 					do
 					{ ?>

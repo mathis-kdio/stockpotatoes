@@ -162,16 +162,15 @@ require('include/headerAdministrateur.inc.php');
 		<form name="form2" style="margin:0px" method="post" action="gestion_eleve.php">
 			<div class="form-group">
 				<label for="select2">Sélectionnez une classe</label>
-				<select name="classe" id="select2" class="custom-select">
+				<select name="classe" id="select2" class="custom-select" required>
+				<option disabled selected value="">Veuillez choisir une classe</option>
 					<?php
-					do 
-					{ ?>
+					do { ?>
 						<option value="<?php echo $row_rsClasse['classe']?>"<?php if (isset($classe)) { if (!(strcmp($row_rsClasse['classe'], $classe))) {echo "SELECTED";}} ?>><?php echo $row_rsClasse['classe']?></option>
 						<?php
 					} while ($row_rsClasse = mysqli_fetch_assoc($rsClasse));
 					$rows = mysqli_num_rows($rsClasse);
-					if($rows > 0)
-					{
+					if($rows > 0) {
 						mysqli_data_seek($rsClasse, 0);
 						$row_rsClasse = mysqli_fetch_assoc($rsClasse);
 					}
@@ -231,15 +230,16 @@ require('include/headerAdministrateur.inc.php');
 				<form method="post" name="form3" action="gestion_eleve.php">
 					<div class="form-group">
 						<label for="nom">Nom :</label>
-							<input type="text" class="form-control" name="nom" id="nom">
+							<input type="text" class="form-control" name="nom" id="nom" required>
 					</div>
 					<div class="form-group">
 						<label for="prenom">Prénom :</label>
-							<input type="text" class="form-control" name="prenom" id="prenom">
+							<input type="text" class="form-control" name="prenom" id="prenom" required>
 					</div>
 					<div class="form-group">
 						<label for="classe">Classe :</label>
-						<select name="classe" id="classe" class="custom-select">
+						<select name="classe" id="classe" class="custom-select" required>
+							<option disabled selected value="">Veuillez choisir une classe</option>
 							<?php
 							do 
 							{ ?>
@@ -256,11 +256,12 @@ require('include/headerAdministrateur.inc.php');
 					</div>
 					<div class="form-group">
 						<label for="pass">Mot de passe :</label>
-							<input type="text" class="form-control" name="pass" id="pass">
+							<input type="text" class="form-control" name="pass" id="pass" required>
 					</div>
 					<div class="form-group">
 						<label for="niveau">Niveau :</label>
-						<select name="niveau" id="niveau" class="custom-select">
+						<select name="niveau" id="niveau" class="custom-select" required>
+							<option disabled selected value="">Veuillez choisir un niveau</option>
 							<?php
 							do 
 							{ ?>
@@ -289,23 +290,24 @@ require('include/headerAdministrateur.inc.php');
 				<form method="post" name="form1" action="gestion_eleve.php">
 					<div class="form-group">
 						<label for="nom">Nom :</label>
-							<input type="text" class="form-control" name="nom" id="nom">
+							<input type="text" class="form-control" name="nom" id="nom" required>
 					</div>
 					<div class="form-group">
 						<label for="prenom">Prénom :</label>
-							<input type="text" class="form-control" name="prenom" id="prenom">
+							<input type="text" class="form-control" name="prenom" id="prenom" required>
 					</div>
 					<div class="form-group">
 						<label for="classe">Classe :</label>
-						<input type="text" class="form-control" name="classe" id="classe">
+						<input type="text" class="form-control" name="classe" id="classe" required>
 					</div>
 					<div class="form-group">
 						<label for="pass">Mot de passe :</label>
-							<input type="text" class="form-control" name="pass" id="pass">
+							<input type="text" class="form-control" name="pass" id="pass" required>
 					</div>
 					<div class="form-group">
 						<label for="niveau">Niveau :</label>
-						<select name="niveau" id="niveau" class="custom-select">
+						<select name="niveau" id="niveau" class="custom-select" required>
+							<option disabled selected value="">Veuillez choisir un niveau</option>
 							<?php
 							do 
 							{ ?>
@@ -334,7 +336,8 @@ require('include/headerAdministrateur.inc.php');
 				<form name="form2" method="post" action="gestion_eleve.php">
 					<div class="form-group">
 						<label for="classe">Classe :</label>
-						<select name="classe" id="classe" class="custom-select">
+						<select name="classe" id="classe" class="custom-select" required>
+							<option disabled selected value="">Veuillez choisir une classe</option>
 							<?php
 							do 
 							{ ?>
@@ -364,7 +367,8 @@ require('include/headerAdministrateur.inc.php');
 					<form name="form4" method="get" action="gestion_eleve.php">
 						<div class="form-group">
 							<label for="select3">Elève :</label>
-							<select name="numsupeleve" id="select3" class="custom-select">
+							<select name="numsupeleve" id="select3" class="custom-select" required>
+								<option disabled selected value="">Veuillez choisir un élève</option>
 								<?php
 								do {  
 								?>
@@ -394,7 +398,8 @@ require('include/headerAdministrateur.inc.php');
 				<form name="form2"method="post" action="gestion_eleve.php">
 					<div class="form-group">
 						<label for="classe">Classe :</label>
-						<select name="classe" id="classe" class="custom-select">
+						<select name="classe" id="classe" class="custom-select" required>
+							<option disabled selected value="">Veuillez choisir une classe</option>
 							<?php
 							do
 							{ ?>
@@ -418,7 +423,8 @@ require('include/headerAdministrateur.inc.php');
 					<form name="form4" method="post" action="">
 						<div class="form-group">
 							<label for="numeleve">Elève :</label>
-							<select name="numeleve" id="numeleve" class="custom-select">
+							<select name="numeleve" id="numeleve" class="custom-select" required>
+								<option disabled selected value="">Veuillez choisir un élève</option>
 								<?php
 								do {  
 								?>
@@ -443,23 +449,24 @@ require('include/headerAdministrateur.inc.php');
 						<form method="post" name="form5" action="gestion_eleve.php">
 							<div class="form-group">
 								<label for="nom">Nom :</label>
-									<input type="text" class="form-control" name="nom" id="nom" value="<?php echo $row_RsModifEleve['nom']; ?>">
+									<input type="text" class="form-control" name="nom" id="nom" value="<?php echo $row_RsModifEleve['nom']; ?>" required>
 							</div>
 							<div class="form-group">
 								<label for="prenom">Prénom :</label>
-									<input type="text" class="form-control" name="prenom" id="prenom" value="<?php echo $row_RsModifEleve['prenom']; ?>">
+									<input type="text" class="form-control" name="prenom" id="prenom" value="<?php echo $row_RsModifEleve['prenom']; ?>" required>
 							</div>
 							<div class="form-group">
 								<label for="classe">Classe :</label>
-								<input type="text" class="form-control" name="classe" id="classe" value="<?php echo $row_RsModifEleve['classe']; ?>">
+								<input type="text" class="form-control" name="classe" id="classe" value="<?php echo $row_RsModifEleve['classe']; ?>" required>
 							</div>
 							<div class="form-group">
 								<label for="pass">Mot de passe :</label>
-									<input type="text" class="form-control" name="pass" id="pass" value="<?php echo $row_RsModifEleve['pass']; ?>">
+									<input type="text" class="form-control" name="pass" id="pass" value="<?php echo $row_RsModifEleve['pass']; ?>" required>
 							</div>
 							<div class="form-group">
 								<label for="niveau">Niveau :</label>
-								<select name="niveau" id="niveau" class="custom-select">
+								<select name="niveau" id="niveau" class="custom-select" required>
+									<option disabled selected value="">Veuillez choisir un niveau</option>
 									<?php
 									do 
 									{ ?>

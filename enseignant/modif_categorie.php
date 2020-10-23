@@ -57,7 +57,7 @@ require('includes/headerEnseignant.inc.php');
 				<div class="form-group form-row justify-content-center">
 					<div class="col-auto">
 						<label for="nom_categorie">Modification du libellé de la catégorie de l'étude</label>
-						<input type="text" class="form-control" id="nom_categorie" name="nom_categorie" value="<?php echo $row_RsChoixcategorie['nom_categorie']; ?>">
+						<input type="text" class="form-control" id="nom_categorie" name="nom_categorie" value="<?php echo $row_RsChoixcategorie['nom_categorie']; ?>" required>
 					</div>
 				</div>
 				<button type="submit" class="btn btn-primary mb-2">Mettre à jour l'enregistrement</button>

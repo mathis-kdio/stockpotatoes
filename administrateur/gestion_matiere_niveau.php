@@ -146,7 +146,7 @@ require('include/headerAdministrateur.inc.php');
 			<div class="form-group row align-items-center">
 				<label for="nom_mat" class="col-4 col-form-label">Nom de la matière :</label>
 				<div class="col-4">
-					<input type="text" class="form-control" name="nom_mat" id="nom_mat">
+					<input type="text" class="form-control" name="nom_mat" id="nom_mat" required>
 				</div>
 				<div class="col-4">
 					<button type="submit" name="submit" class="btn btn-primary">Créer cette matière</button>
@@ -160,7 +160,8 @@ require('include/headerAdministrateur.inc.php');
 			<div class="form-group row align-items-center">
 				<label for="matiere_supp_ID" class="col-auto col-form-label">Matière :</label>
 				<div class="col-auto">
-					<select name="matiere_supp_ID" id="select2" class="custom-select">
+					<select name="matiere_supp_ID" id="select2" class="custom-select" required>
+						<option disabled selected value="">Veuillez choisir une matière</option>
 						<?php
 						do { ?>
 							<option value="<?php echo $row_RsMatiere['ID_mat']?>"><?php echo $row_RsMatiere['nom_mat']?></option>
@@ -183,7 +184,8 @@ require('include/headerAdministrateur.inc.php');
 			<div class="form-group row align-items-center">
 				<label for="matiere_modif_ID" class="col-auto col-form-label">Matière :</label>
 				<div class="col-auto">
-					<select name="matiere_modif_ID" id="select" class="custom-select">
+					<select name="matiere_modif_ID" id="select" class="custom-select" required>
+						<option disabled selected value="">Veuillez choisir une matière</option>
 						<?php
 						do {  
 							?>
@@ -209,7 +211,7 @@ require('include/headerAdministrateur.inc.php');
 				<div class="form-group row align-items-center">
 					<label for="nom_mat" class="offset-1 col-auto col-form-label">Nom de la matière :</label>
 					<div class="col-4">
-						<input type="text" name="nom_mat" class="form-control" value="<?php echo $row_RsModifMatiere['nom_mat']; ?>">
+						<input type="text" name="nom_mat" class="form-control" value="<?php echo $row_RsModifMatiere['nom_mat']; ?>" required>
 					</div>
 					<div class="col-auto">
 						<button type="submit" name="submit3" class="btn btn-primary">Valider</button>
@@ -257,7 +259,7 @@ require('include/headerAdministrateur.inc.php');
 			<div class="form-group row align-items-center">
 				<label for="nom_niveau" class="col-auto col-form-label">Nom du niveau :</label>
 				<div class="col-4">
-					<input name="nom_niveau" class="form-control" type="text" id="nom_niveau">
+					<input name="nom_niveau" class="form-control" type="text" id="nom_niveau" required>
 				</div>
 				<div class="col-auto">
 					<button type="submit" name="submit" class="btn btn-primary">Créer ce niveau</button>
@@ -271,7 +273,8 @@ require('include/headerAdministrateur.inc.php');
 			<div class="form-group row align-items-center">
 				<label for="niveau_supp_ID" class="col-auto col-form-label">Niveau :</label>
 				<div class="col-auto">
-					<select name="niveau_supp_ID" id="niveau_supp_ID" class="custom-select">
+					<select name="niveau_supp_ID" id="niveau_supp_ID" class="custom-select" required>
+						<option disabled selected value="">Veuillez choisir un niveau</option>
 						<?php
 						do {  
 							?>
@@ -295,7 +298,8 @@ require('include/headerAdministrateur.inc.php');
 			<div class="form-group row align-items-center">
 				<label for="niveau_modif_ID" class="col-auto col-form-label">Niveau :</label>
 				<div class="col-auto">
-					<select name="niveau_modif_ID" id="niveau_modif_ID" class="custom-select">
+					<select name="niveau_modif_ID" id="niveau_modif_ID" class="custom-select" required>
+						<option disabled selected value="">Veuillez choisir un niveau</option>
 						<?php
 						do { 
 							?>
@@ -321,7 +325,7 @@ require('include/headerAdministrateur.inc.php');
 				<div class="form-group row align-items-center">
 					<label for="nom_niveau" class="offset-1 col-auto col-form-label">Nom du niveau :</label>
 					<div class="col-4">
-						<input type="text" class="form-control" name="nom_niveau" value="<?php echo $row_RsModifNiveau['nom_niveau']; ?>">
+						<input type="text" class="form-control" name="nom_niveau" value="<?php echo $row_RsModifNiveau['nom_niveau']; ?>" required>
 					</div>
 					<div class="col-auto">
 						<button type="submit" name="submit4" class="btn btn-primary">Valider</button>

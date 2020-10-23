@@ -12,4 +12,9 @@ color:
 navBar:
     espaceEleve: 0,Login,login_eleve.php
 espaceEleve:
-    color: ''
+    color: ""
+    accesThemes:
+        sup: 'Yes'
+        inf: 'Yes'
+        supDate: 'No'
+        infDate: 'No'

@@ -111,6 +111,7 @@ if (isset($_POST['niveau_ID'])) {
 	$niveauId = htmlspecialchars($_POST['niveau_ID']);
 }
 
+//Ajout ou modification de la couleur de l'espace élève
 if (isset($matiereId) && isset($niveauId)) {
 	$colorElement = explode (";", $modif['espaceEleve']['color']);
 	for ($i = 0; $i < count($colorElement); $i++) { 
@@ -178,6 +179,17 @@ if (isset($matiereId) && isset($niveauId)) {
 	}
 }
 
+//changements dans l'accès aux niveaux et aux thèmes
+if ((isset($_POST['changementsAccesNiveauxThemes'])) && ($_POST['changementsAccesNiveauxThemes'] == "1")) {
+	if(isset($_POST['accesSup']) && isset($_POST['accesSupDate']) && isset($_POST['accesInf']) && isset($_POST['accesInfDate'])) {
+		$configName = new Lire('../includes/config.yml');
+		$modif['espaceEleve']['accesThemes']['sup'] = htmlspecialchars($_POST['accesSup']);
+		$modif['espaceEleve']['accesThemes']['supDate'] = htmlspecialchars($_POST['accesSupDate']);
+		$modif['espaceEleve']['accesThemes']['inf'] = htmlspecialchars($_POST['accesInf']);
+		$modif['espaceEleve']['accesThemes']['infDate'] = htmlspecialchars($_POST['accesInfDate']);
+		new Ecrire('../includes/config.yml', $modif);
+	}
+}
 
 $lecture = new Lire('../includes/config.yml');
 $lecture = $lecture->GetTableau();
@@ -206,6 +218,64 @@ require('include/headerAdministrateur.inc.php');
 			</div>
 			<div class="form-group">
 				<button type="submit" name="demandePassword" value="1" class="btn btn-primary">Valider les changements</button>
+			</div>
+		</form>
+	</div>
+</div>
+<h5 class="text-center">Paramétrage accès aux niveaux et thèmes :</h5>
+<div class="row justify-content-center">
+	<div class="col-auto">
+		<form method="POST" action="gestion_espace_eleve.php">
+			<div class="form-group text-center">
+				<h5 class="text-center">Les élèves peuvent-ils accéder aux niveaux supérieurs aux leurs ?</h5>
+				<h6 class="text-center">Exemple: un 5ème peut accéder aux exercices de 4ème</h6>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="accesSup" id="accesSupYes" value="Yes" <?php if(isset($lecture['espaceEleve']['accesThemes']['sup']) && $lecture['espaceEleve']['accesThemes']['sup'] == "Yes") echo 'checked'?>>
+					<label class="form-check-label" for="studentPassYes">Oui</label>
+				</div>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="accesSup" id="accesSupNo" value="No" <?php if(isset($lecture['espaceEleve']['accesThemes']['sup']) && $lecture['espaceEleve']['accesThemes']['sup'] == "No") echo 'checked'?>>
+					<label class="form-check-label" for="studentPassNo">Non</label>
+				</div>
+			</div>
+			<div class="form-group text-center">
+				<h5 class="text-center">Les élèves peuvent-ils accéder aux thèmes cachés dans les niveaux supérieurs ?</h5>
+				<h6 class="text-center">Exemple: un 5ème peut accéder aux thèmes de 4ème que les 4ème ne voient pas</h6>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="accesSupDate" id="accesSupDateYes" value="Yes" <?php if(isset($lecture['espaceEleve']['accesThemes']['supDate']) && $lecture['espaceEleve']['accesThemes']['supDate'] == "Yes") echo 'checked'?>>
+					<label class="form-check-label" for="studentPassYes">Oui</label>
+				</div>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="accesSupDate" id="accesSupDateNo" value="No" <?php if(isset($lecture['espaceEleve']['accesThemes']['supDate']) && $lecture['espaceEleve']['accesThemes']['supDate'] == "No") echo 'checked'?>>
+					<label class="form-check-label" for="studentPassNo">Non</label>
+				</div>
+			</div>
+			<div class="form-group text-center">
+				<h5 class="text-center">Les élèves peuvent-ils accéder aux niveaux inférieurs aux leurs ?</h5>
+				<h6 class="text-center">Exemple: un 5ème peut accéder aux exercices de 6ème</h6>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="accesInf" id="accesInfYes" value="Yes" <?php if(isset($lecture['espaceEleve']['accesThemes']['inf']) && $lecture['espaceEleve']['accesThemes']['inf'] == "Yes") echo 'checked'?>>
+					<label class="form-check-label" for="studentPassYes">Oui</label>
+				</div>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="accesInf" id="accesInfNo" value="No" <?php if(isset($lecture['espaceEleve']['accesThemes']['inf']) && $lecture['espaceEleve']['accesThemes']['inf'] == "No") echo 'checked'?>>
+					<label class="form-check-label" for="studentPassNo">Non</label>
+				</div>
+			</div>
+			<div class="form-group text-center">
+				<h5 class="text-center">Les élèves peuvent-ils accéder aux thèmes cachés dans les niveaux inférieurs ?</h5>
+				<h6 class="text-center">Exemple: un 5ème peut accéder aux thèmes de 6ème que les 6ème ne voient pas</h6>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="accesInfDate" id="accesInfDateYes" value="Yes" <?php if(isset($lecture['espaceEleve']['accesThemes']['infDate']) && $lecture['espaceEleve']['accesThemes']['infDate'] == "Yes") echo 'checked'?>>
+					<label class="form-check-label" for="studentPassYes">Oui</label>
+				</div>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="accesInfDate" id="accesInfDateNo" value="No" <?php if(isset($lecture['espaceEleve']['accesThemes']['infDate']) && $lecture['espaceEleve']['accesThemes']['infDate'] == "No") echo 'checked'?>>
+					<label class="form-check-label" for="studentPassNo">Non</label>
+				</div>
+			</div>
+			<div class="form-group text-center">
+				<button type="submit" name="changementsAccesNiveauxThemes" value="1" class="btn btn-primary">Valider les changements</button>
 			</div>
 		</form>
 	</div>

@@ -48,12 +48,27 @@ if (isset($_GET['categorie_ID'])) {
 	$categorieId = htmlspecialchars($_GET['categorie_ID']);
 }
 
+$lecture = new Lire('includes/config.yml');
+$lecture = $lecture->GetTableau();
+
 mysqli_select_db($conn_intranet, $database_conn_intranet);
 
 $query_rs_matiere = "SELECT * FROM stock_matiere ORDER BY nom_mat";
 $rs_matiere = mysqli_query($conn_intranet, $query_rs_matiere) or die(mysqli_error($conn_intranet));
 
-$query_rs_niveau = "SELECT * FROM stock_niveau ORDER BY ID_niveau";
+//Affichage des niveaux selon la config choisie dans l'espace Admin
+$niveauEleve = $_SESSION['Sess_niveau'];
+$query_rs_niveau = "SELECT * FROM stock_niveau";
+if ($lecture['espaceEleve']['accesThemes']['sup'] == 'No' && $lecture['espaceEleve']['accesThemes']['inf'] == 'No') {
+	$query_rs_niveau = $query_rs_niveau.' WHERE pos_niv >= '.$niveauEleve.' AND pos_niv <= '.$niveauEleve;
+}
+else if ($lecture['espaceEleve']['accesThemes']['sup'] == 'No') {
+	$query_rs_niveau = $query_rs_niveau.' WHERE pos_niv <= '.$niveauEleve;
+}
+else if ($lecture['espaceEleve']['accesThemes']['inf'] == 'No') {
+	$query_rs_niveau = $query_rs_niveau.' WHERE pos_niv >= '.$niveauEleve;
+}
+$query_rs_niveau = $query_rs_niveau.' ORDER BY ID_niveau';
 $rs_niveau = mysqli_query($conn_intranet, $query_rs_niveau) or die(mysqli_error($conn_intranet));
 
 $query_rsListequiz = "SELECT * FROM stock_quiz WHERE avec_score = 'O' ORDER BY titre";
@@ -86,7 +101,6 @@ $colname_rsChoix = "1";
 if (isset($matiereId)) {
 	$colname_rsChoix = $matiereId;
 }
-
 $query_rsChoix = sprintf("SELECT * FROM stock_matiere WHERE ID_mat = '%s'", $colname_rsChoix);
 $rsChoix = mysqli_query($conn_intranet, $query_rsChoix) or die(mysqli_error($conn_intranet));
 $row_rsChoix = mysqli_fetch_assoc($rsChoix);
@@ -95,7 +109,6 @@ $colname_rsChoix2 = "1";
 if (isset($niveauId)) {
 	$colname_rsChoix2 = $niveauId;
 }
-
 $query_rsChoix2 = sprintf("SELECT * FROM stock_niveau WHERE ID_niveau = '%s'", $colname_rsChoix2);
 $rsChoix2 = mysqli_query($conn_intranet, $query_rsChoix2) or die(mysqli_error($conn_intranet));
 $row_rsChoix2 = mysqli_fetch_assoc($rsChoix2);
@@ -108,24 +121,40 @@ $nivListeTheme = 0;
 if (isset($niveauId)) {
 	$nivListeTheme = $niveauId;
 }
-$today = date("Y-m-d");
-$listeTheme = mysqli_prepare($conn_intranet, "SELECT ID_theme, theme FROM stock_theme WHERE mat_ID = ? AND niv_ID = ? AND '$today' >= date_apparition AND date_disparition >= '$today' ORDER BY pos_theme") or exit(mysqli_error($conn_intranet));
-mysqli_stmt_bind_param($listeTheme, "ii", $matListeTheme, $nivListeTheme);
+
+//Affichage des thèmes selon la config choisie dans l'espace Admin
+$utiliserDate = 1;
+if ($row_rsChoix2['pos_niv'] < $_SESSION['Sess_niveau']) {
+	if ($lecture['espaceEleve']['accesThemes']['infDate'] == 'Yes') {
+		$utiliserDate = 0;
+	}
+}
+else if ($row_rsChoix2['pos_niv'] > $_SESSION['Sess_niveau']) {
+	if ($lecture['espaceEleve']['accesThemes']['supDate'] == 'Yes') {
+			$utiliserDate = 0;
+	}
+}
+if ($utiliserDate == 1) {
+	$today = date("Y-m-d");
+	$listeTheme = mysqli_prepare($conn_intranet, "SELECT ID_theme, theme FROM stock_theme WHERE mat_ID = ? AND niv_ID = ? AND '$today' >= date_apparition AND date_disparition >= '$today' ORDER BY pos_theme") or exit(mysqli_error($conn_intranet));
+	mysqli_stmt_bind_param($listeTheme, "ii", $matListeTheme, $nivListeTheme);
+}
+else {
+	$listeTheme = mysqli_prepare($conn_intranet, "SELECT ID_theme, theme FROM stock_theme WHERE mat_ID = ? AND niv_ID = ? ORDER BY pos_theme") or exit(mysqli_error($conn_intranet));
+	mysqli_stmt_bind_param($listeTheme, "ii", $matListeTheme, $nivListeTheme);
+}
+
 
 $selectheme_RsChoixTheme = 0;
 if (isset($themeId)) {
 	$selectheme_RsChoixTheme = $themeId;
 }
-
 $themeChoisi = mysqli_prepare($conn_intranet, "SELECT theme FROM stock_theme WHERE ID_theme = ?") or exit(mysqli_error($conn_intranet));
 mysqli_stmt_bind_param($themeChoisi, "i", $selectheme_RsChoixTheme);
 mysqli_stmt_execute($themeChoisi);
 mysqli_stmt_bind_result($themeChoisi, $row_RsChoixTheme['theme']);
 mysqli_stmt_fetch($themeChoisi);
 mysqli_stmt_close($themeChoisi);
-
-$lecture = new Lire('includes/config.yml');
-$lecture = $lecture->GetTableau();
 
 $titre_page = "Accueil des élèves";
 $meta_description = "Page accueil des élève pour y être évalué";
@@ -186,8 +215,8 @@ require('includes/header.inc.php');
 	</div>
 </form>
 <!--Une fois la matière et niveau choisis -->
-<?php if (isset($matiereId))
-{ ?>
+<?php 
+if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != "") { ?>
 	<div class="row mt-2 mb-2">
 		<div class="col text-center">
 			<h3>Matière actuelle: <?php echo $row_rsChoix['nom_mat']; ?></h3>

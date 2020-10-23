@@ -102,6 +102,17 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form7"))
 	header("Location: gestion_matiere_niveau.php");
 }
 
+//Mise à jour de l'ordre des niveayx
+if ((isset($_POST["MM_nouvel_ordre"])) && ($_POST["MM_nouvel_ordre"] == "form_nouvel_ordre")) {
+	$ordre = htmlspecialchars($_POST['ordreNiveaux']);
+	$ordre = explode(",", $ordre);
+
+	for ($i = 1; $i <= count($ordre); $i++) {
+		$updatePositionsNiveaux = sprintf("UPDATE stock_niveau SET pos_niv = '%s' WHERE ID_niveau = '%s'", $i, $ordre[$i-1]);
+		$RsNewPositions = mysqli_query($conn_intranet, $updatePositionsNiveaux) or die(mysqli_error($conn_intranet));
+	}
+}
+
 $query_RsMatiere = "SELECT * FROM stock_matiere ORDER BY nom_mat";
 $RsMatiere = mysqli_query($conn_intranet, $query_RsMatiere) or die(mysqli_error($conn_intranet));
 $row_RsMatiere = mysqli_fetch_assoc($RsMatiere);
@@ -132,7 +143,7 @@ $row_RsModifNiveau = mysqli_fetch_assoc($RsModifNiveau);
 $titre_page = "Gestion des matières et des niveaux";
 $meta_description = "Page de gestion des matières et des niveaux";
 $meta_keywords = "outils, ressources, exercices en ligne, hotpotatoes";
-$js_deplus = "";
+$js_deplus = "include/Sortable.js";
 $css_deplus = "";
 
 require('include/headerAdministrateur.inc.php');
@@ -337,79 +348,69 @@ require('include/headerAdministrateur.inc.php');
 		<?php } ?>
 		<!-----------LISTE NIVEAU------------->
 		<h4 class="text-center">Liste des niveaux</h4>
-		<p class="font-italic">Vous pouvez classer les niveaux avec (<img src="up.gif" width="15" height="10"> et <img src="down.gif" width="15" height="10">)</p>
-		<div class="row mt-5">
-			<div class="col table-responsive">
-				<table class="table table-striped table-bordered table-sm">
-					<thead>
-						<tr>
-							<th scope="col">ID_niveau</th>
-							<th scope="col">Up</th>
-							<th scope="col">Down</th>
-							<th scope="col">Niveaux</th>
-						</tr>
-					</thead>
-					<tbody>
-						<?php 
-						$x = 0;
-						do 
-						{
-							$x = $x + 1;
-							$tabpos1[$x] = $row_RsNiveau['pos_niv'];
-							$tabid1[$x] = $row_RsNiveau['ID_niveau'];
-						} while ($row_RsNiveau = mysqli_fetch_assoc($RsNiveau)); 
-						if ($totalRows_RsNiveau != 0)
-						{
-							mysqli_data_seek($RsNiveau,0);		
-							$row_RsNiveau = mysqli_fetch_assoc($RsNiveau);
-							$t1 = $x; 
-							$x = 0;
-							do
-							{
-								$x = $x + 1; ?>
-								<tr> 
-									<th scope="row"><?php echo $row_RsNiveau['ID_niveau']; ?></th>
-									<td class="text-center">
-										<?php if($x != 1)
-										{
-											echo '<form name="Remonter" method="post" action="remonter_niveau.php">'; 
-											echo '<input name="ID_niveau" type="hidden" id="ID_niveau" value="'.$row_RsNiveau['ID_niveau'].'">'; 
-											echo '<input name="ID_precedent" type="hidden" id="ID_precedent" value="'.$tabid1[$x - 1].'">';
-											echo '<input name="pos_precedent" type="hidden" id="pos_precedent" value="'.$tabpos1[$x - 1].'">';
-											echo '<input name="Remonter" type="hidden" value="Remonter">';
-											echo '<input type="image" src="up.gif" alt="Remonter ce niveau">';
-											echo '</form>';
-										} 
-										else 
-										{
-											echo '&nbsp;';
-										}?> 
-									</td>
-									<td class="text-center">
-										<?php if($x != $t1) 
-										{
-											echo '<form name="Descendre" method="post" action="descendre_niveau.php">';
-											echo '<input name="ID_niveau" type="hidden" id="ID_niveau" value="'.$row_RsNiveau['ID_niveau'].'">';
-											echo '<input name="ID_suivant" type="hidden" id="ID_suivant" value="'.$tabid1[$x + 1].'">';
-											echo '<input name="pos_suivant" type="hidden" id="pos_suivant" value="'.$tabpos1[$x + 1].'">';
-											echo '<input name="Descendre" type="hidden" value="Descendre">';
-											echo '<input type="image" src="down.gif" alt="Descendre ce niveau">';
-											echo '</form>';
-										}
-										else
-										{
-											echo '&nbsp;';
-										}?>
-									</td>
-									<td><?php echo $row_RsNiveau['nom_niveau']; ?></td>
-								</tr>
-								<?php 
-							} while ($row_RsNiveau = mysqli_fetch_assoc($RsNiveau)); 
-						}?>
-					</tbody>
-				</table>
+		<h5 class="text-danger">L'ordre a une importance si vous configurez l'affichage des niveaux selon le niveau de l'élève.</h5>
+		<h6>Par exemple, il faut mettre 6e en haut puis 5e en dessous etc.</h6>
+		<div class="row">
+			<div class="col">
+				<div class="d-flex bg-white p-3 text-center overflow-auto overflow-auto">
+					<div class="col-3">Réordonner</div>
+					<div class="col-4">N°</div>
+					<div class="col-5">Nom du niveau</div>
+				</div>
 			</div>
 		</div>
+		<div class="row">
+			<div class="col">
+				<div id="sortablelist" class="list-group mb-4" data-id="1">
+					<?php
+					if ($totalRows_RsNiveau != 0) {
+						mysqli_data_seek($RsNiveau, 0);
+						$row_RsNiveau = mysqli_fetch_assoc($RsNiveau);
+						do { ?>
+							<div class="list-group-item d-flex align-items-center justify-content-between text-center overflow-auto" data-id="<?php echo $row_RsNiveau['ID_niveau']?>">
+								<div class="col-3" style="cursor: grab;">
+									<img class="position-handle" src="include/move.png" width="19" height="19">
+								</div>
+								<div class="col-4">
+									<?php echo $row_RsNiveau['ID_niveau']; ?>
+								</div>
+								<div class="col-5">
+									<?php echo $row_RsNiveau['nom_niveau']; ?>
+								</div>
+							</div>
+							<?php
+						} while ($row_RsNiveau = mysqli_fetch_assoc($RsNiveau)); 
+					} ?>
+				</div>
+			</div>
+		</div>
+		<div class="form-group row align-items-center justify-content-center">	
+			<form method="post" name="form_nouvel_ordre" action="gestion_matiere_niveau.php">
+				<div class="col-auto">
+					<button type="submit" name="submit_nouvel_ordre" class="btn btn-primary" onclick="setValuesInputOrderList()">Enregistrer le nouvel ordre</button>
+				</div>
+				<input type="hidden" name="mat_ID" value="<?php echo $matiereId; ?>">
+				<input type="hidden" name="niv_ID" value="<?php echo $niveauId; ?>">
+				<input type="hidden" name="MM_nouvel_ordre" value="form_nouvel_ordre">
+				<input type="hidden" id="ordreNiveaux" name="ordreNiveaux" value="">
+			</form>
+		</div>
+		<script type="text/javascript">
+			var list = Sortable.create(sortablelist, {
+				animation: 100,
+				group: 'list-1',
+				draggable: '.list-group-item',
+				handle: '.position-handle',
+				sort: true,
+				filter: '.sortable-disabled',
+				chosenClass: 'active',
+			});
+			function setValuesInputOrderList() {
+				var order = list.toArray();
+				let inputOrdreNiveaux = document.getElementById('ordreNiveaux');
+				inputOrdreNiveaux.setAttribute('value', order);
+			}
+		</script>
 	</div>
 </div>
 <?php

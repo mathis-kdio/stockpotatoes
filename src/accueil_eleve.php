@@ -1,6 +1,11 @@
 <?php
+/*
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+*/
+// OU 
+//error_reporting(E_ALL);
+//ini_set('display_errors', 1);
 
 session_start();
 if (!isset($_SESSION['Sess_classe'])) {
@@ -58,15 +63,22 @@ $rs_matiere = mysqli_query($conn_intranet, $query_rs_matiere) or die(mysqli_erro
 
 //Affichage des niveaux selon la config choisie dans l'espace Admin
 $niveauEleve = $_SESSION['Sess_niveau'];
+
+$query_nvEleve = sprintf("SELECT * FROM stock_niveau WHERE ID_niveau = '%s'", $_SESSION['Sess_niveau']);
+$nvEleve = mysqli_query($conn_intranet, $query_nvEleve) or die(mysqli_error($conn_intranet));
+$row_nvEleve = mysqli_fetch_assoc($nvEleve);
+$positionNiveauEleve =  $row_nvEleve['pos_niv'];
+
+
 $query_rs_niveau = "SELECT * FROM stock_niveau";
 if ($lecture['espaceEleve']['accesThemes']['sup'] == 'No' && $lecture['espaceEleve']['accesThemes']['inf'] == 'No') {
-	$query_rs_niveau = $query_rs_niveau.' WHERE pos_niv >= '.$niveauEleve.' AND pos_niv <= '.$niveauEleve;
+	$query_rs_niveau = $query_rs_niveau.' WHERE pos_niv >= '.$positionNiveauEleve.' AND pos_niv <= '.$positionNiveauEleve;
 }
 else if ($lecture['espaceEleve']['accesThemes']['sup'] == 'No') {
-	$query_rs_niveau = $query_rs_niveau.' WHERE pos_niv <= '.$niveauEleve;
+	$query_rs_niveau = $query_rs_niveau.' WHERE pos_niv <= '.$positionNiveauEleve;
 }
 else if ($lecture['espaceEleve']['accesThemes']['inf'] == 'No') {
-	$query_rs_niveau = $query_rs_niveau.' WHERE pos_niv >= '.$niveauEleve;
+	$query_rs_niveau = $query_rs_niveau.' WHERE pos_niv >= '.$positionNiveauEleve;
 }
 $query_rs_niveau = $query_rs_niveau.' ORDER BY ID_niveau';
 $rs_niveau = mysqli_query($conn_intranet, $query_rs_niveau) or die(mysqli_error($conn_intranet));
@@ -124,14 +136,14 @@ if (isset($niveauId)) {
 
 //Affichage des thèmes selon la config choisie dans l'espace Admin
 $utiliserDate = 1;
-if ($row_rsChoix2['pos_niv'] < $_SESSION['Sess_niveau']) {
+if ($row_rsChoix2['pos_niv'] < $positionNiveauEleve) {
 	if ($lecture['espaceEleve']['accesThemes']['infDate'] == 'Yes') {
 		$utiliserDate = 0;
 	}
 }
-else if ($row_rsChoix2['pos_niv'] > $_SESSION['Sess_niveau']) {
+else if ($row_rsChoix2['pos_niv'] > $positionNiveauEleve) {
 	if ($lecture['espaceEleve']['accesThemes']['supDate'] == 'Yes') {
-			$utiliserDate = 0;
+		$utiliserDate = 0;
 	}
 }
 if ($utiliserDate == 1) {
@@ -304,7 +316,7 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 									echo "<h5>Veuillez sélectionner une catégorie:</h5>";
 								}
 								else {
-									echo "<h5>Il n'y a rien dans ce thème pour l'instant.</h5>";
+									echo "<h5>Il n'y a pas d'exercices dans cette leçon pour l'instant.</h5>";
 								}
 							}
 							else {
@@ -443,7 +455,7 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 												<?php
 												do
 												{ 
-													if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 1) 
+													if (isset($row_rsListeSelectMatiereNiveau['cat_doc']) && $row_rsListeSelectMatiereNiveau['cat_doc'] == 1) 
 													{ ?>
 														<tr>
 															<th scope="row">
@@ -524,9 +536,9 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 											</thead>
 											<tbody>
 												<?php 
-												do
+												while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau))
 												{
-													if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 2)
+													if (isset($row_rsListeSelectMatiereNiveau['cat_doc']) && $row_rsListeSelectMatiereNiveau['cat_doc'] == 2)
 													{
 														$choixquiz_RsExosFait = "0";
 														if (isset($row_rsListeSelectMatiereNiveau['ID_quiz']))
@@ -642,7 +654,7 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 														</tr>
 														<?php
 													}
-												} while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau)); ?>
+												} ?>
 											</tbody>
 										</table>
 									</div>
@@ -677,8 +689,8 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 											<tbody>
 												<?php
 												do
-												{ 
-													if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 3) 
+												{
+													if (isset($row_rsListeSelectMatiereNiveau['cat_doc']) && $row_rsListeSelectMatiereNiveau['cat_doc'] == 3) 
 													{ ?>
 														<tr>
 															<th scope="row">
@@ -756,7 +768,7 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 												<?php
 												do
 												{
-													if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 4)
+													if (isset($row_rsListeSelectMatiereNiveau['cat_doc']) && $row_rsListeSelectMatiereNiveau['cat_doc'] == 4)
 													{ ?>
 														<tr>
 															<th scope="row">
@@ -837,7 +849,7 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 												<?php
 												do
 												{ 
-													if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 5)
+													if (isset($row_rsListeSelectMatiereNiveau['cat_doc']) && $row_rsListeSelectMatiereNiveau['cat_doc'] == 5)
 													{ ?>
 														<tr>
 															<th scope="row">
@@ -896,7 +908,7 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 		</div>
 		<!-- Liste des résultats -->
 		<div class="col-md-2 mb-3">
-			<?php
+			<!--<?php/*
 			if (isset($themeId))
 			{ 
 				$nomThemeRes = $row_RsChoixTheme['theme'];
@@ -905,13 +917,13 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 					$nomThemeRes = 'Divers';
 				}
 				?>
-				<h5>Résultats en <?php echo $_SESSION['Sess_classe'];?> pour le thème <?php echo $nomThemeRes;?></h5>
+				<h5>Résultats en <?php echo $_SESSION['Sess_classe'];?> pour <?php echo $nomThemeRes;?></h5>
 				<div class="table-responsive">
 					<table class="table table-striped table-bordered table-sm">
 						<thead class="thead-light">
 							<tr>
 								<th scope="col">Nom</th>
-								<th scope="col">Exercices validés</th>
+								<th scope="col">Exercices faits</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -937,7 +949,7 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 										ON stock_activite.eleve_ID = stock_eleve.ID_eleve
 								WHERE stock_eleve.classe = '%s'
 									AND stock_quiz.theme_ID = '%s'
-									AND score = 20
+									AND score > 10
 								GROUP BY eleve_ID
 								) as TEMP ON TEMP.eleve_ID = stock_eleve.ID_eleve
 							ORDER BY `nom` ", $choixclasse_RsLeconBest, $choixtheme_RsChoixTheme);
@@ -956,7 +968,8 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 					</table>
 				</div>
 				<?php 
-			}?>
+			}*/?>
+			-->
 		</div>
 	</div>
 <?php 

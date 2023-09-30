@@ -1,14 +1,11 @@
 <?php
 session_start();
-if (isset($_SESSION['Sess_nom']))
-{
-	if ($_SESSION['Sess_nom'] <> 'Enseignant')
-	{
+if (isset($_SESSION['Sess_nom'])) {
+	if ($_SESSION['Sess_nom'] <> 'Enseignant') {
 		header("Location: login_enseignant.php?cible=gestion_theme");
 	}
 }
-else
-{
+else {
 	header("Location: login_enseignant.php?cible=gestion_theme");
 }
 require_once('../Connections/conn_intranet.php');
@@ -27,10 +24,9 @@ $row_RsMax = mysqli_fetch_assoc($RsMax);
 $position = $row_RsMax['resultat'] + 1;
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form2")) {
-	$insertSQL = sprintf("INSERT INTO stock_theme (ID_theme, theme, mat_ID, niv_ID, pos_theme) VALUES ('%s', '%s', '%s', '%s', '%s')",
-	htmlspecialchars($_POST['ID_theme']), htmlspecialchars($_POST['theme']), htmlspecialchars($_POST['mat_ID']), htmlspecialchars($_POST['niv_ID']), $position);
-
-	$Result1 = mysqli_query($conn_intranet, $insertSQL) or die(mysqli_error($conn_intranet));
+	$insertSQL = mysqli_prepare($conn_intranet, "INSERT INTO stock_theme (ID_theme, theme, mat_ID, niv_ID, pos_theme) VALUES (?, ?, ?, ?, ?)") or exit (mysqli_error($conn_intranet));
+	mysqli_stmt_bind_param($insertSQL, "sssss", htmlspecialchars($_POST['ID_theme']), htmlspecialchars($_POST['theme']), htmlspecialchars($_POST['mat_ID']), htmlspecialchars($_POST['niv_ID']), $position);
+	mysqli_stmt_execute($insertSQL);
 }
 
 //Mise à jour de l'ordre des thèmes
@@ -145,7 +141,7 @@ if (isset($matiereId))
 			<input type="hidden" name="mat_ID" value="<?php echo $matiereId; ?>">
 			<input type="hidden" name="niv_ID" value="<?php echo $niveauId; ?>">
 			<input type="hidden" name="MM_insert" value="form2">
-			<input type="hidden" name="ID_mat2" id="ID_mat3" value="<?php echo htmlspecialchars($_POST['ID_mat']);?>">
+			<input type="hidden" name="ID_mat2" id="ID_mat3" value='<?php echo htmlspecialchars($_POST['ID_mat']);?>'>
 		</div>
 	</form>
 	<h4 class="text-center mt-5" id="listeThemes">Liste des thèmes & Paramétrages</h4>

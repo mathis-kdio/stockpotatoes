@@ -97,7 +97,7 @@ if (isset($themeId))
 		$nb_notes_h[$row_Rs_Liste_eleve['ID_eleve']] = 0;
 		for ($i = 0; $i < $totalRows_Rsquiz; $i++)
 		{
-			if (isset($tab[$row_Rs_Liste_eleve['ID_eleve']][$numquiz[$i]])) 
+			if (isset($tab[$row_Rs_Liste_eleve['ID_eleve']][$numquiz[$i]]) && $tab[$row_Rs_Liste_eleve['ID_eleve']][$numquiz[$i]] != "") 
 			{
 				$somme_v[$i] = $somme_v[$i] + $tab[$row_Rs_Liste_eleve['ID_eleve']][$numquiz[$i]];
 				$somme_h[$row_Rs_Liste_eleve['ID_eleve']] = $somme_h[$row_Rs_Liste_eleve['ID_eleve']] + $tab[$row_Rs_Liste_eleve['ID_eleve']][$numquiz[$i]];

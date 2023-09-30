@@ -908,7 +908,8 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 		</div>
 		<!-- Liste des résultats -->
 		<div class="col-md-2 mb-3">
-			<!--<?php/*
+			<?php
+			/*
 			if (isset($themeId))
 			{ 
 				$nomThemeRes = $row_RsChoixTheme['theme'];
@@ -968,8 +969,8 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 					</table>
 				</div>
 				<?php 
-			}*/?>
-			-->
+			}*/
+			?>
 		</div>
 	</div>
 <?php 

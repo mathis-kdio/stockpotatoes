@@ -15,6 +15,9 @@ if (isset($_GET['theme_ID'])) {
 else if (isset($_POST['theme_ID'])) {
 	$themeId = htmlspecialchars($_POST['theme_ID']);
 }
+if (isset($_POST['categorie_ID'])) {
+	$categorieId = htmlspecialchars($_POST['categorie_ID']);
+}
 
 if (isset($niveauId) && isset($matiereId)) {
 	if (isset($themeId)) {
@@ -91,7 +94,7 @@ $row_RsChoixMatiere = mysqli_fetch_assoc($RsChoixMatiere);
 
 if (!Empty($_POST['submit2'])) 
 {
-	if ($_POST['titre'] == '') 
+	if ($_POST['titreExoHotPot'] == '') 
 	{
 		print '<h3 class="text-danger text-center">Il faut donner un titre à votre document</h3>';
 	}
@@ -125,11 +128,45 @@ if (!Empty($_POST['submit2']))
 			$position = $row_RsMax['resultat'] + 1;
 			
 			$type_doc = 2;
-			$insertSQL = sprintf("INSERT INTO stock_quiz (titre, fichier, matiere_ID, niveau_ID, theme_ID, categorie_ID, auteur, en_ligne, avec_score, evaluation_seul, cat_doc, type_doc, pos_doc) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
-			htmlspecialchars($_POST['titre']), htmlspecialchars($_FILES['fichier']['name']), $matiereId, $niveauId, htmlspecialchars($_POST['theme_ID']), htmlspecialchars($_POST['categorie_ID']), htmlspecialchars($_POST['auteur']), $en_ligne, $avec_score, $evaluation_seul, htmlspecialchars($_POST['cat_doc']), $type_doc, $position);
+			
+			$erreur = 0;
 
-			$Result1 = mysqli_query($conn_intranet, $insertSQL) or die(mysqli_error($conn_intranet));
-			mysqli_free_result($RsMax);
+			if (isset($_POST['titreExoHotPot'])) {
+				$titre = htmlspecialchars($_POST['titreExoHotPot']);
+			}
+			else {
+				$erreur = 1;
+			}
+
+			if (isset($_FILES['fichier']['name'])) {
+				$fichier = htmlspecialchars($_FILES['fichier']['name']);
+			}
+			else {
+				$erreur = 1;
+			}
+
+			if (isset($_POST['cat_doc'])) {
+				$catDoc = htmlspecialchars($_POST['cat_doc']);
+			}
+			else {
+				$erreur = 1;
+			}
+
+			$auteur = '';
+			if (isset($_POST['auteur'])) {
+				$auteur = htmlspecialchars($_POST['auteur']);
+			}
+
+			if ($erreur != 1) {
+				$insertSQL = mysqli_prepare($conn_intranet, "INSERT INTO stock_quiz (titre, fichier, matiere_ID, niveau_ID, theme_ID, categorie_ID, auteur, en_ligne, avec_score, evaluation_seul, cat_doc, type_doc, pos_doc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)") or exit (mysqli_error($conn_intranet));
+				mysqli_stmt_bind_param($insertSQL, "sssssssssssss", $titre, $fichier, $matiereId, $niveauId, $themeId, $categorieId, $auteur, $en_ligne, $avec_score, $evaluation_seul, $catDoc, $type_doc, $position);
+				mysqli_stmt_execute($insertSQL);
+
+				mysqli_free_result($RsMax);
+			}
+			else {
+				echo '<h3 class="text-success text-center">ERREUR Informations manquantes</h3>';
+			}
 		}
 		//fin enregistrement ds la table
 
@@ -224,7 +261,7 @@ require('include/headerUpload.inc.php');
 { ?>
 	<h1 class="text-center mb-5"><?php echo $row_RsChoixMatiere['nom_mat'];?></h1>
 
-	<form method="post" name="form1" id="formulaire" action="upload_hotpot.php?matiere_ID=<?php echo $matiereId;?>&niveau_ID=<?php echo $niveauId;?>" enctype="multipart/form-data">
+	<form method="post" name="formStockUpload" id="formStockUpload" action="upload_hotpot.php?matiere_ID=<?php echo $matiereId;?>&niveau_ID=<?php echo $niveauId;?>" enctype="multipart/form-data">
 		<div class="form-group form-row justify-content-right align-items-center">
 			<div class="col-auto">
 				<span class="text-right">Ce fichier sera dans l'étude du thème:</span>
@@ -267,7 +304,7 @@ require('include/headerUpload.inc.php');
 				<span class="text-right">Titre de l'exercice: <span class="font-weight-bold text-danger">(Obligatoire)</span>:</span>
 			</div>
 			<div class="col-auto">
-				<input type="text" class="form-control" name="titre" placeholder="Titre non utilisé de préférence" required>
+				<input type="text" class="form-control" name="titreExoHotPot" placeholder="Titre non utilisé de préférence" required>
 			</div>
 		</div>
 		<div class="form-group form-row justify-content-right align-items-center">

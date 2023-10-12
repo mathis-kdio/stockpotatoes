@@ -34,7 +34,7 @@ $startRow_RsActivite = $pageNum_RsActivite * $maxRows_RsActivite;
 
 $query_RsActivite = "SELECT * FROM stock_activite, stock_eleve, stock_quiz WHERE stock_activite.eleve_ID=stock_eleve.ID_eleve AND stock_activite.quiz_ID= stock_quiz.ID_quiz  ORDER BY ID_activite DESC";
 $query_limit_RsActivite = sprintf("%s LIMIT %d, %d", $query_RsActivite, $startRow_RsActivite, $maxRows_RsActivite);
-$RsActivite = mysqli_query($conn_intranet, $query_limit_RsActivite) or die(mysqli_error());
+$RsActivite = mysqli_query($conn_intranet, $query_limit_RsActivite) or die(mysqli_error($conn_intranet));
 
 if (isset($_GET['totalRows_RsActivite']))
 {

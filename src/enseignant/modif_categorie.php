@@ -39,7 +39,7 @@ if (isset($categorieId)) {
 	$choixcategorie_RsChoixcategorie = $categorieId;
 }
 $query_RsChoixcategorie = sprintf("SELECT * FROM stock_categorie WHERE ID_categorie = '%s'", $choixcategorie_RsChoixcategorie);
-$RsChoixcategorie = mysqli_query($conn_intranet, $query_RsChoixcategorie) or die(mysqli_error());
+$RsChoixcategorie = mysqli_query($conn_intranet, $query_RsChoixcategorie) or die(mysqli_error($conn_intranet));
 $row_RsChoixcategorie = mysqli_fetch_assoc($RsChoixcategorie);
 
 $titre_page = "Modification d'une catégorie";

@@ -49,19 +49,19 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 
 mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsMaxId_quiz = "SELECT MAX( Id_quiz )  FROM stock_quiz";
-$RsMaxId_quiz = mysqli_query($conn_intranet, $query_RsMaxId_quiz) or die(mysqli_error());
+$RsMaxId_quiz = mysqli_query($conn_intranet, $query_RsMaxId_quiz) or die(mysqli_error($conn_intranet));
 $row_RsMaxId_quiz = mysqli_fetch_assoc($RsMaxId_quiz);
 $totalRows_RsMaxId_quiz = mysqli_num_rows($RsMaxId_quiz);
 
 mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_rs_matiere = "SELECT * FROM stock_matiere ORDER BY stock_matiere.nom_mat";
-$rs_matiere = mysqli_query($conn_intranet, $query_rs_matiere) or die(mysqli_error());
+$rs_matiere = mysqli_query($conn_intranet, $query_rs_matiere) or die(mysqli_error($conn_intranet));
 $row_rs_matiere = mysqli_fetch_assoc($rs_matiere);
 $totalRows_rs_matiere = mysqli_num_rows($rs_matiere);
 
 mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_rs_niveau = "SELECT * FROM stock_niveau";
-$rs_niveau = mysqli_query($conn_intranet, $query_rs_niveau) or die(mysqli_error());
+$rs_niveau = mysqli_query($conn_intranet, $query_rs_niveau) or die(mysqli_error($conn_intranet));
 $row_rs_niveau = mysqli_fetch_assoc($rs_niveau);
 $totalRows_rs_niveau = mysqli_num_rows($rs_niveau);
 	
@@ -76,7 +76,7 @@ if (isset($HTTP_POST_VARS['niveau_ID'])) {
 }
 mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsTheme = sprintf("SELECT * FROM stock_theme WHERE stock_theme.mat_ID=%s AND stock_theme.niv_ID=%s ORDER BY stock_theme.theme", $choixmat_RsTheme,$choixniv_RsTheme);
-$RsTheme = mysqli_query($conn_intranet, $query_RsTheme) or die(mysqli_error());
+$RsTheme = mysqli_query($conn_intranet, $query_RsTheme) or die(mysqli_error($conn_intranet));
 $row_RsTheme = mysqli_fetch_assoc($RsTheme);
 $totalRows_RsTheme = mysqli_num_rows($RsTheme);
 
@@ -86,7 +86,7 @@ if (isset($HTTP_POST_VARS['matiere_ID'])) {
 }
 mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsChoixMatiere = sprintf("SELECT * FROM stock_matiere WHERE stock_matiere.ID_mat=%s", $selection_RsChoixMatiere);
-$RsChoixMatiere = mysqli_query($conn_intranet, $query_RsChoixMatiere) or die(mysqli_error());
+$RsChoixMatiere = mysqli_query($conn_intranet, $query_RsChoixMatiere) or die(mysqli_error($conn_intranet));
 $row_RsChoixMatiere = mysqli_fetch_assoc($RsChoixMatiere);
 $totalRows_RsChoixMatiere = mysqli_num_rows($RsChoixMatiere);
 
@@ -198,7 +198,7 @@ $Upload-> Execute();
 					   GetSQLValueString($evaluation_seul, "text"));
 
   mysqli_select_db($conn_intranet, $database_conn_intranet);
-  $Result1 = mysqli_query($conn_intranet, $insertSQL) or die(mysqli_error());
+  $Result1 = mysqli_query($conn_intranet, $insertSQL) or die(mysqli_error($conn_intranet));
 }
 		
 		

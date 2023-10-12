@@ -39,7 +39,7 @@ if (isset($_POST['ID_niveau'])) {
 }
 mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsChoixNiveau = sprintf("SELECT * FROM stock_niveau WHERE ID_niveau = %s", $colname_RsChoixNiveau);
-$RsChoixNiveau = mysqli_query($conn_intranet, $query_RsChoixNiveau) or die(mysqli_error());
+$RsChoixNiveau = mysqli_query($conn_intranet, $query_RsChoixNiveau) or die(mysqli_error($conn_intranet));
 $row_RsChoixNiveau = mysqli_fetch_assoc($RsChoixNiveau);
 
 $temp=$row_RsChoixNiveau['pos_niv'];
@@ -53,7 +53,7 @@ $updateSQL = sprintf("UPDATE stock_niveau SET pos_niv=%s  WHERE ID_niveau=%s",
 
 mysqli_select_db($conn_intranet, $database_conn_intranet);
 
-$Result1 = mysqli_query($conn_intranet, $updateSQL) or die(mysqli_error());
+$Result1 = mysqli_query($conn_intranet, $updateSQL) or die(mysqli_error($conn_intranet));
 
 
 
@@ -63,7 +63,7 @@ if (isset($_POST['ID_precedent'])) {
 }  
 mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsChoixNiveau2 = sprintf("SELECT * FROM stock_niveau WHERE ID_niveau = %s", $colname_RsChoixNiveau2);
-$RsChoixNiveau2 = mysqli_query($conn_intranet, $query_RsChoixNiveau2) or die(mysqli_error());
+$RsChoixNiveau2 = mysqli_query($conn_intranet, $query_RsChoixNiveau2) or die(mysqli_error($conn_intranet));
 $row_RsChoixNiveau2 = mysqli_fetch_assoc($RsChoixNiveau2);
 
 $updateSQL2 = sprintf("UPDATE stock_niveau SET pos_niv=%s  WHERE ID_niveau=%s",
@@ -73,7 +73,7 @@ $updateSQL2 = sprintf("UPDATE stock_niveau SET pos_niv=%s  WHERE ID_niveau=%s",
 
 
 mysqli_select_db($conn_intranet, $database_conn_intranet);
-$Result2 = mysqli_query($conn_intranet, $updateSQL2) or die(mysqli_error());
+$Result2 = mysqli_query($conn_intranet, $updateSQL2) or die(mysqli_error($conn_intranet));
   
   
 

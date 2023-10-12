@@ -20,7 +20,7 @@ if (isset($_POST['classe'])) {
 }
 
 $query_rsClasse = "SELECT DISTINCT classe FROM stock_eleve ";
-$rsClasse = mysqli_query($conn_intranet, $query_rsClasse) or die(mysqli_error());
+$rsClasse = mysqli_query($conn_intranet, $query_rsClasse) or die(mysqli_error($conn_intranet));
 
 if (isset($classeName)) {
 	$query_RsListePass = sprintf("SELECT ID_eleve, nom, prenom, pass FROM stock_eleve WHERE classe = '%s' ORDER BY nom ASC, prenom", $classeName);

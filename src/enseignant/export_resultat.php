@@ -19,7 +19,7 @@ if (isset($_POST['classe'])) {
 }
 mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsActiviteClasse = sprintf("SELECT * FROM stock_activite, stock_eleve WHERE stock_activite.quiz_ID=%s AND stock_activite.nom_classe='%s'  AND stock_activite.eleve_ID=stock_eleve.ID_eleve ORDER BY stock_eleve.nom, stock_eleve.prenom ", $varquiz_RsActiviteClasse,$varchoixclasse_RsActiviteClasse);
-$RsActiviteClasse = mysqli_query($conn_intranet, $query_RsActiviteClasse) or die(mysqli_error());
+$RsActiviteClasse = mysqli_query($conn_intranet, $query_RsActiviteClasse) or die(mysqli_error($conn_intranet));
 $row_RsActiviteClasse = mysqli_fetch_assoc($RsActiviteClasse);
 $totalRows_RsActiviteClasse = mysqli_num_rows($RsActiviteClasse);
 

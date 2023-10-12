@@ -22,7 +22,7 @@ function EcrireFichier($serveur,$base,$login, $password ) {
     $data.= " \$database_conn_intranet = \"". $base."\";\n";
 		$data.= " \$username_conn_intranet = \"".$login."\";\n";
 		$data.= " \$password_conn_intranet = \"".$password."\";\n";
-		$data.= " \$conn_intranet = mysqli_pconnect(\$hostname_conn_intranet, \$username_conn_intranet, \$password_conn_intranet) or die(mysqli_error());\n";
+		$data.= " \$conn_intranet = mysqli_pconnect(\$hostname_conn_intranet, \$username_conn_intranet, \$password_conn_intranet) or die(mysqli_error($conn_intranet));\n";
     $data.= " mysqli_set_charset(\$conn_intranet, 'utf8mb4');\n"; 
 		$data.= "\n";
 		$data.= "?>";

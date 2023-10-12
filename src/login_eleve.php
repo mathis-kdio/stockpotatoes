@@ -43,12 +43,12 @@ else
 {
 	$query_rsLogin = sprintf("SELECT * FROM stock_eleve WHERE ID_eleve = '%s' AND pass = '%s'", $collog_rsLogin, $colpass_rsLogin);
 }
-$rsLogin = mysqli_query($conn_intranet, $query_rsLogin) or die(mysqli_error());
+$rsLogin = mysqli_query($conn_intranet, $query_rsLogin) or die(mysqli_error($conn_intranet));
 $row_rsLogin = mysqli_fetch_assoc($rsLogin);
 $totalRows_rsLogin = mysqli_num_rows($rsLogin);
 
 $query_rsClasse = "SELECT DISTINCT classe FROM stock_eleve ORDER BY classe DESC";
-$rsClasse = mysqli_query($conn_intranet, $query_rsClasse) or die(mysqli_error());
+$rsClasse = mysqli_query($conn_intranet, $query_rsClasse) or die(mysqli_error($conn_intranet));
 $row_rsClasse = mysqli_fetch_assoc($rsClasse);
 
 $choix_classe_rsLogin2 = "1";
@@ -58,7 +58,7 @@ if (isset($_POST['classe']))
 }
 
 $query_rsLogin2 = sprintf("SELECT ID_eleve, nom, prenom FROM stock_eleve WHERE classe = '%s' ORDER BY nom", $choix_classe_rsLogin2);
-$rsLogin2 = mysqli_query($conn_intranet, $query_rsLogin2) or die(mysqli_error());
+$rsLogin2 = mysqli_query($conn_intranet, $query_rsLogin2) or die(mysqli_error($conn_intranet));
 $row_rsLogin2 = mysqli_fetch_assoc($rsLogin2);
 
 $bad_password = 0;
@@ -75,7 +75,7 @@ if ((isset($_POST['valider'])) && ($_POST['valider'] == "ok"))
 		$_SESSION['Sess_niveau'] = $row_rsLogin['niveau'];
 
 		$query_rs_matiere = sprintf("SELECT * FROM stock_quiz WHERE niveau_ID = '%s' ORDER BY matiere_ID", $_SESSION['Sess_niveau']);
-		$rs_matiere = mysqli_query($conn_intranet, $query_rs_matiere) or die(mysqli_error());
+		$rs_matiere = mysqli_query($conn_intranet, $query_rs_matiere) or die(mysqli_error($conn_intranet));
 		$row_rs_matiere = mysqli_fetch_assoc($rs_matiere);
 		if(isset($matiereId)) {
 			if(isset($niveauId)) {

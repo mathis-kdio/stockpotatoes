@@ -44,7 +44,7 @@ if (isset($_POST['matiere_supp_ID'])) {
 }
 mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsMatSupp = sprintf("SELECT * FROM stock_matiere WHERE stock_matiere.ID_mat=%s", $varmat_RsMatSupp);
-$RsMatSupp = mysqli_query($conn_intranet, $query_RsMatSupp) or die(mysqli_error());
+$RsMatSupp = mysqli_query($conn_intranet, $query_RsMatSupp) or die(mysqli_error($conn_intranet));
 $row_RsMatSupp = mysqli_fetch_assoc($RsMatSupp);
 $totalRows_RsMatSupp = mysqli_num_rows($RsMatSupp);
 
@@ -73,7 +73,7 @@ $repertoire='../Exercices/'.$nom_matiere;
 effacer($repertoire);
 
   mysqli_select_db($conn_intranet, $database_conn_intranet);
-  $Result1 = mysqli_query($conn_intranet, $deleteSQL) or die(mysqli_error());
+  $Result1 = mysqli_query($conn_intranet, $deleteSQL) or die(mysqli_error($conn_intranet));
 
   $deleteGoTo = "confirm_supp_mat.php";
   if (isset($_SERVER['QUERY_STRING'])) {

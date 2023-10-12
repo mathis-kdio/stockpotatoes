@@ -226,39 +226,10 @@ $meta_keywords = "outils, ressources, exercices en ligne, hotpotatoes";
 $js_deplus = "";
 $css_deplus = "";
 require('include/headerUpload.inc.php');
-?>
 
-<form name="form1" method="get" action="upload_hotpot.php">
-	<div class="form-group row align-items-center justify-content-center">
-		<label for="matiere_ID" class="col-auto col-form-label">Matière :</label>
-		<div class="col-auto">
-			<select name="matiere_ID" id="select2" class="custom-select" required>
-				<option disabled selected value="">Veuillez choisir une matière</option>
-				<?php
-				do { ?>
-					<option value="<?php echo $row_rs_matiere['ID_mat']?>"<?php if (isset($matiereId)) { if (!(strcmp($row_rs_matiere['ID_mat'], $matiereId))) {echo " SELECTED";} } ?>><?php echo $row_rs_matiere['nom_mat']?></option>
-					<?php
-				} while ($row_rs_matiere = mysqli_fetch_assoc($rs_matiere)); ?>
-			</select>
-		</div>
-		<label for="niveau_ID" class="col-auto col-form-label">Niveau :</label>
-		<div class="col-auto">
-			<select name="niveau_ID" id="niveau_ID" class="custom-select" required>
-				<option disabled selected value="">Veuillez choisir un niveau</option>
-				<?php
-				do { ?>
-					<option value="<?php echo $row_rs_niveau['ID_niveau']?>"<?php if (isset($niveauId)) { if (!(strcmp($row_rs_niveau['ID_niveau'], $niveauId))) {echo "SELECTED";} } ?>><?php echo $row_rs_niveau['nom_niveau']?></option>
-					<?php
-				} while ($row_rs_niveau = mysqli_fetch_assoc($rs_niveau));?>
-			</select>
-		</div>
-		<div class="col-auto">
-			<button type="submit" name="Submit" class="btn btn-primary">Sélectionner</button>
-		</div>
-	</div>
-</form>
-<?php if (isset($matiereId) && isset($niveauId))
-{ ?>
+require('../includes/forms/matiere_niveau.inc.php');
+
+if (isset($matiereId) && isset($niveauId)) { ?>
 	<h1 class="text-center mb-5"><?php echo $row_RsChoixMatiere['nom_mat'];?></h1>
 
 	<form method="post" name="formStockUpload" id="formStockUpload" action="upload_hotpot.php?matiere_ID=<?php echo $matiereId;?>&niveau_ID=<?php echo $niveauId;?>" enctype="multipart/form-data">
@@ -318,7 +289,7 @@ require('include/headerUpload.inc.php');
 				</div>
 				<input type="hidden" name="MM_insert" value="form1"> 
 				<input type="hidden" name="MAX_FILE_SIZE" value="100000000">
-				<input type="hidden" name="nom_mat" id="nom_mat" value="<?php echo htmlspecialchars($_POST['nom_mat']);?>">
+				<input type="hidden" name="nom_mat" id="nom_mat" value="<?php echo $matiereId;?>">
 			</div>
 		</div>
 		<div class="form-group form-row justify-content-right align-items-center">

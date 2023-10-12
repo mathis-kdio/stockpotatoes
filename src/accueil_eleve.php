@@ -40,16 +40,16 @@ require_once('Connections/conn_intranet.php');
 
 require_once('includes/yml.class.php');
 
-if (isset($_GET['matiere_ID'])) {
+if (isset($_GET['matiere_ID']) && $_GET['matiere_ID'] != "") {
 	$matiereId = htmlspecialchars($_GET['matiere_ID']);
 }
-if (isset($_GET['niveau_ID'])) {
+if (isset($_GET['niveau_ID']) && $_GET['niveau_ID'] != "") {
 	$niveauId = htmlspecialchars($_GET['niveau_ID']);
 }
-if (isset($_GET['theme_ID'])) {
+if (isset($_GET['theme_ID']) && $_GET['theme_ID'] != "") {
 	$themeId = htmlspecialchars($_GET['theme_ID']);
 }
-if (isset($_GET['categorie_ID'])) {
+if (isset($_GET['categorie_ID']) && $_GET['categorie_ID'] != "") {
 	$categorieId = htmlspecialchars($_GET['categorie_ID']);
 }
 
@@ -156,17 +156,35 @@ else {
 	mysqli_stmt_bind_param($listeTheme, "ii", $matListeTheme, $nivListeTheme);
 }
 
-
-$selectheme_RsChoixTheme = 0;
 if (isset($themeId)) {
-	$selectheme_RsChoixTheme = $themeId;
+	$themeChoisi = mysqli_prepare($conn_intranet, "SELECT theme FROM stock_theme WHERE ID_theme = ?") or exit(mysqli_error($conn_intranet));
+	mysqli_stmt_bind_param($themeChoisi, "i", $themeId);
+	mysqli_stmt_execute($themeChoisi);
+	mysqli_stmt_bind_result($themeChoisi, $row_RsChoixTheme['theme']);
+	mysqli_stmt_fetch($themeChoisi);
+	mysqli_stmt_close($themeChoisi);
 }
-$themeChoisi = mysqli_prepare($conn_intranet, "SELECT theme FROM stock_theme WHERE ID_theme = ?") or exit(mysqli_error($conn_intranet));
-mysqli_stmt_bind_param($themeChoisi, "i", $selectheme_RsChoixTheme);
-mysqli_stmt_execute($themeChoisi);
-mysqli_stmt_bind_result($themeChoisi, $row_RsChoixTheme['theme']);
-mysqli_stmt_fetch($themeChoisi);
-mysqli_stmt_close($themeChoisi);
+
+if (isset($themeId)) {
+	if (isset($categorieId)) {
+		$categorieChoisieId = isset($categorieId) ? $categorieId : 0;
+		$categorieChoisie = mysqli_prepare($conn_intranet, "SELECT ID_categorie, nom_categorie, categorie_mere_ID FROM stock_categorie WHERE ID_categorie = ?") or exit(mysqli_error($conn_intranet));
+		mysqli_stmt_bind_param($categorieChoisie, "i", $categorieChoisieId);
+		mysqli_stmt_execute($categorieChoisie);
+		mysqli_stmt_bind_result($categorieChoisie, $rsCategorieChoisie['ID_categorie'], $rsCategorieChoisie['nom_categorie'], $rsCategorieChoisie['categorie_mere_ID']);
+		mysqli_stmt_fetch($categorieChoisie);
+		mysqli_stmt_close($categorieChoisie);
+		$query_categorie = sprintf("SELECT ID_categorie, nom_categorie FROM stock_quiz INNER JOIN stock_categorie ON stock_categorie.ID_categorie = stock_quiz.categorie_ID WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND theme_ID = '%s' AND categorie_mere_ID = '%s' GROUP BY pos_categorie, ID_categorie", $matiereId, $niveauId, $themeId, $rsCategorieChoisie['ID_categorie']);
+	} else {
+		$query_categorie = sprintf("SELECT ID_categorie, nom_categorie FROM stock_quiz INNER JOIN stock_categorie ON stock_categorie.ID_categorie = stock_quiz.categorie_ID WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND theme_ID = '%s' AND categorie_mere_ID IS NULL GROUP BY pos_categorie, ID_categorie", $matiereId, $niveauId, $themeId);
+	}
+	$Rs_categorie = mysqli_query($conn_intranet, $query_categorie) or die(mysqli_error($conn_intranet));
+	$totalRows_RsCategorie = mysqli_num_rows($Rs_categorie);
+	//Affiche la catégorie Non classés uniquement s'il y a au moins un doc dedans
+	$qTestExoNonClasse = sprintf("SELECT * FROM stock_quiz WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND theme_ID = '%s' AND categorie_ID = 0", $matiereId, $niveauId, $themeId);
+	$rsTestExoNonClasse = mysqli_query($conn_intranet, $qTestExoNonClasse) or die(mysqli_error($conn_intranet));
+	$nbExosNonClasse = mysqli_num_rows($rsTestExoNonClasse);
+}
 
 $titre_page = "Accueil des élèves";
 $meta_description = "Page accueil des élève pour y être évalué";
@@ -301,19 +319,10 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 				<div class="row shadow rounded" id="listeCategories">
 					<div class="col text-center">
 						<?php
-						if(isset($themeId)) {
-							$query_categorie = sprintf("SELECT * FROM stock_quiz, stock_categorie WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND theme_ID = '%s' AND categorie_ID = ID_categorie GROUP BY pos_categorie", $matiereId, $niveauId, $themeId);
-							$Rs_categorie = mysqli_query($conn_intranet, $query_categorie) or die(mysqli_error($conn_intranet));
-							$totalRows_RsCategorie = mysqli_num_rows($Rs_categorie);
-
-							//Affiche la catégorie Non classés uniquement s'il y a au moins un doc dedans
-							$qTestExoNonClasse = sprintf("SELECT * FROM stock_quiz WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND theme_ID = '%s' AND categorie_ID = 0", $matiereId, $niveauId, $themeId);
-							$rsTestExoNonClasse = mysqli_query($conn_intranet, $qTestExoNonClasse) or die(mysqli_error($conn_intranet));
-							$nbExosNonClasse = mysqli_num_rows($rsTestExoNonClasse);
-
+						if (isset($themeId)) {
 							if (!isset($categorieId)) {
 								if ($totalRows_RsCategorie != 0 || $nbExosNonClasse > 0) {
-									echo "<h5>Veuillez sélectionner une catégorie:</h5>";
+									echo "<h5>Veuillez sélectionner une catégorie parmi les suivantes :</h5>";
 								}
 								else {
 									echo "<h5>Il n'y a pas d'exercices dans cette leçon pour l'instant.</h5>";
@@ -325,6 +334,10 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 									$Rs_categorieSelect = mysqli_query($conn_intranet, $query_categorieSelect) or die(mysqli_error($conn_intranet));
 									$row_Rs_categorieSelect = mysqli_fetch_assoc($Rs_categorieSelect);
 									echo "<h5>Vous êtes dans la catégorie: <span class='font-weight-bold'>".$row_Rs_categorieSelect['nom_categorie']."</span></h5>";
+									echo "<a href='accueil_eleve.php?matiere_ID=".$matiereId."&niveau_ID=".$niveauId."&theme_ID=".$themeId."&categorie_ID=".$rsCategorieChoisie['categorie_mere_ID']."'><span class='font-weight-bold'>Changer de catégorie</span></a>";
+									if ($totalRows_RsCategorie > 0) {
+										echo "<h5>Les sous-catégories disponibles sont :</h5>";
+									}
 								}
 								else {
 									echo "<h5>Vous êtes dans la catégorie: <span class='font-weight-bold'>Non classés</span></h5>";
@@ -335,14 +348,14 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 								<?php
 								 while ($row_Rs_categorie = mysqli_fetch_assoc($Rs_categorie)) {
 									echo '<div class="btn-group mx-1 mt-2" role="group">';
-									echo '<a href="accueil_eleve.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$themeId.'&categorie_ID='.$row_Rs_categorie['ID_categorie'].'#listeExos" class="btn btn-primary" role="button">'.$row_Rs_categorie['nom_categorie'].'</a>';
+									echo '<a href="accueil_eleve.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$themeId.'&categorie_ID='.$row_Rs_categorie['ID_categorie'].'#listeCategories" class="btn btn-primary" role="button">'.$row_Rs_categorie['nom_categorie'].'</a>';
 									echo '</div>';
 								};
 
 								//Affiche la catégorie Non classés uniquement s'il y a au moins un doc dedans
 								if ($nbExosNonClasse > 0) {
 									echo '<div class="btn-group mx-1 mt-2" role="group">';
-									echo '<a href="accueil_eleve.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$themeId.'&categorie_ID=0#listeExos" class="btn btn-primary" role="button">Non classés</a>';
+									echo '<a href="accueil_eleve.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$themeId.'&categorie_ID=0#listeCategories" class="btn btn-primary" role="button">Non classés</a>';
 									echo '</div>';
 								}
 								?>

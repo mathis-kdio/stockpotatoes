@@ -113,7 +113,6 @@ if (isset($classe))
 }
 $query_RsChoixClasse = sprintf("SELECT * FROM stock_eleve WHERE classe = '%s' ORDER BY nom", $choixclasse_RsChoixClasse);
 $RsChoixClasse = mysqli_query($conn_intranet, $query_RsChoixClasse) or die(mysqli_error($conn_intranet));
-$row_RsChoixClasse = mysqli_fetch_assoc($RsChoixClasse);
 
 $nomclasse_RsAjout = "0";
 if (isset($classe))
@@ -197,8 +196,7 @@ require('include/headerAdministrateur.inc.php');
 					</thead>
 					<tbody>
 						<?php 
-						do
-						{ ?>
+						while ($row_RsChoixClasse = mysqli_fetch_assoc($RsChoixClasse)) { ?>
 							<tr> 
 								<th scope="row"><?php echo $row_RsChoixClasse['ID_eleve']; ?></th>
 								<td><?php echo $row_RsChoixClasse['identifiant']; ?></td>
@@ -209,7 +207,7 @@ require('include/headerAdministrateur.inc.php');
 								<td><?php echo $row_RsChoixClasse['niveau']; ?></td>
 							</tr>
 							<?php 
-						} while ($row_RsChoixClasse = mysqli_fetch_assoc($RsChoixClasse)); ?>
+						} ?>
 					</tbody>
 				</table>
 			</div>

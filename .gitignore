@@ -1,3 +1,4 @@
 .htaccess
 .htpasswd
 src/Connections/conn_intranet.php
+src/Connections/gestion_pass.inc.php

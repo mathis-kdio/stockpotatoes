@@ -1,27 +1,16 @@
 <?php
-/*
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-*/
-// OU 
-//error_reporting(E_ALL);
-//ini_set('display_errors', 1);
-
 session_start();
 if (!isset($_SESSION['Sess_classe'])) {
 	if ($_SESSION['Sess_nom'] == 'VISITEUR') {
 		if(isset($_SESSION['matiere_ID']) && $_SESSION['niveau_ID'] && $_SESSION['theme_ID'] && $_SESSION['categorie_ID']) {
 			header('Location:accueil_visiteur.php?matiere_ID='.$_SESSION['matiere_ID'].'&niveau_ID='.$_SESSION['niveau_ID'].'&theme_ID='.$_SESSION['theme_ID'].'&categorie_ID='.$_SESSION['categorie_ID'].'');
-		}
-		else {
+		} else {
 			header('Location:accueil_visiteur.php');	
 		}
-	}
-	else {
+	} else {
 		header('Location:login_eleve.php');
 	}
-}
-else if (isset($_SESSION['Sess_classe'])) {
+} else if (isset($_SESSION['Sess_classe'])) {
 	if (isset($_SESSION['matiere_ID'])) {
 		$Sess_matiereID = $_SESSION['matiere_ID'];
 		$Sess_niveauID = $_SESSION['niveau_ID'];
@@ -140,8 +129,7 @@ if ($row_rsChoix2['pos_niv'] < $positionNiveauEleve) {
 	if ($lecture['espaceEleve']['accesThemes']['infDate'] == 'Yes') {
 		$utiliserDate = 0;
 	}
-}
-else if ($row_rsChoix2['pos_niv'] > $positionNiveauEleve) {
+} else if ($row_rsChoix2['pos_niv'] > $positionNiveauEleve) {
 	if ($lecture['espaceEleve']['accesThemes']['supDate'] == 'Yes') {
 		$utiliserDate = 0;
 	}
@@ -149,12 +137,10 @@ else if ($row_rsChoix2['pos_niv'] > $positionNiveauEleve) {
 if ($utiliserDate == 1) {
 	$today = date("Y-m-d");
 	$listeTheme = mysqli_prepare($conn_intranet, "SELECT ID_theme, theme FROM stock_theme WHERE mat_ID = ? AND niv_ID = ? AND '$today' >= date_apparition AND date_disparition >= '$today' ORDER BY pos_theme") or exit(mysqli_error($conn_intranet));
-	mysqli_stmt_bind_param($listeTheme, "ii", $matListeTheme, $nivListeTheme);
-}
-else {
+} else {
 	$listeTheme = mysqli_prepare($conn_intranet, "SELECT ID_theme, theme FROM stock_theme WHERE mat_ID = ? AND niv_ID = ? ORDER BY pos_theme") or exit(mysqli_error($conn_intranet));
-	mysqli_stmt_bind_param($listeTheme, "ii", $matListeTheme, $nivListeTheme);
 }
+mysqli_stmt_bind_param($listeTheme, "ii", $matListeTheme, $nivListeTheme);
 
 if (isset($themeId)) {
 	$themeChoisi = mysqli_prepare($conn_intranet, "SELECT theme FROM stock_theme WHERE ID_theme = ?") or exit(mysqli_error($conn_intranet));
@@ -163,9 +149,7 @@ if (isset($themeId)) {
 	mysqli_stmt_bind_result($themeChoisi, $row_RsChoixTheme['theme']);
 	mysqli_stmt_fetch($themeChoisi);
 	mysqli_stmt_close($themeChoisi);
-}
 
-if (isset($themeId)) {
 	if (isset($categorieId)) {
 		$categorieChoisieId = isset($categorieId) ? $categorieId : 0;
 		$categorieChoisie = mysqli_prepare($conn_intranet, "SELECT ID_categorie, nom_categorie, categorie_mere_ID FROM stock_categorie WHERE ID_categorie = ?") or exit(mysqli_error($conn_intranet));

@@ -15,28 +15,20 @@ else
 require_once('../Connections/conn_intranet.php');
 mysqli_select_db($conn_intranet, $database_conn_intranet);
 
-if (isset($_POST['matiere_ID'])) {
-	$matiereId = htmlspecialchars($_POST['matiere_ID']);
+if (isset($_GET['matiere_ID'])) {
+	$matiereId = htmlspecialchars($_GET['matiere_ID']);
 }
-if (isset($_POST['niveau_ID'])) {
-	$niveauId = htmlspecialchars($_POST['niveau_ID']);
-}
-
-function sans_accent($chaine) 
-{ 
-	 $accent  ="ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿ"; 
-	 $noaccent="aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyyby"; 
-	 return strtr(trim($chaine), $accent,$noaccent); 
+if (isset($_GET['niveau_ID'])) {
+	$niveauId = htmlspecialchars($_GET['niveau_ID']);
 }
 
-$query_rs_matiere = "SELECT * FROM stock_matiere";
-$rs_matiere = mysqli_query($conn_intranet, $query_rs_matiere) or die(mysqli_error($conn_intranet));
+function sans_accent($chaine) { 
+	$accent  ="ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿ"; 
+	$noaccent="aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyyby"; 
+	return strtr(trim($chaine), $accent,$noaccent); 
+}
 
-$query_rs_niveau = "SELECT * FROM stock_niveau";
-$rs_niveau = mysqli_query($conn_intranet, $query_rs_niveau) or die(mysqli_error($conn_intranet));
-
-if (isset($matiereId) && isset($niveauId))
-{
+if (isset($matiereId) && isset($niveauId)) {
 	$query_rsListeSelectMatiereNiveau = sprintf("SELECT * FROM stock_quiz WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND en_ligne = 'O' ORDER BY matiere_ID, niveau_ID", $matiereId, $niveauId);
 	$rsListeSelectMatiereNiveau = mysqli_query($conn_intranet, $query_rsListeSelectMatiereNiveau) or die(mysqli_error($conn_intranet));
 
@@ -51,43 +43,10 @@ $meta_keywords = "outils, ressources, exercices en ligne, hotpotatoes";
 $js_deplus = "";
 $css_deplus = "";
 require('includes/headerEnseignant.inc.php');
-?>
 
-<form name="form1" method="post" action="liste_quiz_publie.php">
-	<div class="form-group row align-items-center justify-content-center">
-		<label for="matiere_ID" class="col-auto col-form-label">Sélectionner une matière :</label>
-		<div class="col-auto">
-			<select name="matiere_ID" id="select2" class="custom-select" required>
-				<option disabled selected value="">Veuillez choisir une matière</option>
-				<?php
-				while ($row_RsMatiere = mysqli_fetch_assoc($rs_matiere)) 
-				{ ?>
-					<option value="<?php echo $row_RsMatiere['ID_mat']?>"<?php if (isset($matiereId)) { if (!(strcmp($row_RsMatiere['ID_mat'], $matiereId))) {echo " SELECTED";}} ?>><?php echo $row_RsMatiere['nom_mat']?></option>
-					<?php
-				} ?>
-			</select>
-		</div>
-		<label for="niveau_ID" class="col-auto col-form-label">Sélectionner un niveau :</label>
-		<div class="col-auto">
-			<select name="niveau_ID" id="select" class="custom-select" required>
-				<option disabled selected value="">Veuillez choisir un niveau</option>
-				<?php
-				while ($row_RsNiveau = mysqli_fetch_assoc($rs_niveau)) 
-				{ ?>
-					<option value="<?php echo $row_RsNiveau['ID_niveau']?>"<?php if (isset($niveauId)) { if (!(strcmp($row_RsNiveau['ID_niveau'], $niveauId))) {echo " SELECTED";}} ?>><?php echo $row_RsNiveau['nom_niveau']?></option>
-					<?php
-				} ?>
-			</select>
-		</div>
-		<div class="col-auto">
-			<button type="submit" name="Submit" class="btn btn-primary">Sélectionner</button>
-		</div>
-	</div>
-</form>
+require('../includes/forms/matiere_niveau.inc.php');
 
-<?php
-if (isset($matiereId) && isset($niveauId)) 
-{ ?>
+if (isset($matiereId) && isset($niveauId)) { ?>
 	<div class="table-responsive">
 		<table class="table table-striped table-bordered table-sm">
 			<thead>
@@ -126,7 +85,4 @@ if (isset($matiereId) && isset($niveauId))
 }
 
 require('includes/footerEnseignant.inc.php');
-
-mysqli_free_result($rs_matiere);
-mysqli_free_result($rs_niveau);
 ?>

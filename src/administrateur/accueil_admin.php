@@ -18,19 +18,7 @@ $js_deplus="";
 $css_deplus = "";
 
 require('include/headerAdministrateur.inc.php');
-
-include("../includes/version.php");
-$versionrecente = file_get_contents('https://stockpotatoes.ovh/version.txt');
-if ($versionrecente != $versioninstallee)
-{ ?>
-	<div class="card text-white bg-info mb-3">
-		<div class="card-body text-dark">
-			<h5 class="card-title text-center">Mise à jour Stockpotatoes disponible</h5>
-			<p class="card-text">Vous possédez la version <?php echo $versioninstallee;?> et la version <?php echo $versionrecente;?> est disponible. Rendez vous sur la page mise à jour ou directement sur <a href="https://stockpotatoes.ovh/telechargement.php">Stockpotatoes.ovh</a>.</p>
-		</div>
-	</div>
-	<?php
-} ?>
+?>
 
 <div class="row mb-5">
 	<div class="col-6">

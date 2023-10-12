@@ -4,8 +4,7 @@ if (isset($_SESSION['Sess_nom'])) {
 	if ($_SESSION['Sess_nom'] <> 'Enseignant') {
 		header("Location: login_enseignant.php?cible=gestion_theme");
 	}
-}
-else {
+} else {
 	header("Location: login_enseignant.php?cible=gestion_theme");
 }
 require_once('../Connections/conn_intranet.php');
@@ -53,81 +52,16 @@ $RsTheme = mysqli_query($conn_intranet, $query_RsTheme) or die(mysqli_error($con
 $row_RsTheme = mysqli_fetch_assoc($RsTheme);
 $totalRows_RsTheme = mysqli_num_rows($RsTheme);
 
-$choixmat_RsChoixmatiere = "0";
-if (isset($matiereId)) {
-	$choixmat_RsChoixmatiere = $matiereId;
-}
-$query_RsChoixmatiere = sprintf("SELECT * FROM stock_matiere WHERE ID_mat = '%s'", $choixmat_RsChoixmatiere);
-$RsChoixmatiere = mysqli_query($conn_intranet, $query_RsChoixmatiere) or die(mysqli_error($conn_intranet));
-$row_RsChoixmatiere = mysqli_fetch_assoc($RsChoixmatiere);
-
-$query_rs_matiere = "SELECT * FROM stock_matiere ORDER BY nom_mat";
-$rs_matiere = mysqli_query($conn_intranet, $query_rs_matiere) or die(mysqli_error($conn_intranet));
-$row_rs_matiere = mysqli_fetch_assoc($rs_matiere);
-
-$query_rs_niveau = "SELECT * FROM stock_niveau";
-$rs_niveau = mysqli_query($conn_intranet, $query_rs_niveau) or die(mysqli_error($conn_intranet));
-$row_rs_niveau = mysqli_fetch_assoc($rs_niveau);
-
 $titre_page = "Gestion des thèmes d'étude";
 $meta_description = "Page gestion des thèmes";
 $meta_keywords = "outils, ressources, exercices en ligne, hotpotatoes";
 $js_deplus = "includes/Sortable.js";
 $css_deplus = "";
 require('includes/headerEnseignant.inc.php');
-?>
 
-<form name="form1" method="GET" action="gestion_theme.php">
-	<div class="form-group row align-items-center justify-content-center">
-		<label for="matiere_ID" class="col-auto col-form-label">Matière :</label>
-		<div class="col-auto">
-			<select name="matiere_ID" id="select2" class="custom-select" required>
-				<option disabled selected value="">Veuillez choisir une matière</option>
-				<?php
-				do 
-				{ ?>
-					<option value="<?php echo $row_rs_matiere['ID_mat']?>"<?php if (isset($matiereId)) { if (!(strcmp($row_rs_matiere['ID_mat'], $matiereId))) {echo "SELECTED";} }?>><?php echo $row_rs_matiere['nom_mat']?></option>
-					<?php
-				} while ($row_rs_matiere = mysqli_fetch_assoc($rs_matiere));
-				$rows = mysqli_num_rows($rs_matiere);
-				if($rows > 0) 
-				{
-					mysqli_data_seek($rs_matiere, 0);
-					$row_rs_matiere = mysqli_fetch_assoc($rs_matiere);
-				} ?>
-			</select>
-		</div>
-		<label for="niveau_ID" class="col-auto col-form-label">Niveau :</label>
-		<div class="col-auto">
-			<select name="niveau_ID" id="select" class="custom-select" required>
-				<option disabled selected value="">Veuillez choisir un niveau</option>
-				<?php
-				do 
-				{ ?>
-					<option value="<?php echo $row_rs_niveau['ID_niveau']?>"<?php if (isset($niveauId)) { if (!(strcmp($row_rs_niveau['ID_niveau'], $niveauId))) {echo "SELECTED";} } ?>><?php echo $row_rs_niveau['nom_niveau']?></option>
-					<?php
-				} while ($row_rs_niveau = mysqli_fetch_assoc($rs_niveau));
-				$rows = mysqli_num_rows($rs_niveau);
-				if($rows > 0)
-				{
-					mysqli_data_seek($rs_niveau, 0);
-					$row_rs_niveau = mysqli_fetch_assoc($rs_niveau);
-				} ?>
-			</select>
-		</div>
-		<div class="col-auto">
-			<button type="submit" name="Submit3" class="btn btn-primary">Sélectionner</button>
-		</div>
-	</div>
-</form>
-<?php
-if (isset($matiereId)) 
-{ ?>
-	<div class="row mt-2">
-		<div class="col text-center">
-			<h3>Matière actuelle: <?php echo $row_RsChoixmatiere['nom_mat']; ?></h3>
-		</div>
-	</div>
+require('../includes/forms/matiere_niveau.inc.php');
+
+if (isset($matiereId)) { ?>
 	<form method="post" name="form2" action="gestion_theme.php?matiere_ID=<?php echo $matiereId; ?>&niveau_ID=<?php echo $niveauId; ?>">
 		<div class="form-group row align-items-center justify-content-center mt-5">
 			<label for="theme" class="col-auto col-form-label">Ajouter un thème d'étude à cette matière et à ce niveau:</label>
@@ -198,7 +132,7 @@ if (isset($matiereId))
 								<form name="formapparition" method="post" action="gestion_date_theme.php">
 									<div class="form-group row align-items-center justify-content-center">
 										<div class="col-auto">
-											<input name="formapparition" type="date" class="form-control" value="<?php echo strftime('%Y-%m-%d',strtotime($row_RsTheme['date_apparition']));?>">
+											<input name="formapparition" type="date" class="form-control" value="<?php echo date('Y-m-d', strtotime($row_RsTheme['date_apparition']));?>">
 										</div>
 										<div class="col-auto">
 											<button type="submit" name="valider" class="btn btn-primary">Valider</button>															
@@ -214,7 +148,7 @@ if (isset($matiereId))
 								<form name="formdisparition" method="post" action="gestion_date_theme.php">
 									<div class="form-group row align-items-center justify-content-center">
 										<div class="col-auto">
-											<input name="formdisparition" type="date" class="form-control" value="<?php echo strftime('%Y-%m-%d',strtotime($row_RsTheme['date_disparition']));?>">
+											<input name="formdisparition" type="date" class="form-control" value="<?php echo date('Y-m-d', strtotime($row_RsTheme['date_disparition']));?>">
 										</div>
 										<div class="col-auto">
 											<button type="submit" name="valider" class="btn btn-primary">Valider</button>
@@ -277,7 +211,4 @@ if (isset($matiereId))
 require('includes/footerEnseignant.inc.php');
 
 mysqli_free_result($RsTheme);
-mysqli_free_result($RsChoixmatiere);
-mysqli_free_result($rs_matiere);
-mysqli_free_result($rs_niveau);
 ?>

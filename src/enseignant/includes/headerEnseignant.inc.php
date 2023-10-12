@@ -57,7 +57,7 @@ $config = $config->GetTableau();
 				<div class="collapse navbar-collapse" id="navbarNav">
 					<ul class="navbar-nav">
 						<li class="nav-item active">
-							<a class="nav-link" href="accueil_enseignant">Espace Enseignant</a>
+							<a class="nav-link" href="accueil_enseignant.php">Espace Enseignant</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="../index.php">Menu Stockpotatoes</a>

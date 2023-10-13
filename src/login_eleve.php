@@ -20,13 +20,11 @@ if (isset($_GET['categorie_ID'])) {
 }
 
 $collog_rsLogin = "1";
-if (isset($_POST['log'])) 
-{
+if (isset($_POST['log'])) {
 	$collog_rsLogin = htmlspecialchars($_POST['log']);
 }
 $colpass_rsLogin = "1";
-if (isset($_POST['pass']))
-{
+if (isset($_POST['pass'])) {
 	$colpass_rsLogin = htmlspecialchars($_POST['pass']);
 }
 
@@ -35,12 +33,10 @@ mysqli_select_db($conn_intranet, $database_conn_intranet);
 $lecture = new Lire('includes/config.yml');
 $lecture = $lecture->GetTableau();
 
-if (isset($lecture['General']["studentPass"]) && $lecture['General']["studentPass"] == "No")
-{
+if (isset($lecture['General']["studentPass"]) && $lecture['General']["studentPass"] == "No") {
 	$query_rsLogin = sprintf("SELECT * FROM stock_eleve WHERE ID_eleve = '%s'", $collog_rsLogin);
 }
-else
-{
+else {
 	$query_rsLogin = sprintf("SELECT * FROM stock_eleve WHERE ID_eleve = '%s' AND pass = '%s'", $collog_rsLogin, $colpass_rsLogin);
 }
 $rsLogin = mysqli_query($conn_intranet, $query_rsLogin) or die(mysqli_error($conn_intranet));
@@ -49,23 +45,18 @@ $totalRows_rsLogin = mysqli_num_rows($rsLogin);
 
 $query_rsClasse = "SELECT DISTINCT classe FROM stock_eleve ORDER BY classe DESC";
 $rsClasse = mysqli_query($conn_intranet, $query_rsClasse) or die(mysqli_error($conn_intranet));
-$row_rsClasse = mysqli_fetch_assoc($rsClasse);
 
 $choix_classe_rsLogin2 = "1";
-if (isset($_POST['classe'])) 
-{
+if (isset($_POST['classe'])) {
 	$choix_classe_rsLogin2 = htmlspecialchars($_POST['classe']);
 }
 
 $query_rsLogin2 = sprintf("SELECT ID_eleve, nom, prenom FROM stock_eleve WHERE classe = '%s' ORDER BY nom", $choix_classe_rsLogin2);
 $rsLogin2 = mysqli_query($conn_intranet, $query_rsLogin2) or die(mysqli_error($conn_intranet));
-$row_rsLogin2 = mysqli_fetch_assoc($rsLogin2);
 
 $bad_password = 0;
-if ((isset($_POST['valider'])) && ($_POST['valider'] == "ok"))
-{
-	if ($totalRows_rsLogin == '1' || (isset($lecture['General']["studentPass"]) && $lecture['General']["studentPass"] == "No"))
-	{
+if ((isset($_POST['valider'])) && ($_POST['valider'] == "ok")) {
+	if ($totalRows_rsLogin == '1' || (isset($lecture['General']["studentPass"]) && $lecture['General']["studentPass"] == "No")) {
 		session_start();
 		$_SESSION['Sess_ID_eleve'] = $row_rsLogin['ID_eleve'];
 		$_SESSION['Sess_identifiant'] = $row_rsLogin['identifiant'];
@@ -82,29 +73,22 @@ if ((isset($_POST['valider'])) && ($_POST['valider'] == "ok"))
 				if(isset($themeId)) {
 					if(isset($categorieId)) {
 						header('Location: accueil_eleve.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$themeId.'&categorie_ID='.$categorieId);
-					}
-					else {
+					} else {
 						header('Location: accueil_eleve.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$themeId);
 					}
-				}
-				else {
+				} else {
 					header('Location: accueil_eleve.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId);
 				}
 			} else {
 				header('Location: accueil_eleve.php?matiere_ID='.$matiereId);
 			}
-		}
-		else {
+		} else {
 			header('Location: accueil_eleve.php?matiere_ID='.$row_rs_matiere['matiere_ID'].'&niveau_ID='.$_SESSION['Sess_niveau'].'&Submit=Valider');
 		}
-	}
-	else
-	{
+	} else {
 		$bad_password = 1;
 	}
-}
-else
-{
+} else {
 	$erreurlog = 1;
 }
 
@@ -129,12 +113,12 @@ require('includes/header.inc.php');
 					<select class="custom-select" name="classe" id="classe" required>
 						<option disabled selected value="">Veuillez choisir une classe</option>
 						<?php
-						do { ?>
+						while ($row_rsClasse = mysqli_fetch_assoc($rsClasse)) { ?>
 							<option value="<?php echo $row_rsClasse['classe']?>"<?php if (isset($_POST['classe'])) { if (!(strcmp($row_rsClasse['classe'], $_POST['classe']))) {echo "SELECTED";}} ?>>
 								<?php echo $row_rsClasse['classe']?>
 							</option>
 							<?php
-						} while ($row_rsClasse = mysqli_fetch_assoc($rsClasse)); ?>
+						} ?>
 					</select>
 				</div>
 			</div>
@@ -150,12 +134,12 @@ require('includes/header.inc.php');
 						<select class="custom-select" name="log" id="log" required>
 							<option disabled selected value="">Veuillez choisir un élève</option>
 							<?php
-							do { ?>
-								<option value="<?php echo $row_rsLogin2['ID_eleve']?>">
+							while ($row_rsLogin2 = mysqli_fetch_assoc($rsLogin2)) { ?>
+								<option value="<?php echo $row_rsLogin2['ID_eleve']?>" <?php if ($row_rsLogin2['ID_eleve'] == $collog_rsLogin) { echo 'selected'; } ?>>
 									<?php echo $row_rsLogin2['nom']." ".$row_rsLogin2['prenom']?>
 								</option>
 								<?php
-							} while ($row_rsLogin2 = mysqli_fetch_assoc($rsLogin2)); ?>
+							} ?>
 						</select>
 					</div>
 				</div>

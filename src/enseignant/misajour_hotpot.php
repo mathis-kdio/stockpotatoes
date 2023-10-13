@@ -7,8 +7,7 @@ if (isset($_SESSION['Sess_nom'])) {
 	if ($_SESSION['Sess_nom'] != 'Enseignant') {
 		header("Location: login_enseignant.php?cible=gestion_exos");
 	}
-}
-else {
+} else {
 	header("Location: login_enseignant.php?cible=gestion_exos");
 }
 
@@ -16,58 +15,45 @@ require_once('../Connections/conn_intranet.php');
 
 mysqli_select_db($conn_intranet, $database_conn_intranet);
 
-
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
-{
-	$theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
-
-	switch ($theType) {
-		case "text":
-			$theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-			break;    
-		case "long":
-		case "int":
-			$theValue = ($theValue != "") ? intval($theValue) : "NULL";
-			break;
-		case "double":
-			$theValue = ($theValue != "") ? "'" . doubleval($theValue) . "'" : "NULL";
-			break;
-		case "date":
-			$theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-			break;
-		case "defined":
-			$theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
-			break;
-	}
-	return $theValue;
-}
-
 $editFormAction = $_SERVER['PHP_SELF'];
 if (isset($_SERVER['QUERY_STRING'])) {
 	$editFormAction .= "?" . $_SERVER['QUERY_STRING'];
 }
 
-if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form4")) {
-	if ((isset($_POST['en_ligne'])) && ($_POST['en_ligne']=='O')){$en_ligne='O';} else {$en_ligne='N';}
-	if ((isset($_POST['avec_score'])) && ($_POST['avec_score']=='O')){$avec_score='O';} else {$avec_score='N';}
-	if ((isset($_POST['evaluation_seul'])) && ($_POST['evaluation_seul']=='O')){$evaluation_seul='O';} else {$evaluation_seul='N';}
-	if ((isset($_POST['evaluation_seul'])) && ($_POST['evaluation_seul']=='O')){$avec_score='O';}
+if (isset($_POST["MM_update"]) && $_POST["MM_update"] == "form4") {
+	if (isset($_POST['en_ligne']) && $_POST['en_ligne'] == 'O') {
+		$en_ligne = 'O';
+	} else {
+		$en_ligne = 'N';
+	}
+	if (isset($_POST['avec_score']) && $_POST['avec_score'] == 'O') {
+		$avec_score = 'O';
+	} else {
+		$avec_score = 'N';
+	}
+	if (isset($_POST['evaluation_seul']) && $_POST['evaluation_seul'] == 'O') {
+		$avec_score = 'O';
+	}
+	if (isset($_POST['evaluation_seul']) && $_POST['evaluation_seul'] == 'O') {
+		$evaluation_seul = 'O';
+	} else {
+		$evaluation_seul = 'N';
+	}
 
 	$type_doc = 2;
-	$updateSQL = sprintf("UPDATE stock_quiz SET titre=%s, niveau_ID=%s, theme_ID=%s, categorie_ID=%s, auteur=%s, en_ligne=%s, avec_score=%s, evaluation_seul=%s , cat_doc=%s, type_doc=%s WHERE ID_quiz=%s",
-											 GetSQLValueString($_POST['titre'], "text"),
-						 GetSQLValueString($_POST['select_niveau_ID'], "int"),
-						 GetSQLValueString($_POST['ID_theme'], "int"),
-						 GetSQLValueString($_POST['ID_categorie'], "int"),
-						 GetSQLValueString($_POST['auteur'], "text"),					   
-											 GetSQLValueString($en_ligne, "text"),
-											 GetSQLValueString($avec_score, "text"),
-											 GetSQLValueString($evaluation_seul, "text"),
-											 GetSQLValueString($_POST['cat_doc'], "int"),
-						 GetSQLValueString($type_doc, "int"),
-						 GetSQLValueString($_POST['Id_quiz'], "int")
-						 );
-					 
+	$updateSQL = sprintf("UPDATE stock_quiz SET titre = '%s', niveau_ID = '%s', theme_ID = '%s', categorie_ID = '%s', auteur = '%s', en_ligne = '%s', avec_score = '%s', evaluation_seul = '%s', cat_doc = '%s', type_doc = '%s' WHERE ID_quiz = '%s'", 
+		htmlspecialchars($_POST['titre']),
+		htmlspecialchars($_POST['select_niveau_ID']),
+		htmlspecialchars($_POST['ID_theme']),
+		htmlspecialchars($_POST['ID_categorie']),
+		htmlspecialchars($_POST['auteur']),					   
+		$en_ligne,
+		$avec_score,
+		$evaluation_seul,
+		htmlspecialchars($_POST['cat_doc']),
+		$type_doc,
+		htmlspecialchars($_POST['Id_quiz'])
+	);
 
 	$Result1 = mysqli_query($conn_intranet, $updateSQL) or die(mysqli_error($conn_intranet));
 
@@ -78,7 +64,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form4")) {
 
 $colname_RsChoixQuiz = "0";
 if (isset($_GET['ID_quiz'])) {
-	$colname_RsChoixQuiz = (get_magic_quotes_gpc()) ? $_GET['ID_quiz'] : addslashes($_GET['ID_quiz']);
+	$colname_RsChoixQuiz = htmlspecialchars($_GET['ID_quiz']);
 }
 mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsChoixQuiz = sprintf("SELECT * FROM stock_quiz WHERE ID_quiz = %s", $colname_RsChoixQuiz);
@@ -88,11 +74,11 @@ $totalRows_RsChoixQuiz = mysqli_num_rows($RsChoixQuiz);
 
 $choix_mat = "0";
 if (isset($_GET['matiere_ID'])) {
-	$choix_mat = (get_magic_quotes_gpc()) ? $_GET['matiere_ID'] : addslashes($_GET['matiere_ID']);
+	$choix_mat = htmlspecialchars($_GET['matiere_ID']);
 }
 $choix_niv = "0";
 if (isset($_GET['niveau_ID'])) {
-	$choix_niv = (get_magic_quotes_gpc()) ? $_GET['niveau_ID'] : addslashes($_GET['niveau_ID']);
+	$choix_niv = htmlspecialchars($_GET['niveau_ID']);
 }
 mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsTheme = sprintf("SELECT * FROM stock_theme WHERE stock_theme.mat_ID=%s AND stock_theme.niv_ID=%s ORDER BY stock_theme.theme", $choix_mat,$choix_niv);
@@ -108,7 +94,7 @@ $totalRows_RsCategorie = mysqli_num_rows($RsCategorie);
 
 $choixmat_RsMatiere = "0";
 if (isset($_GET['matiere_ID'])) {
-	$choixmat_RsMatiere = (get_magic_quotes_gpc()) ? $_GET['matiere_ID'] : addslashes($_GET['matiere_ID']);
+	$choixmat_RsMatiere = htmlspecialchars($_GET['matiere_ID']);
 }
 mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_RsMatiere = sprintf("SELECT * FROM stock_matiere WHERE stock_matiere.ID_mat=%s", $choixmat_RsMatiere);
@@ -116,26 +102,12 @@ $RsMatiere = mysqli_query($conn_intranet, $query_RsMatiere) or die(mysqli_error(
 $row_RsMatiere = mysqli_fetch_assoc($RsMatiere);
 $totalRows_RsMatiere = mysqli_num_rows($RsMatiere);
 
-
 mysqli_select_db($conn_intranet, $database_conn_intranet);
 $query_liste_niveau = "SELECT * FROM stock_niveau ORDER BY stock_niveau.ID_niveau";
 $liste_niveau = mysqli_query($conn_intranet, $query_liste_niveau) or die(mysqli_error($conn_intranet));
 $row_liste_niveau = mysqli_fetch_assoc($liste_niveau);
 $totalRows_liste_niveau = mysqli_num_rows($liste_niveau);
 
-
-
-
-
-$choix_niv_RsNiveau = "0";
-if (isset($_GET['niveau_ID'])) {
-	$choix_niv_RsNiveau = (get_magic_quotes_gpc()) ? $_GET['niveau_ID'] : addslashes($_GET['niveau_ID']);
-}
-mysqli_select_db($conn_intranet, $database_conn_intranet);
-$query_RsNiveau = sprintf("SELECT * FROM stock_niveau WHERE stock_niveau.ID_niveau=%s", $choix_niv_RsNiveau);
-$RsNiveau = mysqli_query($conn_intranet, $query_RsNiveau) or die(mysqli_error($conn_intranet));
-$row_RsNiveau = mysqli_fetch_assoc($RsNiveau);
-$totalRows_RsNiveau = mysqli_num_rows($RsNiveau);
 
 $titre_page = "Mise à jour d'une fiche d'un exercice HotPotatoes";
 $meta_description = "Page de mise à jour d'une fiche d'un exercice HotPotatoes";
@@ -145,7 +117,7 @@ $css_deplus = "";
 require('includes/headerEnseignant.inc.php');
 ?>
 <script language="JavaScript" type="text/javascript">
-<!--
+/*
 	function changer() {
 		var sel;
 		 var nom=new Array();
@@ -173,7 +145,7 @@ require('includes/headerEnseignant.inc.php');
 		window.location = page;
 
 	}
-	//-->
+	*/
 </script>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -321,5 +293,4 @@ require('includes/footerEnseignant.inc.php');
 
 mysqli_free_result($RsChoixQuiz);
 mysqli_free_result($RsTheme);
-mysqli_free_result($RsMatiere);
-mysqli_free_result($RsNiveau); ?>
+mysqli_free_result($RsMatiere);?>

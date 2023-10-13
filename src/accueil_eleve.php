@@ -2,7 +2,7 @@
 session_start();
 if (!isset($_SESSION['Sess_classe'])) {
 	if ($_SESSION['Sess_nom'] == 'VISITEUR') {
-		if(isset($_SESSION['matiere_ID']) && $_SESSION['niveau_ID'] && $_SESSION['theme_ID'] && $_SESSION['categorie_ID']) {
+		if (isset($_SESSION['matiere_ID']) && $_SESSION['niveau_ID'] && $_SESSION['theme_ID'] && $_SESSION['categorie_ID']) {
 			header('Location:accueil_visiteur.php?matiere_ID='.$_SESSION['matiere_ID'].'&niveau_ID='.$_SESSION['niveau_ID'].'&theme_ID='.$_SESSION['theme_ID'].'&categorie_ID='.$_SESSION['categorie_ID'].'');
 		} else {
 			header('Location:accueil_visiteur.php');	
@@ -56,8 +56,7 @@ $niveauEleve = $_SESSION['Sess_niveau'];
 $query_nvEleve = sprintf("SELECT * FROM stock_niveau WHERE ID_niveau = '%s'", $_SESSION['Sess_niveau']);
 $nvEleve = mysqli_query($conn_intranet, $query_nvEleve) or die(mysqli_error($conn_intranet));
 $row_nvEleve = mysqli_fetch_assoc($nvEleve);
-$positionNiveauEleve =  $row_nvEleve['pos_niv'];
-
+$positionNiveauEleve = $row_nvEleve['pos_niv'];
 
 $query_rs_niveau = "SELECT * FROM stock_niveau";
 if ($lecture['espaceEleve']['accesThemes']['sup'] == 'No' && $lecture['espaceEleve']['accesThemes']['inf'] == 'No') {
@@ -72,102 +71,91 @@ else if ($lecture['espaceEleve']['accesThemes']['inf'] == 'No') {
 $query_rs_niveau = $query_rs_niveau.' ORDER BY ID_niveau';
 $rs_niveau = mysqli_query($conn_intranet, $query_rs_niveau) or die(mysqli_error($conn_intranet));
 
-$query_rsListequiz = "SELECT * FROM stock_quiz WHERE avec_score = 'O' ORDER BY titre";
-$rsListequiz = mysqli_query($conn_intranet, $query_rsListequiz) or die(mysqli_error($conn_intranet));
-$row_rsListequiz = mysqli_fetch_assoc($rsListequiz);
+if (isset($matiereId) && isset($niveauId)) {
+	$query_rsChoix = sprintf("SELECT * FROM stock_matiere WHERE ID_mat = '%s'", $matiereId);
+	$rsChoix = mysqli_query($conn_intranet, $query_rsChoix) or die(mysqli_error($conn_intranet));
+	$row_rsChoix = mysqli_fetch_assoc($rsChoix);
 
-$choixmat_rsListeSelectMatiereNiveau = "0";
-if (isset($matiereId)) {
-	$choixmat_rsListeSelectMatiereNiveau = $matiereId;
-}
-$choixniv_rsListeSelectMatiereNiveau = "0";
-if (isset($niveauId)) {
-	$choixniv_rsListeSelectMatiereNiveau = $niveauId;
-}
-$choixtheme_rsListeSelectMatiereNiveau = "0";
-if (isset($themeId)) {
-	$choixtheme_rsListeSelectMatiereNiveau = $themeId;
-}
-$choixcategorie_rsListeSelectMatiereNiveau = "0";
-if (isset($categorieId)) {
-	$choixcategorie_rsListeSelectMatiereNiveau = $categorieId;
-}
+	$query_rsChoix2 = sprintf("SELECT * FROM stock_niveau WHERE ID_niveau = '%s'", $niveauId);
+	$rsChoix2 = mysqli_query($conn_intranet, $query_rsChoix2) or die(mysqli_error($conn_intranet));
+	$row_rsChoix2 = mysqli_fetch_assoc($rsChoix2);
 
-$query_rsListeSelectMatiereNiveau = sprintf("SELECT * FROM stock_quiz WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND theme_ID = '%s' AND categorie_ID = '%s' AND avec_score = 'O' ORDER BY pos_doc", $choixmat_rsListeSelectMatiereNiveau, $choixniv_rsListeSelectMatiereNiveau, $choixtheme_rsListeSelectMatiereNiveau, $choixcategorie_rsListeSelectMatiereNiveau);
-$rsListeSelectMatiereNiveau = mysqli_query($conn_intranet, $query_rsListeSelectMatiereNiveau) or die(mysqli_error($conn_intranet));
-$row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau);
-$totalRows_rsListeSelectMatiereNiveau = mysqli_num_rows($rsListeSelectMatiereNiveau);
-
-$colname_rsChoix = "1";
-if (isset($matiereId)) {
-	$colname_rsChoix = $matiereId;
-}
-$query_rsChoix = sprintf("SELECT * FROM stock_matiere WHERE ID_mat = '%s'", $colname_rsChoix);
-$rsChoix = mysqli_query($conn_intranet, $query_rsChoix) or die(mysqli_error($conn_intranet));
-$row_rsChoix = mysqli_fetch_assoc($rsChoix);
-
-$colname_rsChoix2 = "1";
-if (isset($niveauId)) {
-	$colname_rsChoix2 = $niveauId;
-}
-$query_rsChoix2 = sprintf("SELECT * FROM stock_niveau WHERE ID_niveau = '%s'", $colname_rsChoix2);
-$rsChoix2 = mysqli_query($conn_intranet, $query_rsChoix2) or die(mysqli_error($conn_intranet));
-$row_rsChoix2 = mysqli_fetch_assoc($rsChoix2);
-
-$matListeTheme = 0;
-if (isset($matiereId)) {
-	$matListeTheme = $matiereId;
-}
-$nivListeTheme = 0;
-if (isset($niveauId)) {
-	$nivListeTheme = $niveauId;
-}
-
-//Affichage des thèmes selon la config choisie dans l'espace Admin
-$utiliserDate = 1;
-if ($row_rsChoix2['pos_niv'] < $positionNiveauEleve) {
-	if ($lecture['espaceEleve']['accesThemes']['infDate'] == 'Yes') {
+	//Affichage des thèmes selon la config choisie dans l'espace Admin
+	$utiliserDate = 1;
+	if ($row_rsChoix2['pos_niv'] < $positionNiveauEleve && $lecture['espaceEleve']['accesThemes']['infDate'] == 'Yes') {
+		$utiliserDate = 0;
+	} else if ($row_rsChoix2['pos_niv'] > $positionNiveauEleve && $lecture['espaceEleve']['accesThemes']['supDate'] == 'Yes') {
 		$utiliserDate = 0;
 	}
-} else if ($row_rsChoix2['pos_niv'] > $positionNiveauEleve) {
-	if ($lecture['espaceEleve']['accesThemes']['supDate'] == 'Yes') {
-		$utiliserDate = 0;
-	}
-}
-if ($utiliserDate == 1) {
-	$today = date("Y-m-d");
-	$listeTheme = mysqli_prepare($conn_intranet, "SELECT ID_theme, theme FROM stock_theme WHERE mat_ID = ? AND niv_ID = ? AND '$today' >= date_apparition AND date_disparition >= '$today' ORDER BY pos_theme") or exit(mysqli_error($conn_intranet));
-} else {
-	$listeTheme = mysqli_prepare($conn_intranet, "SELECT ID_theme, theme FROM stock_theme WHERE mat_ID = ? AND niv_ID = ? ORDER BY pos_theme") or exit(mysqli_error($conn_intranet));
-}
-mysqli_stmt_bind_param($listeTheme, "ii", $matListeTheme, $nivListeTheme);
-
-if (isset($themeId)) {
-	$themeChoisi = mysqli_prepare($conn_intranet, "SELECT theme FROM stock_theme WHERE ID_theme = ?") or exit(mysqli_error($conn_intranet));
-	mysqli_stmt_bind_param($themeChoisi, "i", $themeId);
-	mysqli_stmt_execute($themeChoisi);
-	mysqli_stmt_bind_result($themeChoisi, $row_RsChoixTheme['theme']);
-	mysqli_stmt_fetch($themeChoisi);
-	mysqli_stmt_close($themeChoisi);
-
-	if (isset($categorieId)) {
-		$categorieChoisieId = isset($categorieId) ? $categorieId : 0;
-		$categorieChoisie = mysqli_prepare($conn_intranet, "SELECT ID_categorie, nom_categorie, categorie_mere_ID FROM stock_categorie WHERE ID_categorie = ?") or exit(mysqli_error($conn_intranet));
-		mysqli_stmt_bind_param($categorieChoisie, "i", $categorieChoisieId);
-		mysqli_stmt_execute($categorieChoisie);
-		mysqli_stmt_bind_result($categorieChoisie, $rsCategorieChoisie['ID_categorie'], $rsCategorieChoisie['nom_categorie'], $rsCategorieChoisie['categorie_mere_ID']);
-		mysqli_stmt_fetch($categorieChoisie);
-		mysqli_stmt_close($categorieChoisie);
-		$query_categorie = sprintf("SELECT ID_categorie, nom_categorie FROM stock_quiz INNER JOIN stock_categorie ON stock_categorie.ID_categorie = stock_quiz.categorie_ID WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND theme_ID = '%s' AND categorie_mere_ID = '%s' GROUP BY pos_categorie, ID_categorie", $matiereId, $niveauId, $themeId, $rsCategorieChoisie['ID_categorie']);
+	if ($utiliserDate == 1) {
+		$today = date("Y-m-d");
+		$listeTheme = mysqli_prepare($conn_intranet, "SELECT ID_theme, theme FROM stock_theme WHERE mat_ID = ? AND niv_ID = ? AND '$today' >= date_apparition AND date_disparition >= '$today' ORDER BY pos_theme") or exit(mysqli_error($conn_intranet));
 	} else {
-		$query_categorie = sprintf("SELECT ID_categorie, nom_categorie FROM stock_quiz INNER JOIN stock_categorie ON stock_categorie.ID_categorie = stock_quiz.categorie_ID WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND theme_ID = '%s' AND categorie_mere_ID IS NULL GROUP BY pos_categorie, ID_categorie", $matiereId, $niveauId, $themeId);
+		$listeTheme = mysqli_prepare($conn_intranet, "SELECT ID_theme, theme FROM stock_theme WHERE mat_ID = ? AND niv_ID = ? ORDER BY pos_theme") or exit(mysqli_error($conn_intranet));
 	}
-	$Rs_categorie = mysqli_query($conn_intranet, $query_categorie) or die(mysqli_error($conn_intranet));
-	$totalRows_RsCategorie = mysqli_num_rows($Rs_categorie);
-	//Affiche la catégorie Non classés uniquement s'il y a au moins un doc dedans
-	$qTestExoNonClasse = sprintf("SELECT * FROM stock_quiz WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND theme_ID = '%s' AND categorie_ID = 0", $matiereId, $niveauId, $themeId);
-	$rsTestExoNonClasse = mysqli_query($conn_intranet, $qTestExoNonClasse) or die(mysqli_error($conn_intranet));
-	$nbExosNonClasse = mysqli_num_rows($rsTestExoNonClasse);
+	mysqli_stmt_bind_param($listeTheme, "ii", $matiereId, $niveauId);
+
+
+	$qTestExoDivers = sprintf("SELECT * FROM stock_quiz WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND theme_ID = 0", $matiereId, $niveauId);
+	$rsTestExoDivers = mysqli_query($conn_intranet, $qTestExoDivers) or die(mysqli_error($conn_intranet));
+	$nbExosDivers = mysqli_num_rows($rsTestExoDivers);
+
+
+	if (isset($themeId)) {
+		$themeChoisi = mysqli_prepare($conn_intranet, "SELECT theme FROM stock_theme WHERE ID_theme = ?") or exit(mysqli_error($conn_intranet));
+		mysqli_stmt_bind_param($themeChoisi, "i", $themeId);
+		mysqli_stmt_execute($themeChoisi);
+		mysqli_stmt_bind_result($themeChoisi, $row_RsChoixTheme['theme']);
+		mysqli_stmt_fetch($themeChoisi);
+		mysqli_stmt_close($themeChoisi);
+
+		if (isset($categorieId)) {
+			//Listes des quiz
+			$query_rsListeSelectMatiereNiveau = sprintf("SELECT * FROM stock_quiz WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND theme_ID = '%s' AND categorie_ID = '%s' AND avec_score = 'O' ORDER BY pos_doc", $matiereId, $niveauId, $themeId, $categorieId);
+			$rsListeSelectMatiereNiveau = mysqli_query($conn_intranet, $query_rsListeSelectMatiereNiveau) or die(mysqli_error($conn_intranet));
+			$row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau);
+			$totalRows_rsListeSelectMatiereNiveau = mysqli_num_rows($rsListeSelectMatiereNiveau);
+
+			mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
+			$nbDoc1 = 0;
+			$nbDoc2 = 0;
+			$nbDoc3 = 0;
+			$nbDoc4 = 0;
+			$nbDoc5 = 0;
+			while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau)) {
+				if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 1) {
+					$nbDoc1++;
+				} else if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 2) {
+					$nbDoc2++;
+				} else if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 3) {
+					$nbDoc3++;
+				} else if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 4) {
+					$nbDoc4++;
+				} else if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 5) {
+					$nbDoc5++;
+				}
+			}
+			mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
+
+			$categorieChoisieId = isset($categorieId) ? $categorieId : 0;
+			$categorieChoisie = mysqli_prepare($conn_intranet, "SELECT ID_categorie, nom_categorie, categorie_mere_ID FROM stock_categorie WHERE ID_categorie = ?") or exit(mysqli_error($conn_intranet));
+			mysqli_stmt_bind_param($categorieChoisie, "i", $categorieChoisieId);
+			mysqli_stmt_execute($categorieChoisie);
+			mysqli_stmt_bind_result($categorieChoisie, $rsCategorieChoisie['ID_categorie'], $rsCategorieChoisie['nom_categorie'], $rsCategorieChoisie['categorie_mere_ID']);
+			mysqli_stmt_fetch($categorieChoisie);
+			mysqli_stmt_close($categorieChoisie);
+			$query_categorie = sprintf("SELECT ID_categorie, nom_categorie FROM stock_quiz INNER JOIN stock_categorie ON stock_categorie.ID_categorie = stock_quiz.categorie_ID WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND theme_ID = '%s' AND categorie_mere_ID = '%s' GROUP BY pos_categorie, ID_categorie", $matiereId, $niveauId, $themeId, $rsCategorieChoisie['ID_categorie']);
+		} else {
+			$query_categorie = sprintf("SELECT ID_categorie, nom_categorie FROM stock_quiz INNER JOIN stock_categorie ON stock_categorie.ID_categorie = stock_quiz.categorie_ID WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND theme_ID = '%s' AND categorie_mere_ID IS NULL GROUP BY pos_categorie, ID_categorie", $matiereId, $niveauId, $themeId);
+		}
+		$Rs_categorie = mysqli_query($conn_intranet, $query_categorie) or die(mysqli_error($conn_intranet));
+		$totalRows_RsCategorie = mysqli_num_rows($Rs_categorie);
+		
+		//Affiche la catégorie Non classés uniquement s'il y a au moins un doc dedans
+		$qTestExoNonClasse = sprintf("SELECT * FROM stock_quiz WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND theme_ID = '%s' AND categorie_ID = 0", $matiereId, $niveauId, $themeId);
+		$rsTestExoNonClasse = mysqli_query($conn_intranet, $qTestExoNonClasse) or die(mysqli_error($conn_intranet));
+		$nbExosNonClasse = mysqli_num_rows($rsTestExoNonClasse);
+	}
 }
 
 $titre_page = "Accueil des élèves";
@@ -212,8 +200,7 @@ require('includes/header.inc.php');
 				<select class="custom-select" name="niveau_ID" id="select" required>
 					<option disabled selected value="">Veuillez choisir un niveau</option>
 					<?php
-					while ($row_rs_niveau = mysqli_fetch_assoc($rs_niveau))
-					{ ?>
+					while ($row_rs_niveau = mysqli_fetch_assoc($rs_niveau)) { ?>
 						<option value="<?php echo $row_rs_niveau['ID_niveau']?>"<?php if (isset($niveauId)) { if (!(strcmp($row_rs_niveau['ID_niveau'], $niveauId))) {echo "SELECTED";} }?>><?php echo $row_rs_niveau['nom_niveau']?></option>
 						<?php
 					} ?>
@@ -231,12 +218,7 @@ require('includes/header.inc.php');
 <!--Une fois la matière et niveau choisis -->
 <?php 
 if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != "") { ?>
-	<div class="row mt-2 mb-2">
-		<div class="col text-center">
-			<h3>Matière actuelle: <?php echo $row_rsChoix['nom_mat']; ?></h3>
-		</div>
-	</div>
-	<div class="row pb-3">
+	<div class="row pb-3 mt-5">
 		<!-- Liste des thèmes -->
 		<div class="col-md-2 mb-3" id="listeThemes">
 			<div class="pb-3 bg-info shadow rounded">
@@ -248,17 +230,13 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 						<?php
 						mysqli_stmt_execute($listeTheme);
 						mysqli_stmt_bind_result($listeTheme, $row_RsListeTheme['ID_theme'], $row_RsListeTheme['theme']);
-						while (mysqli_stmt_fetch($listeTheme))
-						{ ?>
-								<a href="accueil_eleve.php?matiere_ID=<?php echo $matiereId; ?>&niveau_ID=<?php echo $niveauId; ?>&theme_ID=<?php echo $row_RsListeTheme['ID_theme']?>#listeCategories" class="btn btn-primary btn-lg mt-2" role="button"><?php echo $row_RsListeTheme['theme']?></a>
+						while (mysqli_stmt_fetch($listeTheme)) { ?>
+							<a href="accueil_eleve.php?matiere_ID=<?php echo $matiereId; ?>&niveau_ID=<?php echo $niveauId; ?>&theme_ID=<?php echo $row_RsListeTheme['ID_theme']?>#listeCategories" class="btn btn-primary btn-lg mt-2" role="button"><?php echo $row_RsListeTheme['theme']?></a>
 							<?php 
 						}
 						mysqli_stmt_close($listeTheme);
 
 						//Affiche le thème Divers uniquement s'il y a au moins un doc dedans
-						$qTestExoDivers = sprintf("SELECT * FROM stock_quiz WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND theme_ID = 0", $matiereId, $niveauId);
-						$rsTestExoDivers = mysqli_query($conn_intranet, $qTestExoDivers) or die(mysqli_error($conn_intranet));
-						$nbExosDivers = mysqli_num_rows($rsTestExoDivers);
 						if ($nbExosDivers > 0) {
 							echo '<a href="accueil_eleve.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID=0#listeCategories" class="btn btn-primary btn-lg mt-2" role="button">Divers</a>';
 						}?>
@@ -351,43 +329,7 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 						} ?>
 					</div>
 				</div>
-				<?php
-				if (isset($categorieId)) {
-					mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
-					$nbDoc1 = 0;
-					while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau)) {
-						if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 1) {
-							$nbDoc1++;
-						}
-					}
-					mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
-					$nbDoc2 = 0;
-					while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau)) {
-						if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 2) {
-							$nbDoc2++;
-						}
-					}
-					mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
-					$nbDoc3 = 0;
-					while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau)) {
-						if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 3) {
-							$nbDoc3++;
-						}
-					}
-					mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
-					$nbDoc4 = 0;
-					while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau)) {
-						if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 4) {
-							$nbDoc4++;
-						}
-					}
-					mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
-					$nbDoc5 = 0;
-					while ($row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau)) {
-						if ($row_rsListeSelectMatiereNiveau['cat_doc'] == 5) {
-							$nbDoc5++;
-						}
-					} ?>
+				<?php if (isset($categorieId)) { ?>
 					<div class="row mb-3 py-3 shadow rounded" id="listeExos">
 						<div class="col text-center">
 							<div class="btn-toolbar justify-content-center" role="toolbar">
@@ -419,7 +361,7 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 									<div class="btn-group mx-1 mt-2" role="group">
 										<a href="#annexes" class="btn btn-primary" role="button">Documents annexes</a>
 									</div>
-								<?php
+									<?php
 								} ?>
 							</div>
 						</div>
@@ -428,7 +370,7 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 					<?php
 					//Le cours
 					mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
-					if($nbDoc1 != 0)
+					if ($nbDoc1 != 0)
 					{ ?>
 						<div class="row mt-2">
 							<div class="col">
@@ -485,7 +427,7 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 																<img src="<?php echo $icone[$row_rsListeSelectMatiereNiveau['type_doc']]; ?>" width="15" height="15">&nbsp;
 															</td>
 															<td>
-																<?php if ($row_rsListeSelectMatiereNiveau['auteur'] <> '')
+																<?php if ($row_rsListeSelectMatiereNiveau['auteur'] != '')
 																{
 																	echo $row_rsListeSelectMatiereNiveau['auteur'];
 																}
@@ -509,7 +451,7 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 
 					//Exercices Hotpotatoes
 					mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
-					if($nbDoc2 != 0)
+					if ($nbDoc2 != 0)
 					{ ?>
 						<div class="row mt-2">
 							<div class="col">
@@ -559,7 +501,7 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 																<?php
 																if ($row_rsListeSelectMatiereNiveau['evaluation_seul'] == 'O') 
 																{   
-																	if ($totalRows_RsExosFait <> 0)
+																	if ($totalRows_RsExosFait != 0)
 																	{
 																		echo 'Interro terminée';
 																		$unique = 'O';
@@ -571,7 +513,7 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 																}
 																else 
 																{ 
-																	if ($totalRows_RsExosFait <> 0)
+																	if ($totalRows_RsExosFait != 0)
 																	{
 																		echo 'Fait';
 																	}
@@ -586,9 +528,9 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 															</td>
 															<td>
 																<?php 
-																if ($unique <> 'O')
+																if ($unique != 'O')
 																{
-																	if($row_rsListeSelectMatiereNiveau['type_doc'] == 1) 
+																	if ($row_rsListeSelectMatiereNiveau['type_doc'] == 1) 
 																	{
 																		$lien=$row_rsListeSelectMatiereNiveau['fichier'];
 																	} 
@@ -616,7 +558,7 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 															</td>
 															<td>
 																<div>
-																	<?php if ($totalRows_RsExosFait <> 0)
+																	<?php if ($totalRows_RsExosFait != 0)
 																	{
 																		echo $row_RsExosFait['score']."/20";
 																	}
@@ -639,7 +581,7 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 																</div>
 															</td>
 															<td>
-																<?php if ($row_rsListeSelectMatiereNiveau['auteur'] <> '')
+																<?php if ($row_rsListeSelectMatiereNiveau['auteur'] != '')
 																{
 																	echo $row_rsListeSelectMatiereNiveau['auteur'];
 																}
@@ -663,7 +605,7 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 
 					//Autres exercices
 					mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
-					if($nbDoc3 != 0)
+					if ($nbDoc3 != 0)
 					{ ?>
 						<div class="row mt-2">
 							<div class="col">
@@ -695,7 +637,7 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 															</th>
 															<td>
 																<?php 
-																if($row_rsListeSelectMatiereNiveau['type_doc'] == 1) 
+																if ($row_rsListeSelectMatiereNiveau['type_doc'] == 1) 
 																{
 																	$lien = $row_rsListeSelectMatiereNiveau['fichier'];
 																} 
@@ -717,7 +659,7 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 																<img src="<?php echo $icone[$row_rsListeSelectMatiereNiveau['type_doc']] ; ?>" width="15" height="15">&nbsp;
 															</td>
 															<td>
-																<?php if ($row_rsListeSelectMatiereNiveau['auteur'] <> '')
+																<?php if ($row_rsListeSelectMatiereNiveau['auteur'] != '')
 																{
 																	echo $row_rsListeSelectMatiereNiveau['auteur'];
 																}
@@ -741,7 +683,7 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 
 					//Travail à faire
 					mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
-					if($nbDoc4 != 0)
+					if ($nbDoc4 != 0)
 					{ ?>
 						<div class="row mt-2">
 							<div class="col">
@@ -773,7 +715,7 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 															</th>
 															<td>
 																<?php 
-																if($row_rsListeSelectMatiereNiveau['type_doc'] == 1) 
+																if ($row_rsListeSelectMatiereNiveau['type_doc'] == 1) 
 																{
 																	$lien = $row_rsListeSelectMatiereNiveau['fichier'];
 																} 
@@ -798,7 +740,7 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 																<img src="<?php echo $icone[$row_rsListeSelectMatiereNiveau['type_doc']] ; ?>" width="15" height="15">&nbsp;
 															</td>
 															<td>
-																<?php if ($row_rsListeSelectMatiereNiveau['auteur'] <> '')
+																<?php if ($row_rsListeSelectMatiereNiveau['auteur'] != '')
 																{
 																	echo $row_rsListeSelectMatiereNiveau['auteur'];
 																}
@@ -822,8 +764,7 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 
 					//Documents annexes
 					mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
-					if($nbDoc5 != 0)
-					{ ?>
+					if ($nbDoc5 != 0) { ?>
 						<div class="row mt-2">
 							<div class="col">
 								<div class="row">
@@ -844,32 +785,25 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 											</thead>
 											<tbody>
 												<?php
-												do
-												{ 
-													if (isset($row_rsListeSelectMatiereNiveau['cat_doc']) && $row_rsListeSelectMatiereNiveau['cat_doc'] == 5)
-													{ ?>
+												do { 
+													if (isset($row_rsListeSelectMatiereNiveau['cat_doc']) && $row_rsListeSelectMatiereNiveau['cat_doc'] == 5) { ?>
 														<tr>
 															<th scope="row">
 																<?php echo $row_rsListeSelectMatiereNiveau['ID_quiz']; ?>
 															</th>
 															<td>
 																<?php 
-																if($row_rsListeSelectMatiereNiveau['type_doc'] == 1)
-																{
+																if ($row_rsListeSelectMatiereNiveau['type_doc'] == 1) {
 																	$lien = $row_rsListeSelectMatiereNiveau['fichier'];
 																} 
-																else
-																{
-																	if (isset($themeId))
-																	{
+																else {
+																	if (isset($themeId)) {
 																		$theme = $themeId;
 																	}
-																	else
-																	{
+																	else {
 																		$theme = 0;
 																	}
-																	if ((isset($matiereId)) && (isset($niveauId)) )
-																	{
+																	if ((isset($matiereId)) && (isset($niveauId))) {
 																		$lien = 'choix_quiz.php?VAR_fichier='.$row_rsListeSelectMatiereNiveau['fichier'].'&VAR_ID_quiz='.$row_rsListeSelectMatiereNiveau['ID_quiz'].'&VAR_nom_mat='.$row_rsChoix['nom_mat'].'&matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$theme.'&categorie_ID='.$categorieId; 
 																	} 
 																} ?>
@@ -879,12 +813,10 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 																<img src="<?php echo $icone[$row_rsListeSelectMatiereNiveau['type_doc']] ; ?>" width="15" height="15">&nbsp;
 															</td>
 															<td>
-																<?php if ($row_rsListeSelectMatiereNiveau['auteur'] <> '')
-																{
+																<?php if ($row_rsListeSelectMatiereNiveau['auteur'] != '') {
 																	echo $row_rsListeSelectMatiereNiveau['auteur'];
 																}
-																else
-																{
+																else {
 																	echo '-';
 																} ?>
 															</td>

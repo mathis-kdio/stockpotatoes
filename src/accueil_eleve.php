@@ -137,20 +137,51 @@ if (isset($matiereId) && isset($niveauId)) {
 			}
 			mysqli_data_seek($rsListeSelectMatiereNiveau, 0);
 
-			$categorieChoisieId = isset($categorieId) ? $categorieId : 0;
 			$categorieChoisie = mysqli_prepare($conn_intranet, "SELECT ID_categorie, nom_categorie, categorie_mere_ID FROM stock_categorie WHERE ID_categorie = ?") or exit(mysqli_error($conn_intranet));
-			mysqli_stmt_bind_param($categorieChoisie, "i", $categorieChoisieId);
+			mysqli_stmt_bind_param($categorieChoisie, "i", $categorieId);
 			mysqli_stmt_execute($categorieChoisie);
 			mysqli_stmt_bind_result($categorieChoisie, $rsCategorieChoisie['ID_categorie'], $rsCategorieChoisie['nom_categorie'], $rsCategorieChoisie['categorie_mere_ID']);
 			mysqli_stmt_fetch($categorieChoisie);
 			mysqli_stmt_close($categorieChoisie);
-			$query_categorie = sprintf("SELECT ID_categorie, nom_categorie FROM stock_quiz INNER JOIN stock_categorie ON stock_categorie.ID_categorie = stock_quiz.categorie_ID WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND theme_ID = '%s' AND categorie_mere_ID = '%s' GROUP BY pos_categorie, ID_categorie", $matiereId, $niveauId, $themeId, $rsCategorieChoisie['ID_categorie']);
-		} else {
-			$query_categorie = sprintf("SELECT ID_categorie, nom_categorie FROM stock_quiz INNER JOIN stock_categorie ON stock_categorie.ID_categorie = stock_quiz.categorie_ID WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND theme_ID = '%s' AND categorie_mere_ID IS NULL GROUP BY pos_categorie, ID_categorie", $matiereId, $niveauId, $themeId);
 		}
-		$Rs_categorie = mysqli_query($conn_intranet, $query_categorie) or die(mysqli_error($conn_intranet));
-		$totalRows_RsCategorie = mysqli_num_rows($Rs_categorie);
-		
+
+		//Création de la liste des sous-catégories à afficher
+		//Recherche à partir des catégories ayant des quiz
+		$sousCategoriesQuery = mysqli_prepare($conn_intranet, "SELECT ID_categorie, nom_categorie, categorie_mere_ID FROM stock_quiz INNER JOIN stock_categorie ON stock_categorie.ID_categorie = stock_quiz.categorie_ID WHERE matiere_ID = ? AND niveau_ID = ? AND theme_ID = ? GROUP BY ID_categorie") or exit(mysqli_error($conn_intranet));
+		mysqli_stmt_bind_param($sousCategoriesQuery, "iii", $matiereId, $niveauId, $themeId);
+		mysqli_stmt_execute($sousCategoriesQuery);
+		mysqli_stmt_bind_result($sousCategoriesQuery, $rsListeSousCategories['ID_categorie'], $rsListeSousCategories['nom_categorie'], $rsListeSousCategories['categorie_mere_ID']);
+		$result = mysqli_stmt_get_result($sousCategoriesQuery);
+		mysqli_stmt_close($sousCategoriesQuery);
+		while ($data = $result->fetch_assoc()) {
+    	$rsSousCategorie[] = $data;
+		}
+
+		$categorieChoisieId = isset($categorieId) ? $categorieId : null;
+		$listeSousCategories = [];
+		//Vérification que l'une des catégories auxquels appartiennent les quiz ne soit pas celle déjà affichée 
+		if (!in_array($categorieChoisieId, array_column($rsSousCategorie, 'ID_categorie'))) {
+			//Si ce n'est pas le cas alors il faut remonter de catégorie mère en catégorie mère 
+			//jusqu'à atteindre une catégorie mère qui soit la catégorie en cours d'affichage
+			for ($i = 0; $i < sizeof($rsSousCategorie); $i++) {
+				if ($rsSousCategorie[$i]['categorie_mere_ID'] == $categorieChoisieId) {
+					$rs = array();
+					foreach ($rsSousCategorie[$i] as $key => $value) {
+						$rs[$key] = $value;
+					}
+					$listeSousCategories[] = $rs;
+				} else if (!in_array($rsSousCategorie[$i]['categorie_mere_ID'], array_column($rsSousCategorie, 'ID_categorie'))) {
+					$categorieMere = mysqli_prepare($conn_intranet, "SELECT ID_categorie, nom_categorie, categorie_mere_ID FROM stock_categorie WHERE ID_categorie = ?") or exit(mysqli_error($conn_intranet));
+					mysqli_stmt_bind_param($categorieMere, "i", $rsSousCategorie[$i]['categorie_mere_ID']);
+					mysqli_stmt_execute($categorieMere);
+					mysqli_stmt_bind_result($categorieMere, $rsCategorieMere['ID_categorie'], $rsCategorieMere['nom_categorie'], $rsCategorieMere['categorie_mere_ID']);
+					mysqli_stmt_fetch($categorieMere);
+					$rsSousCategorie[] = $rsCategorieMere;
+					mysqli_stmt_close($categorieMere);
+				}
+			}
+		}
+
 		//Affiche la catégorie Non classés uniquement s'il y a au moins un doc dedans
 		$qTestExoNonClasse = sprintf("SELECT * FROM stock_quiz WHERE matiere_ID = '%s' AND niveau_ID = '%s' AND theme_ID = '%s' AND categorie_ID = 0", $matiereId, $niveauId, $themeId);
 		$rsTestExoNonClasse = mysqli_query($conn_intranet, $qTestExoNonClasse) or die(mysqli_error($conn_intranet));
@@ -245,7 +276,7 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 			</div>
 		</div>
 		<!-- Contenus principal -->
-		<div class="col-md-7 offset-md-1 mb-3">
+		<div class="col-md-8 offset-md-1 mb-3">
 			<div class="container bg-info shadow rounded">
 				<div class="row">
 					<div class="col text-center">
@@ -283,34 +314,27 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 						<?php
 						if (isset($themeId)) {
 							if (!isset($categorieId)) {
-								if ($totalRows_RsCategorie != 0 || $nbExosNonClasse > 0) {
+								if (sizeof($listeSousCategories) > 0 || $nbExosNonClasse > 0) {
 									echo "<h5>Veuillez sélectionner une catégorie parmi les suivantes :</h5>";
 								}
 								else {
 									echo "<h5>Il n'y a pas d'exercices dans cette leçon pour l'instant.</h5>";
 								}
-							}
-							else {
-								if ($categorieId != 0) {
-									$query_categorieSelect = sprintf("SELECT * FROM stock_categorie WHERE ID_categorie = '%s'", $categorieId);
-									$Rs_categorieSelect = mysqli_query($conn_intranet, $query_categorieSelect) or die(mysqli_error($conn_intranet));
-									$row_Rs_categorieSelect = mysqli_fetch_assoc($Rs_categorieSelect);
-									echo "<h5>Vous êtes dans la catégorie: <span class='font-weight-bold'>".$row_Rs_categorieSelect['nom_categorie']."</span></h5>";
-									echo "<a href='accueil_eleve.php?matiere_ID=".$matiereId."&niveau_ID=".$niveauId."&theme_ID=".$themeId."&categorie_ID=".$rsCategorieChoisie['categorie_mere_ID']."'><span class='font-weight-bold'>Changer de catégorie</span></a>";
-									if ($totalRows_RsCategorie > 0) {
-										echo "<h5>Les sous-catégories disponibles sont :</h5>";
-									}
+							} else if ($categorieId != 0) {
+								echo "<h5>Vous êtes dans la catégorie: <span class='font-weight-bold'>".$rsCategorieChoisie['nom_categorie']."</span></h5>";
+								echo "<a href='accueil_eleve.php?matiere_ID=".$matiereId."&niveau_ID=".$niveauId."&theme_ID=".$themeId."&categorie_ID=".$rsCategorieChoisie['categorie_mere_ID']."'><span class='font-weight-bold'>Changer de catégorie</span></a>";
+								if (sizeof($listeSousCategories) > 0) {
+									echo "<h5>Les sous-catégories disponibles sont :</h5>";
 								}
-								else {
-									echo "<h5>Vous êtes dans la catégorie: <span class='font-weight-bold'>Non classés</span></h5>";
-								}
-							} ?>
+							} else {
+								echo "<h5>Vous êtes dans la catégorie: <span class='font-weight-bold'>Non classés</span></h5>";
+							}?>
 							<!-- Listes des catégorie -->
 							<div class="btn-toolbar justify-content-center mb-3" role="toolbar">
 								<?php
-								 while ($row_Rs_categorie = mysqli_fetch_assoc($Rs_categorie)) {
+								foreach ($listeSousCategories as $sousCategories) {
 									echo '<div class="btn-group mx-1 mt-2" role="group">';
-									echo '<a href="accueil_eleve.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$themeId.'&categorie_ID='.$row_Rs_categorie['ID_categorie'].'#listeCategories" class="btn btn-primary" role="button">'.$row_Rs_categorie['nom_categorie'].'</a>';
+									echo '<a href="accueil_eleve.php?matiere_ID='.$matiereId.'&niveau_ID='.$niveauId.'&theme_ID='.$themeId.'&categorie_ID='.$sousCategories['ID_categorie'].'#listeCategories" class="btn btn-primary" role="button">'.$sousCategories['nom_categorie'].'</a>';
 									echo '</div>';
 								};
 
@@ -836,7 +860,7 @@ if (isset($matiereId) && $matiereId != "" && isset($niveauId) && $niveauId != ""
 			</div>
 		</div>
 		<!-- Liste des résultats -->
-		<div class="col-md-2 mb-3">
+		<div class="col-md-1 mb-3">
 			<?php
 			/*
 			if (isset($themeId))

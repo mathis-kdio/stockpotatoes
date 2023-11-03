@@ -28,9 +28,14 @@ $position = $row_RsMax['resultat'] + 1;
 
 if (isset($_POST["MM_insert"]) && ($_POST["MM_insert"] == "form2")) {
 	$nom_categorie = htmlspecialchars($_POST['categorie']);
-	$categorie_mere_id = isset($categorieId) ? $categorieId : null;
-	$insertSQL = mysqli_prepare($conn_intranet, "INSERT INTO stock_categorie (nom_categorie, mat_ID, niv_ID, pos_categorie, categorie_mere_ID) VALUES (?, ?, ?, ?, ?)") or exit (mysqli_error($conn_intranet));
-	mysqli_stmt_bind_param($insertSQL, "siiii", $nom_categorie, $matiereId, $niveauId, $position, $categorie_mere_id);
+	if (isset($_POST['categorie_ID']) && $_POST['categorie_ID'] != '') {
+		$categorie_mere_id = htmlspecialchars($_POST['categorie_ID']);
+		$insertSQL = mysqli_prepare($conn_intranet, "INSERT INTO stock_categorie (nom_categorie, mat_ID, niv_ID, pos_categorie, categorie_mere_ID) VALUES (?, ?, ?, ?, ?)") or exit (mysqli_error($conn_intranet));
+		mysqli_stmt_bind_param($insertSQL, "siiii", $nom_categorie, $matiereId, $niveauId, $position, $categorie_mere_id);
+	} else {
+		$insertSQL = mysqli_prepare($conn_intranet, "INSERT INTO stock_categorie (nom_categorie, mat_ID, niv_ID, pos_categorie) VALUES (?, ?, ?, ?)") or exit (mysqli_error($conn_intranet));
+		mysqli_stmt_bind_param($insertSQL, "siii", $nom_categorie, $matiereId, $niveauId, $position);
+	}
 	mysqli_stmt_execute($insertSQL);
 }
 
@@ -78,7 +83,7 @@ if (isset($categorieId)) { ?>
 }
 
 if (isset($matiereId)) { ?>
-	<form method="post" name="form2" action="gestion_categorie.php?matiere_ID=<?php echo $matiereId; ?>&niveau_ID=<?php echo $niveauId; ?>&categorie_ID=<?php echo isset($categorieId) ? $categorieId : ''; ?>">
+	<form method="post" name="form2" action="gestion_categorie.php?matiere_ID=<?php echo $matiereId; ?>&niveau_ID=<?php echo $niveauId; ?><?php echo isset($categorieId) ? '&categorie_ID='.$categorieId : ''; ?>">
 		<div class="form-group row align-items-center justify-content-center mt-5">
 			<label for="categorie" class="col-auto col-form-label">Ajouter cette catégorie à cette matière et à ce niveau :</label>
 			<div class="col-auto">
@@ -89,7 +94,11 @@ if (isset($matiereId)) { ?>
 			</div>
 			<input type="hidden" name="matiere_ID" value="<?php echo $matiereId; ?>">
 			<input type="hidden" name="niveau_ID" value="<?php echo $niveauId; ?>">
-			<input type="hidden" name="categorie_ID" value="<?php echo $categorieId; ?>">
+			<?php
+			if (isset($categorieId)) {
+				echo '<input type="hidden" name="categorie_ID" value="'.$categorieId.'">';
+			}
+			?>
 			<input type="hidden" name="MM_insert" value="form2">
 		</div>
 	</form>

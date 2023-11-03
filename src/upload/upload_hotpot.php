@@ -332,12 +332,14 @@ if (isset($matiereId) && isset($niveauId)) { ?>
 				<button type="submit" name="submit2" class="btn btn-primary" value="Envoyer sur le serveur">Envoyer sur le serveur</button>
 		</div>
 	</form>
-<?php } ?>
+	<?php
+	mysqli_free_result($RsTheme);
+	mysqli_free_result($RsCategorie);
+	mysqli_free_result($RsChoixMatiere);
+} ?>
 
 <?php
 require('include/footerUpload.inc.php');
 
 mysqli_free_result($rs_matiere);
-mysqli_free_result($rs_niveau);
-mysqli_free_result($RsTheme);
-mysqli_free_result($RsChoixMatiere);?>
+mysqli_free_result($rs_niveau);?>

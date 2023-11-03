@@ -22,8 +22,7 @@ if (isset($_POST['categorie_ID'])) {
 if (isset($niveauId) && isset($matiereId)) {
 	if (isset($themeId)) {
 		$location = "login_upload.php?cible=upload_hotpot.php".urlencode("?matiere_ID=".$matiereId."&niveau_ID=".$niveauId."&theme_ID=".$themeId."&n=");
-	}
-	else {
+	} else {
 		$location = "login_upload.php?cible=upload_hotpot.php".urlencode("?matiere_ID=".$matiereId."&niveau_ID=".$niveauId."&n=");
 	}
 }
@@ -32,17 +31,14 @@ if (isset($_SESSION['Sess_nom'])) {
 	if ($_SESSION['Sess_nom'] <> 'Upload') {
 		if (isset($location)) {
 			header("Location: ".$location);
-		}
-		else {
+		} else {
 			header("Location: login_upload.php?cible=upload_hotpot");
 		}
 	}
-}
-else {
+} else {
 	if (isset($location)) {
 		header("Location: ".$location);
-	}
-	else {
+	} else {
 		header("Location: login_upload.php?cible=upload_hotpot");
 	}
 }
@@ -50,8 +46,7 @@ require_once('../Connections/conn_intranet.php');
 
 mysqli_select_db($conn_intranet, $database_conn_intranet);
 
-function sans_accent($chaine) 
-{ 
+function sans_accent($chaine) {
 	$accent  ="ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿ"; 
 	$noaccent="aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyyby"; 
 	return strtr(trim($chaine), $accent, $noaccent); 
@@ -65,63 +60,45 @@ $query_rs_niveau = "SELECT * FROM stock_niveau";
 $rs_niveau = mysqli_query($conn_intranet, $query_rs_niveau) or die(mysqli_error($conn_intranet));
 $row_rs_niveau = mysqli_fetch_assoc($rs_niveau);	
 	
-$choixmat_RsTheme = "0";
-if (isset($matiereId))
-{
-	$choixmat_RsTheme = $matiereId;
-}
-$choixniv_RsTheme = "0";
-if (isset($niveauId))
-{
-	$choixniv_RsTheme = $niveauId;
-}
-$query_RsTheme = sprintf("SELECT * FROM stock_theme WHERE mat_ID = '%s' AND niv_ID = '%s' ORDER BY theme", $choixmat_RsTheme,$choixniv_RsTheme);
-$RsTheme = mysqli_query($conn_intranet, $query_RsTheme) or die(mysqli_error($conn_intranet));
-$row_RsTheme = mysqli_fetch_assoc($RsTheme);
+if (isset($matiereId) && isset($niveauId)) {
+	$query_RsTheme = sprintf("SELECT * FROM stock_theme WHERE mat_ID = '%s' AND niv_ID = '%s' ORDER BY theme", $matiereId, $niveauId);
+	$RsTheme = mysqli_query($conn_intranet, $query_RsTheme) or die(mysqli_error($conn_intranet));
+	$row_RsTheme = mysqli_fetch_assoc($RsTheme);
 
-$query_RsCategorie= sprintf("SELECT * FROM stock_categorie ORDER BY ID_categorie");
-$RsCategorie = mysqli_query($conn_intranet, $query_RsCategorie) or die(mysqli_error($conn_intranet));
-$row_RsCategorie = mysqli_fetch_assoc($RsCategorie);
+	$query_RsCategorie= sprintf("SELECT * FROM stock_categorie WHERE mat_ID = '%s' AND niv_ID = '%s' ORDER BY ID_categorie", $matiereId, $niveauId);
+	$RsCategorie = mysqli_query($conn_intranet, $query_RsCategorie) or die(mysqli_error($conn_intranet));
 
-$selection_RsChoixMatiere = "0";
-if (isset($matiereId))
-{
-	$selection_RsChoixMatiere = $matiereId;
+	$query_RsChoixMatiere = sprintf("SELECT * FROM stock_matiere WHERE ID_mat = '%s'", $matiereId);
+	$RsChoixMatiere = mysqli_query($conn_intranet, $query_RsChoixMatiere) or die(mysqli_error($conn_intranet));
+	$row_RsChoixMatiere = mysqli_fetch_assoc($RsChoixMatiere);
 }
-$query_RsChoixMatiere = sprintf("SELECT * FROM stock_matiere WHERE ID_mat = '%s'", $selection_RsChoixMatiere);
-$RsChoixMatiere = mysqli_query($conn_intranet, $query_RsChoixMatiere) or die(mysqli_error($conn_intranet));
-$row_RsChoixMatiere = mysqli_fetch_assoc($RsChoixMatiere);
 
-if (!Empty($_POST['submit2'])) 
-{
-	if ($_POST['titreExoHotPot'] == '') 
-	{
+if (!Empty($_POST['submit2']))  {
+	if ($_POST['titreExoHotPot'] == '') {
 		print '<h3 class="text-danger text-center">Il faut donner un titre à votre document</h3>';
-	}
-	else
-	{
+	} else {
 		// Ok pour enregistrer
 		//enregistrement dans la table
-		if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) 
-		{
-			if ((isset($_POST['en_ligne'])) && ($_POST['en_ligne'] == 'O'))
+		if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
+			if ((isset($_POST['en_ligne'])) && ($_POST['en_ligne'] == 'O')) {
 				$en_ligne = 'O';
-			else
+			} else {
 				$en_ligne = 'N';
-
-			if ((isset($_POST['avec_score'])) && ($_POST['avec_score'] == 'O'))
+			}
+			if ((isset($_POST['avec_score'])) && ($_POST['avec_score'] == 'O')) {
 				$avec_score = 'O';
-			else
+			} else {
 				$avec_score = 'N';
-
-			if ((isset($_POST['evaluation_seul'])) && ($_POST['evaluation_seul'] == 'O'))
+			}
+			if ((isset($_POST['evaluation_seul'])) && ($_POST['evaluation_seul'] == 'O')) {
 				$evaluation_seul = 'O';
-			else
+			} else {
 				$evaluation_seul = 'N';
+			}
 
-			if ((isset($_POST['evaluation_seul'])) && ($_POST['evaluation_seul'] == 'O'))
+			if ((isset($_POST['evaluation_seul'])) && ($_POST['evaluation_seul'] == 'O')) {
 				$avec_score = 'O';
-			
+			}
 			$query_RsMax = "SELECT MAX(pos_doc) AS resultat FROM stock_quiz";
 			$RsMax = mysqli_query($conn_intranet, $query_RsMax) or die(mysqli_error($conn_intranet));
 			$row_RsMax = mysqli_fetch_assoc($RsMax);
@@ -133,22 +110,19 @@ if (!Empty($_POST['submit2']))
 
 			if (isset($_POST['titreExoHotPot'])) {
 				$titre = htmlspecialchars($_POST['titreExoHotPot']);
-			}
-			else {
+			} else {
 				$erreur = 1;
 			}
 
 			if (isset($_FILES['fichier']['name'])) {
 				$fichier = htmlspecialchars($_FILES['fichier']['name']);
-			}
-			else {
+			} else {
 				$erreur = 1;
 			}
 
 			if (isset($_POST['cat_doc'])) {
 				$catDoc = htmlspecialchars($_POST['cat_doc']);
-			}
-			else {
+			} else {
 				$erreur = 1;
 			}
 
@@ -163,8 +137,7 @@ if (!Empty($_POST['submit2']))
 				mysqli_stmt_execute($insertSQL);
 
 				mysqli_free_result($RsMax);
-			}
-			else {
+			} else {
 				echo '<h3 class="text-success text-center">ERREUR Informations manquantes</h3>';
 			}
 		}
@@ -179,41 +152,32 @@ if (!Empty($_POST['submit2']))
 		$nom_matiere = sans_accent($row_RsChoixMatiere['nom_mat']);
 		$repertoire = '../Exercices/'.$nom_matiere.'/q'.$total;
 
-		if (is_dir($repertoire))
-		{
+		if (is_dir($repertoire)) {
 			echo '<span class="text-center">Le dossier '.$repertoire.' existait déjà</span>';
-		}
-		else
-		{
+		} else {
 			mkdir($repertoire, 0777);
 		}
-		if ($_FILES['fichier']['tmp_name'] <> '') 
-		{
+		if ($_FILES['fichier']['tmp_name'] <> '') {
 			$dossier_destination = $repertoire; 
 			$dossier_temporaire = $_FILES['fichier']['tmp_name'];
 			$type_fichier = $_FILES['fichier']['type'];
 			$nom_fichier = $_FILES['fichier']['name'];
 			$erreur = $_FILES['fichier']['error'];
-			if ($erreur == 2)
-			{
+			if ($erreur == 2) {
 				exit ("Le fichier dépasse la taille de 100 Mo.");
 				$deleteSQL = sprintf("DELETE FROM stock_quiz WHERE ID_quiz = '%s'", $total);
 				$Result1 = mysqli_query($conn_intranet, $deleteSQL, $conn_cahier_de_texte) or die(mysqli_error($conn_intranet));
 			}
-			if ($erreur == 3)
-			{
+			if ($erreur == 3) {
 				exit ("Le fichier travail a été partiellement transféré. Envoyez-le à nouveau.");
 				$deleteSQL = sprintf("DELETE FROM stock_quiz WHERE ID_quiz = '%s'", $total);
 				$Result1 = mysqli_query($conn_intranet, $deleteSQL, $conn_cahier_de_texte) or die(mysqli_error($conn_intranet));
 			}
-			if(!move_uploaded_file($dossier_temporaire, $dossier_destination.'/'.$nom_fichier))
-			{
+			if(!move_uploaded_file($dossier_temporaire, $dossier_destination.'/'.$nom_fichier)) {
 				exit("Impossible de copier le fichier ");
 				$deleteSQL = sprintf("DELETE FROM stock_quiz WHERE ID_quiz = '%s'", $total);
 				$Result1 = mysqli_query($conn_intranet, $deleteSQL, $conn_cahier_de_texte) or die(mysqli_error($conn_intranet));
-			}
-			else
-			{
+			} else {
 				echo '<h3 class="text-success text-center">Le fichier '.$_FILES['fichier']['name'].' a été envoyé sur le serveur dans le dossier '.$dossier_destination.'</h3>';
 			}
 		}
@@ -230,8 +194,6 @@ require('include/headerUpload.inc.php');
 require('../includes/forms/matiere_niveau.inc.php');
 
 if (isset($matiereId) && isset($niveauId)) { ?>
-	<h1 class="text-center mb-5"><?php echo $row_RsChoixMatiere['nom_mat'];?></h1>
-
 	<form method="post" name="formStockUpload" id="formStockUpload" action="upload_hotpot.php?matiere_ID=<?php echo $matiereId;?>&niveau_ID=<?php echo $niveauId;?>" enctype="multipart/form-data">
 		<div class="form-group form-row justify-content-right align-items-center">
 			<div class="col-auto">
@@ -259,11 +221,10 @@ if (isset($matiereId) && isset($niveauId)) { ?>
 				<select class="custom-select" name="categorie_ID" id="select" required>
 					<option disabled selected value="">Veuillez choisir une catégorie</option>
 					<?php
-					do 
-					{ ?>
+					while ($row_RsCategorie = mysqli_fetch_assoc($RsCategorie)) { ?>
 						<option value="<?php echo $row_RsCategorie['ID_categorie']?>" <?php if (isset($_POST['categorie_ID'])) { if (!(strcmp($row_RsCategorie['ID_categorie'], $_POST['categorie_ID']))) {echo "SELECTED";} } ?>><?php echo $row_RsCategorie['nom_categorie'];?></option>
 						<?php
-					} while ($row_RsCategorie = mysqli_fetch_assoc($RsCategorie));?>
+					}?>
 				</select>
 			</div>
 			<div class="col-auto">

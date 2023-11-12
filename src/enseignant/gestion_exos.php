@@ -20,6 +20,10 @@ if (isset($_GET['niveau_ID'])) {
 if (isset($_GET['theme_ID'])) {
 	$themeId = htmlspecialchars($_GET['theme_ID']);
 }
+if (isset($_GET['categorie_ID'])) {
+	$categorieId = htmlspecialchars($_GET['categorie_ID']);
+}
+
 
 mysqli_select_db($conn_intranet, $database_conn_intranet);
 
@@ -64,10 +68,13 @@ if (
 if (isset($matiereId) && isset($niveauId)) {
 	$query_RsListeTheme = sprintf("SELECT * FROM stock_theme WHERE mat_ID = '%s' AND niv_ID = '%s' ORDER BY pos_theme", $matiereId, $niveauId);
 	$RsListeTheme = mysqli_query($conn_intranet, $query_RsListeTheme) or die(mysqli_error($conn_intranet));
-	$row_RsListeTheme = mysqli_fetch_assoc($RsListeTheme);
 
 	if (isset($themeId)) {
-		$query_rsListeSelectMatiereNiveau = sprintf("SELECT * FROM stock_quiz, stock_categorie WHERE stock_quiz.matiere_ID = '%s'  AND stock_quiz.niveau_ID = '%s'  AND stock_quiz.theme_ID = '%s' AND stock_quiz.categorie_ID = stock_categorie.ID_categorie ORDER BY stock_quiz.pos_doc, stock_quiz.titre", $matiereId, $niveauId, $themeId);
+		if (isset($categorieId)) {
+			$query_rsListeSelectMatiereNiveau = sprintf("SELECT * FROM stock_quiz, stock_categorie WHERE stock_quiz.matiere_ID = '%s'  AND stock_quiz.niveau_ID = '%s' AND stock_quiz.theme_ID = '%s' AND stock_quiz.categorie_ID = '%s' AND stock_quiz.categorie_ID = stock_categorie.ID_categorie ORDER BY stock_quiz.pos_doc, stock_quiz.titre", $matiereId, $niveauId, $themeId, $categorieId);
+		} else {
+			$query_rsListeSelectMatiereNiveau = sprintf("SELECT * FROM stock_quiz, stock_categorie WHERE stock_quiz.matiere_ID = '%s'  AND stock_quiz.niveau_ID = '%s' AND stock_quiz.theme_ID = '%s' AND stock_quiz.categorie_ID = stock_categorie.ID_categorie ORDER BY stock_quiz.pos_doc, stock_quiz.titre", $matiereId, $niveauId, $themeId);
+		}
 		$rsListeSelectMatiereNiveau = mysqli_query($conn_intranet, $query_rsListeSelectMatiereNiveau) or die(mysqli_error($conn_intranet));
 		$row_rsListeSelectMatiereNiveau = mysqli_fetch_assoc($rsListeSelectMatiereNiveau);
 		$totalRows_rsListeSelectMatiereNiveau = mysqli_num_rows($rsListeSelectMatiereNiveau);
@@ -112,21 +119,22 @@ if (isset($matiereId)) { ?>
 				<select class="custom-select" name="theme_ID" id="select3" required>
 					<option disabled selected value="">Veuillez choisir un thème</option>
 					<?php
-					do { ?>
+					while ($row_RsListeTheme = mysqli_fetch_assoc($RsListeTheme)) { ?>
 						<option value="<?php echo $row_RsListeTheme['ID_theme']?>"<?php if (isset($themeId)) { if (!(strcmp($row_RsListeTheme['ID_theme'], $themeId))) {echo "SELECTED";}}?>><?php echo $row_RsListeTheme['theme']?></option>
 						<?php
-					} while ($row_RsListeTheme = mysqli_fetch_assoc($RsListeTheme)); ?>
+					} ?>
 					<option value="0">Divers</option>
 				</select>
 			</div>
 			<div class="col-auto">
-				<button type="submit" name="Submit" class="btn btn-primary">Valider</button>
+				<button type="submit" name="Submit" class="btn btn-primary">Sélectionner</button>
 			</div>
 		</div>
 		<input type="hidden" name="matiere_ID" value="<?php echo $matiereId; ?>">
 		<input type="hidden" name="niveau_ID" value="<?php echo $niveauId; ?>">
 	</form>
-	<?php if (isset($themeId)) { ?>
+	<?php if (isset($themeId)) { 
+		require('../includes/forms/categorie.inc.php');?>
 		<div class="row">
 			<div class="col-12">
 				<div class="row">

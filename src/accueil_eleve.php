@@ -169,7 +169,7 @@ if (isset($matiereId) && isset($niveauId)) {
 					$rs[$key] = $value;
 				}
 				$listeSousCategories[] = $rs;
-			} else if (!in_array($rsSousCategorie[$i]['categorie_mere_ID'], array_column($rsSousCategorie, 'ID_categorie'))) {
+			} else if ($rsSousCategorie[$i]['categorie_mere_ID'] != null && !in_array($rsSousCategorie[$i]['categorie_mere_ID'], array_column($rsSousCategorie, 'ID_categorie'))) {
 				$categorieMere = mysqli_prepare($conn_intranet, "SELECT ID_categorie, nom_categorie, categorie_mere_ID FROM stock_categorie WHERE ID_categorie = ?") or exit(mysqli_error($conn_intranet));
 				mysqli_stmt_bind_param($categorieMere, "i", $rsSousCategorie[$i]['categorie_mere_ID']);
 				mysqli_stmt_execute($categorieMere);

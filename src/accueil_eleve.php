@@ -159,26 +159,24 @@ if (isset($matiereId) && isset($niveauId)) {
 
 		$categorieChoisieId = isset($categorieId) ? $categorieId : null;
 		$listeSousCategories = [];
-		//Vérification que l'une des catégories auxquels appartiennent les quiz ne soit pas celle déjà affichée 
-		if (!in_array($categorieChoisieId, array_column($rsSousCategorie, 'ID_categorie'))) {
-			//Si ce n'est pas le cas alors il faut remonter de catégorie mère en catégorie mère 
-			//jusqu'à atteindre une catégorie mère qui soit la catégorie en cours d'affichage
-			for ($i = 0; $i < sizeof($rsSousCategorie); $i++) {
-				if ($rsSousCategorie[$i]['categorie_mere_ID'] == $categorieChoisieId) {
-					$rs = array();
-					foreach ($rsSousCategorie[$i] as $key => $value) {
-						$rs[$key] = $value;
-					}
-					$listeSousCategories[] = $rs;
-				} else if (!in_array($rsSousCategorie[$i]['categorie_mere_ID'], array_column($rsSousCategorie, 'ID_categorie'))) {
-					$categorieMere = mysqli_prepare($conn_intranet, "SELECT ID_categorie, nom_categorie, categorie_mere_ID FROM stock_categorie WHERE ID_categorie = ?") or exit(mysqli_error($conn_intranet));
-					mysqli_stmt_bind_param($categorieMere, "i", $rsSousCategorie[$i]['categorie_mere_ID']);
-					mysqli_stmt_execute($categorieMere);
-					mysqli_stmt_bind_result($categorieMere, $rsCategorieMere['ID_categorie'], $rsCategorieMere['nom_categorie'], $rsCategorieMere['categorie_mere_ID']);
-					mysqli_stmt_fetch($categorieMere);
-					$rsSousCategorie[] = $rsCategorieMere;
-					mysqli_stmt_close($categorieMere);
+		//Création d'une liste de sous catégories directement liées à la catégorie affichée et qui contiennent des quiz
+		//Les sous catégories sont trouvées en remontant de catégorie mère en catégorie mère 
+		//jusqu'à atteindre une catégorie mère qui soit la catégorie en cours d'affichage
+		for ($i = 0; $i < sizeof($rsSousCategorie); $i++) {
+			if ($rsSousCategorie[$i]['categorie_mere_ID'] == $categorieChoisieId) {
+				$rs = array();
+				foreach ($rsSousCategorie[$i] as $key => $value) {
+					$rs[$key] = $value;
 				}
+				$listeSousCategories[] = $rs;
+			} else if (!in_array($rsSousCategorie[$i]['categorie_mere_ID'], array_column($rsSousCategorie, 'ID_categorie'))) {
+				$categorieMere = mysqli_prepare($conn_intranet, "SELECT ID_categorie, nom_categorie, categorie_mere_ID FROM stock_categorie WHERE ID_categorie = ?") or exit(mysqli_error($conn_intranet));
+				mysqli_stmt_bind_param($categorieMere, "i", $rsSousCategorie[$i]['categorie_mere_ID']);
+				mysqli_stmt_execute($categorieMere);
+				mysqli_stmt_bind_result($categorieMere, $rsCategorieMere['ID_categorie'], $rsCategorieMere['nom_categorie'], $rsCategorieMere['categorie_mere_ID']);
+				mysqli_stmt_fetch($categorieMere);
+				$rsSousCategorie[] = $rsCategorieMere;
+				mysqli_stmt_close($categorieMere);
 			}
 		}
 

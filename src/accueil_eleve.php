@@ -147,7 +147,7 @@ if (isset($matiereId) && isset($niveauId)) {
 
 		//Création de la liste des sous-catégories à afficher
 		//Recherche à partir des catégories ayant des quiz
-		$sousCategoriesQuery = mysqli_prepare($conn_intranet, "SELECT ID_categorie, nom_categorie, categorie_mere_ID FROM stock_quiz INNER JOIN stock_categorie ON stock_categorie.ID_categorie = stock_quiz.categorie_ID WHERE matiere_ID = ? AND niveau_ID = ? AND theme_ID = ? GROUP BY ID_categorie") or exit(mysqli_error($conn_intranet));
+		$sousCategoriesQuery = mysqli_prepare($conn_intranet, "SELECT ID_categorie, nom_categorie, categorie_mere_ID FROM stock_quiz INNER JOIN stock_categorie ON stock_categorie.ID_categorie = stock_quiz.categorie_ID WHERE matiere_ID = ? AND niveau_ID = ? AND theme_ID = ? GROUP BY ID_categorie ORDER BY pos_categorie, ID_categorie") or exit(mysqli_error($conn_intranet));
 		mysqli_stmt_bind_param($sousCategoriesQuery, "iii", $matiereId, $niveauId, $themeId);
 		mysqli_stmt_execute($sousCategoriesQuery);
 		mysqli_stmt_bind_result($sousCategoriesQuery, $rsListeSousCategories['ID_categorie'], $rsListeSousCategories['nom_categorie'], $rsListeSousCategories['categorie_mere_ID']);

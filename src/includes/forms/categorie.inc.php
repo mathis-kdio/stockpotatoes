@@ -32,6 +32,10 @@ mysqli_stmt_bind_result($listeCategorie, $row_rs_categorie['id'], $row_rs_catego
   <input type="hidden" name="matiere_ID" value="<?php echo $matiereId; ?>">
 	<input type="hidden" name="niveau_ID" value="<?php echo $niveauId; ?>">
   <input type="hidden" name="theme_ID" value="<?php echo $themeId; ?>">
+	<?php 
+	if (isset($classeName)) { ?>
+		<input type="hidden" name="classe" value="<?php echo $classeName; ?>">
+	<?php } ?>
 </form>
 
 <?php
